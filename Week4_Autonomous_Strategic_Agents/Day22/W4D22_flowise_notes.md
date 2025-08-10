@@ -1,76 +1,91 @@
-got it — we’ll do it exactly that way.
+# W4D22 — Flowise Local RAG Notes
 
-here’s \*\*Day 22\*\* in the “open Notepad → paste text → save → commit/push” flow. say \*\*“next”\*\* when you want Day 23.
-
-
+**Goal:** Run a no-cloud, repo-grounded Q&A agent using **FlowiseAI + Ollama + Chroma**.
 
 ---
 
+## Components (chosen for free/local)
+- **LLM (Ollama):** `llama3.1:8b`  *(fallback: `phi3:mini` for speed)*
+- **Embeddings (Ollama):** `nomic-embed-text`
+- **Vector Store:** **Chroma**, collection: `aimastery_w4`, persistence dir: `vectorstore/` (inside repo)
+- **Base URL (Ollama):** `http://localhost:11434`
+- **Flowise UI:** `http://localhost:3000`
 
+---
 
-\### 1) open the target file in Notepad (run this in PowerShell)
+## Ingestion (Document Loader)
+- **Include (glob patterns):**  
+  `Week1_**/*.md`, `Week2_**/*.md`, `Week3_**/*.md`, `Week4_**/*.md`  
+  `**/*.txt`, `**/*.csv`, `docs/**/*.md`, `scripts/**/*.md`
+- **Exclude (recommended):** `.git/**`, `.venv/**`, `node_modules/**`, `assets/**`, `*.png`, `*.jpg`
 
+---
 
+## Chunking & Retrieval
+- **Text Splitter:** chunk size **1000**, overlap **150**
+- **Retriever (Chroma):** Top-K **4**; score threshold **0.35–0.45** (if available)
+- **Combine Docs / Context mapping:** expose `metadata.source` or `filePath` so answers can cite files
 
-```powershell
+---
 
-notepad "C:\\Users\\Veteran\\ai-agent-mastery-28days\\Week4\_Autonomous\_Strategic\_Agents\\Day22\\W4D22\_flowise\_notes.md"
+## Prompt Template (system)
+Use this in a **Prompt Template** node placed before the LLM:
+```
+
+You are a Strategic AI Coach answering ONLY with information grounded in retrieved context from this repo.
+
+POLICY:
+
+* If retrieval is weak or empty, say you lack enough context and ask ONE clarifying question.
+* Always include a **Sources** section listing file paths from document metadata.
+* Keep answers concise; no fabrication.
+
+FORMAT:
+
+* Brief answer (3–6 bullets)
+* Action Items (2–4 bullets)
+* Confidence: High | Medium | Low (one short reason)
+* Sources: bullet list of file paths (max 5)
+
+CONTEXT:
+{{context}}
 
 ```
 
+---
 
+## Memory (optional)
+- **Chat Memory:** Buffer memory, window size 5–10 turns (place **before** LLM if your template expects history).
 
-> leave this PowerShell window open. a Notepad window will pop up.
+---
 
+## Test Prompts
+- “What are the **Week 2** deliverables and how do I validate each? (cite files)”
+- “Create a **Day 21** prep checklist for an **MBA** student — cite files.”
+- “Summarize **Week 1** for a **military transitioner** with 3 actions — cite files.”
 
+---
 
-\### 2) paste this into Notepad (do \*\*not\*\* paste into PowerShell), then Save and Close
+## Verification Checklist
+- [ ] Ollama running (`http://localhost:11434`) and models pulled (`ollama pull llama3.1:8b`, `nomic-embed-text`)  
+- [ ] Chroma collection = `aimastery_w4` and **persistence dir** points inside repo  
+- [ ] Retriever returns 3–5 relevant chunks; answers list **Sources** (filenames/paths)  
+- [ ] Score threshold trims irrelevant chunks (no hallucinated citations)
 
+---
 
+## Troubleshooting
+- **No citations showing?** Ensure retriever exposes `metadata.source`/`filePath` and that the template asks for Sources.
+- **Empty answers?** Loosen threshold to 0.30, increase Top-K to 5, or broaden glob patterns.
+- **Slow model?** Switch LLM to `phi3:mini` temporarily; keep embeddings as `nomic-embed-text`.
+- **Changed files?** Re-ingest documents (or add a “refresh memory” route — see Day 24).
 
+---
+
+## Deliverables for Day 22
+- `W4D22_flowise_notes.md` (this file)
+- `W4D22_flowise_chatflow.json` (Flowise **⋮ → Export** and save in this folder)
+- *(Optional)* `W4D22_flowise_screenshot.png` (agent UI showing Sources + Confidence)
 ```
 
-\# W4D22 — Flowise Local RAG Notes
-
-
-
-\*\*Model (LLM):\*\* Ollama `llama3.1:8b` (or `phi3:mini` for speed)  
-
-\*\*Embeddings:\*\* `nomic-embed-text` via Ollama  
-
-\*\*Vector store:\*\* Chroma — collection = `aimastery\_w4`, persistence = `vectorstore/`
-
-
-
-\*\*Index these paths (md/csv/txt):\*\*
-
-\- Week1\_\*, Week2\_\*, Week3\_\*, Week4\_\*
-
-\- docs/, scripts/
-
-
-
-\*\*Recommended settings\*\*
-
-\- Chunk size: 1000 | Overlap: 150 | Top-K: 4 | (optional) Score threshold: 0.35–0.45
-
-
-
-\*\*Test prompts\*\*
-
-\- “Week 2 deliverables and how to validate each — cite filenames.”
-
-\- “Create a prep checklist for Day 21 for an MBA student — cite files.”
-
-
-
-\*\*Troubleshooting\*\*
-
-\- If Flowise can’t reach Ollama: confirm `http://localhost:11434`
-
-\- Empty retrieval: check file patterns (e.g., `\*\*/\*.md`) and re-index
-
-```
-
-
-
+---
