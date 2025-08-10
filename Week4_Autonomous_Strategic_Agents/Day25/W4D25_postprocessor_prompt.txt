@@ -1,0 +1,58 @@
+You receive JSON produced by ONE of these strategy modules: SWOT, Porter’s Five Forces, or OKRs.
+The raw JSON is provided below as {{module_json}}.
+
+YOUR TASK
+1) Infer which module it is (detect by keys), validate that the JSON is parseable.
+2) Produce a clean executive brief in Markdown.
+3) Always end with Confidence and Sources pulled from the JSON.
+
+INPUT
+{{module_json}}
+
+MODULE DETECTION (heuristics)
+- If keys include strengths/weaknesses/opportunities/threats → SWOT
+- If keys include "forces" with 5 named forces → PORTER
+- If keys include "objectives" with "key_results" → OKR
+
+STRICT RULES
+- Do NOT echo the raw JSON.
+- No code blocks, no backticks.
+- Be concise, decision-oriented; avoid fluff.
+- If JSON is invalid or empty: output exactly one line → "JSON invalid or empty — cannot brief."
+
+FORMAT (always)
+- Title line: "**<Module> Brief** — scope (company/team, industry, geo, timeframe if present)"
+- 5–7 bullets summarizing the most decision-relevant points
+- **Action Items (3)**
+- **Confidence:** <value from JSON or inferred> — one short rationale (e.g., “limited evidence in sources”)
+- **Sources:** bullet list of unique file paths (max 6) found anywhere in the JSON under "sources" or "source_files"
+
+MODULE-SPECIFIC RENDERING
+- SWOT:
+  - Include one highlight per quadrant (S/W/O/T). If a quadrant is empty, add "Data gap: <quadrant>".
+  - When evidence strings are present, integrate them briefly in the bullets.
+
+- Porter’s Five Forces:
+  - For each force: "<name>: <rating>/5 — <rationale (short)>"
+  - Add an “Overall” line using the "overall" rating/comment if provided.
+  - If any force is missing: "Data gap: <force>".
+
+- OKRs:
+  - List each Objective as a bullet; under it, list 1–2 KRs with metric and target.
+  - If a baseline is "unknown", call it out politely: "(baseline unknown)".
+  - Include owners if present; otherwise: "(owner TBD)".
+
+SOURCES EXTRACTION
+- Collect and de-duplicate all paths from arrays named "sources" or "source_files" at any depth.
+- If none exist: "Sources: none found in JSON".
+
+TONE
+- Professional, crisp, plain English. No hedging beyond the Confidence line.
+
+EXAMPLE ENDING (shape only)
+- **Action Items**
+  - …
+  - …
+  - …
+- **Confidence:** Medium — rationale here.
+- **Sources:** path/one.md; path/two.md; path/three.md
