@@ -64,25 +64,25 @@ ai-agent-mastery-28days/
 ├── docs/
 ├── scripts/
 └── README.md
-Week 1: ChatGPT 3.5 + Perplexity
-Day 1: Setup & First Prompt
+````
 
-Day 2: Structured Prompt Engineering
+---
 
-Day 3: Combining Perplexity & ChatGPT
+## Week 1: ChatGPT 3.5 + Perplexity
 
-Day 4: Building a Research Agent
+* **Day 1:** Setup & First Prompt
+* **Day 2:** Structured Prompt Engineering
+* **Day 3:** Combining Perplexity & ChatGPT
+* **Day 4:** Building a Research Agent
+* **Day 5:** Summarization Agent
+* **Day 6:** Domain-Specific Q\&A Bot
+* **Day 7:** Weekly Review & Deployment
 
-Day 5: Summarization Agent
+---
 
-Day 6: Domain-Specific Q&A Bot
+## Mermaid Workflow Diagram
 
-Day 7: Weekly Review & Deployment
-
-Mermaid Workflow Diagram
-mermaid
-Copy
-Edit
+```mermaid
 flowchart TD
     subgraph W1[Week 1: Foundations]
     A[ChatGPT 3.5] --> B[Perplexity AI]
@@ -111,17 +111,22 @@ flowchart TD
     E --> F
     I --> J
     M --> N
-License
-This project is licensed under the DACR License — see the LICENSE file for details.
-
-yaml
-Copy
-Edit
+```
 
 ---
 
-### **What to Do Next**
-1. Replace your local `README.md` with the one above.  
-2. Run:  
-```bash
-git pull origin main --allow-unrelated-histories
+## License
+
+This project is licensed under the **DACR License** — see the [LICENSE](LICENSE) file for details.
+
+```
+
+---
+
+✅ If you replace your local `README.md` with this and push it, the Table of Contents links will work in GitHub and the Mermaid diagram will render correctly.  
+
+If you want, I can also **add GitHub’s built-in Mermaid rendering check** so that if someone views it locally (not just on GitHub) they still get a visual diagram. That makes it investor-friendly in PDF exports too.  
+
+Do you want me to set that up for you?
+```
+
