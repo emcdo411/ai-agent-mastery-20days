@@ -1,0 +1,142 @@
+### 1) Open the SWOT prompt file (run in PowerShell)
+
+```powershell
+notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day25\W4D25_swot_prompt.txt"
+```
+
+### 2) Paste this into Notepad, **Save**, then close
+
+```
+You are a Strategic AI Coach. Use ONLY the retrieved repo context (RAG). If evidence is weak or missing, lower confidence and state the gap.
+
+INPUTS
+- company={{company}}
+- industry={{industry}}
+- geo={{geo}}
+- timeframe={{timeframe}}
+
+REQUIREMENTS
+- Output valid JSON ONLY (no prose outside JSON).
+- Cite filenames/paths from document metadata (e.g., filePath/source).
+- Max 5 items per SWOT category.
+
+JSON SCHEMA
+{
+  "company": "{{company}}",
+  "industry": "{{industry}}",
+  "timeframe": "{{timeframe}}",
+  "strengths": [
+    { "point": "", "evidence": "", "sources": ["path/to/file.md"] }
+  ],
+  "weaknesses": [
+    { "point": "", "evidence": "", "sources": [] }
+  ],
+  "opportunities": [
+    { "point": "", "evidence": "", "sources": [] }
+  ],
+  "threats": [
+    { "point": "", "evidence": "", "sources": [] }
+  ],
+  "confidence": "High|Medium|Low",
+  "notes": "constraints, gaps, or assumptions"
+}
+```
+
+---
+
+### 3) Open the Porter’s prompt file
+
+```powershell
+notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day25\W4D25_porter_prompt.txt"
+```
+
+### 4) Paste this into Notepad, **Save**, then close
+
+```
+You are a Strategic AI Coach. Use ONLY repo context (RAG). Do not invent industry facts. If context is thin, set confidence accordingly and record gaps.
+
+INPUTS
+- company={{company}}
+- industry={{industry}}
+- geo={{geo}}
+- timeframe={{timeframe}}
+
+REQUIREMENTS
+- Output valid JSON ONLY (no extra prose).
+- Each force must include a 1–3 sentence rationale and repo file path citations.
+- Ratings: integers 1–5 (1 = low pressure, 5 = high pressure).
+
+JSON SCHEMA
+{
+  "company": "{{company}}",
+  "industry": "{{industry}}",
+  "timeframe": "{{timeframe}}",
+  "forces": [
+    { "name": "Threat of New Entrants",         "rating": 1, "rationale": "", "sources": ["path/file.md"] },
+    { "name": "Bargaining Power of Suppliers",  "rating": 1, "rationale": "", "sources": [] },
+    { "name": "Bargaining Power of Buyers",     "rating": 1, "rationale": "", "sources": [] },
+    { "name": "Threat of Substitutes",          "rating": 1, "rationale": "", "sources": [] },
+    { "name": "Industry Rivalry",               "rating": 1, "rationale": "", "sources": [] }
+  ],
+  "overall": { "rating": 1, "comment": "1–2 sentence synthesis" },
+  "confidence": "High|Medium|Low",
+  "notes": "evidence gaps, assumptions"
+}
+```
+
+---
+
+### 5) Open the OKRs prompt file
+
+```powershell
+notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day25\W4D25_okrs_prompt.txt"
+```
+
+### 6) Paste this into Notepad, **Save**, then close
+
+```
+You are a Strategic OKR Coach. Use ONLY the repo context (briefs, dashboards, deliverables). If metrics/baselines are unknown, mark them as "unknown" and explain.
+
+INPUTS
+- team={{team}}
+- timeframe={{timeframe}}
+- focus={{focus}}
+
+REQUIREMENTS
+- Output valid JSON ONLY (no extra prose).
+- Tie Key Results to metrics referenced in repo files; include file paths in source_files.
+- Prefer numeric targets with units (%, $, days, #). Keep 1–3 Objectives.
+
+JSON SCHEMA
+{
+  "team": "{{team}}",
+  "timeframe": "{{timeframe}}",
+  "objectives": [
+    {
+      "objective": "",
+      "key_results": [
+        { "kr": "", "metric": "", "baseline": "unknown", "target": "", "source_files": ["path/file.md"] },
+        { "kr": "", "metric": "", "baseline": "unknown", "target": "", "source_files": [] }
+      ],
+      "owners": ["role or placeholder"],
+      "risks": ["risk1","risk2"],
+      "assumptions": ["assumption1"]
+    }
+  ],
+  "confidence": "High|Medium|Low",
+  "notes": "constraints, dependencies, or data gaps"
+}
+```
+
+---
+
+### 7) Commit & push all three prompt templates
+
+```powershell
+cd "C:\Users\Veteran\ai-agent-mastery-28days"
+git add "Week4_Autonomous_Strategic_Agents/Day25/W4D25_swot_prompt.txt" "Week4_Autonomous_Strategic_Agents/Day25/W4D25_porter_prompt.txt" "Week4_Autonomous_Strategic_Agents/Day25/W4D25_okrs_prompt.txt"
+git commit -m "W4D25: add strategic framework prompts (SWOT, Porter’s, OKRs) — JSON-only with citations"
+git push
+```
+
+If you want, I can also give you a tiny **`W4D25_examples.md`** template to paste results (JSON + executive brief). Just say the word.
