@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🚀 AI Agent Mastery: 28-Day Professional Track
 
 [![License: DACR](https://img.shields.io/badge/license-DACR-blue?style=for-the-badge)](LICENSE)
@@ -68,3 +69,6 @@ ai-agent-mastery-28days/
 ├── scripts/
 └── README.md
 # AI Agent Mastery 28 Days 
+=======
+# ai-agent-mastery-28days
+>>>>>>> 92b3ec30d0a09c64ef4f8ac7ca82493b38c8f179
