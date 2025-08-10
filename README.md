@@ -13,6 +13,9 @@
 - [Course Structure](#course-structure)
 - [Folder Structure](#folder-structure)
 - [Week 1: ChatGPT 3.5 + Perplexity](#week-1-chatgpt-35--perplexity)
+- [Week 2: Automation Workflows](#week-2-automation-workflows)
+- [Week 3: Data Analysis Agents](#week-3-data-analysis-agents)
+- [Week 4: Autonomous Strategic Agents](#week-4-autonomous-strategic-agents)
 - [Mermaid Workflow Diagram](#mermaid-workflow-diagram)
 - [License](#license)
 
@@ -80,6 +83,42 @@ ai-agent-mastery-28days/
 
 ---
 
+## Week 2: Automation Workflows
+
+* **Day 8:** Introduction to Workflow Automation
+* **Day 9:** Setting Up IFTTT for AI Triggers
+* **Day 10:** Make.com Scenario Building Basics
+* **Day 11:** Google Sheets Data Automation
+* **Day 12:** Apps Script for Custom AI Functions
+* **Day 13:** Combining IFTTT, Make, and Google Sheets
+* **Day 14:** Weekly Review — Deploy a Fully Automated Agent
+
+---
+
+## Week 3: Data Analysis Agents
+
+* **Day 15:** Google Colab for AI & Data Projects
+* **Day 16:** Accessing & Cleaning Data from Kaggle
+* **Day 17:** Building Data Summarization Agents
+* **Day 18:** Introduction to Observable for Visualization
+* **Day 19:** Interactive Dashboard Creation in Observable
+* **Day 20:** Merging Multiple Data Sources in AI Agents
+* **Day 21:** Weekly Review — Deploy a Visualization-Enhanced AI Agent
+
+---
+
+## Week 4: Autonomous Strategic Agents
+
+* **Day 22:** Introduction to FlowiseAI (No-Code AI Agent Builder)
+* **Day 23:** Creating a Multi-Tool AI Agent in FlowiseAI
+* **Day 24:** Introduction to Pinecone Vector Database
+* **Day 25:** Adding Long-Term Memory to AI Agents
+* **Day 26:** Using AgentGPT for Autonomous Task Execution
+* **Day 27:** Integrating Strategic Decision-Making into Agents
+* **Day 28:** Final Review & Portfolio Showcase — Deploy Your AI Team
+
+---
+
 ## Mermaid Workflow Diagram
 
 ```mermaid
@@ -123,10 +162,11 @@ This project is licensed under the **DACR License** — see the [LICENSE](LICENS
 
 ---
 
-✅ If you replace your local `README.md` with this and push it, the Table of Contents links will work in GitHub and the Mermaid diagram will render correctly.  
+If you replace your current README with this one and push, GitHub will show the **entire 28-day plan** clearly for mentees, investors, and recruiters.  
 
-If you want, I can also **add GitHub’s built-in Mermaid rendering check** so that if someone views it locally (not just on GitHub) they still get a visual diagram. That makes it investor-friendly in PDF exports too.  
+If you want, I can also **add collapsible `<details>` sections** so each week’s daily plan can be expanded or hidden — that makes the README more compact but still detailed.  
 
-Do you want me to set that up for you?
+Do you want me to format it that way?
 ```
+
 
