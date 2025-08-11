@@ -1,158 +1,108 @@
-\# Day 12 — Time-Driven Digest Email from Sheets
+# 🚀 Day 12 — Automated Daily Digest Email (Apps Script)
 
+## 📌 Objective
 
+Automatically send yourself a **daily HTML email digest** of the latest cleaned entries from your `Automation_Inbox` Google Sheet.
 
-\## 📌 Objective
+⏱ Target Time: **≤ 30 minutes**
 
-Send yourself a daily HTML email digest of the 10 most recent items captured in `Automation\_Inbox`.
+---
 
+## ✅ Prerequisites
 
+* **Day 11:** `CleanInbox()` is set up and working.
 
-\## 🛠 Steps (≤30 min)
+---
 
+## 🛠 Steps
 
+### 1️⃣ Add the Daily Digest Function
 
-1\. In your `Automation\_Inbox` Google Sheet, open \*\*Extensions → Apps Script\*\*.
+In your `Automation_Inbox` Google Sheet:
 
-
-
-2\. \*\*Add this function\*\* (set your email address in the `email` variable):
-
-
+* **Extensions → Apps Script**
+* Add this function to your script:
 
 ```javascript
-
 function SendDailyDigest() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sh = ss.getSheetByName("Sheet1") || ss.getSheets()[0];
+  var data = sh.getRange(2, 1, sh.getLastRow() - 1, sh.getLastColumn()).getValues();
 
-&nbsp; const email = "you@example.com"; // <- change to your email
+  // Get the 10 most recent rows
+  var recent = data.slice(-10).reverse();
 
-&nbsp; const ss = SpreadsheetApp.getActive();
+  // Build HTML email body
+  var html = "<h2>Daily Intel Digest</h2><table border='1' cellpadding='5' cellspacing='0'>";
+  html += "<tr><th>Date</th><th>Source</th><th>Title</th><th>URL</th><th>Notes</th><th>Status</th></tr>";
 
-&nbsp; const sh = ss.getSheetByName("Sheet1") || ss.getSheets()\[0];
+  recent.forEach(function(row) {
+    html += "<tr>";
+    html += "<td>" + row[0] + "</td>";
+    html += "<td>" + row[1] + "</td>";
+    html += "<td>" + row[2] + "</td>";
+    html += "<td><a href='" + row[3] + "'>Link</a></td>";
+    html += "<td>" + row[4] + "</td>";
+    html += "<td>" + row[5] + "</td>";
+    html += "</tr>";
+  });
 
+  html += "</table>";
 
-
-&nbsp; const lastRow = sh.getLastRow();
-
-&nbsp; if (lastRow < 2) return; // no data yet
-
-
-
-&nbsp; // Read all rows: Timestamp, Source, Title, URL, Notes, Status
-
-&nbsp; const data = sh.getRange(2, 1, lastRow - 1, 6).getValues();
-
-
-
-&nbsp; // Sort newest first by Timestamp (col A = index 0)
-
-&nbsp; data.sort((a, b) => new Date(b\[0]) - new Date(a\[0]));
-
-
-
-&nbsp; // Take top 10
-
-&nbsp; const recent = data.slice(0, 10);
-
-
-
-&nbsp; // Render HTML rows
-
-&nbsp; const rows = recent.map(r => {
-
-&nbsp;   const ts = Utilities.formatDate(new Date(r\[0]), Session.getScriptTimeZone(), "yyyy-MM-dd HH:mm");
-
-&nbsp;   const title = (r\[2] || "").toString();
-
-&nbsp;   const url = (r\[3] || "").toString();
-
-&nbsp;   const notes = (r\[4] || "").toString();
-
-&nbsp;   const status = (r\[5] || "").toString();
-
-&nbsp;   const linkCell = url ? `<a href="${url}">link</a>` : "";
-
-&nbsp;   return `<tr><td>${ts}</td><td>${title}</td><td>${linkCell}</td><td>${notes}</td><td>${status}</td></tr>`;
-
-&nbsp; }).join("");
-
-
-
-&nbsp; const html = `
-
-&nbsp;   <h3>AI Mastery Daily Digest</h3>
-
-&nbsp;   <p>Newest ${recent.length} items from Automation\_Inbox.</p>
-
-&nbsp;   <table border="1" cellpadding="6" cellspacing="0">
-
-&nbsp;     <tr><th>Timestamp</th><th>Title</th><th>URL</th><th>Notes</th><th>Status</th></tr>
-
-&nbsp;     ${rows}
-
-&nbsp;   </table>
-
-&nbsp; `;
-
-
-
-&nbsp; MailApp.sendEmail({ to: email, subject: "AI Mastery Digest", htmlBody: html });
-
+  // Send the email
+  MailApp.sendEmail({
+    to: Session.getActiveUser().getEmail(),
+    subject: "Daily Intel Digest",
+    htmlBody: html
+  });
 }
+```
 
-````
+---
 
+### 2️⃣ Set Up a Daily Trigger
 
+* In Apps Script → **Triggers** (clock icon in sidebar)
+* Click **+ Add Trigger**:
 
-3\. \*\*Authorize \& test\*\*: Click the Run ▶ button for `SendDailyDigest`. Approve permissions. Check your inbox (and spam).
+  * Function to run: `SendDailyDigest`
+  * Event source: **Time-driven**
+  * Type of time-based trigger: **Day timer**
+  * Choose a time (e.g., 8:00 AM)
 
+---
 
+### 3️⃣ Test the Digest
 
-4\. \*\*Schedule it\*\*:
+* Run `SendDailyDigest()` manually to confirm:
 
+  * Email arrives in your inbox
+  * Table shows the most recent **10 entries**
 
+---
 
-&nbsp;  \* In Apps Script, go to \*\*Triggers\*\* (clock icon) → \*\*Add Trigger\*\*
+## 📂 Deliverable
 
-&nbsp;  \* Choose function: `SendDailyDigest`
+Create `Day12_digest_test.md` with:
 
-&nbsp;  \* Event source: \*\*Time-driven\*\*
+* [ ] Time of trigger set
+* [ ] Manual test successful
+* [ ] Email received with correct formatting and data
 
-&nbsp;  \* Type: \*\*Day timer\*\*
+---
 
-&nbsp;  \* Pick a time (e.g., 7:30 AM)
+## 🎯 Role Relevance
 
-&nbsp;  \* Save
+**All Roles:** Keep stakeholders, teammates, or yourself informed with a **zero-cost, auto-updating daily brief** — perfect for:
 
+* Market intel summaries
+* Lead tracking updates
+* Meeting prep recaps
+* Personal productivity logs
 
+---
 
-5\. (Optional) Update your Sheet headers if needed: `Timestamp | Source | Title | URL | Notes | Status`.
+If you want, I can also add a **Mermaid diagram** showing how Day 12 and Day 13 connect — so your readers instantly see how the *automated* and *one-tap manual* triggers work together in your workflow.
 
-
-
-\## 📂 Deliverable
-
-
-
-Create `Day12\_trigger\_notes.md` with:
-
-
-
-\* Recipient email used
-
-\* Scheduled time (timezone)
-
-\* Result of your test run (received email? Y/N)
-
-
-
-\## 🎯 Role Relevance
-
-
-
-\* \*\*All roles:\*\* A proactive brief in your inbox means faster, better decisions—before meetings, standups, interviews, or investor calls.
-
-
-
-````
+Do you want me to create that diagram next?
 
