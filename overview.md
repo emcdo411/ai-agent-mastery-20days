@@ -1,90 +1,78 @@
-\# AI Agent Mastery — 28-Day Professional Track (Overview)  
+# 🤖 AI Agent Mastery — 28-Day Professional Track (Overview)  
+_by **Erwin Maurice McDonald**_  
 
-\*by \*\*Erwin Maurice McDonald\*\*\*
-
-
-
-\*\*A hands-on sprint for busy professionals.\*\*  
-
-Daily 30-minute reps → working outputs you can actually use.
-
-
-
-\## Program snapshot
-
-\- ⏱ \*\*30 min/day\*\* for 28 days  
-
-\- 🧩 \*\*4 skill tracks\*\* (research, automation, data, strategy)  
-
-\- 📦 \*\*10+ reusable templates\*\*  
-
-\- 🔒 \*\*Private by default\*\* (local-first workflow)
-
-
-
-\## What you’ll walk away with
-
-\- 📚 \*\*Sourced research briefs\*\* (citations + confidence)  
-
-\- ⚡ \*\*Lightweight automations\*\* (capture → daily digest)  
-
-\- 📊 \*\*Decision visuals\*\* for meetings  
-
-\- 🤖 \*\*Strategic Q\&A agent\*\* grounded in your docs
-
-
-
-\## Who this is for
-
-Analysts, data folks, entrepreneurs, MBA/PMP candidates, and military transitioners.
-
-
-
-\## How it works (high level)
-
-\- \*\*Week 1:\*\* Foundations — research + synthesis  
-
-\- \*\*Week 2:\*\* Automation — zero-cost capture loops  
-
-\- \*\*Week 3:\*\* Data Agents — quick profiling + simple visuals  
-
-\- \*\*Week 4:\*\* Strategy — trusted answers with sources \& confidence  
-
-> Built with a \*\*PowerShell-first orchestration\*\* for structure, versioning, and repeatability.
-
-
-
-\## What’s included
-
-Templates \& prompts, runbooks, guardrail checklists, starter scripts, a 7-minute demo flow, and light cohort support.
-
-
-
-\## What this is \*not\*
-
-Hours of lectures, gadget tours, or a free consultation—the recipes live inside the program.
-
-
-
-\## Privacy \& practicality
-
-Local-first, exportable artifacts, free-stack mindset. You keep your work product.
-
-
-
-\## Interested?
-
-Comment \*\*“overview”\*\* or DM me for the \*\*one-page syllabus\*\* and \*\*demo runbook\*\*.  
-
-\*Limited pilot seats so I can give real attention to each mentee.\*
-
-
+**A hands-on sprint for busy professionals**  
+30 minutes a day → actionable outputs you can actually use.
 
 ---
 
+## 📌 Program Snapshot
+- ⏱ **30 min/day** for 28 days  
+- 🧩 **4 skill tracks** — Research • Automation • Data • Strategy  
+- 📦 **10+ reusable templates**  
+- 🔒 **Private-first workflow** (local-first, you own your work)  
 
+---
 
-© \*\*Erwin Maurice McDonald\*\* — materials for enrolled participants only; redistribution not permitted.
+## 🎯 What You’ll Walk Away With
+- 📚 **Sourced Research Briefs** — citations + confidence scores  
+- ⚡ **Lightweight Automations** — capture → daily digest  
+- 📊 **Decision Visuals** — meeting-ready graphics  
+- 🤖 **Strategic Q&A Agent** — grounded in your own docs  
+
+---
+
+## 👥 Who This Is For
+Analysts • Data Professionals • Entrepreneurs • MBA/PMP Candidates •  
+Military Transitioners
+
+---
+
+## 🛠 How It Works (High-Level)
+**Week 1:** Foundations — research + synthesis  
+**Week 2:** Automation — zero-cost capture loops  
+**Week 3:** Data Agents — quick profiling + simple visuals  
+**Week 4:** Strategy — trusted answers with sources & confidence  
+
+> Built with a **PowerShell-first orchestration** for structure, versioning, and repeatability.
+
+---
+
+## 📦 What’s Included
+- Templates & prompts  
+- Runbooks & guardrail checklists  
+- Starter scripts  
+- 7-minute demo flow  
+- Light cohort support  
+
+---
+
+## 🚫 What This Is *Not*
+No hours of lectures.  
+No gadget tours.  
+No free consultations.  
+> This is a **recipe-based program** — the value lives in the workflows you build.
+
+---
+
+## 🔐 Privacy & Practicality
+- Local-first execution  
+- Exportable artifacts  
+- Free-stack mindset  
+- You keep your work product  
+
+---
+
+## 📬 Interested?
+Comment **“overview”** or DM me for:  
+- The **One-Page Syllabus**  
+- The **Demo Runbook**  
+
+*Limited pilot seats so I can give real attention to each mentee.*
+
+---
+
+© **Erwin Maurice McDonald** — Materials for enrolled participants only; redistribution prohibited.
 
 
 
