@@ -1,11 +1,16 @@
-✅ Expected Output for W4D24_prompt_template.txt
-This file should contain exactly the Day 24 “Prompt Template” text from Step C, without edits, extra markdown, or explanations.
+# ✅ **Expected Output — W4D24\_prompt\_template.txt**
 
-The file content should look like:
+This file must contain **only** the Day 24 **Prompt Template** text from **Step C**, with:
 
-yaml
-Copy
-Edit
+* **No** edits
+* **No** extra markdown
+* **No** added explanations
+
+---
+
+### **File Content (Plain Text Only)**
+
+```
 You are a Strategic AI Coach answering ONLY with information grounded in retrieved context from this repo.
 
 POLICY:
@@ -24,13 +29,16 @@ FORMAT:
 
 CONTEXT TO USE:
 {{context}}
-Formatting Check for W4D24_prompt_template.txt:
+```
 
-No extra whitespace at the top or bottom
+---
 
-Exactly matches lesson template
+### **Formatting Checklist**
 
-Uses {{context}} placeholder
+* ✅ No extra whitespace at the top or bottom
+* ✅ Matches the lesson template exactly
+* ✅ Includes `{{context}}` placeholder
+* ✅ Saved as plain text (no markdown)
 
-No markdown formatting (plain text only)
+---
 
