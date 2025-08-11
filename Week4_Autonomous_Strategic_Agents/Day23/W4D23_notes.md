@@ -1,240 +1,175 @@
-\# W4D23 — Multi-Tool Agent (Local File Search + CSV Summary)
+# **W4D23 — Multi-Tool Agent**
 
-
-
-\*\*Goal:\*\* Give your Flowise agent two local-only tools and route user requests to the right one:
-
-1\) \*\*File Search\*\* → find filenames/snippets across your repo  
-
-2\) \*\*CSV Summary\*\* → quick schema/profile of any CSV path
-
-
+*Local File Search + CSV Summary*
 
 ---
 
+## 🎯 **Goal**
 
+Equip your Flowise agent with **two local-only tools** and a smart router that sends user requests to the right one:
 
-\## Local Tools Server (FastAPI)
+1. **File Search** → Find filenames/snippets across your repo.
+2. **CSV Summary** → Quick schema/profile of any CSV path.
 
-\- Base URL: `http://127.0.0.1:8001`
+---
 
-\- Run from repo/scripts:
+## ⚙️ **Local Tools Server (FastAPI)**
 
+**Base URL:** `http://127.0.0.1:8001`
+**Run from:** `repo/scripts`
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate
+pip install fastapi uvicorn pandas
+uvicorn local_tools_server:app --reload --port 8001
 ```
 
-
-
-python -m venv .venv
-
-..venv\\Scripts\\Activate
-
-pip install fastapi uvicorn pandas
-
-uvicorn local\\\_tools\\\_server\\:app --reload --port 8001
-
-
-
-````
-
-\- Health: open `http://127.0.0.1:8001/health` → `{"status":"ok"}`
-
-
-
-\### Endpoints
-
-\- \*\*GET `/files/search`\*\*
-
-\- Query params:  
-
-&nbsp; - `q` = search text (e.g., `SendDailyDigest`)  
-
-&nbsp; - `root` = repo root (e.g., `C:/Users/Veteran/ai-agent-mastery-28days`)  
-
-&nbsp; - `exts` = `.md,.txt,.csv` (optional)  
-
-&nbsp; - `max\_files` = 25 (optional)
-
-\- Returns: `{ "matches": \[ { "file": "<path>", "snippet": "<...>" }, ... ] }`
-
-
-
-\- \*\*POST `/csv/summary`\*\*
-
-\- Body JSON: `{ "path": "C:/.../your.csv" }`
-
-\- Returns: row/col counts, per-column null%, basic stats, 5 sample rows.
-
-
-
-> If you haven’t created `scripts/local\_tools\_server.py` yet, do it when you’re ready (Day 23 guide). The Flowise pieces below assume it’s running.
-
-
-
----
-
-
-
-\## Flowise Wiring
-
-
-
-\### Router (If/Else)
-
-\- \*\*To File Search tool\*\* if message contains:  
-
-`find`, `where`, `which file`, `search`, `contains`
-
-\- \*\*To CSV Summary tool\*\* if message contains:  
-
-`csv`, `columns`, `nulls`, `schema`, `summary`, `describe`
-
-\- \*\*Else\*\* → normal RAG path (Retriever → Prompt → LLM)
-
-
-
-\### HTTP Request — File Search
-
-\- Method: \*\*GET\*\*  
-
-\- URL: `http://127.0.0.1:8001/files/search`  
-
-\- Params:  
-
-\- `q` = `{{$vars.query}}` \*(or full user message)\*  
-
-\- `root` = `C:/Users/Veteran/ai-agent-mastery-28days`  
-
-\- `exts` = `.md,.txt,.csv`  
-
-\- Save JSON to var: \*\*`file\_search\_json`\*\*
-
-
-
-\### HTTP Request — CSV Summary
-
-\- Method: \*\*POST\*\*  
-
-\- URL: `http://127.0.0.1:8001/csv/summary`  
-
-\- Body (JSON):
+**Health Check:**
+Open `http://127.0.0.1:8001/health` → expect:
 
 ```json
-
-{ "path": "C:/Users/Veteran/ai-agent-mastery-28days/Week3\_Data\_Analysis\_Agents/Day16/W3D16\_clean.csv" }
-
-````
-
-
-
-\* Save JSON to var: \*\*`csv\_summary\_json`\*\*
-
-
-
-\### Prompt Template (Aggregator → before LLM)
-
-
-
+{"status":"ok"}
 ```
 
-If file\_search\_json exists:
+---
 
-\- Output a bullet list of matches (max 10): \*\*filename\*\* — 1-line snippet.
+### **Endpoints**
 
+**1. GET `/files/search`**
+*Query Parameters:*
 
+* `q` — search text (e.g., `SendDailyDigest`)
+* `root` — repo root (e.g., `C:/Users/Veteran/ai-agent-mastery-28days`)
+* `exts` — `.md,.txt,.csv` (optional)
+* `max_files` — default 25 (optional)
 
-If csv\_summary\_json exists:
+**Returns:**
 
-\- Report rows, cols.
+```json
+{
+  "matches": [
+    { "file": "<path>", "snippet": "<...>" },
+    ...
+  ]
+}
+```
 
-\- List top 5 columns by null% with dtype.
+---
 
-\- Show the first 2 sample rows (compact).
+**2. POST `/csv/summary`**
+*Body JSON:*
 
+```json
+{ "path": "C:/.../your.csv" }
+```
 
+**Returns:**
+
+* Row/column counts
+* Per-column null% + dtype
+* Basic stats
+* 5 sample rows
+
+> If `scripts/local_tools_server.py` isn’t created yet, follow the Day 23 guide before wiring up Flowise.
+
+---
+
+## 🛠 **Flowise Wiring**
+
+### **Router (If/Else)**
+
+* **File Search Tool** if message contains:
+  `find`, `where`, `which file`, `search`, `contains`
+* **CSV Summary Tool** if message contains:
+  `csv`, `columns`, `nulls`, `schema`, `summary`, `describe`
+* **Else** → normal RAG path (`Retriever → Prompt → LLM`)
+
+---
+
+### **HTTP Request — File Search**
+
+* **Method:** GET
+* **URL:** `http://127.0.0.1:8001/files/search`
+* **Params:**
+
+  * `q` = `{{$vars.query}}` *(or full user message)*
+  * `root` = `C:/Users/Veteran/ai-agent-mastery-28days`
+  * `exts` = `.md,.txt,.csv`
+* **Save JSON to:** `file_search_json`
+
+---
+
+### **HTTP Request — CSV Summary**
+
+* **Method:** POST
+* **URL:** `http://127.0.0.1:8001/csv/summary`
+* **Body (JSON):**
+
+```json
+{ "path": "C:/Users/Veteran/ai-agent-mastery-28days/Week3_Data_Analysis_Agents/Day16/W3D16_clean.csv" }
+```
+
+* **Save JSON to:** `csv_summary_json`
+
+---
+
+### **Prompt Template (Aggregator → before LLM)**
+
+```
+If file_search_json exists:
+- Output up to 10 matches: **filename** — 1-line snippet.
+
+If csv_summary_json exists:
+- Report row and column counts.
+- List top 5 columns by null% with dtype.
+- Show first 2 sample rows (compact).
 
 If neither exists:
-
-\- Fall back to repo RAG context.
-
-
+- Fall back to repo RAG context.
 
 Always end with:
-
-\- \*\*Action Items\*\* (3)
-
-\- \*\*Confidence\*\* (High|Med|Low, 1-line reason)
-
-\- \*\*Sources\*\* (filenames if present)
-
+- **Action Items** (3)
+- **Confidence** (High|Med|Low + reason)
+- **Sources** (filenames if present)
 ```
 
+---
 
-
-Connect:
-
-
+### **Flowise Connections**
 
 ```
-
 Chat Input → Router
-
-&nbsp; Router → (File Search HTTP) → Aggregator Prompt → LLM → Output
-
-&nbsp; Router → (CSV Summary HTTP)  → Aggregator Prompt → LLM → Output
-
-&nbsp; Router (Else) → Retriever → Prompt → LLM → Output
-
+  Router → (File Search HTTP) → Aggregator Prompt → LLM → Output
+  Router → (CSV Summary HTTP) → Aggregator Prompt → LLM → Output
+  Router (Else) → Retriever → Prompt → LLM → Output
 ```
 
+---
 
+## 🔍 **Test Prompts**
+
+* `"Find where the daily digest is configured."` *(File Search)*
+* `"Give me a CSV summary for W3D16_clean.csv — rows/cols/top nulls + 2 sample rows."` *(CSV Summary)*
+* `"What are the Week 2 deliverables and validations?"` *(RAG fallback)*
 
 ---
 
+## 🧩 **Troubleshooting**
 
-
-\## Test Prompts
-
-
-
-\* “Find where the \*\*daily digest\*\* is configured.” \*(File Search)\*
-
-\* “Give me a \*\*CSV summary\*\* for `W3D16\_clean.csv` — rows/cols/top nulls + 2 sample rows.” \*(CSV Summary)\*
-
-\* “What are the \*\*Week 2\*\* deliverables and validations?” \*(RAG fallback)\*
-
-
+* **HTTP 400/422:** Check body/params; confirm server is on `127.0.0.1:8001`.
+* **Windows path issues:** Use forward slashes `C:/Users/...` in JSON.
+* **Too verbose:** Lower LLM temperature; keep RAG Top-K small.
 
 ---
 
+## 📂 **Deliverables**
 
+Commit to this folder:
 
-\## Troubleshooting
-
-
-
-\* \*\*HTTP 400/422:\*\* Check body/params; confirm the server is running on `127.0.0.1:8001`.
-
-\* \*\*Windows path issues:\*\* Use forward slashes `C:/Users/...` in JSON to avoid escapes.
-
-\* \*\*Too verbose answers:\*\* Reduce LLM temperature; keep Top-K small on RAG path.
-
-
+* `W4D23_notes.md` *(this file)*
+* `W4D23_flowise_chatflow.json` *(Flowise → ⋮ Export)*
+* *(Optional)* `W4D23_tool_demo.png` (screenshot of File Search or CSV Summary)
 
 ---
-
-
-
-\## Deliverables (commit to this folder)
-
-
-
-\* `W4D23\_notes.md` \*(this file)\*
-
-\* `W4D23\_flowise\_chatflow.json` \*(Flowise → ⋮ Export)\*
-
-\* \*(Optional)\* `W4D23\_tool\_demo.png` (screenshot of File Search or CSV Summary response)
-
-
-
-````
 
