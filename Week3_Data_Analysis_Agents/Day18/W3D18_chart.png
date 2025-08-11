@@ -1,1 +1,35 @@
 ![Day 18 Interactive Chart](./chart.png)
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Load your cleaned CSV from Day 16
+df = pd.read_csv("W3D16_clean.csv")  # adjust path if needed
+
+# Choose category and metric for the chart
+category_col = "product"
+metric_col = "total"
+
+# Aggregate: average total by category
+grouped = (
+    df[[category_col, metric_col]]
+    .dropna()
+    .groupby(category_col, as_index=False)
+    .mean(numeric_only=True)
+    .sort_values(metric_col, ascending=False)
+)
+
+# Create bar chart
+plt.figure(figsize=(10, 6))
+plt.bar(grouped[category_col], grouped[metric_col], color="#4C72B0")
+plt.title(f"Average {metric_col.title()} by {category_col.title()}", fontsize=14)
+plt.xlabel(category_col.title(), fontsize=12)
+plt.ylabel(f"Average {metric_col.title()}", fontsize=12)
+plt.xticks(rotation=30, ha="right")
+plt.tight_layout()
+
+# Save as chart.png in your current folder
+plt.savefig("chart.png", dpi=200)
+plt.close()
+
+print("chart.png created successfully")
