@@ -1,140 +1,108 @@
-\# Day 9 — IFTTT → Google Sheets via Apps Script Webhook
+# 🚀 Day 9 — IFTTT → Google Sheets via Apps Script Webhook
 
+## 📌 Objective
 
+Create a **zero-cost automation pipeline** where IFTTT triggers a **webhook** → Google Apps Script writes a new row to your Google Sheet.
 
-\## 📌 Objective
+⏱ Target Time: **≤ 30 minutes**
 
-Build a zero-cost pipeline: IFTTT triggers a \*\*webhook\*\* → Apps Script writes a row to your Sheet.
+---
 
+## 🛠 Steps
 
+### 1️⃣ Open & Set Up Apps Script
 
-\## 🛠 Steps (≤30 min)
-
-1\. Open your `Automation\_Inbox` Sheet → \*\*Extensions → Apps Script\*\*.
-
-2\. Paste this code and replace `YOUR\_SHEET\_ID` with your Sheet ID (from the URL):
-
-
+1. In your `Automation_Inbox` Google Sheet → **Extensions → Apps Script**.
+2. Paste the following code, replacing `YOUR_SHEET_ID` with the Sheet ID from your URL:
 
 ```javascript
-
 function doPost(e) {
+  const data = JSON.parse(e.postData.contents || "{}");
+  const ss = SpreadsheetApp.openById("YOUR_SHEET_ID");
+  const sh = ss.getSheetByName("Sheet1") || ss.getSheets()[0];
+  const now = new Date();
 
-&nbsp; const data = JSON.parse(e.postData.contents || "{}");
+  sh.appendRow([
+    now,
+    data.source || "IFTTT",
+    data.title || "",
+    data.url || "",
+    data.notes || "",
+    data.status || "new"
+  ]);
 
-&nbsp; const ss = SpreadsheetApp.openById("YOUR\_SHEET\_ID");
-
-&nbsp; const sh = ss.getSheetByName("Sheet1") || ss.getSheets()\[0];
-
-&nbsp; const now = new Date();
-
-&nbsp; sh.appendRow(\[
-
-&nbsp;   now,
-
-&nbsp;   data.source || "IFTTT",
-
-&nbsp;   data.title || "",
-
-&nbsp;   data.url || "",
-
-&nbsp;   data.notes || "",
-
-&nbsp;   data.status || "new"
-
-&nbsp; ]);
-
-&nbsp; return ContentService.createTextOutput("OK").setMimeType(ContentService.MimeType.TEXT);
-
+  return ContentService
+    .createTextOutput("OK")
+    .setMimeType(ContentService.MimeType.TEXT);
 }
-
-````
-
-
-
-3\. \*\*Deploy\*\* → New deployment → \*\*Web app\*\*
-
-
-
-&nbsp;  \* Execute as: \*Me\*
-
-&nbsp;  \* Access: \*\*Anyone\*\* (tighten later)
-
-&nbsp;  \* Copy the \*\*Web App URL\*\*
-
-
-
-4\. \*\*IFTTT\*\* (free): Create an Applet
-
-
-
-&nbsp;  \* \*\*If:\*\* Button widget (or Note / RSS)
-
-&nbsp;  \* \*\*Then:\*\* Webhooks → Make a web request
-
-
-
-&nbsp;    \* URL: your Web App URL
-
-&nbsp;    \* Method: `POST`
-
-&nbsp;    \* Content Type: `application/json`
-
-&nbsp;    \* Body:
-
-
-
-```json
-
-{ "source":"IFTTT Button", "title":"Quick Note", "url":"", "notes":"Captured from phone", "status":"new" }
-
 ```
 
+---
 
+### 2️⃣ Deploy as Web App
 
-5\. Press the button → confirm a new row appears in your Sheet.
+* **Deploy → New deployment → Web app**
 
+  * **Execute as:** *Me*
+  * **Access:** *Anyone* (adjust security later)
+* Copy your **Web App URL** — you’ll need this for IFTTT.
 
+---
 
-\## 📂 Deliverable
+### 3️⃣ Configure IFTTT (Free Plan)
 
+1. Create a new **Applet**:
 
+   * **If:** Button widget *(or Note / RSS)*
+   * **Then:** Webhooks → Make a web request
+2. Fill in:
 
-\* `Day9\_webhook\_url.txt` (paste your Web App URL)
+   * **URL:** Your Web App URL
+   * **Method:** `POST`
+   * **Content Type:** `application/json`
+   * **Body:**
 
-\* `Day9\_ifttt\_payload.json` (the JSON you used)
+```json
+{
+  "source": "IFTTT Button",
+  "title": "Quick Note",
+  "url": "",
+  "notes": "Captured from phone",
+  "status": "new"
+}
+```
 
+---
 
+### 4️⃣ Test It
 
-\## 🎯 Role Relevance
+Press the IFTTT button → Confirm that a **new row** appears in your Google Sheet.
 
+---
 
+## 📂 Deliverables
 
-\* \*\*Data/Analysts:\*\* 1-tap source logging
+* `Day9_webhook_url.txt` → Paste your Web App URL
+* `Day9_ifttt_payload.json` → The JSON payload you used
 
-\* \*\*Entrepreneurs:\*\* Mobile lead capture
+---
 
-\* \*\*MBA/PMP:\*\* Meeting notes to Sheet
+## 🎯 Role Relevance
 
-\* \*\*Military Transition:\*\* Job prospect notes on the go
+* **Data Analysts** → 1-tap data logging
+* **Entrepreneurs** → Mobile lead capture
+* **MBA / PMP** → Meeting notes synced instantly
+* **Military Transition** → Job prospect tracking on the go
 
+---
 
+### 💻 Commit & Push Your Work
 
-````
-
-
-
-\### 2) Commit and push (run this in PowerShell)
+Run this in PowerShell:
 
 ```powershell
-
-cd "C:\\Users\\Veteran\\ai-agent-mastery-28days"
-
-git add "Week2\_Automation\_Workflows/Day9/lesson.md"
-
+cd "C:\Users\Veteran\ai-agent-mastery-28days"
+git add "Week2_Automation_Workflows/Day9/lesson.md"
 git commit -m "Week 2 Day 9: IFTTT → Apps Script webhook to Google Sheets"
-
 git push
-
-````
-
+```
