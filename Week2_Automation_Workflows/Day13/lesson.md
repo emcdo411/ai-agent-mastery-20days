@@ -1,182 +1,128 @@
-\# Day 13 — One-Tap “Process Now” (IFTTT → Webhook → Clean + Digest)
+# 🚀 Day 13 — One-Tap “Process Now” (IFTTT → Webhook → Clean + Digest)
 
+## 📌 Objective
 
+Enable a **single-tap trigger from your phone** to run your **Clean + Daily Digest** pipeline instantly using an IFTTT Button.
 
-\## 📌 Objective
+⏱ Target Time: **≤ 30 minutes**
 
-Trigger your \*\*clean \& digest\*\* pipeline on demand from your phone via an IFTTT Button press.
+---
 
+## ✅ Prerequisites
 
+* **Day 11:** `CleanInbox()` exists in your Apps Script.
+* **Day 12:** `SendDailyDigest()` exists and works as intended.
 
-\## ✅ Prereqs
+---
 
-\- Day 11’s `CleanInbox()` exists in your Apps Script.
+## 🛠 Steps
 
-\- Day 12’s `SendDailyDigest()` exists and works.
+### 1️⃣ Update Your Apps Script
 
+In your `Automation_Inbox` Google Sheet:
 
+* **Extensions → Apps Script**
+* **Replace your existing `doPost`** with the version below (retains logging + adds `"process"` action).
 
-\## 🛠 Steps (≤30 min)
-
-
-
-1\. In your `Automation\_Inbox` Google Sheet, open \*\*Extensions → Apps Script\*\*.
-
-
-
-2\. \*\*Replace your existing `doPost`\*\* with this version (keeps logging AND supports the `process` action).  
-
-&nbsp;  > If you used `openById("YOUR\_SHEET\_ID")` on Day 9, keep it. Otherwise, `getActive()` works too.
-
-
+> If you used `openById("YOUR_SHEET_ID")` in Day 9, keep it. Otherwise `getActive()` works too.
 
 ```javascript
-
 function doPost(e) {
+  try {
+    var body = (e && e.postData && e.postData.contents) ? e.postData.contents : "{}";
+    var data = {};
+    try { data = JSON.parse(body); } catch (err) {}
 
-&nbsp; try {
+    // One-tap processing: clean + email digest
+    if (data.action === "process") {
+      try { CleanInbox(); } catch (err) {}
+      try { SendDailyDigest(); } catch (err) {}
+      return ContentService.createTextOutput("PROCESSED")
+        .setMimeType(ContentService.MimeType.TEXT);
+    }
 
-&nbsp;   var body = (e \&\& e.postData \&\& e.postData.contents) ? e.postData.contents : "{}";
+    // Default: log a row from IFTTT/Webhooks
+    var ss = SpreadsheetApp.getActive(); // or openById("YOUR_SHEET_ID")
+    var sh = ss.getSheetByName("Sheet1") || ss.getSheets()[0];
+    sh.appendRow([
+      new Date(),
+      data.source || "IFTTT",
+      data.title  || "",
+      data.url    || "",
+      data.notes  || "",
+      data.status || "new"
+    ]);
+    return ContentService.createTextOutput("OK")
+      .setMimeType(ContentService.MimeType.TEXT);
 
-&nbsp;   var data = {};
-
-&nbsp;   try { data = JSON.parse(body); } catch (err) {}
-
-
-
-&nbsp;   // One-tap processing: clean + email digest
-
-&nbsp;   if (data.action === "process") {
-
-&nbsp;     try { CleanInbox(); } catch (err) {}
-
-&nbsp;     try { SendDailyDigest(); } catch (err) {}
-
-&nbsp;     return ContentService.createTextOutput("PROCESSED")
-
-&nbsp;       .setMimeType(ContentService.MimeType.TEXT);
-
-&nbsp;   }
-
-
-
-&nbsp;   // Default: log a row coming from IFTTT/Webhooks
-
-&nbsp;   var ss = SpreadsheetApp.getActive(); // or SpreadsheetApp.openById("YOUR\_SHEET\_ID")
-
-&nbsp;   var sh = ss.getSheetByName("Sheet1") || ss.getSheets()\[0];
-
-&nbsp;   sh.appendRow(\[
-
-&nbsp;     new Date(),
-
-&nbsp;     data.source || "IFTTT",
-
-&nbsp;     data.title  || "",
-
-&nbsp;     data.url    || "",
-
-&nbsp;     data.notes  || "",
-
-&nbsp;     data.status || "new"
-
-&nbsp;   ]);
-
-&nbsp;   return ContentService.createTextOutput("OK")
-
-&nbsp;     .setMimeType(ContentService.MimeType.TEXT);
-
-
-
-&nbsp; } catch (err) {
-
-&nbsp;   return ContentService.createTextOutput("ERROR: " + err)
-
-&nbsp;     .setMimeType(ContentService.MimeType.TEXT);
-
-&nbsp; }
-
+  } catch (err) {
+    return ContentService.createTextOutput("ERROR: " + err)
+      .setMimeType(ContentService.MimeType.TEXT);
+  }
 }
-
-````
-
-
-
-3\. \*\*Re-deploy\*\* the Apps Script Web App
-
-
-
-&nbsp;  \* \*\*Deploy → Manage deployments → Edit\*\* (or \*\*New deployment\*\*)
-
-&nbsp;  \* Execute as: \*Me\*
-
-&nbsp;  \* Access: \*\*Anyone\*\* (you can tighten later)
-
-&nbsp;  \* Save and copy the \*\*Web App URL\*\*.
-
-
-
-4\. \*\*IFTTT\*\* (free): create a Button applet → \*\*Webhooks → Make a web request\*\*
-
-
-
-&nbsp;  \* URL: your \*\*Web App URL\*\*
-
-&nbsp;  \* Method: `POST`
-
-&nbsp;  \* Content Type: `application/json`
-
-&nbsp;  \* Body:
-
-
-
-```json
-
-{ "action": "process" }
-
 ```
 
+---
 
+### 2️⃣ Redeploy Your Web App
 
-5\. \*\*Test\*\*: Press the IFTTT Button.
+* **Deploy → Manage deployments → Edit** (or **New deployment**)
+* **Execute as:** *Me*
+* **Access:** *Anyone* (tighten later)
+* Save and copy your **Web App URL**.
 
+---
 
+### 3️⃣ Create the IFTTT Button
 
-&nbsp;  \* Sheet should \*\*clean\*\* (duplicates removed, blanks trimmed)
+* **Platform:** IFTTT (Free)
+* **If:** Button widget
+* **Then:** Webhooks → Make a web request
 
-&nbsp;  \* You should receive the \*\*Daily Digest email\*\* (top 10 recent items)
+  * **URL:** Your Web App URL
+  * **Method:** `POST`
+  * **Content Type:** `application/json`
+  * **Body:**
 
+```json
+{ "action": "process" }
+```
 
+---
 
-\## 📂 Deliverable
+### 4️⃣ Test the Flow
 
+Press the IFTTT Button → Expect:
 
+* **Sheet cleaned** → Duplicates removed, blanks trimmed
+* **Daily Digest email** → Top 10 recent items delivered
 
-Create `Day13\_end\_to\_end\_checklist.md` with:
+---
 
+## 📂 Deliverable
 
+Create `Day13_end_to_end_checklist.md` with:
 
-\* \[ ] IFTTT Button created
+* [ ] IFTTT Button created
+* [ ] Web App redeployed (new URL confirmed)
+* [ ] Button press returns **"PROCESSED"**
+* [ ] Sheet cleaned (note change count)
+* [ ] Digest email received (timestamp)
 
-\* \[ ] Web App redeployed (new URL confirmed)
+---
 
-\* \[ ] Button press returns “PROCESSED”
+## 🎯 Role Relevance
 
-\* \[ ] Sheet cleaned (describe change count)
+**All Roles:** Instantly generate a meeting-ready intel brief before:
 
-\* \[ ] Digest email received (time)
+* Standups
+* Sales calls
+* Interviews
+* Investor updates
 
+---
 
-
-\## 🎯 Role Relevance
-
-
-
-\* \*\*All roles:\*\* Trigger a meeting-ready intel brief with a single tap before standups, sales calls, interviews, or investor updates.
-
-
-
-````
+If you’d like, I can also create a **flow diagram** for Day 13 that visually maps the one-tap process from your phone to the email arriving — perfect for your GitHub portfolio or README. Would you like me to add that?
 
 
 
