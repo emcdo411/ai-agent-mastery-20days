@@ -1,382 +1,202 @@
-\# Day 20 — Merge Multiple Sources (Google Sheet + Cleaned CSV)
+# **Day 20 — Merge Multiple Sources (Google Sheet + Cleaned CSV)**
 
+## 🎯 **Objective**
 
+In **30 minutes or less**, combine:
 
-\## 📌 Objective
+* **Automation\_Inbox** Google Sheet
+* **W3D16\_clean.csv** from Day 16
 
-Combine your \*\*Automation\_Inbox\*\* Google Sheet with the cleaned CSV from Day 16 (`W3D16\_clean.csv`), then export:
+Then export:
 
-\- `W3D20\_merged.csv`
-
-\- `W3D20\_merge\_report.md` (what joined, how many unmatched, etc.)
-
-
-
-> Target time: ≤ 30 minutes
-
-
+* `W3D20_merged.csv`
+* `W3D20_merge_report.md` (summary of join key, match counts, and notes)
 
 ---
 
+## ✅ **Before You Start**
 
-
-\## ✅ Prereqs
-
-\- Your Google Sheet: \*\*Automation\_Inbox\*\*
-
-\- Your Day 16 file: `W3D16\_clean.csv`
-
-
+* Your Google Sheet: **Automation\_Inbox**
+* Your cleaned CSV from Day 16: `W3D16_clean.csv`
 
 ---
 
+## 🛠 **Steps**
 
+### **1) Get a CSV Link for Your Google Sheet**
 
-\## 🛠 Steps
+1. Open **Automation\_Inbox** in Google Sheets
+2. **File → Share → Publish to web**
 
+   * Entire document → **Comma-separated values (.csv)** → **Publish**
+   * Copy the generated CSV link (you can unpublish later)
 
+**Alternative (manual)**:
 
-\### 1) Get a CSV link for your Google Sheet (fastest method)
-
-1\. Open \*\*Automation\_Inbox\*\* in Google Sheets  
-
-2\. \*\*File → Share → Publish to web\*\*  
-
-&nbsp;  - Entire document → \*\*Comma-separated values (.csv)\*\* → Publish  
-
-&nbsp;  - Copy the generated \*\*CSV link\*\* (you can unpublish later)
-
-
-
-> Alternative: Build a CSV link manually  
-
-> `https://docs.google.com/spreadsheets/d/<SHEET\_ID>/export?format=csv\&gid=<TAB\_GID>`
-
-
+```
+https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<TAB_GID>
+```
 
 ---
 
+### **2) Create a Colab Notebook**
 
-
-\### 2) Create a Colab notebook
-
-\- https://colab.research.google.com → \*\*New Notebook\*\*  
-
-\- Rename to \*\*W3D20\_Merge\_Sources.ipynb\*\*
-
-
+* Go to [Google Colab](https://colab.research.google.com) → **New Notebook**
+* Rename: `W3D20_Merge_Sources.ipynb`
 
 ---
 
-
-
-\### 3) Cell 1 — Load both sources
+### **3) Load Both Sources**
 
 ```python
-
 import pandas as pd, numpy as np
 
+# === Your published Google Sheet CSV link ===
+SHEET_CSV_URL = "PASTE_YOUR_GOOGLE_SHEET_CSV_URL_HERE"
 
+# Load Google Sheet
+df_sheet = pd.read_csv(SHEET_CSV_URL)
+print("Sheet shape:", df_sheet.shape)
+display(df_sheet.head())
 
-\# === Set this to your published CSV link from Google Sheets ===
-
-SHEET\_CSV\_URL = "PASTE\_YOUR\_GOOGLE\_SHEET\_CSV\_URL\_HERE"
-
-
-
-\# === Load the Google Sheet as df\_sheet ===
-
-df\_sheet = pd.read\_csv(SHEET\_CSV\_URL)
-
-print("Sheet shape:", df\_sheet.shape)
-
-display(df\_sheet.head())
-
-
-
-\# === Load the cleaned CSV from Day 16 ===
-
-\# Option A: Upload the file
-
+# Load Day 16 CSV (upload)
 from google.colab import files
-
 import io
-
-print("Upload W3D16\_clean.csv")
-
+print("Upload W3D16_clean.csv")
 uploaded = files.upload()
-
 fname = next(iter(uploaded))
-
-df\_csv = pd.read\_csv(io.BytesIO(uploaded\[fname]))
-
-print("Day16 CSV shape:", df\_csv.shape)
-
-display(df\_csv.head())
-
-````
-
-
+df_csv = pd.read_csv(io.BytesIO(uploaded[fname]))
+print("Day16 CSV shape:", df_csv.shape)
+display(df_csv.head())
+```
 
 ---
 
-
-
-\### 4) Cell 2 — Standardize columns and detect a join key
-
-
+### **4) Standardize Columns & Pick a Join Key**
 
 ```python
+def normalize_cols(df):
+    return (pd.Index(df.columns)
+              .str.strip()
+              .str.replace(r"[^0-9A-Za-z]+", "_", regex=True)
+              .str.lower()
+              .str.strip("_"))
 
-def normalize\_cols(df):
+df_sheet.columns = normalize_cols(df_sheet)
+df_csv.columns   = normalize_cols(df_csv)
 
-&nbsp;   return (pd.Index(df.columns)
+# Source labels
+df_sheet["_source"] = "sheet"
+df_csv["_source"]   = "csv"
 
-&nbsp;             .str.strip()
-
-&nbsp;             .str.replace(r"\[^0-9A-Za-z]+", "\_", regex=True)
-
-&nbsp;             .str.lower()
-
-&nbsp;             .str.strip("\_"))
-
-
-
-df\_sheet.columns = normalize\_cols(df\_sheet)
-
-df\_csv.columns   = normalize\_cols(df\_csv)
-
-
-
-\# Add source labels (useful if we fall back to union)
-
-df\_sheet\["\_source"] = "sheet"
-
-df\_csv\["\_source"]   = "csv"
-
-
-
-\# Try to pick a sensible join key automatically
-
-candidates = \["url", "id", "email", "title", "name"]
-
-common = \[c for c in candidates if c in df\_sheet.columns and c in df\_csv.columns]
-
+# Try to auto-pick a join key
+candidates = ["url", "id", "email", "title", "name"]
+common = [c for c in candidates if c in df_sheet.columns and c in df_csv.columns]
 if common:
-
-&nbsp;   KEY = common\[0]
-
+    KEY = common[0]
 else:
-
-&nbsp;   # If nothing obvious, use first intersecting column (if any)
-
-&nbsp;   inter = sorted(set(df\_sheet.columns).intersection(df\_csv.columns))
-
-&nbsp;   KEY = inter\[0] if inter else None
-
-
+    inter = sorted(set(df_sheet.columns).intersection(df_csv.columns))
+    KEY = inter[0] if inter else None
 
 print("Detected KEY:", KEY)
-
-print("Common columns:", sorted(set(df\_sheet.columns).intersection(df\_csv.columns))\[:10], "...")
-
+print("Common columns:", sorted(set(df_sheet.columns).intersection(df_csv.columns))[:10], "...")
 ```
-
-
 
 ---
 
-
-
-\### 5) Cell 3 — Merge (join if key found, else union)
-
-
+### **5) Merge or Union**
 
 ```python
-
-report\_lines = \[]
+report_lines = []
 
 if KEY:
-
-&nbsp;   merged = pd.merge(
-
-&nbsp;       df\_csv, df\_sheet,
-
-&nbsp;       on=KEY, how="outer", suffixes=("\_csv","\_sheet"), indicator=True
-
-&nbsp;   )
-
-&nbsp;   totals = merged\["\_merge"].value\_counts()
-
-&nbsp;   left\_only  = int(totals.get("left\_only", 0))
-
-&nbsp;   right\_only = int(totals.get("right\_only", 0))
-
-&nbsp;   both       = int(totals.get("both", 0))
-
-&nbsp;   report\_lines += \[
-
-&nbsp;       f"# W3D20 Merge Report",
-
-&nbsp;       f"\*\*Join key:\*\* `{KEY}`",
-
-&nbsp;       f"\*\*Left-only (csv not in sheet):\*\* {left\_only}",
-
-&nbsp;       f"\*\*Right-only (sheet not in csv):\*\* {right\_only}",
-
-&nbsp;       f"\*\*Matched (both):\*\* {both}",
-
-&nbsp;       "",
-
-&nbsp;   ]
-
+    merged = pd.merge(
+        df_csv, df_sheet,
+        on=KEY, how="outer", suffixes=("_csv", "_sheet"), indicator=True
+    )
+    totals = merged["_merge"].value_counts()
+    report_lines += [
+        "# W3D20 Merge Report",
+        f"**Join key:** `{KEY}`",
+        f"**Left-only (csv not in sheet):** {int(totals.get('left_only', 0))}",
+        f"**Right-only (sheet not in csv):** {int(totals.get('right_only', 0))}",
+        f"**Matched (both):** {int(totals.get('both', 0))}",
+        ""
+    ]
 else:
+    # Union if no join key found
+    cols = sorted(set(df_csv.columns).union(df_sheet.columns))
+    merged = pd.concat(
+        [df_csv.reindex(columns=cols), df_sheet.reindex(columns=cols)],
+        ignore_index=True
+    )
 
-&nbsp;   # No common key — perform a union with harmonized columns
+    if "url" in merged.columns:
+        before = len(merged)
+        merged = merged.drop_duplicates(subset=["url"])
+        after = len(merged)
+        report_lines += [
+            "# W3D20 Merge Report",
+            "**Join key:** None (union)",
+            f"**Dedupe by url:** removed {before - after} duplicates",
+            ""
+        ]
+    else:
+        before = len(merged)
+        merged = merged.drop_duplicates()
+        after = len(merged)
+        report_lines += [
+            "# W3D20 Merge Report",
+            "**Join key:** None (union)",
+            f"**Row-level dedupe:** removed {before - after} duplicates",
+            ""
+        ]
 
-&nbsp;   cols = sorted(set(df\_csv.columns).union(df\_sheet.columns))
-
-&nbsp;   merged = pd.concat(
-
-&nbsp;       \[df\_csv.reindex(columns=cols), df\_sheet.reindex(columns=cols)],
-
-&nbsp;       ignore\_index=True
-
-&nbsp;   )
-
-&nbsp;   # Light dedupe by URL if present, else by exact row
-
-&nbsp;   if "url" in merged.columns:
-
-&nbsp;       before = len(merged)
-
-&nbsp;       merged = merged.drop\_duplicates(subset=\["url"])
-
-&nbsp;       after = len(merged)
-
-&nbsp;       report\_lines += \[
-
-&nbsp;           "# W3D20 Merge Report",
-
-&nbsp;           "\*\*Join key:\*\* None (union)",
-
-&nbsp;           f"\*\*Dedupe by url:\*\* removed {before - after} duplicates",
-
-&nbsp;           ""
-
-&nbsp;       ]
-
-&nbsp;   else:
-
-&nbsp;       before = len(merged)
-
-&nbsp;       merged = merged.drop\_duplicates()
-
-&nbsp;       after = len(merged)
-
-&nbsp;       report\_lines += \[
-
-&nbsp;           "# W3D20 Merge Report",
-
-&nbsp;           "\*\*Join key:\*\* None (union)",
-
-&nbsp;           f"\*\*Row-level dedupe:\*\* removed {before - after} duplicates",
-
-&nbsp;           ""
-
-&nbsp;       ]
-
-
-
-report\_lines += \[
-
-&nbsp;   f"\*\*Final shape:\*\* {merged.shape\[0]} rows × {merged.shape\[1]} cols",
-
-&nbsp;   "",
-
-&nbsp;   "## Sample rows",
-
-&nbsp;   merged.head(10).to\_markdown(index=False)
-
+report_lines += [
+    f"**Final shape:** {merged.shape[0]} rows × {merged.shape[1]} cols",
+    "",
+    "## Sample rows",
+    merged.head(10).to_markdown(index=False)
 ]
 
+# Save outputs
+merged.to_csv("W3D20_merged.csv", index=False)
+with open("W3D20_merge_report.md", "w", encoding="utf-8") as f:
+    f.write("\n".join(report_lines))
 
-
-\# Save artifacts
-
-merged.to\_csv("W3D20\_merged.csv", index=False)
-
-with open("W3D20\_merge\_report.md","w",encoding="utf-8") as f:
-
-&nbsp;   f.write("\\n".join(report\_lines))
-
-
-
-print("Saved: W3D20\_merged.csv, W3D20\_merge\_report.md")
-
+print("Saved: W3D20_merged.csv, W3D20_merge_report.md")
 ```
-
-
 
 ---
 
-
-
-\### 6) Cell 4 — (Optional) Quick quality checks
-
-
+### **6) (Optional) Quick Quality Checks**
 
 ```python
+nulls = merged.isna().mean().sort_values(ascending=False).head(10)
+print("Top 10 null% columns:\n", nulls)
 
-\# Quick checks: nulls by column and simple source counts if available
-
-nulls = merged.isna().mean().sort\_values(ascending=False).head(10)
-
-print("Top 10 null% columns:\\n", nulls)
-
-
-
-if "\_source" in merged.columns:
-
-&nbsp;   print("\\nRows by \_source:")
-
-&nbsp;   print(merged\["\_source"].value\_counts())
-
+if "_source" in merged.columns:
+    print("\nRows by _source:")
+    print(merged["_source"].value_counts())
 ```
-
-
 
 ---
 
+## 📦 **Deliverables**
 
+* `W3D20_Merge_Sources.ipynb`
+* `W3D20_merged.csv`
+* `W3D20_merge_report.md`
+* `Day20_notes.md` (join key used + surprises in unmatched counts)
 
-\## 📂 Deliverables (commit into today’s folder)
+---
 
+## 💼 **Why This Matters**
 
+* **Analysts / Data Pros:** Quickly blend datasets for dashboards
+* **Entrepreneurs:** Combine CRM & ops data in minutes
+* **MBA / PMP:** Prep multi-source evidence for exec reviews
+* **Military Transition:** Fuse multiple sources into a clear, single briefing
 
-\* `W3D20\_Merge\_Sources.ipynb` (File → Download → .ipynb)
-
-\* `W3D20\_merged.csv`
-
-\* `W3D20\_merge\_report.md`
-
-\* `Day20\_notes.md` (1–2 lines: what key you used; anything surprising in unmatched counts)
-
-
-
-\## 🎯 Role Relevance
-
-
-
-\* \*\*Analysts / Data Pros:\*\* Build combined views for reporting \& dashboards
-
-\* \*\*Entrepreneurs:\*\* Blend operations/CRM exports with research inbox
-
-\* \*\*MBA/PMP:\*\* Merge evidence streams before executive reviews
-
-\* \*\*Military Transition:\*\* Fuse sources (briefing style) for one coherent picture
-
-
-
-````
+---
 
