@@ -1,73 +1,93 @@
-✅ Expected Output for W4D24_tests.md
-This file should contain the results of running the three test prompts from Step D of your lesson, each structured exactly according to your Day 24 prompt policy.
-For each test, the output should look like this (values will vary based on your repo content):
+# ✅ Expected Output — `W4D24_tests.md`
 
-Test 1: "What are the Week 2 deliverables and how do I validate them?"
-Brief Answer:
+This file should capture the **actual results** from running the three Day 24 test prompts (Step D), formatted exactly per your Day 24 prompt policy.
+Each test should follow the **Brief Answer → Action Items → Confidence → Sources** format.
 
-Lists each Week 2 deliverable in bullet form (e.g., Day9 Workflow, Day10 Agent Config, etc.)
+---
 
-Each bullet explains what it is and how it’s validated (based on repo context)
+## **Test 1:**
 
-No made-up details
+**Prompt:** `"What are the Week 2 deliverables and how do I validate them?"`
 
-Action Items:
+**Brief Answer**
 
-2–4 actionable steps (e.g., "Run automated tests in Day10 folder", "Verify flow matches exported JSON")
+* Bullet list of all Week 2 deliverables (e.g., `Day9 Workflow`, `Day10 Agent Config`).
+* Each bullet explains *what it is* and *how it’s validated*, based solely on repo content.
+* No fabricated details.
 
-Confidence: High — clearly documented in Week 2 files.
+**Action Items**
 
-Sources:
+* 2–4 clear, actionable steps (e.g., `"Run automated tests in Day10 folder"`, `"Verify flow matches exported JSON"`).
 
-Week2_Automation_Workflows/Day9/lesson.md
+**Confidence**
 
-Week2_Automation_Workflows/Day10/config_notes.txt
+* **High** — information is clearly documented in Week 2 files.
 
-(max 5 paths total)
+**Sources**
 
-Test 2: "Summarize Day 21 outputs for an MBA student — bullets + actions."
-Brief Answer:
+* `Week2_Automation_Workflows/Day9/lesson.md`
+* `Week2_Automation_Workflows/Day10/config_notes.txt`
+* *(Max 5 paths total)*
 
-3–6 bullets explaining what the outputs are in plain language for a business-oriented audience.
+---
 
-Avoids technical jargon; focuses on business relevance and outcomes.
+## **Test 2:**
 
-Action Items:
+**Prompt:** `"Summarize Day 21 outputs for an MBA student — bullets + actions."`
 
-2–4 bullets (e.g., "Review scenario outcomes for strategic implications", "Compare p05/p50/p95 ranges")
+**Brief Answer**
 
-Confidence: Medium — no direct business summary in repo, inferred from Day 21 outputs.
+* 3–6 bullets describing outputs in **plain business language**.
+* Avoids technical jargon; focuses on relevance, outcomes, and impact.
 
-Sources:
+**Action Items**
 
-Week3_Data_Analysis_Agents/Day21/report.md
+* 2–4 steps (e.g., `"Review scenario outcomes for strategic implications"`, `"Compare p05/p50/p95 ranges"`).
 
-Week3_Data_Analysis_Agents/Day21/scenario_results.json
+**Confidence**
 
-Test 3:
-"refresh memory" → modify a Week 2 file locally → "What changed in Week 2’s automation since last refresh?"
+* **Medium** — no direct business summary exists in repo; inferred from Day 21 outputs.
 
-Brief Answer:
+**Sources**
 
-Clearly states the specific change (e.g., "Updated Top-K from 5 to 4 in Day10 config").
+* `Week3_Data_Analysis_Agents/Day21/report.md`
+* `Week3_Data_Analysis_Agents/Day21/scenario_results.json`
 
-Notes when memory was refreshed.
+---
 
-No generic answers — it should detect the update.
+## **Test 3:**
 
-Action Items:
+**Prompt:**
+`"refresh memory"` → modify a Week 2 file locally → `"What changed in Week 2’s automation since last refresh?"`
 
-2–4 relevant actions (e.g., "Re-run validation tests", "Notify stakeholders of updated config")
+**Brief Answer**
 
-Confidence: High — change detected in file and indexed in current run.
+* States the exact detected change (e.g., `"Updated Top-K from 5 to 4 in Day10 config"`).
+* Confirms when memory was refreshed.
+* No vague or generic responses.
 
-Sources:
+**Action Items**
 
-Updated file’s path (e.g., Week2_Automation_Workflows/Day10/config_notes.txt)
+* 2–4 relevant follow-ups (e.g., `"Re-run validation tests"`, `"Notify stakeholders of updated config"`).
 
-Formatting Check for W4D24_tests.md:
+**Confidence**
 
-3 clearly separated test sections
+* **High** — change detected and indexed during the current run.
 
-Each follows the Brief Answer → Action Items → Confidence → Sources structure
+**Sources**
+
+* Path to the updated file (e.g., `Week2_Automation_Workflows/Day10/config_notes.txt`)
+
+---
+
+**Formatting Checklist for `W4D24_tests.md`**
+
+* ✅ 3 clearly separated test sections
+* ✅ Each follows **Brief Answer → Action Items → Confidence → Sources**
+* ✅ All sources are real file paths from the repo
+* ✅ No extra commentary beyond the required structure
+
+---
+
+
 
