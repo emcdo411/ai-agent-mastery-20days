@@ -1,176 +1,113 @@
-\# Day 11 — Google Apps Script: Clean \& De-Duplicate
+# 🚀 Day 11 — Google Apps Script: Clean & De-Duplicate
 
+## 📌 Objective
 
+Add a **custom menu** to your `Automation_Inbox` Google Sheet that:
 
-\## 📌 Objective
+* Trims whitespace
+* Removes blank rows
+* **De-duplicates by URL** (prevents saving the same link twice)
 
-Add a custom menu to your `Automation\_Inbox` Google Sheet that:
+⏱ Target Time: **≤ 30 minutes**
 
-\- Trims whitespace
+---
 
-\- Removes blank rows
+## 🛠 Steps
 
-\- De-duplicates by \*\*URL\*\* (so you don’t save the same link twice)
+### 1️⃣ Open Apps Script
 
+* In your `Automation_Inbox` Google Sheet → **Extensions → Apps Script**
 
+---
 
-\## 🛠 Steps (≤30 min)
+### 2️⃣ Add the Clean & Dedupe Script
 
+Paste the following code **as-is** (works out-of-the-box).
 
-
-1\. In your `Automation\_Inbox` Google Sheet go to \*\*Extensions → Apps Script\*\*.
-
-
-
-2\. \*\*Paste this code\*\* (replace nothing yet; it works as-is).  
-
-&nbsp;  > Assumptions: Row 1 is your header. URL is column \*\*D\*\*.
-
-
+> Assumes Row 1 is your header and the URL is in **Column D**.
 
 ```javascript
-
 function onOpen() {
-
-&nbsp; SpreadsheetApp.getUi()
-
-&nbsp;   .createMenu("AI Mastery")
-
-&nbsp;   .addItem("Clean Inbox", "CleanInbox")
-
-&nbsp;   .addToUi();
-
+  SpreadsheetApp.getUi()
+    .createMenu("AI Mastery")
+    .addItem("Clean Inbox", "CleanInbox")
+    .addToUi();
 }
-
-
 
 function CleanInbox() {
+  const ss = SpreadsheetApp.getActive();
+  const sh = ss.getSheetByName("Sheet1") || ss.getSheets()[0];
 
-&nbsp; const ss = SpreadsheetApp.getActive();
+  // Get all values
+  const values = sh.getDataRange().getValues();
+  if (values.length < 2) {
+    SpreadsheetApp.getUi().alert("No data to clean.");
+    return;
+  }
 
-&nbsp; const sh = ss.getSheetByName("Sheet1") || ss.getSheets()\[0];
+  const header = values[0];
+  const body = values.slice(1);
 
+  // 1) Trim whitespace & remove blank rows
+  const trimmed = body
+    .map(row => row.map(c => (typeof c === "string" ? c.trim() : c)))
+    .filter(row => row.join("") !== "");
 
+  // 2) Dedupe by URL (column D = index 3)
+  const seen = new Set();
+  const deduped = [];
+  for (const r of trimmed) {
+    const url = (r[3] || "").toString().trim();
+    const key = url || JSON.stringify(r);
+    if (!seen.has(key)) {
+      seen.add(key);
+      deduped.push(r);
+    }
+  }
 
-&nbsp; // Get all values
+  // Rewrite the sheet
+  sh.clearContents();
+  sh.getRange(1, 1, 1, header.length).setValues([header]);
+  if (deduped.length) {
+    sh.getRange(2, 1, deduped.length, deduped[0].length).setValues(deduped);
+  }
 
-&nbsp; const values = sh.getDataRange().getValues();
-
-&nbsp; if (values.length < 2) {
-
-&nbsp;   SpreadsheetApp.getUi().alert("No data to clean.");
-
-&nbsp;   return;
-
-&nbsp; }
-
-
-
-&nbsp; const header = values\[0];
-
-&nbsp; const body = values.slice(1);
-
-
-
-&nbsp; // 1) Trim whitespace on all string cells \& drop totally blank rows
-
-&nbsp; const trimmed = body
-
-&nbsp;   .map(row => row.map(c => (typeof c === "string" ? c.trim() : c)))
-
-&nbsp;   .filter(row => row.join("") !== "");
-
-
-
-&nbsp; // 2) Dedupe by URL (column D = index 3)
-
-&nbsp; const seen = new Set();
-
-&nbsp; const deduped = \[];
-
-&nbsp; for (const r of trimmed) {
-
-&nbsp;   const url = (r\[3] || "").toString().trim();
-
-&nbsp;   const key = url || JSON.stringify(r);
-
-&nbsp;   if (!seen.has(key)) {
-
-&nbsp;     seen.add(key);
-
-&nbsp;     deduped.push(r);
-
-&nbsp;   }
-
-&nbsp; }
-
-
-
-&nbsp; // Rewrite the sheet
-
-&nbsp; sh.clearContents();
-
-&nbsp; sh.getRange(1, 1, 1, header.length).setValues(\[header]);
-
-&nbsp; if (deduped.length) {
-
-&nbsp;   sh.getRange(2, 1, deduped.length, deduped\[0].length).setValues(deduped);
-
-&nbsp; }
-
-
-
-&nbsp; SpreadsheetApp.getUi().alert(
-
-&nbsp;   `Clean complete.\\nOriginal rows: ${body.length}\\nAfter trim/dedupe: ${deduped.length}`
-
-&nbsp; );
-
+  SpreadsheetApp.getUi().alert(
+    `Clean complete.\nOriginal rows: ${body.length}\nAfter trim/dedupe: ${deduped.length}`
+  );
 }
+```
 
-````
+---
 
+### 3️⃣ Refresh the Sheet
 
+* You should now see a **new menu**: **AI Mastery**.
+* Click **AI Mastery → Clean Inbox** to process your sheet.
 
-3\. \*\*Refresh\*\* the Sheet; you should see a new menu: \*\*AI Mastery\*\*.
+💡 If your tab isn’t named `"Sheet1"`, either rename it or update `getSheetByName("Sheet1")` to match your tab name.
 
-4\. Click \*\*AI Mastery → Clean Inbox\*\* and watch it process.
+---
 
+## 📂 Deliverable
 
+Create `Day11_cleanup_log.md` with:
 
-> ✅ If your tab isn’t named “Sheet1”, either rename the tab to “Sheet1” or change the code line `getSheetByName("Sheet1")` to your tab name.
+* Rows before vs. after
+* Number of blank rows removed
+* Number of duplicates removed (from the alert)
 
+---
 
+## 🎯 Role Relevance
 
-\## 📂 Deliverable
+**All Roles:** Keeps your automation pipeline **high-signal and clutter-free**, ensuring clean, reliable input data for downstream processes.
 
+---
 
+If you’d like, I can also **add a small diagram** showing how Day 11 (cleaning) feeds into Day 12 (digest) and Day 13 (one-tap trigger) so your readers see the whole flow at a glance.
 
-Create a file in this folder:
-
-
-
-\* `Day11\_cleanup\_log.md` with:
-
-
-
-&nbsp; \* Rows before vs. after
-
-&nbsp; \* How many blanks removed
-
-&nbsp; \* How many duplicates removed (approx; from the alert)
-
-
-
-\## 🎯 Role Relevance
-
-
-
-\* \*\*All roles:\*\* Keeps inputs clean so your automation stays high-signal and reliable.
-
-
-
-````
+Do you want me to create that diagram next?
 
 
 
