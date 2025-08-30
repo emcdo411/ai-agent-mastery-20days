@@ -1,185 +1,145 @@
 # 🚀 Day 22 — FlowiseAI Starter: Local Strategic Agent (Ollama + Chroma RAG)
 
-## 📌 Objective
-Build a **no-code AI agent** in FlowiseAI that runs **100% locally** with:
+## 🎯 Objective
 
-- **Ollama** — free, local LLM (`llama3.1:8b` or smaller)
-- **Chroma** — vector search over your own repo files
-- **Flowise** — no-code orchestration UI
+Spin up a **100% free + local AI agent** in FlowiseAI that:
 
-By the end, you’ll have:
-- A Flowise chatflow running at `http://localhost:3000`
-- A local Ollama model serving responses
-- A Chroma retriever indexing `.md` / `.csv` files from your repo
-- An exported `.json` chatflow you can commit to GitHub
+* Uses **Ollama** (`llama3.1:8b` or `phi3:mini`) as your LLM
+* Indexes `.md` and `.csv` files with **Chroma vector search**
+* Runs in **Flowise** (no-code UI) on `http://localhost:3000`
+* Outputs filename-cited responses you can **commit to GitHub**
 
-⏳ **Target time:** ≤ 30 minutes
+⏱ Target Vibe: **≤ 30 minutes**
 
 ---
 
-## ✅ One-Time Local Setup
-- **Ollama** — Serves local models at `http://localhost:11434`
-- **FlowiseAI** — No-code agent builder at `http://localhost:3000`
-- **Chroma** — Embedded, file-based vector store
+## ⚡️ Quick Setup (for the impatient)
 
----
+1. **Install Ollama**
 
-## 🛠 Step-by-Step
-
-### 1️⃣ Install & Start Ollama (Local LLM)
-**Option A — Windows Installer**
-- Download & run **Ollama for Windows**
-
-**Option B — PowerShell + Winget**
-```powershell
-winget install Ollama.Ollama
-````
-
-After install, ensure Ollama is running (background service).
-
-**Pull a Model:**
-
-* Standard:
-
-  ```bash
-  ollama pull llama3.1:8b
-  ```
-
-  (\~4–8 GB; better quality)
-* Lightweight:
-
-  ```bash
-  ollama pull phi3:mini
-  ```
-
-  (\~1–2 GB; faster)
-* Embeddings:
-
-  ```bash
-  ollama pull nomic-embed-text
-  ```
-
----
-
-### 2️⃣ Run FlowiseAI
-
-**Option A — Docker (Recommended)**
-
-```bash
-docker run -d -p 3000:3000 -e PORT=3000 \
-  -v flowise_data:/root/.flowise \
-  --name flowise flowiseai/flowise
-```
-
-**Option B — Node.js**
-
-```bash
-npx flowise start
-```
-
-Open **[http://localhost:3000](http://localhost:3000)** — the Flowise UI should load.
-
----
-
-### 3️⃣ Create Your Chatflow (No-Code RAG)
-
-**Goal:** Chat with your repo as the knowledge base.
-
-**Nodes to Add (Left Sidebar → Search):**
-
-1. **Chat Input**
-2. **Document Loader → Local Files**
-
-   * Point to your repo folder
-   * File types: `*.md, *.csv, *.txt`
-3. **Text Splitter** (chunk size: 1000, overlap: 150)
-4. **Embeddings → Ollama Embeddings**
-
-   * Model: `nomic-embed-text`
-   * Base URL: `http://localhost:11434`
-5. **Vector Store → Chroma**
-
-   * Collection: `aimastery_w4`
-   * Persistence: `vectorstore` folder in repo
-6. **Retriever** (connect to Chroma)
-7. **LLM → Ollama**
-
-   * Model: `llama3.1:8b` or `phi3:mini`
-   * Base URL: `http://localhost:11434`
-8. **Chat Memory** (buffer, window size 5–10)
-9. **Prompt Template** (system prompt):
-
-   ```text
-   You are a Strategic AI Coach for professionals. Use ONLY retrieved repo context when possible.
-   Cite filenames. If unsure, ask clarifying questions.
-   Output in concise bullet points with an action list at the end.
+   ```powershell
+   winget install Ollama.Ollama
+   ollama pull phi3:mini
+   ollama pull nomic-embed-text
    ```
-10. **Chat Output**
+
+2. **Run Flowise (Docker)**
+
+   ```bash
+   docker run -d -p 3000:3000 -v flowise_data:/root/.flowise flowiseai/flowise
+   ```
+
+3. **Build Chatflow (Flowise UI)**
+
+   * Add nodes: **Chat Input → Local Files → Text Splitter → Ollama Embeddings → Chroma → Retriever → Prompt → LLM → Chat Output**
+   * System Prompt:
+
+     ```
+     You are a Strategic AI Coach. Use ONLY retrieved repo context. 
+     Cite filenames. Output bullet points + an action list.
+     ```
+
+4. **Test Prompt**
+
+   > “Summarize all deliverables due in Week 2 and cite the filenames.”
+
+5. **Export**
+
+   * Save as: `W4D22_flowise_chatflow.json`
+   * Commit screenshot: `W4D22_flowise_screenshot.png`
+
+Done ✅ → You’ve got a local RAG agent with filename citations.
+
+---
+
+## 🔬 Deep Dive (for vibe coders who want the why)
+
+### 1️⃣ Install Ollama (Local LLM)
+
+* Windows: `winget install Ollama.Ollama`
+* macOS/Linux: [ollama.com/download](https://ollama.com/download)
+
+**Pull models**:
+
+* Heavy-duty: `ollama pull llama3.1:8b`
+* Lightweight: `ollama pull phi3:mini`
+* Embeddings: `ollama pull nomic-embed-text`
+
+---
+
+### 2️⃣ Run Flowise
+
+* **Docker** (best):
+
+  ```bash
+  docker run -d -p 3000:3000 -v flowise_data:/root/.flowise flowiseai/flowise
+  ```
+* **Node.js**:
+
+  ```bash
+  npx flowise start
+  ```
+
+---
+
+### 3️⃣ Build the RAG Chatflow
+
+**Nodes to add (drag in order):**
+
+1. Chat Input
+2. Document Loader → Local Files (`*.md, *.csv`)
+3. Text Splitter (chunk 1000, overlap 150)
+4. Embeddings → Ollama (`nomic-embed-text`)
+5. Vector Store → Chroma (`aimastery_w4`)
+6. Retriever
+7. Prompt Template (strategic system role)
+8. LLM → Ollama (phi3 or llama3.1)
+9. Chat Memory (optional)
+10. Chat Output
 
 **Wiring:**
 
 ```
-Chat Input
-→ Document Loader
-→ Text Splitter
-→ Embeddings
-→ Chroma (Vector Store)
-→ Retriever
-→ Prompt Template
-→ LLM
-→ Chat Memory (optional before LLM if history needed)
-→ Chat Output
+Input → Loader → Splitter → Embeddings → Chroma → Retriever → Prompt → LLM → Output
 ```
-
-**Index Your Repo:**
-Click **Play** on Chroma / Document Loader nodes to ingest files.
 
 ---
 
 ### 4️⃣ Test Prompts
 
-* `"From this repo, what are the deliverables due in Week 2, and how do I validate them?"`
-* `"Create a prep checklist for Day 21 with references to specific files."`
-* `"Summarize Week 1 outcomes for an MBA student vs a military transitioner — cite filenames."`
+* “From this repo, what are the deliverables due in Week 2?”
+* “Give me a prep checklist for Day 21 with file references.”
+* “Summarize Week 1 outcomes for an MBA vs a veteran.”
 
 ---
 
-### 5️⃣ Export Your Chatflow
+### 5️⃣ Deliverables
 
-* Menu **⋮** → **Export** → save as `W4D22_flowise_chatflow.json`
-* *(Optional)* Screenshot → save as `W4D22_flowise_screenshot.png`
-
----
-
-## 📂 Deliverables (Commit to Today’s Folder)
-
-* `W4D22_flowise_chatflow.json` — chatflow export
-* `W4D22_flowise_notes.md` — 1–2 paragraphs: model used, collection name, files indexed, sample Q\&A
-* *(Optional)* `W4D22_flowise_screenshot.png`
+* `W4D22_flowise_chatflow.json` (exported flow)
+* `W4D22_flowise_notes.md` (1–2 paragraphs: model, collection, files indexed, sample Q\&A)
+* `W4D22_flowise_screenshot.png` (optional UI snap)
 
 ---
 
 ## 🧠 Troubleshooting
 
-* **Ollama not connecting?** Ensure service is running on `http://localhost:11434`
-* **No files indexed?** Check file patterns; Windows may require selecting multiple folders
-* **Too slow?** Switch to `phi3:mini` or reduce chunk size & Retriever Top-K (e.g., 3)
+* Ollama not found? → restart service on `http://localhost:11434`
+* Flowise blank screen? → `docker logs flowise` for errors
+* Too slow? → switch to `phi3:mini` and lower Retriever Top-K
 
 ---
 
 ## 🎯 Role Relevance
 
-* **Analysts / MBA / PMP** — Briefings with filename citations
-* **Entrepreneurs** — Private Q\&A over internal docs (no cloud APIs)
-* **Military Transitioners** — Task-centric agents grounded in coursework
+* **Analysts / MBA / PMP** — filename-cited briefs
+* **Entrepreneurs** — private doc Q\&A (no cloud APIs)
+* **Military Transitioners** — structured SITREP agent with task focus
 
 ---
 
-```
+✨ *Day 22 vibe: you’ve now got your own **private AI analyst** that reads your repo, cites filenames, and runs 100% free & offline.*
 
 ---
 
-If you want, I can also turn this into a **side-by-side “quick setup” & “deep dive” format** so beginners can follow the short version while advanced users get the detailed steps — that makes it feel even more modern and accessible.  
-Do you want me to do that next?
-```
+Would you like me to also create a **W4D22\_flowise\_notes.md** template (with placeholders for model, collection, files, and a sample Q\&A) so your repo has the full trio (chatflow + screenshot + notes)?
 
