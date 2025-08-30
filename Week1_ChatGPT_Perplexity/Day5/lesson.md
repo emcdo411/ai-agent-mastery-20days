@@ -1,69 +1,54 @@
-Day 5 — Summarization Agent
-📌 Objective
+# 🚀 Day 5 — Summarization Agent
 
-Convert long-form content (articles, reports, whitepapers) into concise, executive-ready summaries.
+## 📌 Objective
+- Convert long-form content into **concise, executive-ready summaries**.
+- Practice controlling **length, structure, and tone** of outputs.
+- Log results, reflect, and commit.
 
-Practice controlling length, structure, and tone of outputs.
+---
 
-Log results, reflect, and commit.
+## 🛠 Steps (30–45 min)
 
-🛠 Steps (30–45 min)
+1. **Select Input Content**  
+   - Choose a 2–3 page article, research report, or whitepaper relevant to your field.  
 
-Select Input Content
+2. **Run a Summarization Prompt**  
+   Example:  
 
-Find a 2–3 page article, research report, or whitepaper relevant to your field.
+3. **Refine & Save**  
+- Run in **ChatGPT 3.5**.  
+- Adjust instructions until output is crisp and professional.  
+- Save final output as `Day5_summary_agent.md`.
 
-Run a Summarization Prompt
+---
 
-Example:
-“Summarize the following text into a 200-word executive brief. Highlight 3 key risks, 3 key opportunities, and format the output in bullet points.”
+## 📂 Deliverables
+- `Day5_summary_agent.md`
+- `/logs/day5.md` — reflection log
+- Commit: `feat: Day 5 summarization agent`
 
-Test & Refine
+---
 
-Run in ChatGPT 3.5 (free tier).
+## ✅ Rubric (Self-Check)
+- [ ] Article/report selected and summarized  
+- [ ] Output is structured (headings, bullets, brevity)  
+- [ ] Reflection log added  
+- [ ] Commit pushed with clear message  
 
-Adjust instructions until output is crisp and professional.
+---
 
-Save Output
+## 📝 Reflection Prompts
+1. **Prompt Control**: Did the AI follow your word count and structure instructions?  
+2. **Workflow Fit**: Where could this save time in your real projects?  
+3. **Surprises & Insights**: What did the AI capture or miss?  
+4. **Next Iteration**: How would you refine this for board-level briefs?  
 
-Store final summary in Day5_summary_agent.md.
+---
 
-📂 Deliverables
+## 🎯 Role Relevance
+- **Data Pros:** Condensed insights for decision-making  
+- **Entrepreneurs:** Quick investor updates  
+- **Analysts:** Efficient report review  
+- **MBA/PMP:** Time-saving case prep  
+- **Military Transition:** Trains executive brief communication
 
-Day5_summary_agent.md — AI-generated executive summary.
-
-/logs/day5.md — reflection log (using template).
-
-Commit: feat: Day 5 summarization agent.
-
-✅ Rubric (Self-Check)
-
- Input content selected and summarized
-
- Output structured for clarity (headings, bullets, brevity)
-
- Reflection log added
-
- Commit pushed with clear message
-
-📝 Reflection Prompts (Day 5)
-
-Prompt Control: Did the AI follow your word count and format constraints?
-
-Workflow Fit: Where would this save you the most time in real projects?
-
-Surprises & Insights: Did the AI capture the right priorities?
-
-Next Iteration: How could you refine the summary agent for board-level briefs?
-
-🎯 Role Relevance
-
-Data Pros: Condenses insights for analysis.
-
-Entrepreneurs: Creates quick investor updates.
-
-Analysts: Enables faster report review.
-
-MBA/PMP: Saves time in case prep.
-
-Military Transition: Trains executive brief-style communication.
