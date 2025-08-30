@@ -1,100 +1,110 @@
-# **Day 19 — Observable Mini Dashboard (2 Charts + Filter)**
+# 📊 Day 19 — Vibe Coding: *Observable Mini Dashboard (2 Charts + Filter)*
 
-## 🎯 **Objective**
+Spin your cleaned CSV into a **tiny, shareable dashboard** in Observable:
 
-In under **30 minutes**, you’ll build a **shareable mini dashboard** in [Observable](https://observablehq.com/) powered by your `W3D16_clean.csv`.
+* **Chart 1:** Top-N ranking (avg of chosen metric)
+* **Chart 2:** Distribution (histogram) *or* Trend (if a date column exists)
+* **Interactive filter:** dropdown or search box
+* **Publish + export PNGs** for your repo
 
-**Your dashboard will include:**
-
-* **Chart 1:** *Top-N ranking* (average of a chosen metric)
-* **Chart 2:** *Distribution (histogram)* or *Trend (if you have a date column)*
-* **One interactive filter** (search or dropdown)
-* Publish it online + export PNGs for your repo
+⏱ **Timebox:** ≤ 30 minutes
 
 ---
 
-## 🛠 **Step-by-Step**
+## 🌟 Objective
 
-### **1) Create Your Observable Notebook**
+* Build a **2-chart mini dashboard** in Observable.
+* Add **at least one filter** (dropdown or text search).
+* Publish and save **2 exported PNGs** for your repo.
+
+---
+
+## 🛠 Steps
+
+### 1️⃣ Create Notebook
 
 * Go to [observablehq.com](https://observablehq.com) → **New → Notebook**
 * Name it: `W3D19_Mini_Dashboard`
 
 ---
 
-### **2) Load Your Data**
+### 2️⃣ Load Data
 
-**Option A — File Upload**
+**Option A — Upload (📎 panel)**
 
 ```js
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 
-const data = await FileAttachment("W3D16_clean.csv").csv({ typed: true });
+const data = await FileAttachment("WD316_clean.csv").csv({ typed: true });
+// fallback if you uploaded W3D16_clean.csv
+// const data = await FileAttachment("W3D16_clean.csv").csv({ typed: true });
 ```
 
-**Option B — From GitHub Raw URL**
+**Option B — GitHub Raw URL**
 
 ```js
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 
 const data = await d3.csv(
-  "https://raw.githubusercontent.com/USER/REPO/BRANCH/Week3_Data_Analysis_Agents/Day16/W3D16_clean.csv",
+  "https://raw.githubusercontent.com/USER/REPO/BRANCH/Week3_Data_Analysis_Agents/Day16/WD316_clean.csv",
   d3.autoType
 );
 ```
 
-💡 *Tip:* Use the 📎 **Files** panel to upload if using Option A.
-
 ---
 
-### **3) Auto-Detect Columns + Build Controls**
+### 3️⃣ Auto-Detect Columns + Controls
 
 ```js
 const cols = Object.keys(data[0] ?? {});
 const numericCols = cols.filter(c => typeof (data.find(d => d[c] != null)?.[c]) === "number");
 const categoricalCols = cols.filter(c => !numericCols.includes(c));
 
-viewof groupBy = Inputs.select(categoricalCols, { label: "Group by" });
-viewof metric = Inputs.select(numericCols, { label: "Measure (average)" });
-viewof topN = Inputs.range([3, 25], { label: "Top N", step: 1, value: 10 });
+// Dashboard controls
+viewof groupBy = Inputs.select(categoricalCols, { label: "Group by", value: "segment" });
+viewof metric  = Inputs.select(numericCols, { label: "Measure", value: "total" });
+viewof topN    = Inputs.range([3, 25], { label: "Top N", step: 1, value: 10 });
 
-// Optional filter
+// Simple search filter
 const searchCol = categoricalCols[0];
-viewof search = Inputs.text({ label: `Filter contains (${searchCol || "n/a"})`, placeholder: "type to filter" });
+viewof search = Inputs.text({ label: `Filter (${searchCol})`, placeholder: "type to filter…" });
 ```
 
 ---
 
-### **4) Apply Filter + Aggregate Data**
+### 4️⃣ Filter + Aggregate Data
 
 ```js
-const filtered = searchCol && search
+// Filter rows
+const filtered = search
   ? data.filter(d => String(d[searchCol] ?? "").toLowerCase().includes(search.toLowerCase()))
   : data;
 
+// Group + average metric
 const grouped = d3.rollups(
   filtered.filter(d => d[groupBy] != null && d[metric] != null),
   v => d3.mean(v, d => d[metric]),
   d => String(d[groupBy])
-).sort((a, b) => d3.descending(a[1], b[1]))
- .slice(0, topN);
+)
+.sort((a, b) => d3.descending(a[1], b[1]))
+.slice(0, topN);
 ```
 
 ---
 
-### **5) Chart 1 — Ranking (Horizontal Bar)**
+### 5️⃣ Chart 1 — Ranking
 
 ```js
 Plot.plot({
   marginLeft: 120,
   width: 800,
   height: 420,
-  x: { label: "Average " + metric },
+  x: { label: "Avg " + metric },
   y: { label: groupBy },
   marks: [
-    Plot.barX(grouped, { y: d => d[0], x: d => d[1] }),
+    Plot.barX(grouped, { y: d => d[0], x: d => d[1], fill: "#4C72B0" }),
     Plot.ruleX([0])
   ]
 })
@@ -102,14 +112,14 @@ Plot.plot({
 
 ---
 
-### **6) Chart 2 — Distribution or Trend (Auto-Detect)**
+### 6️⃣ Chart 2 — Distribution *or* Trend
 
 ```js
 const dateCol = cols.find(c => /date|time|_at$|_dt$/i.test(c));
 let chart2;
 
 if (dateCol && filtered.some(d => d[dateCol] instanceof Date)) {
-  // Trend
+  // Time trend
   const byDay = d3.rollups(
     filtered.filter(d => d[dateCol] && d[metric] != null),
     v => d3.mean(v, d => d[metric]),
@@ -122,12 +132,12 @@ if (dateCol && filtered.some(d => d[dateCol] instanceof Date)) {
     x: { label: dateCol },
     y: { label: "Avg " + metric },
     marks: [
-      Plot.line(byDay, { x: d => d[0], y: d => d[1] }),
+      Plot.line(byDay, { x: d => d[0], y: d => d[1], stroke: "#E15759" }),
       Plot.ruleY([0])
     ]
   });
 } else {
-  // Distribution
+  // Distribution histogram
   chart2 = Plot.plot({
     width: 800,
     height: 320,
@@ -136,7 +146,7 @@ if (dateCol && filtered.some(d => d[dateCol] instanceof Date)) {
     marks: [
       Plot.rectY(
         filtered.filter(d => d[metric] != null),
-        Plot.binX({ y: "count" }, { x: d => d[metric] })
+        Plot.binX({ y: "count" }, { x: d => d[metric], fill: "#59A14F" })
       ),
       Plot.ruleY([0])
     ]
@@ -148,35 +158,51 @@ chart2
 
 ---
 
-### **7) Publish + Export**
+### 7️⃣ Publish + Export
 
-* **Share → Publish** (or share draft link)
-* From chart menu (**…**) → **Download PNG**
-  Save as:
+* **Share → Publish** (or copy draft link)
+* From chart menu (**…**) → Download as **PNG** → save as:
 
   * `W3D19_ranking.png`
   * `W3D19_distribution_or_trend.png`
 
 ---
 
-## 📦 **Deliverables**
+## 📦 Deliverables
 
-* `W3D19_Dashboard.md` with:
+* `W3D19_Dashboard.md`
 
   * Notebook URL
-  * Group-by, metric, Top-N used
-  * 2–3 insights
+  * Group-by, metric, Top-N chosen
+  * 2–3 insights from charts
 * `W3D19_ranking.png`
 * `W3D19_distribution_or_trend.png`
 
 ---
 
-## 💼 **Why This Matters**
+## 💼 Why This Hits
 
-* **Analysts / Data Pros:** Instant interactive insights for ad-hoc requests
-* **Entrepreneurs:** Lightweight, pitch-ready dashboards
-* **MBA / PMP:** Slide-ready visuals with clear assumptions
-* **Military Transition:** Sharp, interactive SITREPs for leadership briefs
+* **Analysts / Data Pros** — instant 2-chart dashboard for ad-hoc requests
+* **Entrepreneurs** — lightweight pitch visuals in under 30 mins
+* **MBA / PMPs** — slide-ready dashboards with clear controls
+* **Veterans in Transition** — interactive SITREP brief: group → metric → trend
+
+---
+
+## 🔗 Workflow Map
+
+```mermaid
+%%{ init: { "theme": "dark" } }%%
+flowchart TD
+  CLEAN["🧽 Clean CSV (Day 16)"] --> NOTEBOOK["📓 Observable Notebook (Day 19)"]
+  NOTEBOOK --> RANK["📊 Chart 1: Ranking"]
+  NOTEBOOK --> DIST["📈 Chart 2: Dist/Trend"]
+  NOTEBOOK --> FILTER["🔍 Interactive Filter"]
+  RANK --> EXPORT["🖼 Export PNGs"]
+  DIST --> EXPORT
+  FILTER --> EXPORT
+  EXPORT --> DELIV["📦 Repo Deliverables"]
+```
 
 ---
 
