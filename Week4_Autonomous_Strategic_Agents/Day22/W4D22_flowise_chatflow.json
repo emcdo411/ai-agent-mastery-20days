@@ -1,0 +1,23 @@
+📦 **Download:** [W4D22\_flowise\_chatflow.json](sandbox:/mnt/data/W4D22_flowise_chatflow.json)
+
+### What’s inside
+
+* **Nodes:** Chat Input → Local Files → Text Splitter → Ollama Embeddings → Chroma → Retriever → Prompt → LLM → (Memory) → Chat Output
+* **Defaults:**
+
+  * **Embeddings:** `nomic-embed-text` @ `http://localhost:11434`
+  * **LLM:** `phi3:mini` (swap to `llama3.1:8b` if you want)
+  * **Chroma:** collection `aimastery_w4`, persisted to `./vectorstore`
+  * **File patterns:** `**/*.{md,csv,txt}` (recursively loads your repo)
+
+### How to use
+
+1. Open Flowise → **Import** → select `W4D22_flowise_chatflow.json`.
+2. In the **Local Files** node, update:
+
+   * `directory`: point it to your repo root on disk.
+3. (Optional) In **LLM** node, change `model` to `llama3.1:8b`.
+4. Hit **Play** on **Local Files / Chroma** nodes to index.
+5. Chat in the canvas and export your flow when you’re happy.
+
+If you want, I can also generate a **companion notes file** (`W4D22_flowise_notes.md`) with placeholders for the model used, files indexed, and a sample Q\&A you can paste into your repo.
