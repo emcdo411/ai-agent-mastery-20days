@@ -1,139 +1,176 @@
-# 📚 Day 24 — Project Memory & Citations: Refreshable RAG with Source-Linked Answers
+# ⚡️ Day 24 — Refreshable RAG + Source-Linked Answers (Memory + Citations)
 
-## 📌 Objective
-Upgrade your Flowise agent so it can:
+## 🎯 Objective
 
-1. 🔄 **Refresh memory on demand** — re-index the repo when you type `refresh memory`  
-2. 📎 **Format citations** — show filenames/paths for retrieved context  
-3. 🛡 **Add quality guardrails** — confidence rating, fallback to “unknown,” ask clarifying questions  
-4. 🎯 **Tune retrieval** — adjust chunking / Top-K / threshold for cleaner context
+Give your local Flowise agent three pro-level upgrades—still **100% free & local**:
 
-⏳ **Target time:** ≤ 30 minutes
+1. 🔄 **Refresh Memory on Demand** — type `refresh memory` to re-index your repo
+2. 📎 **Source Citations by Filename** — every answer lists where the info came from
+3. 🛡 **Guardrails** — confidence rating, “don’t know” fallback, clarifying question when context is thin
 
----
-
-## 🛠 Step A — Tune the Retriever (Less Noise, Better Hits)
-Open your Day 22/23 chatflow in **Flowise** (duplicate it first for safety):
-
-- **Text Splitter:**  
-  - Chunk Size = **1000**  
-  - Overlap = **150**
-- **Retriever (Chroma):**  
-  - Top-K = **4**  
-  - Score Threshold = **0.35–0.45**  
-  - Search Type = similarity
-- **Chroma (Vector Store):**  
-  - Collection = `aimastery_w4`  
-  - **Upsert / Update** = enabled (so new chunks replace old)
-
-💡 **Why:** Tighter K + threshold = less junk in context, reduced hallucinations.
+⏱ **Timebox:** \~30 minutes
 
 ---
 
-## 🛠 Step B — Add a “Refresh Memory” Route
-Insert an **If/Else (Router)** node *before* your RAG path:
+## ✨ Why This Slaps
 
-**Condition 1:** User message contains `refresh memory`  
-- Route → Document Loader (Local Files) → Text Splitter → Embeddings (Ollama) → Chroma (Upsert)  
-- Then → Prompt Template:  
-  ```text
-  Memory refresh complete. I re-indexed the repo (Markdown/CSV/TXT).  
-  Ask your question again for updated context.
-````
-
-* Then → Chat Output
-
-**Else:** Route to normal RAG → Retriever → Prompt → LLM → Output
-
-**Document Loader Settings:**
-
-* Path/Glob:
-  `C:/Users/Veteran/ai-agent-mastery-28days/**/*.{md,csv,txt}`
-* Include Week1–Week4, docs, scripts, etc.
-
-💡 Trigger re-index by typing **`refresh memory`** in chat.
+* **Auditable** answers (with sources) 👉 trust + compliance
+* **Repeatable** results 👉 clean retrieval, less noise
+* **Self-healing** 👉 re-index from chat when docs update
 
 ---
 
-## 🛠 Step C — Enforce Citations + Guardrails
+## 🧪 Quickstart (5 minutes)
 
-Replace your **Prompt Template** (before the LLM node) with:
+1. **Duplicate** your Day 22/23 chatflow → name it `W4D24_Refreshable_RAG`.
+2. **Tune retriever:**
 
-```text
+   * Text Splitter → `chunkSize=1000`, `chunkOverlap=150`
+   * Retriever (Chroma) → `topK=4`, **Score Threshold** ≈ `0.35–0.45`, Search=`similarity`
+   * Chroma → Collection:`aimastery_w4`, **Upsert/Update ON**
+3. **Add Router**:
+
+   * If message **contains** `refresh memory` → route to **Document Loader → Splitter → Embeddings → Chroma (Upsert)** → then output “Memory refreshed.”
+   * Else → normal **Retriever → Prompt → LLM → Output**
+4. **Swap your Prompt** with the **Guardrails + Citations** template below.
+5. **Test** the three prompts at the bottom. Done.
+
+---
+
+## 🧠 Prompt Template (Guardrails + Citations)
+
+Save as `W4D24_prompt_template.txt`, then paste into your **Prompt Template** node (before LLM):
+
+```
 You are a Strategic AI Coach answering ONLY with information grounded in retrieved context from this repo.
 
 POLICY:
 - If retriever returns low-similarity or no results:
   Say: "I don’t have enough context in this repo to answer confidently."
-  Then ask 1 clarifying question.
-- Always include a "Sources" section listing file paths of the top evidence.
+  Then ask ONE clarifying question.
+- Always include a "Sources" section listing file paths and/or filenames from document metadata.
 - Do NOT fabricate citations, numbers, or promises.
 - Keep answers crisp and decision-oriented.
 
 FORMAT:
 - Brief Answer: 3–6 bullets max
 - Action Items: 2–4 bullets
-- Confidence: High | Medium | Low (1 short reason)
+- Confidence: High | Medium | Low (one short reason)
 - Sources: bullet list of file paths (max 5)
 
 CONTEXT TO USE:
 {{context}}
 ```
 
-⚠ Ensure retriever outputs document metadata (`source` or `filePath`) so LLM can list them.
+> Heads up: Ensure your retriever exposes `metadata.source` or `filePath`. (In Flowise, Chroma does this; keep the field names consistent.)
 
 ---
 
-## 🛠 Step D — Quick QA
+## 🧩 Flow Wiring (Refresher)
 
-Test with these prompts in Flowise:
+**Router Branch A (Refresh Memory):**
 
-1. `"What are the Week 2 deliverables and how do I validate them?"`
-2. `"Summarize Day 21 outputs for an MBA student — bullets + actions."`
-3. Type `"refresh memory"`, edit a Week 2 file locally, then ask:
-   `"What changed in Week 2’s automation since last refresh?"`
+* IF chat contains `refresh memory`
+  → **Document Loader (Local Files)**
+  → **Text Splitter**
+  → **Ollama Embeddings (nomic-embed-text)**
+  → **Chroma (Upsert ON)**
+  → **Prompt Template (just say: “Memory refresh complete…”)**
+  → **Chat Output**
 
-✅ Verify answers include **Sources** & **Confidence** rating.
+**Router Branch B (Normal Q\&A):**
 
----
-
-## 📂 Deliverables
-
-Save to: `Week4_Autonomous_Strategic_Agents/Day24/`
-
-* `W4D24_prompt_template.txt` — exact template used
-* `W4D24_flowise_chatflow.json` — exported updated flow
-* `W4D24_tests.md` — results of 3 test prompts
-* *(Optional)* `W4D24_flow_screenshot.png` — screenshot of flow
+* ELSE
+  → **Retriever (Chroma)**
+  → **Prompt Template (Guardrails + Citations)**
+  → **LLM (Ollama)**
+  → **Chat Output**
 
 ---
 
-## 🧠 Troubleshooting
+## 🧱 Suggested Node Texts
 
-* **No Sources?** Ensure retriever exposes metadata fields.
-* **Refresh not working?** Check router condition, file paths/globs, Chroma upsert setting.
-* **Answers too long?** Lower LLM max tokens & keep Top-K = 3–4.
-
----
-
-## 🎯 Why Stakeholders Care
-
-Citations + confidence + refresh control =
-
-* 📏 **Auditable** answers
-* 🔁 **Repeatable** retrieval
-* 🛡 **Executive & compliance-ready**
+### “Memory Refreshed” Prompt (Branch A)
 
 ```
+Memory refresh complete. I re-indexed the repo (Markdown/CSV/TXT).
+Ask your question again for updated context.
+```
+
+### “Citations + Guardrails” Prompt (Branch B)
+
+Use `W4D24_prompt_template.txt` from above.
 
 ---
 
-This now has:  
-- **Clean emoji anchors** for quick scanning  
-- A **polished layout** that reads like a professional engineering guide  
-- Clear *action vs explanation* separation  
-- Tight, concise wording for faster comprehension  
+## 🔧 Retriever Tuning (Noise → Signal)
 
-If you want, I can also **merge Days 22–24** into one **"Local Agent Pro" series guide** with navigation links, so it feels like a complete product instead of separate lessons. That would make it perfect for a public-facing GitHub repo.  
-Do you want me to do that next?
+* **K=4** is a sweet spot for small repos
+* **Score Threshold 0.35–0.45** trims junk (raise to be stricter)
+* Keep **chunkSize=1000 / overlap=150** for markdown-heavy repos
+
+---
+
+## 🧪 Test Prompts (Paste in Flowise)
+
+1. **“What are the Week 2 deliverables and how do I validate them?”**
+   Expect: bullets + **Sources** + **Confidence**
+2. **“Summarize Day 21 outputs for an MBA student — bullets + actions.”**
+   Expect: short, on-point brief + **Sources**
+3. **Type:** `refresh memory` → change a file →
+   **“What changed in Week 2’s automation since last refresh?”**
+   Expect: acknowledgments + new sources reflected
+
+---
+
+## 📦 Deliverables
+
+Save to `Week4_Autonomous_Strategic_Agents/Day24/`:
+
+* `W4D24_prompt_template.txt` — the exact template you used
+* `W4D24_flowise_chatflow.json` — exported updated flow
+* `W4D24_tests.md` — paste the 3 prompt results (copy output from Flowise)
+* *(Optional)* `W4D24_flow_screenshot.png` — diagram of refresh route
+
+---
+
+## 🧰 Troubleshooting
+
+* **No Sources?** Ensure retriever includes metadata + your prompt asks for Sources
+* **Refresh not working?** Confirm Router keyword, loader globs, and **Chroma Upsert ON**
+* **Answers too long?** Lower LLM max tokens; keep `topK=3–4`
+* **Still noisy?** Raise threshold to `0.5`, or add a pre-filter (e.g., only `.md`)
+
+---
+
+## 🧭 Upgrade Path (Day 25+ ideas)
+
+* **Delta-diff answers**: compare pre/post refresh chunk hashes → summarize changes
+* **Auto-refresh on commit**: small watcher script hits a hidden “refresh” route
+* **Confidence gating**: only answer if similarity ≥ threshold, else ask a follow-up
+
+---
+
+## 🗺 Diagram (Optional Mermaid)
+
+If your repo renders Mermaid:
+
+```mermaid
+%%{ init: { 'theme': 'dark' } }%%
+flowchart LR
+  IN["💬 Chat Input"]
+  R["⚖️ Router (refresh memory?)"]
+  DL["📁 Document Loader"]
+  TS["✂️ Text Splitter (1000/150)"]
+  EMB["🧬 Embeddings (Ollama nomic-embed-text)"]
+  VS["🗃 Chroma (Upsert ON)"]
+  RET["🔎 Retriever (TopK=4, Thresh≈0.35–0.45)"]
+  PTREF["🧾 Prompt: Memory Refreshed"]
+  PTRAG["🧾 Prompt: Guardrails + Citations"]
+  LLM["🧠 LLM (Ollama)"]
+  OUT["🟢 Chat Output"]
+
+  IN --> R
+  R -->|yes: 'refresh memory'| DL --> TS --> EMB --> VS --> PTREF --> OUT
+  R -->|no| RET --> PTRAG --> LLM --> OUT
 ```
