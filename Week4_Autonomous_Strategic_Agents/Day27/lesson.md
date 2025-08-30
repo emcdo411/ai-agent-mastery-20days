@@ -1,21 +1,24 @@
 # ⚙️ Day 27 — Agent-Triggered Simulation (Run Scenario + Summarize Results)
 
 ## 📌 Objective
-Enable your agent to **run a simulation on command** (`sales_funnel`, `project_delivery`, `unit_economics`) via your **local tools server** and return an **executive summary** with guardrails.
+
+Let your agent **call a simulation on command** and return an **executive-style summary**.
+Think: “AI strategist in the loop” — run → summarize → suggest next actions.
 
 You will:
-1. 🖥 Extend the local FastAPI server with a `/scenario/run` endpoint  
-2. 🌐 Add an **HTTP Request** tool in Flowise to call it  
-3. 🔀 Route “simulate”, “scenario”, “run model” queries to this tool  
-4. 📝 Post-process JSON → short brief with next actions  
+
+1. 🖥 Extend the local FastAPI server with `/scenario/run`
+2. 🌐 Wire an **HTTP Request tool** in Flowise
+3. 🔀 Route “simulate / scenario / run model” prompts into it
+4. 📝 Post-process JSON → **short brief with guardrails**
 
 ⏳ **Target time:** ≤ 30 minutes
 
 ---
 
-## 🛠 Step A — Extend the Local Tools Server
+## 🛠 Step A — Extend Local Tools Server
 
-Open `scripts/local_tools_server.py` and **append** the code below **at the end** (keep existing endpoints). Save.
+Open `scripts/local_tools_server.py` and **append** this at the end (keep existing endpoints):
 
 ```python
 # === Day 27: Scenario Runner (Monte Carlo-lite) ===
@@ -23,9 +26,9 @@ from pydantic import BaseModel
 import numpy as np, pandas as pd
 
 class ScenarioReq(BaseModel):
-    scenario: str = "sales_funnel"  # options: sales_funnel | project_delivery | unit_economics
+    scenario: str = "sales_funnel"
     trials: int = 10000
-    params: dict = {}  # optional overrides
+    params: dict = {}
 
 def _rtriang(n, low, mode, high, rng):
     return rng.triangular(low, mode, high, size=n)
@@ -85,7 +88,7 @@ def run_scenario(req: ScenarioReq):
         })
 
     else:
-        return JSONResponse(status_code=400, content={"error":"unknown scenario"})
+        return {"error": "unknown scenario"}
 
     cols = df.columns.tolist()[:3]
     summary = {c: {"p05": _pct(df[c],5), "p50": _pct(df[c],50), "p95": _pct(df[c],95)} for c in cols}
@@ -107,9 +110,9 @@ def run_scenario(req: ScenarioReq):
         "targets": targets,
         "hit_probs": hit_probs
     }
-````
+```
 
-**Restart the server:**
+**Restart server:**
 
 ```powershell
 cd "C:\Users\Veteran\ai-agent-mastery-28days\scripts"
@@ -117,49 +120,51 @@ cd "C:\Users\Veteran\ai-agent-mastery-28days\scripts"
 uvicorn local_tools_server:app --reload --port 8001
 ```
 
-Test: visit `http://127.0.0.1:8001/health` → should return `{"status":"ok"}`
+Check: [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health) → `{"status":"ok"}`
 
 ---
 
-## 🛠 Step B — Wire Into Flowise
+## 🛠 Step B — Flowise Setup
 
-1. Open [http://localhost:3000](http://localhost:3000) → Duplicate your Day 24/25 flow as **Day27\_Sim**
-2. Add an **If/Else Router** after **Chat Input**:
+1. Duplicate your **Day25 flow** → rename to **Day27\_Sim**
+2. Add **If/Else Router** after Chat Input:
 
-   * If message contains `simulate`, `scenario`, or `run model` → **Scenario Tool** path
-   * Else → normal RAG path
+   * If text contains `simulate`, `scenario`, `run model` → send to Scenario Tool
+   * Else → normal RAG
 3. Add **HTTP Request** node (**Scenario Tool**):
 
-   * **Method:** POST
-   * **URL:** `http://127.0.0.1:8001/scenario/run`
-   * **Body (JSON):**
+   * Method: POST
+   * URL: `http://127.0.0.1:8001/scenario/run`
+   * Body:
 
-     ```json
-     {
-       "scenario": "sales_funnel",
-       "trials": 10000,
-       "params": {
-         "targets": { "revenue": 250000, "margin": 50000 }
-       }
-     }
-     ```
-   * Save output as variable: `scenario_json`
+```json
+{
+  "scenario": "sales_funnel",
+  "trials": 10000,
+  "params": {
+    "targets": { "revenue": 250000, "margin": 50000 }
+  }
+}
+```
+
+* Save as variable: `scenario_json`
+
 4. Add **Prompt Template** (post-processor):
 
-   ```text
-   You receive JSON from a simulation.
+```
+You receive JSON from a simulation.
 
-   RULES:
-   - Output: 5 bullets max + 3 Action Items + Confidence.
-   - If hit_probs exist, list them with %.
-   - Explain p05 / p50 / p95 in plain English.
-   - No promises; suggest next experiments.
+RULES:
+- Output ≤ 5 bullets + 3 Action Items + Confidence.
+- If hit_probs exist, list them with %.
+- Explain p05 / p50 / p95 in plain English.
+- Suggest next experiments, not guarantees.
 
-   JSON:
-   {{scenario_json}}
-   ```
-5. Connect:
-   `Router → HTTP Request → Post-Processor → LLM → Chat Output`
+JSON:
+{{scenario_json}}
+```
+
+5. Connect: `Router → HTTP Request → Post-Processor → LLM → Output`
 
 ---
 
@@ -171,10 +176,10 @@ Test: visit `http://127.0.0.1:8001/health` → should return `{"status":"ok"}`
 
 ✅ Check responses include:
 
-* p05 / p50 / p95 for 1–3 metrics
-* Hit probability (%) if targets provided
-* 2–3 concrete next actions
-* Confidence note grounded in JSON
+* p05 / p50 / p95 bands
+* Hit probability (%)
+* 2–3 clear next actions
+* Confidence note
 
 ---
 
@@ -182,35 +187,21 @@ Test: visit `http://127.0.0.1:8001/health` → should return `{"status":"ok"}`
 
 Save to `Week4_Autonomous_Strategic_Agents/Day27/`:
 
-* `W4D27_flowise_chatflow.json` — exported updated flow
-* `W4D27_examples.md` — 2 example prompts + responses
-* *(No new server file; `scripts/local_tools_server.py` is already updated)*
-
----
-
-## 🧠 Troubleshooting
-
-* **HTTP 422/400:** JSON body malformed — check `scenario`, `trials`, `params`
-* **No response:** Ensure FastAPI server is running on `127.0.0.1:8001`
-* **Too verbose:** Lower LLM temperature; keep Top-K small for RAG path
+* `W4D27_flowise_chatflow.json` → exported flow
+* `W4D27_examples.md` → 2 sample Q → A pairs
+* *(No new Python file — server already updated)*
 
 ---
 
 ## 🎯 Why This Matters
 
-You’ve now built a **decision agent** that can:
+This turns your stack into a **decision-support agent**:
 
-* 🔄 Run simulations on demand
-* 📊 Report risk bands
-* 📝 Recommend next actions
-  …all grounded in reproducible, structured JSON.
+* 🔄 Runs simulations on demand
+* 📊 Reports risk bands & hit chances
+* 📝 Suggests next actions grounded in JSON
 
-```
+⚡ It’s the bridge from “sandbox notebook” (Day 26) → “always-on agent” (Day 27).
 
 ---
-
-If you want, I can also **merge Days 26 & 27** so your simulation notebook and agent-triggered workflow feel like one continuous, professional system — perfect for GitHub and demoing.  
-
-Do you want me to combine them?
-```
 
