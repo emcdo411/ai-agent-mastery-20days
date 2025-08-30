@@ -1,157 +1,243 @@
-Here’s your **modernized Day 14 lesson markdown** — more readable, visually engaging, and portfolio-ready while keeping all your original structure intact.
+# 🎯 Day 14 — Vibe Coding: *Weekly Review & Deployment*
+
+**Theme:** Turn Week 2 into a **repeatable, documented playbook** you can ship, demo, and reuse.
+
+⏱ **Timebox:** ≤ 30 minutes
 
 ---
 
-# 🚀 Day 14 — Weekly Review & Deployment (Automation Playbook)
-
-## 📌 Objective
-
-Transform your **Week 2 automation** into a **repeatable, documented playbook** that’s polished enough for your portfolio or stakeholder demos.
-
-⏱ Target Time: **≤ 30 minutes**
-
----
-
-## ✅ By Now, You Should Have
+## ✅ By Now You Have
 
 * **Day 9:** IFTTT → Apps Script Webhook → Google Sheets
-* **Day 10:** Make.com RSS → Google Sheets
-* **Day 11:** `CleanInbox()` Apps Script (trim, remove blanks, dedupe by URL)
-* **Day 12:** `SendDailyDigest()` Daily HTML Email
-* **Day 13:** One-tap “Process Now” Action via IFTTT Button
+* **Day 10:** Make.com RSS → Google Sheets (scheduled)
+* **Day 11:** `CleanInbox()` (trim, blanks, dedupe by normalized URL)
+* **Day 12:** `SendDailyDigest()` (polished HTML, lookback filter, mark-as-sent)
+* **Day 13:** One-tap **Process Now** (IFTTT Button + secure webhook)
 
 ---
 
-## 🛠 Steps
+## 🛠 Ship the Playbook
 
-1️⃣ **Create the Playbook File**
+### 1) Create the file
 
-* In this folder, add a file named:
+Add in this folder:
 
-  ```
-  Week2_Playbook.md
-  ```
+```
+Week2_Playbook.md
+```
 
-2️⃣ **Add Screenshots**
+### 2) Add screenshots (2–3)
 
-* Place 2–3 images into `/assets` showing:
+Put into `/assets`:
 
-  * Your Google Sheet (`Automation_Inbox`)
-  * Your Make.com Scenario
-  * Your IFTTT Applet
+* `sheet_inbox.png` — your `Automation_Inbox`
+* `make_scenario.png` — your Make.com scenario
+* `ifttt_applet.png` — your IFTTT Button/Webhooks
 
-3️⃣ **Link Images in Playbook**
+### 3) Link images (relative paths)
 
-* Use relative links:
+```markdown
+![Automation Inbox](../../assets/sheet_inbox.png)
+![Make Scenario](../../assets/make_scenario.png)
+![IFTTT Applet](../../assets/ifttt_applet.png)
+```
 
-  ```markdown
-  ![Make Scenario](../../assets/make_scenario.png)
-  ```
+### 4) Proof the flow (end-to-end)
 
-4️⃣ **Proof the Flow**
+Tap **Process Now** → confirm **capture → clean → digest** lands in email.
 
-* Trigger your IFTTT Button → Verify data flows from capture → clean → digest email.
+### 5) Commit & push
 
-5️⃣ **Commit & Push**
-
-* Save your changes to Git.
+```powershell
+cd "C:\Users\Veteran\ai-agent-mastery-28days"
+git add "Week2_Automation_Workflows/Week2_Playbook.md" "assets/*"
+git commit -m "Week 2: Automation Playbook (capture → clean → digest) + screenshots"
+git push
+```
 
 ---
 
-## 🧩 Week 2 Automation Playbook Template
-
-Copy this into `Week2_Playbook.md` and replace placeholders with your specifics:
+## 📘 Week 2 Automation Playbook (paste into `Week2_Playbook.md`)
 
 ````markdown
-# Week 2 Automation Playbook — Intel Capture → Clean → Daily Digest
+# Week 2 Automation Playbook — *Intel Capture → Clean → Daily Digest*
 
-## Outcome  
-A zero-cost pipeline that:
-- Captures industry intel or notes  
-- Cleans & deduplicates entries  
-- Delivers a daily HTML digest email  
+> **Outcome:** A zero/low-cost pipeline that:
+> - Captures industry intel / quick notes
+> - Cleans & deduplicates entries
+> - Delivers a daily HTML digest email (and one-tap refresh)
 
-## Architecture  
-* **Inputs:**  
-  - IFTTT Button/Note → Webhook → Apps Script → Google Sheet  
-  - Make.com RSS → Google Sheet (scheduled)  
+---
 
-* **Processing:**  
-  - Apps Script `CleanInbox()`  
+## Architecture
 
-* **Outputs:**  
-  - Apps Script `SendDailyDigest()` (daily HTML email)  
-  - One-tap “process now” via IFTTT `{ "action":"process" }`  
+**Inputs**
+- IFTTT Button/Note → Webhook → Apps Script → Google Sheet  
+- Make.com RSS → Google Sheets (scheduled)
 
-## Diagram (Mermaid)
+**Processing**
+- Apps Script `CleanInbox()` (trim, blanks, normalized URL dedupe)
+
+**Outputs**
+- Apps Script `SendDailyDigest()` (HTML email; last 24h; up to N items)
+- One-tap “process now” via `{ "action":"process","token":"***" }`
+
+---
+
+## Diagram
 ```mermaid
+%%{ init: { "theme": "dark" } }%%
 flowchart LR
-  IFTTT[IFTTT Button/Note] -- POST /webhook --> GAS[Apps Script doPost]
-  RSS[Make.com RSS] -->|Add Row| Sheet[(Automation_Inbox)]
-  GAS -->|Append Row| Sheet
-  GAS -->|CleanInbox()| Sheet
-  GAS -->|SendDailyDigest()| Email[Daily HTML Email]
-  Click[One-Tap Process] -->|{action:"process"}| GAS
-````
+  subgraph Ingest["🎶 Ingest"]
+    IFTTT["IFTTT Button/Note"] -->|POST /webhook| GAS[Apps Script doPost]
+    RSS["Make.com RSS"] -->|Add Row| SHEET[(Automation_Inbox)]
+  end
 
-## Setup Steps (Concise)
+  subgraph Process["🧼 Process"]
+    CLEAN["CleanInbox()"]
+  end
 
-1. Google Sheet `Automation_Inbox` with columns: Timestamp, Source, Title, URL, Notes, Status
-2. Apps Script:
+  subgraph Output["📰 Output"]
+    DIGEST["SendDailyDigest()"]
+    EMAIL["Daily HTML Email"]
+  end
 
-   * `doPost(e)` → Logs rows & handles `action:"process"`
-   * `CleanInbox()` → Trims, removes blanks, dedupes by URL
-   * `SendDailyDigest()` → Emails 10 most recent items
-3. IFTTT Applets:
+  GAS -->|Append Row| SHEET
+  SHEET --> CLEAN --> SHEET
+  SHEET --> DIGEST --> EMAIL
+  Click["One-Tap Process"] -->|{action:'process'}| GAS
 
-   * Button → Webhooks POST `{ "action":"process" }`
-   * Optional: Note → Webhooks (logs text to Sheet)
-4. Make.com:
+  classDef hub fill:#111,stroke:#00FFCC,color:#fff,stroke-width:2px
+  classDef mod fill:#1E88E5,stroke:#fff,color:#fff
+  class SHEET hub
+  class GAS,CLEAN,DIGEST mod
+```
 
-   * RSS → Google Sheets (Add Row), scheduled every 30 min
-5. Security:
+---
 
-   * Web app set to “Anyone” for demo (restrict before production)
-   * Optionally add token check in `doPost` for authentication
+## Setup (Concise)
+
+1) **Google Sheet** `Automation_Inbox` with columns:  
+`Timestamp | Source | Title | URL | Notes | Status`
+
+2) **Apps Script**
+- `doPost(e)` → logs rows & routes `{ action }` (process/append/ping)
+- `CleanInbox()` → trims, removes blanks, dedupes by **normalized URL**
+- `SendDailyDigest()` → emails most recent items (lookback window; optional mark-as-sent)
+
+3) **IFTTT**
+- Button → Webhooks POST `{ "action": "process", "token": "CHANGE_ME" }`
+- Optional: Note → Webhooks → logs text with `status:"new"`
+
+4) **Make.com**
+- RSS → Google Sheets (Add Row), schedule ~30 min
+
+5) **Security**
+- Web app *Anyone* for demo; protect with `token` in body
+- Rotate token if leaked; restrict later as needed
+
+---
 
 ## Ops Guide
 
-* **Daily:** Check digest email (adjust trigger times as needed)
-* **One-Tap:** Press IFTTT Button pre-meeting to refresh intel
-* **Weekly:** Manually run `CleanInbox()`; review RSS sources for quality
+**Daily**
+- Digest arrives (adjust trigger time if needed)
+- Optional one-tap **Process Now** before standups/calls
 
-**Failure Modes:**
+**Weekly**
+- Review RSS sources (quality)
+- Spot-check `Runs` log for failures/latency
 
-* No email? → Reauthorize Apps Script & verify trigger exists
-* No rows? → Check Make.com scenario or IFTTT delivery logs
-* Dedupe issues? → Confirm URL & title columns are correct
+**Failure Modes**
+- **No email** → Check Apps Script triggers & auth; review logs
+- **No rows** → Confirm Make.com/IFTTT delivery
+- **Dupes** → Verify `URL` column index + normalization
+
+---
+
+## SLA (lightweight)
+- Target send window: **08:00 local (America/Chicago)**
+- Max end-to-end (Process Now): **< 60s**
+- Alert: if no digest 2 days in a row → manually run `SendDailyDigest()`
+
+---
 
 ## Screenshots
+![Automation Inbox](../../assets/sheet_inbox.png)
+![Make Scenario](../../assets/make_scenario.png)
+![IFTTT Applet](../../assets/ifttt_applet.png)
 
-* ![Sheet](../../assets/sheet_inbox.png)
-* ![Make Scenario](../../assets/make_scenario.png)
-* ![IFTTT Applet](../../assets/ifttt_applet.png)
+---
 
 ## Reuse Patterns
+- Swap RSS feeds per industry/role
+- Replace IFTTT with **Google Forms → Apps Script**
+- Push cleaned rows into **Docs/Slides** for auto-reports
+````
 
-* Swap RSS feed to another industry/role
-* Replace IFTTT with Google Forms → Sheets
-* Push cleaned rows into Google Slides/Docs for reports
+---
 
+## 🧪 QA Checklist (tick these)
+
+* [ ] IFTTT Button triggers `PROCESSED` JSON
+* [ ] `CleanInbox()` removed blanks & dupes (normalized URLs)
+* [ ] Digest email shows correct **lookback window** & **limit**
+* [ ] Items marked `sent` (if enabled)
+* [ ] `Runs` sheet logs time + duration
+
+---
+
+## 🖼 Optional: Auto-render Mermaid to SVG (dark)
+
+Add a GitHub Action if you want SVGs generated from `.mmd` files:
+
+```yaml
+name: Render Mermaid
+on:
+  push:
+    paths:
+      - 'Week2_Automation_Workflows/**.mmd'
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Render to SVG
+        run: |
+          docker run --rm -v $PWD:/work minlag/mermaid-cli \
+            -i Week2_Automation_Workflows/Day14/flow.mmd \
+            -o Week2_Automation_Workflows/Day14/flow.svg \
+            -t dark
+      - name: Commit SVG
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add Week2_Automation_Workflows/Day14/flow.svg
+          git commit -m "Week 2: render Mermaid SVG (dark)"
+          git push
+```
+
+> If you keep diagrams inside Markdown, just use a ` ```mermaid ` fence with the **dark init** line first:
+
+```mermaid
+%%{ init: { "theme": "dark" } }%%
+flowchart LR
+  A --> B
 ```
 
 ---
 
-## 📂 Deliverable  
-- `Week2_Playbook.md` filled with **your actual configs, screenshots, and links**  
+## 💼 Portfolio Nudge (optional)
+
+Add a one-page **Showcase** (`Week2_Showcase.md`) with:
+
+* 3 bullets on business value (speed, signal, zero-cost)
+* 1 diagram + 1 digest screenshot
+* “How it works” in 5 lines
+* “Clone This” steps (copy + paste)
+
+I can draft that one-pager next if you want it in your repo.
 
 ---
 
-## 🎯 Role Relevance  
-- **All Roles:** You now have a **documented, reusable intel pipeline** ready for portfolio demos, client pitches, or stakeholder briefings.  
-
----
-
-If you want, I can **also produce a one-page "portfolio showcase" layout** for this playbook so it instantly impresses when a recruiter or stakeholder clicks it. That would make this even stronger for your GitHub.
-```
 
