@@ -1,6 +1,6 @@
 ## 📄 Expected Output Structure for `W3D21_report.md`
 
-When you run the notebook, your **report.md** will be generated in this structure:
+When you run **`W3D21_Visualization_Agent.ipynb`**, your report will be generated in this structure:
 
 ---
 
@@ -8,15 +8,16 @@ When you run the notebook, your **report.md** will be generated in this structur
 
 * **H1** heading with the report title:
 
-  ```
-  # W3D21 Visualization Report
-  ```
-* A quick dataset overview:
+```markdown
+# W3D21 Visualization Report
+```
 
-  ```
-  **Rows x Cols:** [number_of_rows] x [number_of_columns]
-  **Group:** [detected_group_column] | **Metric:** [detected_metric_column] | **Date:** [detected_date_column_or_None]
-  ```
+* Quick dataset overview (auto-detected):
+
+```markdown
+**Rows × Cols:** [number_of_rows] × [number_of_columns]  
+**Group:** [detected_group_column] | **Metric:** [detected_metric_column] | **Date:** [detected_date_column_or_None]
+```
 
 ---
 
@@ -24,18 +25,19 @@ When you run the notebook, your **report.md** will be generated in this structur
 
 * **H2** heading:
 
-  ```
-  ## Key Findings
-  ```
-* 3–5 bullet points with the **top ranking groups** based on the chosen metric, for example:
+```markdown
+## Key Findings
+```
 
-  ```
-  - **Product A** avg sales: 1,245.67
-  - **Product B** avg sales: 1,123.45
-  - **Product C** avg sales: 1,050.25
-  - **Product D** avg sales: 978.50
-  - **Product E** avg sales: 945.00
-  ```
+* 3–5 bullets showing the **Top N groups** ranked by average metric:
+
+```markdown
+- **Laptop Pro 14** avg total: 1,480.04
+- **Standing Desk** avg total: 899.00
+- **Ergo Chair** avg total: 292.03
+- **Noise-Cancel Headset** avg total: 189.99
+- **Portable SSD** avg total: 119.99
+```
 
 ---
 
@@ -43,32 +45,34 @@ When you run the notebook, your **report.md** will be generated in this structur
 
 * **H2** heading:
 
-  ```
-  ## Charts
-  ```
-* Embedded image links pointing to the PNG files generated in the same folder:
+```markdown
+## Charts
+```
 
-  ```
-  ![Ranking](./W3D21_rank.png)
-  ![Trend/Distribution](./W3D21_trend.png)    # OR W3D21_hist.png if no date column
-  ```
+* Embedded links to the PNGs saved by the notebook:
+
+```markdown
+![Ranking](./W3D21_rank.png)  
+![Trend/Distribution](./W3D21_trend.png)   # OR W3D21_hist.png if no date column
+```
 
 ---
 
-### 4. Missingness Snapshot *(if applicable)*
+### 4. Missingness Snapshot *(only if needed)*
 
 * **H2** heading:
 
-  ```
-  ## Missingness (Top)
-  ```
-* List the top columns with the highest % of missing values (only appears if missingness > 0):
+```markdown
+## Missingness (Top)
+```
 
-  ```
-  - region: 35.2% missing
-  - status: 20.1% missing
-  - category: 15.0% missing
-  ```
+* Appears **only if null values exist** in the dataset. Example:
+
+```markdown
+- order_date: 7.1% missing
+- discount: 4.8% missing
+- region: 3.2% missing
+```
 
 ---
 
@@ -76,27 +80,30 @@ When you run the notebook, your **report.md** will be generated in this structur
 
 * **H2** heading:
 
-  ```
-  ## Next Steps
-  ```
-* Three default recommendations:
+```markdown
+## Next Steps
+```
 
-  ```
-  - Verify which groups matter for KPIs; set thresholds.
-  - Schedule weekly regeneration of this report with fresh data.
-  - Consider adding segment filters (role/region/product) in your dashboard.
-  ```
+* Default recommendations included in the notebook:
+
+```markdown
+- Align metric definitions with stakeholders.
+- Refresh weekly and compare trends over time.
+- Add filters for segment/region in a future dashboard.
+```
 
 ---
 
 ## ✅ Checklist Before Committing
 
-When `W3D21_report.md` is done, make sure:
+When `W3D21_report.md` is generated, confirm:
 
-1. The **Top N ranking chart** (`W3D21_rank.png`) exists in the same folder.
-2. The **trend** chart exists if you have a date column, otherwise the histogram chart (`W3D21_hist.png`).
-3. The “Key Findings” bullets reflect the correct **metric** and **group**.
-4. The missingness section appears only if there are NaNs.
-5. The **Next Steps** section is present.
+1. **Charts exist** in the same folder (`W3D21_rank.png` + either `W3D21_trend.png` or `W3D21_hist.png`).
+2. **Key Findings** bullets reference the correct `group` and `metric`.
+3. The **Missingness section** appears only if there are NaNs.
+4. **Next Steps** always appears as the closing section.
+5. Formatting renders cleanly in GitHub / Markdown preview.
 
 ---
+
+
