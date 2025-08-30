@@ -1,23 +1,93 @@
-📦 **Download:** [W4D22\_flowise\_chatflow.json](sandbox:/mnt/data/W4D22_flowise_chatflow.json)
-
-### What’s inside
-
-* **Nodes:** Chat Input → Local Files → Text Splitter → Ollama Embeddings → Chroma → Retriever → Prompt → LLM → (Memory) → Chat Output
-* **Defaults:**
-
-  * **Embeddings:** `nomic-embed-text` @ `http://localhost:11434`
-  * **LLM:** `phi3:mini` (swap to `llama3.1:8b` if you want)
-  * **Chroma:** collection `aimastery_w4`, persisted to `./vectorstore`
-  * **File patterns:** `**/*.{md,csv,txt}` (recursively loads your repo)
-
-### How to use
-
-1. Open Flowise → **Import** → select `W4D22_flowise_chatflow.json`.
-2. In the **Local Files** node, update:
-
-   * `directory`: point it to your repo root on disk.
-3. (Optional) In **LLM** node, change `model` to `llama3.1:8b`.
-4. Hit **Play** on **Local Files / Chroma** nodes to index.
-5. Chat in the canvas and export your flow when you’re happy.
-
-If you want, I can also generate a **companion notes file** (`W4D22_flowise_notes.md`) with placeholders for the model used, files indexed, and a sample Q\&A you can paste into your repo.
+{
+  "name": "W4D22 Strategic Agent (Ollama + Chroma RAG)",
+  "description": "Local Flowise chatflow: Ollama + Chroma RAG over repo files",
+  "nodes": [
+    {
+      "id": "chat_input",
+      "type": "ChatInput",
+      "label": "Chat Input"
+    },
+    {
+      "id": "doc_loader",
+      "type": "DocumentLoader",
+      "label": "Local Files",
+      "data": {
+        "directory": "./",
+        "glob": "**/*.{md,csv,txt}"
+      }
+    },
+    {
+      "id": "splitter",
+      "type": "TextSplitter",
+      "label": "Text Splitter",
+      "data": {
+        "chunkSize": 1000,
+        "chunkOverlap": 150
+      }
+    },
+    {
+      "id": "embed",
+      "type": "Embeddings",
+      "label": "Ollama Embeddings",
+      "data": {
+        "baseUrl": "http://localhost:11434",
+        "model": "nomic-embed-text"
+      }
+    },
+    {
+      "id": "chroma",
+      "type": "VectorStore",
+      "label": "Chroma",
+      "data": {
+        "collection": "aimastery_w4",
+        "persistDirectory": "./vectorstore"
+      }
+    },
+    {
+      "id": "retriever",
+      "type": "Retriever",
+      "label": "Retriever"
+    },
+    {
+      "id": "prompt",
+      "type": "PromptTemplate",
+      "label": "System Prompt",
+      "data": {
+        "template": "You are a Strategic AI Coach for professionals. Use ONLY retrieved repo context when possible. Cite filenames. If unsure, ask clarifying questions. Output in concise bullet points with an action list at the end."
+      }
+    },
+    {
+      "id": "llm",
+      "type": "LLM",
+      "label": "Ollama LLM",
+      "data": {
+        "baseUrl": "http://localhost:11434",
+        "model": "phi3:mini"
+      }
+    },
+    {
+      "id": "memory",
+      "type": "ChatMemory",
+      "label": "Chat Memory",
+      "data": {
+        "windowSize": 5
+      }
+    },
+    {
+      "id": "chat_output",
+      "type": "ChatOutput",
+      "label": "Chat Output"
+    }
+  ],
+  "edges": [
+    { "source": "chat_input", "target": "doc_loader" },
+    { "source": "doc_loader", "target": "splitter" },
+    { "source": "splitter", "target": "embed" },
+    { "source": "embed", "target": "chroma" },
+    { "source": "chroma", "target": "retriever" },
+    { "source": "retriever", "target": "prompt" },
+    { "source": "prompt", "target": "llm" },
+    { "source": "llm", "target": "memory" },
+    { "source": "memory", "target": "chat_output" }
+  ]
+}
