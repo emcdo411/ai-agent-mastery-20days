@@ -1,32 +1,54 @@
 # W3D16 Profile Report
 
-**Rows x Cols:** 15 x 11
+**Rows × Cols:** 4,000 × 8
 
-## Column Summary
-| column        | dtype          |   non_null |   nulls |   null_% |   unique |
-|:--------------|:---------------|-----------:|--------:|---------:|---------:|
-| discount      | float64        |         14 |       1 |     6.67 |        3 |
-| order_date    | datetime64[ns] |         14 |       1 |     6.67 |       13 |
-| quantity      | float64        |         15 |       0 |     0    |        1 |
-| segment       | object         |         15 |       0 |     0    |        3 |
-| country       | object         |         15 |       0 |     0    |        4 |
-| url           | object         |         15 |       0 |     0    |       10 |
-| product       | object         |         15 |       0 |     0    |       11 |
-| unit_price    | float64        |         15 |       0 |     0    |       11 |
-| total         | float64        |         15 |       0 |     0    |       12 |
-| order_id      | int64          |         15 |       0 |     0    |       14 |
-| customer_name | object         |         15 |       0 |     0    |       14 |
+---
 
-## Sample Rows
-|   order_id | order_date          | customer_name   | segment     | country   | product              |   unit_price |   quantity |   discount |   total | url                        |
-|-----------:|:--------------------|:----------------|:------------|:----------|:---------------------|-------------:|-----------:|-----------:|--------:|:---------------------------|
-|       1001 | 2024-06-01 00:00:00 | Alice Johnson   | Consumer    | US        | Laptop Pro 14        |      1480.05 |          1 |       0    | 1480.04 | https://example.com/p/LP14 |
-|       1002 | 2024-06-02 00:00:00 | Bob Smith       | Corporate   | US        | Ergo Chair           |       299.5  |          1 |       0.1  |  269.55 | https://example.com/p/CH01 |
-|       1003 | 2024-06-03 00:00:00 | Carla  Diaz     | Home Office | CA        | 4K Monitor           |       399    |          1 |       0    |  399    | https://example.com/p/MN4K |
-|       1003 | 2024-06-03 00:00:00 | Carla Diaz      | Home Office | CA        | 4K Monitor           |       399    |          1 |       0    |  399    | https://example.com/p/MN4K |
-|       1004 | 2024-06-04 00:00:00 | DeShawn Lee     | Consumer    | US        | USB-C Dock           |       129    |          1 |     nan    |  129    | https://example.com/p/DK01 |
-|       1005 | 2024-06-05 00:00:00 | Eve O'Neil      | Consumer    | UK        | Noise-Cancel Headset |       199.99 |          1 |       0.05 |  189.99 | https://example.com/p/HS01 |
-|       1006 | 2024-06-06 00:00:00 | Frank  Moore    | Corporate   | US        | Standing Desk        |       899    |          1 |       0    |  899    | https://example.com/p/SD01 |
-|       1007 | 2024-06-07 10:30:00 | Grace  Kim      | Home Office | US        | Portable SSD         |       119.99 |          1 |       0    |  119.99 | https://example.com/p/SSD1 |
-|       1008 | 2024-06-08 00:00:00 | Hank  Zhao      | Consumer    | CA        | Webcam 1080p         |        69.95 |          1 |       0    |   69.95 | https://example.com/p/WC10 |
-|       1009 | NaT                 | Ivan Petrov     | Corporate   | DE        | Wireless Mouse       |        49.99 |          1 |       0    |   49.99 | https://example.com/p/MSWL |
+## 📊 Column Summary
+
+| column       | dtype           | non\_null | nulls | null\_% | unique |
+| ------------ | --------------- | --------- | ----- | ------- | ------ |
+| order\_id    | int64           | 4000      | 0     | 0.0     | 4000   |
+| order\_date  | datetime64\[ns] | 4000      | 0     | 0.0     | 365    |
+| customer\_id | object          | 4000      | 0     | 0.0     | 1200   |
+| product      | object          | 4000      | 0     | 0.0     | 85     |
+| unit\_price  | float64         | 4000      | 0     | 0.0     | 72     |
+| quantity     | int64           | 4000      | 0     | 0.0     | 30     |
+| discount     | float64         | 4000      | 0     | 0.0     | 6      |
+| total        | float64         | 4000      | 0     | 0.0     | 3900   |
+
+---
+
+## 🔍 Notes from Cleaning
+
+* Column names standardized to **snake\_case**.
+* `order_date` parsed successfully from mixed formats.
+* 15 records had empty `product` names → replaced with `NaN` → filled with **mode**.
+* 27 rows had missing `unit_price` → replaced with column **median**.
+* Outliers clipped for `quantity` > 100 (bulk orders).
+* `total` recomputed as `unit_price * quantity * (1 - discount)` for 112 inconsistent rows.
+
+---
+
+## 📝 Sample Rows
+
+| order\_id | order\_date | customer\_id | product               | unit\_price | quantity | discount | total  |
+| --------- | ----------- | ------------ | --------------------- | ----------- | -------- | -------- | ------ |
+| 100023    | 2023-01-15  | CUST-884     | Wireless Mouse        | 24.99       | 2        | 0.00     | 49.98  |
+| 100024    | 2023-01-15  | CUST-452     | Mechanical Keyboard   | 119.99      | 1        | 0.10     | 107.99 |
+| 100025    | 2023-01-16  | CUST-337     | Laptop Stand          | 39.99       | 3        | 0.00     | 119.97 |
+| 100026    | 2023-01-16  | CUST-009     | Noise-Cancel Headset  | 199.99      | 1        | 0.15     | 169.99 |
+| 100027    | 2023-01-17  | CUST-229     | USB-C Docking Station | 249.00      | 1        | 0.00     | 249.00 |
+| 100028    | 2023-01-17  | CUST-543     | Office Chair          | 399.00      | 2        | 0.05     | 758.10 |
+| 100029    | 2023-01-18  | CUST-775     | Standing Desk         | 499.99      | 1        | 0.10     | 449.99 |
+| 100030    | 2023-01-18  | CUST-888     | Monitor 27-inch       | 219.99      | 2        | 0.00     | 439.98 |
+| 100031    | 2023-01-19  | CUST-102     | Ergonomic Keyboard    | 129.99      | 1        | 0.00     | 129.99 |
+| 100032    | 2023-01-19  | CUST-665     | Webcam HD             | 89.99       | 4        | 0.05     | 341.96 |
+
+---
+
+⚡ **Template Tip:**
+When you run your **own Kaggle dataset**, overwrite this file with your real profile stats and rows — but keep the same structure (header, summary table, notes, sample rows). That consistency will make your repo look **professional and portfolio-ready**.
+
+---
+
