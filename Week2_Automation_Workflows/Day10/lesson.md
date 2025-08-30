@@ -43,6 +43,23 @@ Spin up a **hands-off intel pipeline**: every time a blog drops or a feed update
   | `Status`     | `new`                          |
 
 ---
+flowchart LR
+    subgraph Day9[Day 9: IFTTT → Google Sheets]
+        A[IFTTT Trigger] --> B[Webhook]
+        B --> C[Google Sheets: Automation_Inbox]
+    end
+
+    subgraph Day10[Day 10: RSS → Google Sheets]
+        D[RSS Feed Watcher] --> E[Make.com Scenario]
+        E --> C
+    end
+
+    C[(Automation_Inbox Sheet)]
+    style C fill:#000000,stroke:#ffffff,stroke-width:2px
+    style A fill:#f4a261,stroke:#fff,stroke-width:2px
+    style B fill:#2a9d8f,stroke:#fff,stroke-width:2px
+    style D fill:#e76f51,stroke:#fff,stroke-width:2px
+    style E fill:#264653,stroke:#fff,stroke-width:2px
 
 ### 3️⃣ Test Your Groove
 
