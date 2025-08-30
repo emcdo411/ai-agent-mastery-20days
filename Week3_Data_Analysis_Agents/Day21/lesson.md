@@ -1,87 +1,83 @@
-# Day 21 — Weekly Review: Visualization-Enhanced Data Agent
+# 🎨 Day 21 — Vibe Coding: *Visualization-Enhanced Data Agent*
 
-## 📌 Objective
+## 🌟 Objective
 
-Turn your merged data (`W3D20_merged.csv`) into a **shareable analyst brief** with charts, in ≤30 minutes:
+Turn your **merged dataset (`W3D20_merged.csv`)** into a **shareable analyst brief** — complete with charts — in **≤30 minutes**.
 
-* Auto-select columns (or let you choose)
-* Generate 2 charts: **Ranking** + **Trend** *(or Histogram if no date column)*
-* Export a Markdown **report** you can paste into your portfolio or README
+You’ll build:
 
----
-
-## 🛠 Steps
-
-### 1) Create a Colab notebook
-
-* Open: [Google Colab](https://colab.research.google.com) → **New Notebook**
-* Rename: **`W3D21_Visualization_Agent.ipynb`**
+* **Auto-column detection** → choose metric, group, and date
+* **Ranking chart** (Top-N)
+* **Trend chart** (if date exists) or Histogram (if not)
+* **Markdown report** with findings + PNG charts, portfolio-ready
 
 ---
 
-### 2) Cell 1 — Load the merged CSV
+## 🌀 Steps
+
+### 1️⃣ Spin Up Colab Notebook
+
+* Open [Google Colab](https://colab.research.google.com) → **New Notebook**
+* Rename: `W3D21_Visualization_Agent.ipynb`
+
+---
+
+### 2️⃣ Load Your Data
 
 ```python
 # ==== Day 21: Visualization-Enhanced Data Agent ====
-import pandas as pd, numpy as np, os, io
+import pandas as pd, numpy as np, io, os
 import matplotlib.pyplot as plt
-
-# --- Option A: Upload W3D20_merged.csv from your computer ---
 from google.colab import files
+
 print("Upload W3D20_merged.csv")
 uploaded = files.upload()
 fname = next(iter(uploaded))
 df = pd.read_csv(io.BytesIO(uploaded[fname]))
 print("Loaded:", fname, "shape:", df.shape)
-display(df.head())
 
-# --- Normalize columns ---
+# Normalize columns
 df.columns = (pd.Index(df.columns)
-                 .str.strip()
-                 .str.replace(r"[^0-9A-Za-z]+", "_", regex=True)
-                 .str.lower()
-                 .str.strip("_"))
+                .str.strip()
+                .str.replace(r"[^0-9A-Za-z]+", "_", regex=True)
+                .str.lower()
+                .str.strip("_"))
 ```
 
 ---
 
-### 3) Cell 2 — Auto-detect key columns
+### 3️⃣ Auto-Detect Key Columns
 
 ```python
-cols = list(df.columns)
+cols = df.columns.tolist()
 num_cols = df.select_dtypes(include=[np.number]).columns.tolist()
 cat_cols = [c for c in cols if c not in num_cols]
 
-# Metric detection
-default_metric = next((cand for cand in
-                       ["value","amount","sales","revenue","score","metric","total_bill","tip","count"]
-                       if cand in num_cols), num_cols[0] if num_cols else None)
+# Metric candidate
+default_metric = next((c for c in ["total","sales","revenue","amount","value"] if c in num_cols), num_cols[0] if num_cols else None)
 
-# Group detection
-default_group = next((cand for cand in
-                      ["category","segment","product","name","title","day","dept","region","status","source"]
-                      if cand in cat_cols), cat_cols[0] if cat_cols else None)
+# Group candidate
+default_group = next((c for c in ["product","segment","category","source","status"] if c in cat_cols), cat_cols[0] if cat_cols else None)
 
-# Date detection
+# Date candidate
 default_date = next((c for c in cols if any(k in c for k in ["date","time","_at","_dt"])), None)
-if default_date and not np.issubdtype(df[default_date].dtype, np.datetime64):
+if default_date:
     try:
         df[default_date] = pd.to_datetime(df[default_date], errors="coerce")
     except:
         default_date = None
 
-print("Detected -> group:", default_group, "| metric:", default_metric, "| date:", default_date)
+print("Detected → group:", default_group, "| metric:", default_metric, "| date:", default_date)
 ```
 
 ---
 
-### 4) Cell 3 — Generate charts and save as PNGs
+### 4️⃣ Generate Charts
 
 ```python
-# Safety checks
-assert default_metric is not None and default_group is not None, "Need at least one numeric and one categorical column."
+assert default_metric and default_group, "Need one numeric and one categorical column."
 
-# === Chart 1: Ranking ===
+# Ranking chart
 top_n = 10
 rank = (df[[default_group, default_metric]]
           .dropna()
@@ -90,10 +86,10 @@ rank = (df[[default_group, default_metric]]
           .sort_values(ascending=False)
           .head(top_n))
 
-plt.figure()
-rank.plot(kind="barh")
+plt.figure(figsize=(8,5))
+rank.plot(kind="barh", color="#4C72B0")
 plt.gca().invert_yaxis()
-plt.title(f"Top {top_n} by Avg {default_metric} (group: {default_group})")
+plt.title(f"Top {top_n} by Avg {default_metric}")
 plt.xlabel(f"Avg {default_metric}")
 plt.ylabel(default_group)
 plt.tight_layout()
@@ -101,29 +97,27 @@ rank_path = "W3D21_rank.png"
 plt.savefig(rank_path, dpi=150)
 plt.show()
 
-# === Chart 2: Trend or Histogram ===
+# Trend or histogram
 if default_date and df[default_date].notna().any():
     by_day = (df[[default_date, default_metric]]
                 .dropna()
                 .groupby(pd.Grouper(key=default_date, freq="D"))[default_metric]
                 .mean()
                 .dropna())
-    plt.figure()
-    by_day.plot()
+    plt.figure(figsize=(8,5))
+    by_day.plot(color="#E76F51")
     plt.title(f"Daily Avg {default_metric}")
     plt.xlabel("Date")
     plt.ylabel(f"Avg {default_metric}")
-    plt.tight_layout()
     other_path = "W3D21_trend.png"
     plt.savefig(other_path, dpi=150)
     plt.show()
 else:
-    plt.figure()
-    df[default_metric].dropna().plot(kind="hist", bins=30)
+    plt.figure(figsize=(8,5))
+    df[default_metric].dropna().plot(kind="hist", bins=25, color="#2A9D8F")
     plt.title(f"Distribution of {default_metric}")
     plt.xlabel(default_metric)
     plt.ylabel("Count")
-    plt.tight_layout()
     other_path = "W3D21_hist.png"
     plt.savefig(other_path, dpi=150)
     plt.show()
@@ -131,66 +125,39 @@ else:
 
 ---
 
-### 5) Cell 4 — Create Markdown report
+### 5️⃣ Generate Markdown Report
 
 ```python
 lines = []
 lines.append("# W3D21 Visualization Report\n")
-lines.append(f"**Rows x Cols:** {df.shape[0]} x {df.shape[1]}")
+lines.append(f"**Rows × Cols:** {df.shape[0]} × {df.shape[1]}")
 lines.append(f"**Group:** {default_group} | **Metric:** {default_metric} | **Date:** {default_date}\n")
 
-# Key findings
 lines.append("## Key Findings")
-top5 = rank.head(5)
-for g, v in top5.items():
+for g, v in rank.head(5).items():
     lines.append(f"- **{g}** avg {default_metric}: {v:,.2f}")
 lines.append("")
 
-# Charts
 lines.append("## Charts")
 lines.append(f"![Ranking](./{rank_path})")
 lines.append(f"![Trend/Distribution](./{other_path})\n")
 
-# Missingness
 miss = df.isna().mean().sort_values(ascending=False)
-hi = miss[miss > 0].head(5)
+hi = miss[miss > 0].head(3)
 if not hi.empty:
     lines.append("## Missingness (Top)")
     for c, p in hi.items():
         lines.append(f"- {c}: {p:.1%} missing")
-    lines.append("")
 
-# Next steps
-lines.append("## Next Steps")
-lines.append("- Verify which groups matter for KPIs; set thresholds.")
-lines.append("- Schedule weekly regeneration of this report with fresh data.")
-lines.append("- Consider adding segment filters (role/region/product) in your dashboard.")
+lines.append("\n## Next Steps")
+lines.append("- Align metric definitions with stakeholders.")
+lines.append("- Refresh weekly and compare trends over time.")
+lines.append("- Add filters for segment/region in a future dashboard.")
 
-# Save
-report_md = "\n".join(lines)
 with open("W3D21_report.md", "w", encoding="utf-8") as f:
-    f.write(report_md)
+    f.write("\n".join(lines))
 
-print("Saved: W3D21_report.md, charts:", rank_path, "and", other_path)
-
-# Colab download
-try:
-    from google.colab import files
-    files.download("W3D21_report.md")
-    files.download(rank_path)
-    files.download(other_path)
-except Exception as e:
-    print("Download hint:", e)
-```
-
----
-
-### 6) (Optional) Executive polish in ChatGPT
-
-Copy the contents of `W3D21_report.md` into ChatGPT and use:
-
-```
-You are a senior analyst. Rewrite this report for an executive audience in 5 bullets, a one-paragraph summary, and 3 action items. Keep it plain-English, decision-oriented, and reference the attached visuals by filename.
+print("Saved: W3D21_report.md + charts")
 ```
 
 ---
@@ -201,16 +168,19 @@ You are a senior analyst. Rewrite this report for an executive audience in 5 bul
 * `W3D21_report.md`
 * `W3D21_rank.png`
 * `W3D21_trend.png` *(or)* `W3D21_hist.png`
-* `Day21_notes.md` — chosen group/metric/date columns + 2 insights
+* `Day21_notes.md` — group/metric/date used + 2 insights
 
 ---
 
-## 🎯 Role Relevance
+## 🎯 Why This Hits
 
-* **Analysts / Data Pros:** One-click refreshable briefs for recurring reviews
-* **Entrepreneurs:** Investor/partner updates grounded in visuals
-* **MBA / PMP:** Decision-ready readouts for standups & steering meetings
-* **Military Transition:** Clear SITREP — facts → visuals → actions
+* **Analysts / Data Pros:** Auto-refresh weekly briefs with no extra clicks
+* **Entrepreneurs:** Chart-driven investor or partner updates
+* **MBA / PMPs:** Slide-ready summaries for exec reviews
+* **Veterans in Transition:** SITREP pipeline → facts → visuals → actions
 
 ---
+
+👉 Do you want me to also draft the **Day21\_notes.md template** (so your folder always has the trio: `.ipynb`, `.md` report, and notes)?
+
 
