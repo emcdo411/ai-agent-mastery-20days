@@ -1,113 +1,128 @@
-🎶 Day 10 — Vibe Coding with Make.com: RSS → Google Sheets
-🌟 Vibe Objective
+# 🎶 Day 10 — Vibe Coding with Make.com: *RSS → Google Sheets*
 
-Spin up a hands-off intel pipeline: every time a blog drops or a feed updates, your Google Sheet catches it automatically like a digital net. You stay in the flow — no copy/paste, no FOMO.
+---
 
-⏱ Target Vibe: ≤ 30 minutes (coffee break project)
+## 🌟 Objective
 
-🌀 Vibe Steps
-1️⃣ Enter the Make.com Matrix
+Build an **auto-pilot intel pipeline**: every time a blog updates or a feed drops, your Google Sheet catches it instantly.
+No FOMO. No copy-paste. Just flow.
 
-Go to make.com
+⏱ **Timebox:** ≤ 30 minutes
 
-Sign in (free tier is all you need to start)
+---
 
-2️⃣ Build the Scenario (Your Digital Conductor 🎼)
+## 🌀 Build the Flow
 
-Module 1: RSS → Watch RSS Feed Items
+### 1️⃣ Step Into Make.com
 
-Drop in the feed URL that matters most to you:
+* Go to [make.com](https://www.make.com)
+* Sign in (free tier is perfect)
 
-Tech blogs if you’re an analyst
+---
 
-Market news if you’re an entrepreneur
+### 2️⃣ Orchestrate Your Scenario 🎼
 
-Defense or healthcare feeds if you’re transitioning out of the military
+**Module 1 → RSS Watcher**
 
-Module 2: Google Sheets → Add a Row
+* Paste in a feed that matters:
 
-Connect your Google account
+  * Tech news → for analysts
+  * Market blogs → for entrepreneurs
+  * Healthcare/Defense → for veterans in transition
 
-Point it to your Automation_Inbox sheet
+**Module 2 → Google Sheets: Add Row**
 
-Map your vibe fields:
+* Connect Google Sheets
+* Target: `Automation_Inbox`
+* Map your vibe fields:
 
-Sheet Column	Data Flow
-Timestamp	now()
-Source	RSS
-Title	RSS item title
-URL	RSS item link
-Notes	leave blank or add a quick tag
-Status	new
-🔗 Workflow Diagram (Day 9 → Day 10)
+| Sheet Column | Data Flow               |
+| ------------ | ----------------------- |
+| `Timestamp`  | `now()`                 |
+| `Source`     | `RSS`                   |
+| `Title`      | RSS item title          |
+| `URL`        | RSS item link           |
+| `Notes`      | leave blank / quick tag |
+| `Status`     | `new`                   |
+
+---
+
+## 🔗 Workflow Map
+
+```mermaid
 flowchart LR
-    subgraph Day9[Day 9: IFTTT → Google Sheets]
-        A[IFTTT Trigger] --> B[Webhook]
-        B --> C[Google Sheets: Automation_Inbox]
+    subgraph IFTTT["⚡ Day 9: IFTTT → Sheets"]
+        A["IFTTT Trigger"] --> B["Webhook"]
+        B --> C["Automation_Inbox 📊"]
     end
 
-    subgraph Day10[Day 10: RSS → Google Sheets]
-        D[RSS Feed Watcher] --> E[Make.com Scenario]
+    subgraph RSS["🎶 Day 10: RSS → Sheets"]
+        D["RSS Feed Watcher"] --> E["Make.com Scenario"]
         E --> C
     end
 
-    C[(Automation_Inbox Sheet)]
-    style C fill:#000000,stroke:#ffffff,stroke-width:2px
-    style A fill:#f4a261,stroke:#fff,stroke-width:2px
-    style B fill:#2a9d8f,stroke:#fff,stroke-width:2px
-    style D fill:#e76f51,stroke:#fff,stroke-width:2px
-    style E fill:#264653,stroke:#fff,stroke-width:2px
+    %% Styling
+    style C fill:#111111,stroke:#00FFCC,stroke-width:2px,color:#FFFFFF
+    style A fill:#FFB347,stroke:#fff,stroke-width:1.5px
+    style B fill:#4CAF50,stroke:#fff,stroke-width:1.5px
+    style D fill:#FF6B6B,stroke:#fff,stroke-width:1.5px
+    style E fill:#1E88E5,stroke:#fff,stroke-width:1.5px
+```
 
+💡 *Your `Automation_Inbox` is now a unified signal board catching feeds from both IFTTT and Make.com.*
 
-Tip: Ensure the code fence starts with ```mermaid (no extra spaces) so GitHub renders it.
+---
 
-3️⃣ Test Your Groove
+## ✅ Test & Automate
 
-Hit Run once
+* **Run once** → confirm new row lands in your sheet
+* Flip **Scheduling ON** → recommended: *every 30 minutes*
 
-Watch your Google Sheet catch the new row in real-time
+---
 
-4️⃣ Put It on Autopilot ✈️
+## 📂 Deliverable
 
-Flip Scheduling ON
+Create `Day10_scenario_notes.md` with:
 
-Suggested vibe: every 30 minutes (but you control the beat)
+* Feed URL used
+* Sheet/tab name
+* Interval chosen
+* *One-liner: why this feed matters to you*
 
-📂 Mini-Deliverable
+---
 
-Log it with style in Day10_scenario_notes.md:
+## 🎯 Who Benefits
 
-Feed URL you chose
+* **Analysts** → constant trend signals
+* **Entrepreneurs** → competitor radar
+* **PM / MBAs** → evidence for decks
+* **Veterans** → news flow for new roles
 
-Sheet/tab name
+---
 
-Update interval
+## 💻 Commit the Energy
 
-One-liner on why this feed matters to YOU
-
-🎯 Why This Hits Different
-
-Analysts: Continuous data drip for spotting patterns
-
-Entrepreneurs: Competitive radar always on
-
-MBA / PMPs: Evidence stream for decks & updates
-
-Veterans in Transition: Stay sharp with industry news for target roles
-
-💻 Commit the Energy
+```powershell
 cd "C:\Users\Veteran\ai-agent-mastery-28days"
 git add "Week2_Automation_Workflows/Day10/lesson.md"
-git commit -m "Day 10 vibes: RSS → Google Sheets pipeline"
+git commit -m "Day 10: modern RSS → Google Sheets pipeline"
 git push
+```
 
+*(Optional placeholder file)*
 
-(Optional placeholder)
-
+```powershell
 ni -Type File "Week2_Automation_Workflows/Day10/Day10_scenario_notes.md" -Force | Out-Null
 git add "Week2_Automation_Workflows/Day10/Day10_scenario_notes.md"
-git commit -m "Day 10 vibes: add notes placeholder"
+git commit -m "Day 10: add notes placeholder"
 git push
+```
 
+---
 
+## 🖼 Bonus
+
+Want me to export that workflow diagram in **dark-mode SVG/PNG** so you can drop it in LinkedIn posts and NPower slides?
+
+---
 
