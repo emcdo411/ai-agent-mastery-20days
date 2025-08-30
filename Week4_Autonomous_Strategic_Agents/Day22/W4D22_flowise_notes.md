@@ -115,9 +115,3 @@ CONTEXT:
 * *(Optional)* `W4D22_flowise_screenshot.png` (UI with Sources + Confidence showing)
 
 ---
-
-✨ This way your Day22 folder has **clear reproducibility, modern RAG best-practices, and portfolio-ready documentation**.
-
-Would you like me to also make you a **template `W4D22_merge_report-style` md** (like you had for Day20/21) but tailored for Day22 — summarizing model used, files indexed, retrieval stats, and a couple of sample answers? That way every day’s folder has a consistent “report artifact.”
-
----
