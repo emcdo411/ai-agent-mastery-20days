@@ -1,37 +1,68 @@
-# 🛠 Day 23 — Flowise Multi-Tool Agent: Local File Search + CSV Summary (No Cloud)
+# 🚀 Day 23 — Flowise Multi-Tool Agent: Search + Summarize (No Cloud)
 
-## 📌 Objective
-Enhance your Day 22 Flowise agent with **two local tools** and a smart router to decide which one to use:
+## 🎯 Objective
 
-1. **Local File Search** — Find filenames & snippets in your repo (e.g., where “trigger” appears).
-2. **CSV Summary** — Describe a CSV (rows, columns, nulls, quick stats) on demand.
+Today we **bolt new gadgets** onto our Day 22 agent ⚡️:
 
-Both tools run via **HTTP Request** nodes connected to a tiny **local FastAPI server** you host.
+1. 🔍 **Local File Search** — instantly find filenames/snippets in your repo (like a smart ctrl+F).
+2. 📊 **CSV Summary** — describe a dataset (rows, columns, nulls, quick stats).
 
-⏳ **Target time:** ≤ 30 minutes
+Both run 100% free + local, powered by a **tiny FastAPI server** you spin up.
+Flowise will **route queries** to the right tool automatically — no cloud needed.
 
----
-
-## ✅ Prerequisites
-- From **Day 22**: Flowise + Ollama running locally
-- **Python 3.10+** installed
+⏳ **Timebox:** 30 minutes
 
 ---
 
-## 🛠 Part A — Create a Local Tools API
-We’ll version this inside your repo.
+## ✨ Why This is Cool
 
-**1. Create the file:**
+Think of Day 23 as giving your agent **Iron Man upgrades**:
+
+* Ask it *“Where do we configure the daily digest?”* → it finds the file + snippet.
+* Ask it *“Summarize W3D16\_clean.csv”* → it runs pandas describe and shows you stats.
+* Ask it *“What are Week 2 deliverables?”* → falls back to RAG + Ollama.
+
+One agent, three skills, **no cloud lock-in**.
+
+---
+
+## 🛠 Part A — Local Tools API
+
+### ⚡ Quickstart (5 min)
+
+1. Open a terminal in your repo root.
+2. Run:
+
+   ```powershell
+   cd scripts
+   python -m venv .venv
+   .\.venv\Scripts\Activate
+   pip install fastapi uvicorn pandas
+   uvicorn local_tools_server:app --reload --port 8001
+   ```
+3. Visit → [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health)
+   ✅ Should return `{"status": "ok"}`
+
+Now you’ve got a local API serving two endpoints:
+
+* `/files/search` → finds filenames/snippets
+* `/csv/summary` → runs a quick CSV profile
+
+---
+
+### 🔬 Deep Dive (Full Code)
+
+Create:
+
+```
+scripts/local_tools_server.py
 ```
 
-scripts/local\_tools\_server.py
+Paste this code:
 
-````
-
-**2. Paste the code below:**
 ```python
-# Local Tools Server (FastAPI) — File Search + CSV Summary
-# Run with:  uvicorn local_tools_server:app --reload --port 8001
+# Local Tools Server — File Search + CSV Summary
+# Run with: uvicorn local_tools_server:app --reload --port 8001
 
 from fastapi import FastAPI, Query
 from fastapi.responses import JSONResponse
@@ -121,114 +152,72 @@ def csv_summary(body: CsvPath):
 
 if __name__ == "__main__":
     uvicorn.run("local_tools_server:app", host="127.0.0.1", port=8001, reload=True)
-````
-
-**3. Start the server (PowerShell):**
-
-```powershell
-cd "C:\Users\Veteran\ai-agent-mastery-28days\scripts"
-python -m venv .venv
-.\.venv\Scripts\Activate
-pip install fastapi uvicorn pandas
-uvicorn local_tools_server:app --reload --port 8001
 ```
-
-Test: Visit `http://127.0.0.1:8001/health` → should return `{"status":"ok"}`
 
 ---
 
-## 🛠 Part B — Add Tools in Flowise
+## 🛠 Part B — Flowise Integration
 
-**1. Open:**
-[http://localhost:3000](http://localhost:3000) → Open your **Day 22 Chatflow** → **Duplicate** (keep a clean v1).
+Open → [http://localhost:3000](http://localhost:3000)
+Duplicate your **Day 22 Chatflow** (keep a clean backup).
 
-**2. Add Nodes:**
+### Nodes to Add:
 
-* **If/Else (Router)** — route by keywords
+* ⚖️ **If/Else Router** → decides which tool to call
+* 🛠️ **HTTP Request (File Search)** → `/files/search`
+* 📊 **HTTP Request (CSV Summary)** → `/csv/summary`
+* 📚 **Retriever → LLM (fallback)**
 
-  * Condition 1 → File Search (`find`, `where`, `which file`, `show file`, `search`)
-  * Condition 2 → CSV Summary (`csv`, `columns`, `nulls`, `summary`, `describe`)
-  * Else → Existing Retriever → LLM path
+### Router Logic:
 
-* **HTTP Request (File Search)** — GET
+* Condition 1 → if query contains: *find, where, which file, search* → File Search
+* Condition 2 → if query contains: *csv, columns, nulls, summary* → CSV Summary
+* Else → fallback to Retriever → Ollama
 
-  * URL: `http://127.0.0.1:8001/files/search`
-  * Params:
+### Prompt Template:
 
-    * `q` = `{{$vars.query}}`
-    * `root` = repo root (e.g., `C:/Users/Veteran/ai-agent-mastery-28days`)
-    * `exts` = `.md,.csv,.txt`
-
-* **HTTP Request (CSV Summary)** — POST
-
-  * URL: `http://127.0.0.1:8001/csv/summary`
-  * Body:
-
-    ```json
-    { "path": "C:/Users/Veteran/ai-agent-mastery-28days/Week3_Data_Analysis_Agents/Day16/W3D16_clean.csv" }
-    ```
-
-**3. Prompt Template (Tool Aggregator):**
-
-```text
+```
 If FILE_SEARCH_JSON exists:
-  - Summarize matches (max 10): filename → short snippet.
+  - Summarize matches (filename + snippet, max 10).
 If CSV_SUMMARY_JSON exists:
-  - Report rows, cols, top 5 columns by null %, plus a schema table.
+  - Report rows, cols, top null %, plus a schema table.
 Otherwise:
-  - Use retrieved RAG context.
-Always end with an action list.
+  - Use RAG context.
+Always end with an Action List.
 Cite filenames when present.
 ```
 
-**4. Connect Flow:**
+---
 
-```
-Chat Input → If/Else Router
-   → File Search (HTTP) → Prompt Template → LLM → Chat Output
-   → CSV Summary (HTTP) → Prompt Template → LLM → Chat Output
-   → Else → Retriever → Prompt → LLM → Output
-```
+## 🎮 Test It
 
-**5. Test Prompts:**
-
-* File Search: `Find where we configure the daily digest script.`
-* CSV Summary: `Summarize the dataset at .../W3D16_clean.csv — rows, columns, top nulls.`
-* Fallback RAG: `What are Week 2 deliverables and validations?`
+* 🔍 `Find where we configure the daily digest script.`
+* 📊 `Summarize W3D16_clean.csv — rows, columns, nulls.`
+* 🤖 `What are Week 2 deliverables and validations?`
 
 ---
 
 ## 📂 Deliverables
 
-* `scripts/local_tools_server.py` — committed
-* `W4D23_flowise_chatflow.json` — updated chatflow export
-* `W4D23_notes.md` — model used, router rules, tool URLs, example Q\&A
-* *(Optional)* Screenshots
+* `scripts/local_tools_server.py` → committed
+* `W4D23_flowise_chatflow.json` → exported chatflow
+* `W4D23_notes.md` → brief: model, router rules, tool URLs, example Q\&A
+* *(Optional)* screenshots of your Flowise dashboard
 
 ---
 
-## 🧠 Troubleshooting
+## 🧠 Upgrade Path
 
-* **CORS/connection errors:** Use `http://127.0.0.1:8001` and keep server running
-* **Windows paths:** Use forward slashes (`C:/Users/...`) in JSON
-* **Slow LLM:** Switch to `phi3:mini` or reduce Top-K
-
----
-
-## 🎯 Why This Matters
-
-You now have a **tool-augmented local agent** that can:
-
-* 🔍 Search code/docs by filename & snippet
-* 📊 Interrogate raw CSV datasets
-  …all without cloud APIs or sending data off your machine.
-
-```
+* **Level 1 (today):** File Search + CSV Summary
+* **Level 2:** Add 🔗 external API tool (weather, stock prices, etc.)
+* **Level 3:** Add smarter router (regex, few-shot classifier)
 
 ---
 
-If you want, I can now make **Day 23 + Day 22** into a **side-by-side quickstart + advanced doc** so users can skim or deep dive — it’s a format used in top-tier AI/ML repos and makes them look **instantly premium**.  
-Do you want me to combine them that way?
-```
+🔥 And that’s Day 23 — you now have a **multi-tool local agent** that can search, summarize, and think — all without leaving your repo.
+
+---
+
+Would you like me to also **draft the `W4D23_notes.md`** (in the same style as Day 22 notes) so you’ve got the full folder ready?
 
 
