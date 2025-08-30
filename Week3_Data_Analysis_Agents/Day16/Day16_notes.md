@@ -1,33 +1,62 @@
-# Day 16 — Notes
+# 📝 Day 16 — Notes (Kaggle Cleaning Pipeline)
 
-This folder contains three example files generated from a mock Kaggle-style dataset to show
-**what your outputs should look like** after following the Day 16 lesson.
+This folder contains **example outputs** generated from a mock Kaggle-style dataset.
+Use these as a guide for what your deliverables should look like after following the Day 16 lesson.
 
-## Files
-- `clean.csv` — cleaned, deduplicated data with standardized columns and recomputed totals where needed.
-- `profile.md` — a quick, human-readable profile of the cleaned dataset (shape, column stats, and sample rows).
-- `notes.md` — this guide explaining assumptions, why the data is relevant, and what cleaning was applied.
+---
 
-## Example Dataset (for demonstration)
-- **Theme:** Retail peripherals and office equipment orders
-- **Why it matters:** Mirrors common analytics tasks (order quality checks, KPI inputs, dashboard-ready tables).
+## 📂 Files
 
-## Cleaning Highlights Implemented
-- Column names standardized to `snake_case`
-- Dates parsed from heterogeneous formats (ISO, slashed, worded)
-- Strings trimmed; empty strings normalized to `NaN`
-- Numeric coercion with currency/commas stripped (e.g., `$399.00`, `1,499.99`)
-- Missing numeric values filled with **median**; categoricals filled with **mode**
-- Deduplicated complete rows (**0** duplicates removed)
-- Outliers clipped with IQR per numeric column
-- `total` recomputed as `unit_price * quantity * (1 - discount)` if missing or inconsistent
+* `W3D16_clean.csv` — cleaned + standardized dataset (deduplicated, nulls handled, outliers clipped).
+* `W3D16_profile.md` — profile report (shape, column stats, sample rows).
+* `Day16_notes.md` — this guide, explaining dataset choice, cleaning assumptions, and relevance.
 
-## How to Use These as Templates
-1. Replace the mock data with your Kaggle CSV in Colab.
-2. Re-run the audit/clean/profile steps from the lesson notebook.
-3. Export your **own** `W3D16_clean.csv` and `W3D16_profile.md` with the same structure.
+---
 
-## Quick Checks You Should Replicate
-- The profile table lists each column, dtype, null counts, and unique counts.
-- The sample rows section shows 5–10 realistic records after cleaning.
-- `total` should equal `unit_price * quantity * (1 - discount)` (rounded to 2 decimals).
+## 📦 Example Dataset (Demo Only)
+
+* **Theme:** Retail peripherals & office equipment orders
+* **Why it matters:** Mimics real-world analytics tasks like order checks, KPI prep, and dashboard-ready tables.
+
+---
+
+## 🧼 Cleaning Highlights
+
+* Column names standardized → `snake_case`
+* Dates parsed from mixed formats (ISO, slashes, text)
+* Strings trimmed + empty → `NaN`
+* Numeric coercion (currency stripped, commas handled: e.g., `$399.00`, `1,499.99`)
+* Nulls filled:
+
+  * Numeric → **median**
+  * Categorical → **mode**
+* Deduplicated complete rows (in this mock set: **0** removed)
+* Outliers clipped via **IQR** method per numeric column
+* `total` recomputed as `unit_price * quantity * (1 - discount)` where missing/inconsistent
+
+---
+
+## 🔗 How to Use This Template
+
+1. Swap in your **Kaggle dataset** in Colab.
+2. Re-run the audit → clean → profile pipeline.
+3. Export:
+
+   * `W3D16_clean.csv`
+   * `W3D16_profile.md`
+   * (Keep `Day16_notes.md` updated with your dataset context).
+
+---
+
+## ✅ Quick Checks (to replicate)
+
+* **Profile report** includes each column’s dtype, null %, and unique count.
+* **Sample rows**: 5–10 cleaned records, no messy strings or misaligned totals.
+* **Totals**: `unit_price * quantity * (1 - discount)` holds true (rounded to 2 decimals).
+
+---
+
+⚡ *Pro Tip:* Commit both the CSV and profile MD file to your repo. The MD is **human-readable evidence** of your cleaning pipeline — perfect for recruiters, portfolio showcases, or internal playbooks.
+
+---
+
