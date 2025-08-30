@@ -1,0 +1,88 @@
+# make_day19_charts.py
+# Generates:
+#   W3D19_ranking.png       (Top-N by average of `metric`)
+#   W3D19_distribution.png  (Histogram of `metric`)
+#   W3D19_trend.png         (Daily average trend of `metric`, if a date column exists)
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from pathlib import Path
+
+# ===================== CONFIG =====================
+CSV_PATH = "W3D16_clean.csv"   # path to your cleaned CSV
+group_by = "product"           # categorical column to group by
+metric   = "total"             # numeric column to average
+top_n    = 10                  # Top-N for ranking chart
+# ==================================================
+
+# ---- Load data
+df = pd.read_csv(CSV_PATH)
+
+# ---- Try to auto-parse a date column for the trend chart
+date_col = None
+for c in df.columns:
+    lc = c.lower()
+    if ("date" in lc) or ("time" in lc) or lc.endswith("_at") or lc.endswith("_dt"):
+        date_col = c
+        break
+if date_col is not None:
+    # Parse date column (ignore errors)
+    df[date_col] = pd.to_datetime(df[date_col], errors="coerce")
+
+# ===================== Chart 1: RANKING =====================
+# Top-N by average metric per group
+ranked = (
+    df[[group_by, metric]]
+    .dropna()
+    .groupby(group_by, as_index=False)
+    .mean(numeric_only=True)
+    .sort_values(metric, ascending=False)
+    .head(top_n)
+)
+
+plt.figure(figsize=(10, 6))
+plt.barh(ranked[group_by], ranked[metric])           # default colors, no style
+plt.gca().invert_yaxis()                             # highest at top
+plt.xlabel(f"Average {metric.title()}")
+plt.ylabel(group_by.title())
+plt.title(f"Top {top_n} by Average {metric.title()}")
+plt.tight_layout()
+plt.savefig("W3D19_ranking.png", dpi=200)
+plt.close()
+
+# ===================== Chart 2: DISTRIBUTION =====================
+plt.figure(figsize=(10, 6))
+plt.hist(df[metric].dropna(), bins=15)               # default colors, no style
+plt.xlabel(metric.title())
+plt.ylabel("Count")
+plt.title(f"Distribution of {metric.title()}")
+plt.tight_layout()
+plt.savefig("W3D19_distribution.png", dpi=200)
+plt.close()
+
+# ===================== Chart 3: TREND (if date column exists) =====================
+if date_col is not None and df[date_col].notna().any():
+    daily = (
+        df[[date_col, metric]]
+        .dropna()
+        .groupby(pd.Grouper(key=date_col, freq="D"))
+        .mean(numeric_only=True)
+        .reset_index()
+        .dropna()
+    )
+
+    if len(daily) > 0:
+        plt.figure(figsize=(10, 6))
+        plt.plot(daily[date_col], daily[metric], marker="o")  # default colors
+        plt.xlabel(date_col)
+        plt.ylabel(f"Average {metric.title()}")
+        plt.title(f"Daily Trend of Average {metric.title()}")
+        plt.xticks(rotation=30, ha="right")
+        plt.tight_layout()
+        plt.savefig("W3D19_trend.png", dpi=200)
+        plt.close()
+else:
+    # If no date column, you simply won't get a trend.png (by design)
+    pass
+
+print("Done: W3D19_ranking.png, W3D19_distribution.png, and (if date exists) W3D19_trend.png")
