@@ -1,0 +1,206 @@
+{
+  "name": "W4D23 Multi-Tool Agent (Local: Search + CSV + RAG)",
+  "description": "Flowise agent with If/Else router for local File Search + CSV Summary tools, plus RAG fallback (Ollama + Chroma).",
+  "version": 1,
+  "nodes": [
+    {
+      "id": "chat_input",
+      "type": "ChatInput",
+      "position": { "x": 50, "y": 120 },
+      "data": { "label": "Chat Input" }
+    },
+
+    /* ========== RAG PIPELINE (reuse from Day 22) ========== */
+    {
+      "id": "local_files",
+      "type": "DocumentLoaderLocal",
+      "position": { "x": 80, "y": -200 },
+      "data": {
+        "label": "Local Files",
+        "directory": "./",                         /* ← set your repo root */
+        "glob": "Week1_**/*.md,Week2_**/*.md,Week3_**/*.md,Week4_**/*.md,**/*.txt,**/*.csv,docs/**/*.md,scripts/**/*.md",
+        "recursive": true,
+        "encoding": "utf-8"
+      }
+    },
+    {
+      "id": "text_splitter",
+      "type": "TextSplitter",
+      "position": { "x": 320, "y": -200 },
+      "data": {
+        "label": "Text Splitter",
+        "chunkSize": 1000,
+        "chunkOverlap": 150,
+        "splitterType": "recursive"
+      }
+    },
+    {
+      "id": "embeddings",
+      "type": "EmbeddingsOllama",
+      "position": { "x": 560, "y": -200 },
+      "data": {
+        "label": "Ollama Embeddings",
+        "baseUrl": "http://localhost:11434",
+        "model": "nomic-embed-text"
+      }
+    },
+    {
+      "id": "chroma",
+      "type": "VectorStoreChroma",
+      "position": { "x": 800, "y": -200 },
+      "data": {
+        "label": "Chroma Vector Store",
+        "collectionName": "aimastery_w4",
+        "persistDirectory": "./vectorstore",
+        "metadata": { "source": "repo" }
+      }
+    },
+    {
+      "id": "retriever",
+      "type": "RetrieverVectorStore",
+      "position": { "x": 1040, "y": -200 },
+      "data": {
+        "label": "Retriever",
+        "topK": 4
+      }
+    },
+    {
+      "id": "rag_prompt",
+      "type": "PromptTemplate",
+      "position": { "x": 1280, "y": -200 },
+      "data": {
+        "label": "RAG Prompt",
+        "template": "You are a Strategic AI Coach.\nUse ONLY retrieved repo context.\nCite filenames in square brackets like [file.md].\nAnswer in 3–6 bullets; end with Action Items.\n\nCONTEXT:\n{{context}}"
+      }
+    },
+
+    /* ========== ROUTER ========== */
+    {
+      "id": "router",
+      "type": "IfElse",
+      "position": { "x": 300, "y": 120 },
+      "data": {
+        "label": "If / Else Router",
+        "conditions": [
+          {
+            "id": "c1_filesearch",
+            "label": "File Search",
+            "when": "includesAny",
+            "source": "chat",
+            "values": ["find", "where", "which file", "search", "contains"]
+          },
+          {
+            "id": "c2_csvsummary",
+            "label": "CSV Summary",
+            "when": "includesAny",
+            "source": "chat",
+            "values": ["csv", "columns", "nulls", "schema", "summary", "describe"]
+          }
+        ],
+        "elseLabel": "RAG Fallback"
+      }
+    },
+
+    /* ========== TOOL 1: FILE SEARCH (HTTP) ========== */
+    {
+      "id": "http_filesearch",
+      "type": "HTTPRequest",
+      "position": { "x": 560, "y": 20 },
+      "data": {
+        "label": "HTTP: File Search",
+        "method": "GET",
+        "url": "http://127.0.0.1:8001/files/search",
+        "queryParams": {
+          "q": "{{$vars.query}}",
+          "root": "C:/Users/Veteran/ai-agent-mastery-28days",   /* ← set your repo path */
+          "exts": ".md,.csv,.txt",
+          "max_files": "25"
+        },
+        "headers": {},
+        "saveResponseToVariable": "file_search_json",
+        "timeout": 20000
+      }
+    },
+
+    /* ========== TOOL 2: CSV SUMMARY (HTTP) ========== */
+    {
+      "id": "http_csvsummary",
+      "type": "HTTPRequest",
+      "position": { "x": 560, "y": 240 },
+      "data": {
+        "label": "HTTP: CSV Summary",
+        "method": "POST",
+        "url": "http://127.0.0.1:8001/csv/summary",
+        "bodyType": "json",
+        "body": {
+          "path": "C:/Users/Veteran/ai-agent-mastery-28days/Week3_Data_Analysis_Agents/Day16/W3D16_clean.csv"
+        },
+        "headers": { "Content-Type": "application/json" },
+        "saveResponseToVariable": "csv_summary_json",
+        "timeout": 20000
+      }
+    },
+
+    /* ========== AGGREGATOR PROMPT (for tools output) ========== */
+    {
+      "id": "agg_prompt",
+      "type": "PromptTemplate",
+      "position": { "x": 820, "y": 130 },
+      "data": {
+        "label": "Aggregator Prompt",
+        "template": "You are a Strategic AI Coach.\nIf file_search_json exists:\n- Output up to 10 matches as **filename** — 1-line snippet.\n\nIf csv_summary_json exists:\n- Report rows & cols.\n- List top 5 columns by null% with dtype.\n- Show first 2 sample rows (compact).\n\nIf neither exists:\n- Fall back to RAG context.\n\nAlways end with:\n- Action Items (3 bullets)\n- Confidence: High | Med | Low (1 reason)\n- Sources: filenames if present\n\nFILE_SEARCH_JSON:\n{{file_search_json}}\n\nCSV_SUMMARY_JSON:\n{{csv_summary_json}}\n\nRAG_CONTEXT:\n{{context}}"
+      }
+    },
+
+    /* ========== LLM & OUTPUT ========== */
+    {
+      "id": "llm",
+      "type": "LLMOllama",
+      "position": { "x": 1080, "y": 130 },
+      "data": {
+        "label": "Ollama LLM",
+        "baseUrl": "http://localhost:11434",
+        "model": "phi3:mini",
+        "temperature": 0.2,
+        "maxTokens": 700
+      }
+    },
+    {
+      "id": "chat_output",
+      "type": "ChatOutput",
+      "position": { "x": 1320, "y": 130 },
+      "data": { "label": "Chat Output" }
+    }
+  ],
+  "edges": [
+    /* RAG pipeline wiring */
+    { "id": "e_rag1", "source": "local_files", "target": "text_splitter" },
+    { "id": "e_rag2", "source": "text_splitter", "target": "embeddings" },
+    { "id": "e_rag3", "source": "embeddings", "target": "chroma" },
+    { "id": "e_rag4", "source": "chroma", "target": "retriever" },
+    { "id": "e_rag5", "source": "retriever", "target": "rag_prompt" },
+
+    /* Main chat flow */
+    { "id": "e_in_router", "source": "chat_input", "target": "router" },
+
+    /* Router branches → tool HTTP calls */
+    { "id": "e_router_files", "source": "router", "target": "http_filesearch", "label": "File Search" },
+    { "id": "e_router_csv",   "source": "router", "target": "http_csvsummary", "label": "CSV Summary" },
+
+    /* Router else → RAG path */
+    { "id": "e_router_else_to_rag", "source": "router", "target": "rag_prompt", "label": "RAG Fallback" },
+
+    /* Tools + RAG converge at Aggregator Prompt */
+    { "id": "e_files_to_agg", "source": "http_filesearch", "target": "agg_prompt" },
+    { "id": "e_csv_to_agg",   "source": "http_csvsummary", "target": "agg_prompt" },
+    { "id": "e_rag_to_agg",   "source": "rag_prompt", "target": "agg_prompt" },
+
+    /* LLM + Output */
+    { "id": "e_agg_to_llm", "source": "agg_prompt", "target": "llm" },
+    { "id": "e_llm_to_out", "source": "llm", "target": "chat_output" }
+  ],
+  "metadata": {
+    "exportedAt": "2025-08-30T00:00:00Z",
+    "notes": "Update Local Files.directory, File Search.root, and CSV path to match your environment."
+  }
+}
