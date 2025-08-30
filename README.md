@@ -1,57 +1,91 @@
 # 🚀 AI Agent Mastery: 28-Day Professional Track
 
 [![License: DACR](https://img.shields.io/badge/license-DACR-blue?style=for-the-badge)](LICENSE)
-[![AI Tools](https://img.shields.io/badge/AI-Tools-green?style=for-the-badge&logo=openai)]()
+[![AI Tools](https://img.shields.io/badge/AI-Tools-green?style=for-the-badge\&logo=openai)]()
 [![Professional Track](https://img.shields.io/badge/Professional%20Track-Yes-orange?style=for-the-badge)]()
-[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-agent-mastery-28days?style=for-the-badge&color=purple)]()
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-agent-mastery-28days?style=for-the-badge\&color=purple)]()
 
 ---
 
 ## 📑 Table of Contents
-- [Overview](#overview)
-- [Who This Is For](#who-this-is-for)
-- [Course Structure](#course-structure)
-- [Folder Structure](#folder-structure)
-- [Week 1: ChatGPT 3.5 + Perplexity](#week-1-chatgpt-35--perplexity)
-- [Week 2: Automation Workflows](#week-2-automation-workflows)
-- [Week 3: Data Analysis Agents](#week-3-data-analysis-agents)
-- [Week 4: Autonomous Strategic Agents](#week-4-autonomous-strategic-agents)
-- [Mermaid Workflow Diagram](#mermaid-workflow-diagram)
-- [License](#license)
+
+* [Overview](#overview)
+* [Who This Is For](#who-this-is-for)
+* [Learning Outcomes](#learning-outcomes)
+* [Professional Deliverables](#professional-deliverables)
+* [Course Structure](#course-structure)
+* [Folder Structure](#folder-structure)
+* [Week 1: Foundations](#week-1-foundations)
+* [Week 2: Automation Workflows](#week-2-automation-workflows)
+* [Week 3: Data Analysis Agents](#week-3-data-analysis-agents)
+* [Week 4: Autonomous Strategic Agents](#week-4-autonomous-strategic-agents)
+* [Mermaid Workflow Diagram](#mermaid-workflow-diagram)
+* [License](#license)
 
 ---
 
 ## Overview
-The **AI Agent Mastery: 28-Day Professional Track** is a *serious, career-focused* AI mastery program built for professionals who need **real, deployable AI agents** starting Day 1.
 
-No fluff.  
-No “learn someday” theory.  
-Every lesson builds an **actual working tool** you can deploy immediately, using **only free resources**.
+The **AI Agent Mastery: 28-Day Professional Track** is a *serious, career-focused* program designed for professionals and learners (including those in **NPower’s curriculum**) who want to think like **AI strategists** and build deployable tools quickly.
+
+No fluff.
+No “someday” theory.
+Every lesson builds an **actual working tool** that you can showcase or deploy immediately using free or accessible resources.
 
 ---
 
 ## Who This Is For
-- **Data Professionals:** Automate research, cleaning, and analysis
-- **Entrepreneurs:** Rapidly prototype business tools
-- **Analysts:** Build sector-specific research agents
-- **MBA/PMP Candidates:** AI-enhanced strategic frameworks
-- **Military Transitioners:** Convert mission planning skills into AI-driven workflows
+
+* **Data Professionals:** Automate research, cleaning, and analysis
+* **Entrepreneurs:** Rapidly prototype business tools
+* **Analysts:** Build sector-specific research agents
+* **MBA/PMP Candidates:** AI-enhanced strategic frameworks
+* **Military Transitioners:** Convert mission planning skills into AI-driven workflows
+* **NPower Participants:** Apply advanced AI workflows to real-world career prep
+
+---
+
+## Learning Outcomes
+
+By completing this track, you will be able to:
+
+* Translate messy business needs into **AI agent workflows**
+* Deploy AI agents that automate **research, analysis, and reporting**
+* Use free + low-code tools to ship **real prototypes in under an hour**
+* Apply **strategic frameworks** to decide when AI adds value
+* Communicate AI outputs with clarity for both technical and non-technical audiences
+
+---
+
+## Professional Deliverables
+
+Each learner will complete the program with:
+
+* 📄 A **PRD template** (Product Requirements Doc) for AI agents
+* 📊 One live **dashboard agent**
+* 🤖 One **autonomous strategic agent** with memory
+* 🎥 A **portfolio demo video**
+* 📑 A final **Case Study document** mapping problem → solution → KPIs
 
 ---
 
 ## Course Structure
-- **Week 1:** *Foundations* — ChatGPT 3.5 + Perplexity for research & synthesis
-- **Week 2:** *Automation Workflows* — IFTTT, Make.com, Google Sheets + Apps Script
-- **Week 3:** *Data Analysis Agents* — Google Colab, Kaggle, Observable
-- **Week 4:** *Autonomous Strategic Agents* — FlowiseAI, AgentGPT, Pinecone
+
+* **Week 1 (Foundations):** Prompt discipline, research synthesis, ChatGPT 3.5 + Perplexity
+* **Week 2 (Automation Workflows):** Workflow automation with IFTTT, Make.com, Google Sheets + Apps Script
+* **Week 3 (Data Analysis Agents):** Data wrangling + visualization in Colab, Kaggle, and Observable
+* **Week 4 (Autonomous Strategic Agents):** Orchestration, memory, decision-making with FlowiseAI, AgentGPT, and Pinecone
+
+Each week ends with a **rubric-based review**: ✅ Runs | ✅ Documented | ✅ Deployed | ✅ KPI measured.
 
 ---
 
 ## Folder Structure
+
 ```plaintext
 ai-agent-mastery-28days/
 │
-├── Week1_ChatGPT_Perplexity/
+├── Week1_Foundations/
 │   ├── Day1/lesson.md
 │   ├── ...
 ├── Week2_Automation_Workflows/
@@ -60,18 +94,20 @@ ai-agent-mastery-28days/
 ├── Week3_Data_Analysis_Agents/
 │   ├── Day15/lesson.md
 │   ├── ...
-├── Week4_Autonomous_Strategic_Agents/
+├── Week4_Strategic_Agents/
 │   ├── Day22/lesson.md
 │   ├── ...
+├── templates/   # PRD.md, Prompt-Card.md, Eval-Plan.md
+├── docs/        # Diagrams, case studies, rubrics
+├── reports/     # Weekly eval JSONs + final report
 ├── assets/
-├── docs/
 ├── scripts/
 └── README.md
-````
+```
 
 ---
 
-## Week 1: ChatGPT 3.5 + Perplexity
+## Week 1: Foundations
 
 * **Day 1:** Setup & First Prompt
 * **Day 2:** Structured Prompt Engineering
@@ -79,7 +115,7 @@ ai-agent-mastery-28days/
 * **Day 4:** Building a Research Agent
 * **Day 5:** Summarization Agent
 * **Day 6:** Domain-Specific Q\&A Bot
-* **Day 7:** Weekly Review & Deployment
+* **Day 7:** Weekly Review & Deployment (Rubric Check)
 
 ---
 
@@ -91,7 +127,7 @@ ai-agent-mastery-28days/
 * **Day 11:** Google Sheets Data Automation
 * **Day 12:** Apps Script for Custom AI Functions
 * **Day 13:** Combining IFTTT, Make, and Google Sheets
-* **Day 14:** Weekly Review — Deploy a Fully Automated Agent
+* **Day 14:** Weekly Review — Deploy a Fully Automated Agent (Rubric Check)
 
 ---
 
@@ -103,7 +139,7 @@ ai-agent-mastery-28days/
 * **Day 18:** Introduction to Observable for Visualization
 * **Day 19:** Interactive Dashboard Creation in Observable
 * **Day 20:** Merging Multiple Data Sources in AI Agents
-* **Day 21:** Weekly Review — Deploy a Visualization-Enhanced AI Agent
+* **Day 21:** Weekly Review — Deploy a Visualization-Enhanced AI Agent (Rubric Check)
 
 ---
 
@@ -115,7 +151,7 @@ ai-agent-mastery-28days/
 * **Day 25:** Adding Long-Term Memory to AI Agents
 * **Day 26:** Using AgentGPT for Autonomous Task Execution
 * **Day 27:** Integrating Strategic Decision-Making into Agents
-* **Day 28:** Final Review & Portfolio Showcase — Deploy Your AI Team
+* **Day 28:** Final Review & Portfolio Showcase — Deploy Your AI Team (Case Study + Demo Video)
 
 ---
 
@@ -158,15 +194,6 @@ flowchart TD
 
 This project is licensed under the **DACR License** — see the [LICENSE](LICENSE) file for details.
 
-```
 
----
-
-If you replace your current README with this one and push, GitHub will show the **entire 28-day plan** clearly for mentees, investors, and recruiters.  
-
-If you want, I can also **add collapsible `<details>` sections** so each week’s daily plan can be expanded or hidden — that makes the README more compact but still detailed.  
-
-Do you want me to format it that way?
-```
 
 
