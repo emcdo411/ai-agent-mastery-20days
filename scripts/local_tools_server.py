@@ -1,89 +1,173 @@
-# AI Mastery Local Tools Server
+# AI Mastery Local Tools Server (Vibe Coding Edition)
 # Endpoints:
 #   GET  /health
-#   GET  /files/search?q=...&root=...&exts=.md,.txt,.csv&max_files=25
+#   GET  /files/search?q=...&root=...&exts=.md,.txt,.csv&max_files=25&offset=0
 #   POST /csv/summary   { "path": "C:/path/to/file.csv" }
 #   POST /scenario/run  { "scenario": "...", "trials": 10000, "params": { ... } }
 #
 # Run (from repo/scripts):
 #   python -m venv .venv
-#   .\.venv\Scripts\Activate
-#   pip install fastapi uvicorn pandas numpy
+#   .\.venv\Scripts\Activate      # Windows
+#   # source .venv/bin/activate   # macOS/Linux
+#   pip install fastapi uvicorn pandas numpy python-multipart
 #   uvicorn local_tools_server:app --reload --port 8001
+#
+# Notes:
+# - CORS enabled for Flowise at http://localhost:3000
+# - Simple token auth via env: AI_MASTERY_SECRET="your-long-token"
+#   -> send header: X-API-Key: your-long-token
 
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Header, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List, Optional, Dict
-import os, json
+from typing import Optional, Dict
+import os, json, pathlib
 import pandas as pd
 import numpy as np
 
-app = FastAPI(title="AI Mastery Local Tools", version="0.2.0")
+APP_VERSION = "0.3.0-vibe"
+DEFAULT_EXTS = ".md,.txt,.csv,.json,.py"
+
+def resp_ok(data, status=200):
+    return JSONResponse(status_code=status, content={"ok": True, "data": data})
+
+def resp_err(msg, status=400, extra: Optional[dict] = None):
+    payload = {"ok": False, "error": msg}
+    if extra:
+        payload.update(extra)
+    return JSONResponse(status_code=status, content=payload)
+
+def norm_path(p: str) -> str:
+    # Normalize Windows/mac paths to forward slashes for Flowise/JSON clarity
+    return pathlib.Path(p).resolve().as_posix()
+
+def require_auth(x_api_key: Optional[str]):
+    secret = os.environ.get("AI_MASTERY_SECRET", "").strip()
+    if not secret:
+        return  # open by default (local dev). Set env var to enforce.
+    if (x_api_key or "").strip() != secret:
+        raise HTTPException(status_code=401, detail="unauthorized")
+
+app = FastAPI(title="AI Mastery Local Tools", version=APP_VERSION)
+
+# CORS for Flowise UI
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # ---------------- Health ----------------
 @app.get("/health")
 def health():
-    return {"status":"ok"}
+    return {"ok": True, "data": {
+        "status": "ok",
+        "version": APP_VERSION,
+        "endpoints": ["/health", "/files/search", "/csv/summary", "/scenario/run"]
+    }}
 
 # ---------------- File Search ----------------
 @app.get("/files/search")
 def files_search(
     q: str = Query(..., description="Search text (case-insensitive)"),
     root: str = Query(..., description="Repo root directory"),
-    exts: str = Query(".md,.txt,.csv,.json,.py", description="Comma-separated extensions"),
-    max_files: int = 25
+    exts: str = Query(DEFAULT_EXTS, description="Comma-separated extensions"),
+    max_files: int = 25,
+    offset: int = 0,
+    x_api_key: Optional[str] = Header(default=None, alias="X-API-Key"),
 ):
-    root = os.path.abspath(root)
-    if not os.path.isdir(root):
-        return JSONResponse(status_code=400, content={"error":"invalid root"})
-    exts_set = set(e.strip().lower() for e in exts.split(",") if e.strip())
-    results = []
+    require_auth(x_api_key)
+
+    root_abs = os.path.abspath(root)
+    if not os.path.isdir(root_abs):
+        return resp_err("invalid root", 400, {"root": root})
+
+    exts_set = {e.strip().lower() for e in exts.split(",") if e.strip()}
     q_lower = q.lower()
-    for dirpath, _, filenames in os.walk(root):
-        for fn in filenames:
-            ext = os.path.splitext(fn)[1].lower()
-            if exts_set and ext not in exts_set:
-                continue
-            full = os.path.join(dirpath, fn)
-            try:
-                # filename match or light content scan (first 200 KB)
-                hit = q_lower in fn.lower()
-                snippet = ""
-                if not hit:
-                    with open(full, "r", encoding="utf-8", errors="ignore") as fh:
-                        blob = fh.read(200_000)
-                    idx = blob.lower().find(q_lower)
-                    if idx >= 0:
-                        start = max(0, idx-100); end = min(len(blob), idx+100)
-                        snippet = blob[start:end].replace("\n"," ")
-                        hit = True
-                if hit:
-                    results.append({"file": full, "snippet": snippet})
-                    if len(results) >= max_files:
-                        return {"matches": results}
-            except Exception:
-                continue
-    return {"matches": results}
+    results = []
+
+    try:
+        count = 0
+        for dirpath, _, filenames in os.walk(root_abs):
+            for fn in filenames:
+                ext = os.path.splitext(fn)[1].lower()
+                if exts_set and ext not in exts_set:
+                    continue
+                full = os.path.join(dirpath, fn)
+                try:
+                    hit = q_lower in fn.lower()
+                    snippet = ""
+                    score = 0.6 if hit else 0.0
+                    if not hit:
+                        with open(full, "r", encoding="utf-8", errors="ignore") as fh:
+                            blob = fh.read(200_000)
+                        idx = blob.lower().find(q_lower)
+                        if idx >= 0:
+                            start = max(0, idx - 100)
+                            end = min(len(blob), idx + 100)
+                            snippet = blob[start:end].replace("\n", " ").strip()
+                            hit = True
+                            score = 0.9  # very rough heuristic
+                    if hit:
+                        # Apply offset windowing (poor man's pagination)
+                        if count >= offset:
+                            results.append({
+                                "file": norm_path(full),
+                                "rel": norm_path(os.path.relpath(full, root_abs)),
+                                "snippet": snippet,
+                                "score": round(score, 2)
+                            })
+                            if len(results) >= max_files:
+                                return resp_ok({"matches": results, "next_offset": count + 1})
+                        count += 1
+                except Exception:
+                    continue
+        return resp_ok({"matches": results, "next_offset": None})
+    except Exception as e:
+        return resp_err(f"search failed: {e}", 500)
 
 # ---------------- CSV Summary ----------------
 class CsvPath(BaseModel):
     path: str
+    nrows: Optional[int] = None       # if provided, limit rows for massive CSVs
+    encoding: Optional[str] = None    # e.g., "utf-8", "latin-1"
+    sep: Optional[str] = None         # auto if None
 
 @app.post("/csv/summary")
-def csv_summary(body: CsvPath):
+def csv_summary(body: CsvPath, x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")):
+    require_auth(x_api_key)
+
     p = body.path
     if not os.path.exists(p):
-        return JSONResponse(status_code=400, content={"error":"file not found", "path": p})
+        return resp_err("file not found", 400, {"path": p})
+
     try:
-        df = pd.read_csv(p)
+        read_kwargs = {}
+        if body.nrows: read_kwargs["nrows"] = int(body.nrows)
+        if body.encoding: read_kwargs["encoding"] = body.encoding
+        if body.sep: read_kwargs["sep"] = body.sep
+
+        df = pd.read_csv(p, **read_kwargs)
     except Exception as e:
-        return JSONResponse(status_code=400, content={"error": f"read_csv failed: {e}"})
+        return resp_err("read_csv failed", 400, {"detail": str(e)})
+
+    # Normalize column names for friendlier downstream use
+    df.columns = (pd.Index(df.columns)
+                    .str.strip()
+                    .str.replace(r"[^0-9A-Za-z]+", "_", regex=True)
+                    .str.lower()
+                    .str.strip("_"))
+
     info = {
+        "path": norm_path(p),
         "rows": int(df.shape[0]),
         "cols": int(df.shape[1]),
         "columns": []
     }
+
     for c in df.columns:
         s = df[c]
         col = {
@@ -95,20 +179,30 @@ def csv_summary(body: CsvPath):
         }
         if pd.api.types.is_numeric_dtype(s):
             try:
-                col["mean"] = float(s.mean())
-                col["p25"] = float(s.quantile(0.25))
-                col["p75"] = float(s.quantile(0.75))
+                col.update({
+                    "mean": float(s.mean()),
+                    "p25": float(s.quantile(0.25)),
+                    "p75": float(s.quantile(0.75))
+                })
+            except Exception:
+                pass
+        else:
+            # show top categories (helps vibe coding briefs)
+            try:
+                vc = s.astype(str).value_counts(dropna=True).head(5)
+                col["top_values"] = [{"value": k, "count": int(v)} for k, v in vc.items()]
             except Exception:
                 pass
         info["columns"].append(col)
+
     info["sample_rows"] = df.head(5).to_dict(orient="records")
-    return info
+    return resp_ok(info)
 
 # ---------------- Scenario Runner ----------------
 class ScenarioReq(BaseModel):
     scenario: str = "sales_funnel"   # "sales_funnel" | "project_delivery" | "unit_economics"
     trials: int = 10000
-    params: dict = {}
+    params: Dict = {}
 
 def _rtriang(n, low, mode, high, rng):
     return rng.triangular(low, mode, high, size=n)
@@ -122,7 +216,9 @@ def _clip_norm(n, mean, sd, low=None, high=None, rng=None):
 def _pct(x, p): return float(np.percentile(x, p))
 
 @app.post("/scenario/run")
-def run_scenario(req: ScenarioReq):
+def run_scenario(req: ScenarioReq, x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")):
+    require_auth(x_api_key)
+
     rng = np.random.default_rng(42)
     N = int(max(1000, min(req.trials, 200000)))
     s = req.scenario.lower()
@@ -162,7 +258,7 @@ def run_scenario(req: ScenarioReq):
         df = pd.DataFrame({"demand":demand, "gross_margin_per_unit":gmu, "gross_profit":gross_profit, "contribution_margin":contrib})
 
     else:
-        return JSONResponse(status_code=400, content={"error":"unknown scenario"})
+        return resp_err("unknown scenario", 400)
 
     cols = df.columns.tolist()[:3]
     summary = {c: {"p05": _pct(df[c],5), "p50": _pct(df[c],50), "p95": _pct(df[c],95)} for c in cols}
@@ -176,11 +272,12 @@ def run_scenario(req: ScenarioReq):
             else:
                 hit_probs[col] = float((df[col] >= tgt).mean())
 
-    return {
+    return resp_ok({
         "scenario": s,
         "trials": N,
         "columns": df.columns.tolist(),
         "summary": summary,
         "targets": targets,
         "hit_probs": hit_probs
-    }
+    })
+
