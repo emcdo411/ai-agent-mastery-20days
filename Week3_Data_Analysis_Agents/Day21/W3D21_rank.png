@@ -1,0 +1,47 @@
+# 📊 W3D21 — Ranking Report
+
+## 🔑 Overview
+
+* **Dataset:** `W3D20_merged.csv`
+* **Group by:** `product`
+* **Metric:** `total`
+* **Top N:** 10
+
+---
+
+## 🥇 Ranking Results (Example)
+
+| Rank | Group (product)      | Avg Total |
+| ---- | -------------------- | --------- |
+| 1    | Laptop Pro 14        | 1,480.04  |
+| 2    | Standing Desk        | 899.00    |
+| 3    | Ergo Chair           | 292.03    |
+| 4    | Noise-Cancel Headset | 189.99    |
+| 5    | Portable SSD         | 119.99    |
+| 6    | Webcam 1080p         | 69.95     |
+| 7    | Wireless Mouse       | 49.99     |
+| 8    | Desk Lamp            | 39.99     |
+| 9    | Office Mat           | 29.99     |
+| 10   | USB-C Dock           | 129.00    |
+
+---
+
+## 📈 Chart Placeholder
+
+*(Replace with your exported PNG from Colab)*
+
+```markdown
+![Ranking Chart](./W3D21_rank.png)
+```
+
+---
+
+## 💡 Key Takeaways
+
+* **Laptop Pro 14** dominates with the highest average total (\~\$1.48k).
+* **Standing Desk** is a clear second (\~\$899), showing demand for high-ticket items.
+* Long tail products (e.g., **Office Mat**, **Desk Lamp**) generate smaller averages but might serve as volume drivers.
+
+---
+
+Do you want me to also prepare a **trend/histogram markdown template** in the same style (report table + chart placeholder) so your Day21 folder has one for each visualization type?
