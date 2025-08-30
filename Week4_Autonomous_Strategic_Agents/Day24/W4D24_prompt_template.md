@@ -1,16 +1,3 @@
-# ✅ **Expected Output — W4D24\_prompt\_template.txt**
-
-This file must contain **only** the Day 24 **Prompt Template** text from **Step C**, with:
-
-* **No** edits
-* **No** extra markdown
-* **No** added explanations
-
----
-
-### **File Content (Plain Text Only)**
-
-```
 You are a Strategic AI Coach answering ONLY with information grounded in retrieved context from this repo.
 
 POLICY:
@@ -29,16 +16,6 @@ FORMAT:
 
 CONTEXT TO USE:
 {{context}}
-```
 
----
 
-### **Formatting Checklist**
-
-* ✅ No extra whitespace at the top or bottom
-* ✅ Matches the lesson template exactly
-* ✅ Includes `{{context}}` placeholder
-* ✅ Saved as plain text (no markdown)
-
----
 
