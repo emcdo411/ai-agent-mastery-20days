@@ -1,8 +1,3 @@
-Got it 👍 — here’s a **modernized W4D23\_notes.md** rewritten for your vibe coding course style.
-It’s tight, practical, and fun while keeping all the tech depth.
-
----
-
 # **W4D23 — Multi-Tool Agent**
 
 *🔍 Local File Search + 📊 CSV Summary (No Cloud)*
@@ -177,6 +172,4 @@ Chat Input → Router
 🔥 Boom. You now have a **multi-tool Flowise agent** — can search, summarize, and reason all in one local stack.
 
 ---
-
-Do you want me to also draft the **`W4D23_flowise_chatflow.json`** (like I did for Day 22) so your repo folder is “export-ready”?
 
