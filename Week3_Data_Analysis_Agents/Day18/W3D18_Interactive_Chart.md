@@ -1,31 +1,71 @@
-# W3D18_Interactive_Chart
+# W3D18\_Interactive\_Chart
 
-This file documents the expected outcome of Day 18: a tiny interactive chart in Observable, plus a PNG export.
+Tiny Observable chart from your cleaned CSV, plus a PNG export you can commit to the repo.
 
 ## Notebook Link
-- Observable notebook (example): https://observablehq.com/d/W3D18_Interactive_Chart_demo
+
+* Live notebook: **(paste yours)**
+  e.g., [https://observablehq.com/@YOUR\_HANDLE/W3D18\_Interactive\_Chart](https://observablehq.com/@YOUR_HANDLE/W3D18_Interactive_Chart)
 
 ## Data Source
-- Input CSV: `W3D16_clean.csv` (the cleaned dataset from Day 16)
-- For Option B (GitHub raw), replace with your actual URL.
 
-## Chart Configuration
-- **Category (Group by):** `product`
-- **Metric (Average):** `total`
+* Input CSV (upload to Observable **Files** or load via GitHub raw):
+
+  * Preferred: `WD316_clean.csv`
+  * Also supported: `W3D16_clean.csv`
+* If using GitHub Raw, paste your exact URL:
+
+  ```
+  https://raw.githubusercontent.com/USER/REPO/BRANCH/Week3_Data_Analysis_Agents/Day16/WD316_clean.csv
+  ```
+
+## Chart Configuration (Observable controls)
+
+* **Category (group by):** `segment` *(commonly: segment, country, product)*
+* **Metric:** `total` *(or unit\_price, quantity)*
+* **Aggregation:** `sum` *(or mean, count)*
+* **Top N:** `10`
+* **Sort:** `desc`
+
+> Tip: For your posted example, you can switch Category→`product` and Aggregation→`mean` to mirror the original “Average total by product” view.
 
 ## Insights (Examples)
-- **Laptop Pro 14** shows the highest average total ($1480.04).
-- It leads **Standing Desk** by about **$581.04** on average.
 
-## Exported Image
-- PNG exported from the Observable chart menu: `W3D18_chart.png`
+* **Consumer** segment contributes the largest **sum(total)** across these rows.
+* **Ergo Chair** and **Laptop Pro 14** dominate in most product views; swapping **agg** between `sum` and `mean` changes which one leads.
+
+## Exports
+
+* **PNG** from Observable chart menu: `W3D18_chart.png`
+* **Grouped data behind the chart (Python helper or Observable table):** `W3D18_chart_data.csv`
 
 ## What “Good” Looks Like
-- A simple interactive bar chart that lets you switch category/metric (if you add inputs).
-- Clear labels on axes and a legible title.
-- The PNG matches the current state of your chart at export time.
+
+* Clean bars, readable axis labels, sensible title like:
+  `SUM(total) by segment` *(or)* `MEAN(total) by product`
+* The **PNG** matches whatever controls (category/metric/agg) you had selected at export.
+* A short **insights** section (2 bullets is enough) explaining what the chart shows.
+
+## Troubleshooting
+
+* **No data:** confirm the filename in Observable matches `WD316_clean.csv` (or update to `W3D16_clean.csv`).
+* **Wrong types:** if numbers look like strings, use `FileAttachment(...).csv({ typed: false })` and coerce in code.
+* **All zeros:** set **Aggregation** to `sum` and **Metric** to `total`.
 
 ---
-### (Optional) Raw CSV URL Example
-Replace with your own if you’re loading from GitHub in Observable:
-`https://raw.githubusercontent.com/USER/REPO/BRANCH/Week3_Data_Analysis_Agents/Day16/W3D16_clean.csv`
+
+### (Optional) Embed for README
+
+```md
+> Live interactive: https://observablehq.com/@YOUR_HANDLE/W3D18_Interactive_Chart
+
+<img src="./W3D18_chart.png" alt="W3D18 Interactive Chart (exported from Observable)" width="720" />
+```
+
+### (Optional) Raw CSV URL (GitHub)
+
+```
+https://raw.githubusercontent.com/USER/REPO/BRANCH/Week3_Data_Analysis_Agents/Day16/WD316_clean.csv
+```
+
+
