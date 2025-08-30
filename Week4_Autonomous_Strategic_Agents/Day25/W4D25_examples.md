@@ -1,4 +1,4 @@
-## W4D25 — Strategy Modules: Example Outputs
+### ✅ Updated File Instructions
 
 ### 1️⃣ Open the file in Notepad
 
@@ -8,13 +8,15 @@ notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Age
 
 ---
 
-### 2️⃣ Paste the following **exact template** into Notepad, then **Save** and close
+### 2️⃣ Paste this **exact template**, then Save & Close
 
 ````markdown
 # W4D25 — Strategy Modules: Example Outputs
 
-Paste **one example per module**.  
-For each: include the **raw JSON** returned by the module, followed by a **short executive brief** generated from that JSON.
+👉 Paste **one example per module**.  
+For each:  
+1. Show the **raw JSON** exactly as returned (no edits).  
+2. Write a **short executive brief** in plain bullets, built directly from the JSON.  
 
 ---
 
@@ -23,11 +25,12 @@ For each: include the **raw JSON** returned by the module, followed by a **short
 **Prompt used:**  
 SWOT for {{company}} in {{industry}} ({{geo}}, {{timeframe}}). Use repo context only; cite files.
 
-**Raw JSON (from the SWOT module)**
+**Raw JSON (from SWOT)**
 ```json
 {
   "company": "ACME",
   "industry": "AI training",
+  "geo": "US",
   "timeframe": "Q4 2025",
   "strengths": [],
   "weaknesses": [],
@@ -38,12 +41,14 @@ SWOT for {{company}} in {{industry}} ({{geo}}, {{timeframe}}). Use repo context 
 }
 ```
 
-**Executive brief (generated from JSON)**  
-- …
-- …
-**Action Items**
-- …
-**Confidence:** Medium — because …  
+**Executive Brief**  
+- Key strengths: …  
+- Weaknesses: …  
+- Opportunities: …  
+- Threats: …  
+**Action Items**  
+- …  
+**Confidence:** Medium — repo coverage partial  
 **Sources:** `Week2_Automation_Workflows/Day9/lesson.md`, `...`
 
 ---
@@ -53,11 +58,12 @@ SWOT for {{company}} in {{industry}} ({{geo}}, {{timeframe}}). Use repo context 
 **Prompt used:**  
 Porter’s for {{company}} / {{industry}} ({{geo}}, {{timeframe}}). Repo citations only.
 
-**Raw JSON (from the Porter’s module)**
+**Raw JSON (from Porter’s)**
 ```json
 {
   "company": "ACME",
   "industry": "AI training",
+  "geo": "US",
   "timeframe": "Q4 2025",
   "forces": [
     { "name": "Threat of New Entrants", "rating": 3, "rationale": "", "sources": [] },
@@ -72,12 +78,15 @@ Porter’s for {{company}} / {{industry}} ({{geo}}, {{timeframe}}). Repo citatio
 }
 ```
 
-**Executive brief (generated from JSON)**  
-- …
-- …
-**Action Items**
-- …
-**Confidence:** Medium — because …  
+**Executive Brief**  
+- New entrants risk: …  
+- Supplier power: …  
+- Buyer power: …  
+- Substitutes threat: …  
+- Rivalry intensity: …  
+**Action Items**  
+- …  
+**Confidence:** Medium — repo cites partial  
 **Sources:** `...`
 
 ---
@@ -87,7 +96,7 @@ Porter’s for {{company}} / {{industry}} ({{geo}}, {{timeframe}}). Repo citatio
 **Prompt used:**  
 Draft OKRs for {{team}} ({{timeframe}}), focus = {{focus}}. Tie KRs to repo metrics.
 
-**Raw JSON (from the OKR module)**
+**Raw JSON (from OKRs)**
 ```json
 {
   "team": "Cohort Ops",
@@ -109,20 +118,22 @@ Draft OKRs for {{team}} ({{timeframe}}), focus = {{focus}}. Tie KRs to repo metr
 }
 ```
 
-**Executive brief (generated from JSON)**  
-- …
-- …
-**Action Items**
-- …
-**Confidence:** Medium — because …  
+**Executive Brief**  
+- Objective focus: …  
+- Key Results: …  
+- Risks & Assumptions: …  
+**Action Items**  
+- …  
+**Confidence:** Medium — repo data limited  
 **Sources:** `...`
 
 ---
 
 ## Notes
-- Keep JSON **exactly as returned** (no extra prose in the code block).
-- Keep briefs to **5–7 bullets** + 3 actions.
-- Always include **Confidence** and **Sources**.
+- Keep JSON **exactly as returned** (no edits inside code block).  
+- Executive briefs = **5–7 bullets** + 3 action items.  
+- Always include **Confidence** and **Sources**.  
+- Keep the vibe: JSON first, human summary second.  
 
 ````
 
@@ -134,13 +145,12 @@ Draft OKRs for {{team}} ({{timeframe}}), focus = {{focus}}. Tie KRs to repo metr
 cd "C:\Users\Veteran\ai-agent-mastery-28days"
 
 git add "Week4_Autonomous_Strategic_Agents/Day25/W4D25_examples.md"
-git commit -m "W4D25: add examples template (JSON + executive brief for SWOT/Porter/OKRs)"
+git commit -m "W4D25: add vibe coding examples template (SWOT, Porter, OKRs JSON + briefs)"
 git push
 ```
 
-💡 *Tip:* Want a **post-processor prompt** for Flowise that turns JSON into an executive brief automatically? Keep this template handy for automation later.
-
 ---
+
 
 
 
