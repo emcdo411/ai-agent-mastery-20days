@@ -1,101 +1,106 @@
-# 🚀 Day 10 — Make.com Scenario: RSS → Google Sheets
+# 🎶 Day 10 — Vibe Coding with Make.com: *RSS → Google Sheets*
 
-## 📌 Objective
+## 🌟 Vibe Objective
 
-Set up a **Make.com** (free tier) automation that ingests an RSS feed and automatically appends new entries to your `Automation_Inbox` Google Sheet.
+Spin up a **hands-off intel pipeline**: every time a blog drops or a feed updates, your Google Sheet catches it automatically like a digital net. You stay in the flow — no copy/paste, no FOMO.
 
-⏱ Target Time: **≤ 30 minutes**
+⏱ Target Vibe: **≤ 30 minutes** (coffee break project)
 
 ---
 
-## 🛠 Steps
+## 🌀 Vibe Steps
 
-### 1️⃣ Sign In to Make.com
+### 1️⃣ Enter the Make.com Matrix
 
 * Go to [make.com](https://www.make.com)
-* Create a free account or sign in
+* Sign in (free tier is all you need to start)
 
 ---
 
-### 2️⃣ Create Your Scenario
+### 2️⃣ Build the Scenario (Your Digital Conductor 🎼)
 
-* **Module 1:** **RSS → Watch RSS Feed Items**
+**Module 1: RSS → Watch RSS Feed Items**
 
-  * **Feed URL:** Choose a high-signal feed for your field (e.g., major industry blog, trusted news source)
+* Drop in the feed URL that matters most to you:
 
-* **Module 2:** **Google Sheets → Add a Row**
+  * Tech blogs if you’re an analyst
+  * Market news if you’re an entrepreneur
+  * Defense or healthcare feeds if you’re transitioning out of the military
 
-  * Connect your Google account when prompted
-  * **Spreadsheet:** `Automation_Inbox`
-  * **Sheet/Tab:** Default or your chosen tab
-  * **Map Fields:**
+**Module 2: Google Sheets → Add a Row**
 
-    * `Timestamp` → `now`
-    * `Source` → `RSS`
-    * `Title` → RSS item title
-    * `URL` → RSS item link
-    * `Notes` → blank or short note
-    * `Status` → `new`
+* Connect your Google account
+* Point it to your `Automation_Inbox` sheet
+* Map your vibe fields:
 
----
-
-### 3️⃣ Test the Scenario
-
-* Click **Run once** in Make.com
-* Confirm a new row appears in your Google Sheet
+  | Sheet Column | Data Flow                      |
+  | ------------ | ------------------------------ |
+  | `Timestamp`  | `now()`                        |
+  | `Source`     | `RSS`                          |
+  | `Title`      | RSS item title                 |
+  | `URL`        | RSS item link                  |
+  | `Notes`      | leave blank or add a quick tag |
+  | `Status`     | `new`                          |
 
 ---
 
-### 4️⃣ Schedule the Scenario
+### 3️⃣ Test Your Groove
 
-* Turn **Scheduling ON**
-* Suggested interval: **Every 30 minutes** (adjust as needed)
-
----
-
-## 📂 Deliverable
-
-Create `Day10_scenario_notes.md` with:
-
-* RSS Feed URL used
-* Sheet/Tab name
-* Schedule interval
-* One sentence on *why this feed matters* to you
+* Hit **Run once**
+* Watch your Google Sheet catch the new row in real-time
 
 ---
 
-## 🎯 Role Relevance
+### 4️⃣ Put It on Autopilot ✈️
 
-* **Data Analysts:** Continuous intel stream for trend analysis
-* **Entrepreneurs:** Ongoing market/competitor updates
-* **MBA / PMP:** Evidence stream for decks & status briefs
-* **Military Transition:** Industry news for target roles
+* Flip **Scheduling ON**
+* Suggested vibe: every **30 minutes** (but you control the beat)
 
 ---
 
-### 💻 Commit & Push
+## 📂 Mini-Deliverable
 
-Run in PowerShell:
+Log it with style in `Day10_scenario_notes.md`:
+
+* Feed URL you chose
+* Sheet/tab name
+* Update interval
+* *One-liner on why this feed matters to YOU*
+
+---
+
+## 🎯 Why This Hits Different
+
+* **Analysts:** Continuous data drip for spotting patterns
+* **Entrepreneurs:** Competitive radar always on
+* **MBA / PMPs:** Evidence stream for decks & updates
+* **Veterans in Transition:** Stay sharp with industry news for target roles
+
+---
+
+## 💻 Commit the Energy
 
 ```powershell
 cd "C:\Users\Veteran\ai-agent-mastery-28days"
 git add "Week2_Automation_Workflows/Day10/lesson.md"
-git commit -m "Week 2 Day 10: Make.com RSS → Google Sheets scenario"
+git commit -m "Day 10 vibes: RSS → Google Sheets pipeline"
 git push
 ```
 
-*(Optional)* Create the deliverable placeholder now:
+*(Optional placeholder)*
 
 ```powershell
 ni -Type File "Week2_Automation_Workflows/Day10/Day10_scenario_notes.md" -Force | Out-Null
 git add "Week2_Automation_Workflows/Day10/Day10_scenario_notes.md"
-git commit -m "Week 2 Day 10: add scenario notes placeholder"
+git commit -m "Day 10 vibes: add notes placeholder"
 git push
 ```
 
 ---
 
-If you want, I can also create a **Day 9 → Day 10 mini-workflow diagram** to visually show how IFTTT and RSS feed capture feed into the same Google Sheet. That would make your Week 2 documentation pop in your GitHub.
+## 🖼 Bonus Vibe
 
-Do you want me to make that diagram next?
+Want me to sketch a **Day 9 → Day 10 vibe map** (IFTTT + RSS both flowing into Google Sheets) as a single diagram? It would show your stack tightening up — perfect for GitHub and demo-worthy for NPower.
+
+---
 
