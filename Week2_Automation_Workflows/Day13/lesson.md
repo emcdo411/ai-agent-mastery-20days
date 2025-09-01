@@ -1,55 +1,50 @@
-⚡ Day 13 — Build a Tiny Data App (Databutton)
-📌 Objective
+<!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
-Ship a useful micro-tool (e.g., ROI or cost calc).
+# ⚡ Day 13 — Build a Tiny Data App (Databutton)
 
-Share a public app link.
+## 📌 Objective
+- Ship a **useful micro-tool** (e.g., ROI or cost calc).
+- Share a **public app link**.
 
-🛠 Steps (≤45–60 min)
+---
 
-In Databutton, create app “ROI Estimator”.
+## 🛠 Steps (≤45–60 min)
 
-Inputs: traffic, conv_rate, ARPU.
+1. In **Databutton**, create app **“ROI Estimator”**.
+2. Inputs: `traffic`, `conv_rate`, `ARPU`.
+3. Output: `monthly_revenue = traffic * conv_rate * ARPU`.
+4. Add a **download CSV** button for results.
+5. Document in `Week2_Vibe_Coding/Day13/databutton_app.md`:
+   - What it does, inputs/outputs
+   - Link, next 1 improvement
 
-Output: monthly_revenue = traffic * conv_rate * ARPU.
+---
 
-Add download CSV button.
+## 📂 Deliverables
+- Public app URL
+- `databutton_app.md`
+- `/logs/day13.md`
+- Commit: `feat(day13): Databutton ROI estimator + notes`
 
-Document: Week2_Vibe_Coding/Day13/databutton_app.md:
+---
 
-What it does, inputs/outputs
+## ✅ Rubric (Self-Check)
+- [ ] App accepts 3 inputs and returns result
+- [ ] Link is public and loads fast
+- [ ] One improvement identified
 
-Link, next 1 improvement
+---
 
-📂 Deliverables
+## 📝 Reflection Prompts (Day 13)
+1. What business question did you just make faster?
+2. Where would guardrails be needed for real data?
+3. What preset scenarios would help stakeholders?
 
-Public app URL
+---
 
-databutton_app.md
+## 🎯 Role Relevance
+- **Analysts/PMs:** Decision speed booster you can demo
 
-/logs/day13.md
-
-Commit: feat(day13): Databutton ROI estimator + notes
-
-✅ Rubric (Self-Check)
-
- App accepts 3 inputs and returns result
-
- Link is public and loads fast
-
- One improvement identified
-
-📝 Reflection Prompts (Day 13)
-
-What business question did you just make faster?
-
-Where would guardrails be needed for real data?
-
-What preset scenarios would help stakeholders?
-
-🎯 Role Relevance
-
-Analysts/PMs: Decision speed booster you can demo
 
 
 
