@@ -1,128 +1,54 @@
-# 🎶 Day 10 — Vibe Coding with Make.com: *RSS → Google Sheets*
+⚡ Day 10 — How Software Gets Built (End-to-End)
+📌 Objective
 
----
+Document a lightweight SDLC for this week’s build.
 
-## 🌟 Objective
+Publish a visual flow + mini backlog.
 
-Build an **auto-pilot intel pipeline**: every time a blog updates or a feed drops, your Google Sheet catches it instantly.
-No FOMO. No copy-paste. Just flow.
+🛠 Steps (≤30 min)
 
-⏱ **Timebox:** ≤ 30 minutes
+Create: Week2_Vibe_Coding/Day10/build_flow.md
 
----
+Paste diagram:
 
-## 🌀 Build the Flow
-
-### 1️⃣ Step Into Make.com
-
-* Go to [make.com](https://www.make.com)
-* Sign in (free tier is perfect)
-
----
-
-### 2️⃣ Orchestrate Your Scenario 🎼
-
-**Module 1 → RSS Watcher**
-
-* Paste in a feed that matters:
-
-  * Tech news → for analysts
-  * Market blogs → for entrepreneurs
-  * Healthcare/Defense → for veterans in transition
-
-**Module 2 → Google Sheets: Add Row**
-
-* Connect Google Sheets
-* Target: `Automation_Inbox`
-* Map your vibe fields:
-
-| Sheet Column | Data Flow               |
-| ------------ | ----------------------- |
-| `Timestamp`  | `now()`                 |
-| `Source`     | `RSS`                   |
-| `Title`      | RSS item title          |
-| `URL`        | RSS item link           |
-| `Notes`      | leave blank / quick tag |
-| `Status`     | `new`                   |
-
----
-
-## 🔗 Workflow Map
-
-```mermaid
 flowchart LR
-    subgraph IFTTT["⚡ Day 9: IFTTT → Sheets"]
-        A["IFTTT Trigger"] --> B["Webhook"]
-        B --> C["Automation_Inbox 📊"]
-    end
+  A[Idea<br/>PRD] --> B[Plan<br/>issues]
+  B --> C[Build<br/>feature branch]
+  C --> D[Test<br/>unit + manual]
+  D --> E[Review<br/>PR + approvals]
+  E --> F[Merge<br/>main]
+  F --> G[Deploy<br/>preview/prod]
+  G --> H[Monitor<br/>metrics/logs]
+  H --> I[Iterate<br/>next issues]
 
-    subgraph RSS["🎶 Day 10: RSS → Sheets"]
-        D["RSS Feed Watcher"] --> E["Make.com Scenario"]
-        E --> C
-    end
 
-    %% Styling
-    style C fill:#111111,stroke:#00FFCC,stroke-width:2px,color:#FFFFFF
-    style A fill:#FFB347,stroke:#fff,stroke-width:1.5px
-    style B fill:#4CAF50,stroke:#fff,stroke-width:1.5px
-    style D fill:#FF6B6B,stroke:#fff,stroke-width:1.5px
-    style E fill:#1E88E5,stroke:#fff,stroke-width:1.5px
-```
+Add a backlog (5 items max) from PRD V1.
 
-💡 *Your `Automation_Inbox` is now a unified signal board catching feeds from both IFTTT and Make.com.*
+📂 Deliverables
 
----
+build_flow.md + backlog list
 
-## ✅ Test & Automate
+/logs/day10.md
 
-* **Run once** → confirm new row lands in your sheet
-* Flip **Scheduling ON** → recommended: *every 30 minutes*
+Commit: docs(day10): build flow + mini backlog
 
----
+✅ Rubric (Self-Check)
 
-## 📂 Deliverable
+ Flow includes review + deploy + monitor
 
-Create `Day10_scenario_notes.md` with:
+ Backlog ties to PRD user stories
 
-* Feed URL used
-* Sheet/tab name
-* Interval chosen
-* *One-liner: why this feed matters to you*
+ Only this week’s essentials included
 
----
+📝 Reflection Prompts (Day 10)
 
-## 🎯 Who Benefits
+Where will quality most likely break?
 
-* **Analysts** → constant trend signals
-* **Entrepreneurs** → competitor radar
-* **PM / MBAs** → evidence for decks
-* **Veterans** → news flow for new roles
+What can you skip now and add later?
 
----
+What’s your rollback plan?
 
-## 💻 Commit the Energy
+🎯 Role Relevance
 
-```powershell
-cd "C:\Users\Veteran\ai-agent-mastery-28days"
-git add "Week2_Automation_Workflows/Day10/lesson.md"
-git commit -m "Day 10: modern RSS → Google Sheets pipeline"
-git push
-```
-
-*(Optional placeholder file)*
-
-```powershell
-ni -Type File "Week2_Automation_Workflows/Day10/Day10_scenario_notes.md" -Force | Out-Null
-git add "Week2_Automation_Workflows/Day10/Day10_scenario_notes.md"
-git commit -m "Day 10: add notes placeholder"
-git push
-```
-
----
-
-## 🖼 Bonus
-
-Want me to export that workflow diagram in **dark-mode SVG/PNG** so you can drop it in LinkedIn posts and NPower slides?
-
----
+PM/BA/Eng: Shared flow reduces friction + rework
 
