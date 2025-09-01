@@ -1,108 +1,71 @@
-# 🚀 Day 9 — IFTTT → Google Sheets via Apps Script Webhook
+⚡ Day 9 — Context Engineering for Your AI Pair-Programmer
+📌 Objective
 
-## 📌 Objective
+Create a context pack so Claude/AI tools code to your standards.
 
-Create a **zero-cost automation pipeline** where IFTTT triggers a **webhook** → Google Apps Script writes a new row to your Google Sheet.
+Define constraints, APIs, and a system prompt.
 
-⏱ Target Time: **≤ 30 minutes**
+🛠 Steps (≤30–45 min)
 
----
+Create folder: Week2_Vibe_Coding/Day09/context/
 
-## 🛠 Steps
+Add files & paste:
 
-### 1️⃣ Open & Set Up Apps Script
+README_context.md — how to use this pack
 
-1. In your `Automation_Inbox` Google Sheet → **Extensions → Apps Script**.
-2. Paste the following code, replacing `YOUR_SHEET_ID` with the Sheet ID from your URL:
+constraints.md — stack, style, security (e.g., “no secrets in code”)
 
-```javascript
-function doPost(e) {
-  const data = JSON.parse(e.postData.contents || "{}");
-  const ss = SpreadsheetApp.openById("YOUR_SHEET_ID");
-  const sh = ss.getSheetByName("Sheet1") || ss.getSheets()[0];
-  const now = new Date();
+apis.md — endpoints with placeholders for keys
 
-  sh.appendRow([
-    now,
-    data.source || "IFTTT",
-    data.title || "",
-    data.url || "",
-    data.notes || "",
-    data.status || "new"
-  ]);
+glossary.md — product/domain terms
 
-  return ContentService
-    .createTextOutput("OK")
-    .setMimeType(ContentService.MimeType.TEXT);
-}
-```
+system_prompt_coding.md:
 
----
+Role: Senior IDE Copilot. Follow repo constraints. Ask before inventing APIs.
 
-### 2️⃣ Deploy as Web App
+You have:
+- PRD: ../Day08/PRD.md
+- Constraints: ./constraints.md
+- APIs: ./apis.md
+- Glossary: ./glossary.md
 
-* **Deploy → New deployment → Web app**
+Rules:
+1) Prefer simple, shippable patterns
+2) Generate complete files + minimal tests
+3) If unknown, propose 2 options + tradeoffs
+4) Output diffs or full files, no partials
 
-  * **Execute as:** *Me*
-  * **Access:** *Anyone* (adjust security later)
-* Copy your **Web App URL** — you’ll need this for IFTTT.
 
----
+Link the pack in PRD.md > Links.
 
-### 3️⃣ Configure IFTTT (Free Plan)
+📂 Deliverables
 
-1. Create a new **Applet**:
+Context files above
 
-   * **If:** Button widget *(or Note / RSS)*
-   * **Then:** Webhooks → Make a web request
-2. Fill in:
+/logs/day9.md — 3 bullets on decisions
 
-   * **URL:** Your Web App URL
-   * **Method:** `POST`
-   * **Content Type:** `application/json`
-   * **Body:**
+Commit: feat(day9): context pack for AI coding
 
-```json
-{
-  "source": "IFTTT Button",
-  "title": "Quick Note",
-  "url": "",
-  "notes": "Captured from phone",
-  "status": "new"
-}
-```
+✅ Rubric (Self-Check)
 
----
+ Constraints are explicit (style, deps, security)
 
-### 4️⃣ Test It
+ APIs documented with placeholders
 
-Press the IFTTT button → Confirm that a **new row** appears in your Google Sheet.
+ System prompt references PRD/constraints
 
----
+ No secret values committed
 
-## 📂 Deliverables
+📝 Reflection Prompts (Day 9)
 
-* `Day9_webhook_url.txt` → Paste your Web App URL
-* `Day9_ifttt_payload.json` → The JSON payload you used
+What does your AI often “hallucinate” without context?
 
----
+Which constraint will prevent future rework?
 
-## 🎯 Role Relevance
+What’s your “single source of truth” file?
 
-* **Data Analysts** → 1-tap data logging
-* **Entrepreneurs** → Mobile lead capture
-* **MBA / PMP** → Meeting notes synced instantly
-* **Military Transition** → Job prospect tracking on the go
+🎯 Role Relevance
 
----
+All disciplines: Faster, safer AI-assisted coding
 
-### 💻 Commit & Push Your Work
-
-Run this in PowerShell:
-
-```powershell
-cd "C:\Users\Veteran\ai-agent-mastery-28days"
-git add "Week2_Automation_Workflows/Day9/lesson.md"
-git commit -m "Week 2 Day 9: IFTTT → Apps Script webhook to Google Sheets"
-git push
-```
+Leads: Shared context = consistent outputs
