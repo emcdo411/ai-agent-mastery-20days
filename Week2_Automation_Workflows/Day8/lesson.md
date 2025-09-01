@@ -1,72 +1,81 @@
-# ⚡ Day 8 — Automation Foundations: Choose Your First Workflow
+⚡ Day 8 — PRD That Engineers Actually Read
+📌 Objective
 
-## 📌 Objective
+Draft a 2-page PRD that is buildable this week.
 
-* Pick **one real workflow** to automate this week.
-* Set up an **“Automation Inbox”** in Google Sheets to capture inputs.
-* Document your choice and reasoning in the repo.
+Capture users, scope, acceptance criteria, and risks.
 
----
+Commit it to your repo.
 
-## 🛠 Steps (≤30 min)
+🛠 Steps (≤30–45 min)
 
-1. **Pick a Workflow You Actually Need**
-   Examples:
+Create the file: Week2_Vibe_Coding/Day08/PRD.md
 
-   * Save industry news links to a master Sheet
-   * Capture voice notes from your phone into a Sheet
-   * Log leads or ideas to a Sheet with one tap
+Paste this template & fill:
 
-2. **Create Your Automation Inbox**
+# Product Requirements Doc (PRD)
 
-   * Google Sheet name: `Automation_Inbox`
-   * Columns: `Timestamp | Source | Title | URL | Notes | Status`
+## 1) Problem
+Who hurts? What’s broken? Evidence (1–2 bullets).
 
-3. **Write a Brief**
+## 2) Users & Jobs To Be Done
+Primary user, goals, key JTBD statements.
 
-   * Create `Day8_automation_brief.md` in this folder.
-   * Include:
+## 3) Outcomes & Metrics
+Target metric(s), baseline, success by when.
 
-     * Your chosen workflow
-     * Why it matters
-     * Link to your Sheet
+## 4) Scope (V1)
+Must-have / Nice-to-have / Out-of-scope.
 
----
+## 5) User Stories (V1)
+- As a <user>, I want <capability> so that <outcome>. [Acceptance Criteria]
+- …
 
-## 📂 Deliverables
+## 6) Constraints & Risks
+Tech, data, timeline, compliance.
 
-* `Day8_automation_brief.md` (2–4 bullets) with Sheet link
-* `/logs/day8.md` — reflection log
-* Commit: `feat: Day 8 automation foundations (workflow + inbox setup)`
+## 7) Rollout
+Milestones, owners, sign-offs.
 
----
+## 8) Links
+Issues/backlog, designs, repo.
 
-## ✅ Rubric (Self-Check)
 
-* [ ] Chosen workflow is real and useful
-* [ ] Google Sheet created with required columns
-* [ ] Brief written (workflow + why it matters + Sheet link)
-* [ ] Reflection log added
-* [ ] Commit pushed with clear message
+Open 3–5 issues from your user stories (titles only for now).
 
----
+📂 Deliverables
 
-## 📝 Reflection Prompts (Day 8)
+PRD.md (≤2 pages)
 
-1. **Workflow Choice**: Why did you pick this workflow?
-2. **Workflow Value**: How will capturing this info save you time or stress?
-3. **Setup Clarity**: Was creating the Sheet easy or confusing?
-4. **Next Iteration**: What’s the *first automation trigger* you’d like to test with this inbox?
+/logs/day8.md — 3 bullets on choices made
 
----
+Commit: feat(day8): PRD v1 + initial issues
 
-## 🎯 Role Relevance
+✅ Rubric (Self-Check)
 
-* **Data Pros:** Captures news and datasets for analysis
-* **Entrepreneurs:** Tracks leads or product ideas
-* **Analysts:** Logs sources for repeatable research
-* **MBA/PMP:** Creates evidence trails for decks & reports
-* **Military Transition:** Tracks intel on roles/companies in one place
+ Problem & users are specific
 
----
+ V1 scope is realistic for this week
+
+ Each story has acceptance criteria
+
+ 1–2 measurable outcomes named
+
+ Risks/constraints called out
+
+📝 Reflection Prompts (Day 8)
+
+What’s the smallest V1 that still creates value?
+
+Which acceptance criteria are potentially ambiguous?
+
+Which risk could derail your week if ignored?
+
+🎯 Role Relevance
+
+Entrepreneurs: Aligns build with revenue moment
+
+Analysts/MBA: Turns ideas into measurable outcomes
+
+PM/BA: Stories + acceptance = dev-ready
 
