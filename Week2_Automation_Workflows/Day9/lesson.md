@@ -1,6 +1,3 @@
-
-#### FILE: Week2_Vibe_Coding/Day09/Day09.md
-```md
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
 # ⚡ Day 9 — Context Engineering for Your AI Pair-Programmer
