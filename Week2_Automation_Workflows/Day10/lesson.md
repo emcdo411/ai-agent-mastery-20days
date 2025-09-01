@@ -25,3 +25,26 @@
      G --> H[Monitor<br/>metrics/logs]
      H --> I[Iterate<br/>next issues]
 
+📂 Deliverables
+
+build_flow.md + backlog list
+
+/logs/day10.md
+
+Commit: docs(day10): build flow + mini backlog
+
+✅ Rubric (Self-Check)
+
+ Flow includes review + deploy + monitor
+
+ Backlog ties to PRD user stories
+
+ Only this week’s essentials included
+
+📝 Reflection Prompts (Day 10)
+
+Where will quality most likely break?
+
+What can you skip now and add later?
+
+What’s your rollback plan?
