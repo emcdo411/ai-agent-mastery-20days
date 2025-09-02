@@ -1,223 +1,156 @@
-# 🚀 Day 23 — Flowise Multi-Tool Agent: Search + Summarize (No Cloud)
+# 🚀 Day 23 — Flowise Multi-Tool Agent: Search + Summarize (Local-Only)
 
 ## 🎯 Objective
 
-Today we **bolt new gadgets** onto our Day 22 agent ⚡️:
+Upgrade your Day 22 agent into a **multi-tool local assistant**:
 
-1. 🔍 **Local File Search** — instantly find filenames/snippets in your repo (like a smart ctrl+F).
-2. 📊 **CSV Summary** — describe a dataset (rows, columns, nulls, quick stats).
+1. 🔍 **File Search Tool** → find filenames + snippets in your repo (smart ctrl+F).  
+2. 📊 **CSV Summary Tool** → auto-profile any dataset (rows, cols, nulls, quick stats).  
+3. 🧠 **RAG Fallback** → Ollama + Chroma for repo-grounded answers.
 
-Both run 100% free + local, powered by a **tiny FastAPI server** you spin up.
-Flowise will **route queries** to the right tool automatically — no cloud needed.
-
-⏳ **Timebox:** 30 minutes
+⏱ Timebox: ~30 minutes
 
 ---
 
-## ✨ Why This is Cool
+## ✨ Why This Matters
 
-Think of Day 23 as giving your agent **Iron Man upgrades**:
+This is your **Iron Man suit upgrade** 🦾:
 
-* Ask it *“Where do we configure the daily digest?”* → it finds the file + snippet.
-* Ask it *“Summarize W3D16\_clean.csv”* → it runs pandas describe and shows you stats.
-* Ask it *“What are Week 2 deliverables?”* → falls back to RAG + Ollama.
+- *“Where is the daily digest configured?”* → File Search finds the file/snippet.  
+- *“Summarize W3D16_clean.csv”* → CSV Summary tool reports schema + null stats.  
+- *“What are Week 2 deliverables?”* → RAG fallback answers from repo.  
 
-One agent, three skills, **no cloud lock-in**.
+One agent, three skills. **Zero cloud dependencies.**
 
 ---
 
 ## 🛠 Part A — Local Tools API
 
-### ⚡ Quickstart (5 min)
+We’ll run a **tiny FastAPI server** for file search + CSV summary.
 
-1. Open a terminal in your repo root.
-2. Run:
+### ⚡ Quickstart (CLI)
 
-   ```powershell
-   cd scripts
-   python -m venv .venv
-   .\.venv\Scripts\Activate
-   pip install fastapi uvicorn pandas
-   uvicorn local_tools_server:app --reload --port 8001
-   ```
-3. Visit → [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health)
-   ✅ Should return `{"status": "ok"}`
+```powershell
+cd scripts
+python -m venv .venv
+.\.venv\Scripts\Activate
+pip install fastapi uvicorn pandas
+uvicorn local_tools_server:app --reload --port 8001
+````
 
-Now you’ve got a local API serving two endpoints:
+Visit [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health) → should return:
 
-* `/files/search` → finds filenames/snippets
-* `/csv/summary` → runs a quick CSV profile
+```json
+{"status": "ok"}
+```
 
 ---
 
-### 🔬 Deep Dive (Full Code)
+### 📂 File: `scripts/local_tools_server.py`
 
-Create:
+Already supports:
 
-```
-scripts/local_tools_server.py
-```
+* `/files/search` → query + snippet preview
+* `/csv/summary` → dataset profile
 
-Paste this code:
-
-```python
-# Local Tools Server — File Search + CSV Summary
-# Run with: uvicorn local_tools_server:app --reload --port 8001
-
-from fastapi import FastAPI, Query
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel
-import uvicorn, os, pandas as pd
-
-app = FastAPI(title="AI Mastery Local Tools", version="0.1.0")
-
-class CsvPath(BaseModel):
-    path: str
-
-@app.get("/health")
-def health():
-    return {"status": "ok"}
-
-@app.get("/files/search")
-def files_search(q: str = Query(...), root: str = Query(...),
-                 exts: str = Query(".md,.txt,.csv,.json,.py,.js,.ts"),
-                 max_files: int = 25):
-    root = os.path.abspath(root)
-    if not os.path.isdir(root):
-        return JSONResponse(status_code=400, content={"error": "invalid root"})
-
-    exts_set = {e.strip().lower() for e in exts.split(",") if e.strip()}
-    results, q_lower = [], q.lower()
-
-    for dirpath, _, filenames in os.walk(root):
-        for fn in filenames:
-            ext = os.path.splitext(fn)[1].lower()
-            if exts_set and ext not in exts_set:
-                continue
-            full = os.path.join(dirpath, fn)
-            try:
-                hit, snippet = q_lower in fn.lower(), ""
-                if not hit:
-                    with open(full, "r", encoding="utf-8", errors="ignore") as fh:
-                        blob = fh.read(200_000)
-                    idx = blob.lower().find(q_lower)
-                    if idx >= 0:
-                        start, end = max(0, idx-100), min(len(blob), idx+100)
-                        snippet, hit = blob[start:end].replace("\n", " "), True
-                if hit:
-                    results.append({"file": full, "snippet": snippet})
-                    if len(results) >= max_files:
-                        return {"matches": results}
-            except Exception:
-                continue
-    return {"matches": results}
-
-@app.post("/csv/summary")
-def csv_summary(body: CsvPath):
-    p = body.path
-    if not os.path.exists(p):
-        return JSONResponse(status_code=400, content={"error": "file not found", "path": p})
-    try:
-        df = pd.read_csv(p)
-    except Exception as e:
-        return JSONResponse(status_code=400, content={"error": f"read_csv failed: {e}"})
-
-    info = {
-        "rows": int(df.shape[0]),
-        "cols": int(df.shape[1]),
-        "columns": []
-    }
-    for c in df.columns:
-        s = df[c]
-        col = {
-            "name": c,
-            "dtype": str(s.dtype),
-            "non_null": int(s.notna().sum()),
-            "nulls": int(s.isna().sum()),
-            "null_%": round(100 * float(s.isna().mean()), 2),
-        }
-        if pd.api.types.is_numeric_dtype(s):
-            try:
-                col.update({
-                    "mean": float(s.mean()),
-                    "p25": float(s.quantile(0.25)),
-                    "p75": float(s.quantile(0.75))
-                })
-            except Exception:
-                pass
-        info["columns"].append(col)
-
-    info["sample_rows"] = df.head(5).to_dict(orient="records")
-    return info
-
-if __name__ == "__main__":
-    uvicorn.run("local_tools_server:app", host="127.0.0.1", port=8001, reload=True)
-```
+*(See Day 23 repo code — identical to provided version.)*
 
 ---
 
 ## 🛠 Part B — Flowise Integration
 
 Open → [http://localhost:3000](http://localhost:3000)
-Duplicate your **Day 22 Chatflow** (keep a clean backup).
+Duplicate your **Day 22 chatflow** (keep a backup).
 
-### Nodes to Add:
+### ➕ Add Nodes
 
-* ⚖️ **If/Else Router** → decides which tool to call
-* 🛠️ **HTTP Request (File Search)** → `/files/search`
-* 📊 **HTTP Request (CSV Summary)** → `/csv/summary`
-* 📚 **Retriever → LLM (fallback)**
+* ⚖️ **If/Else Router** → routes to the right tool
+* 🌐 **HTTP Request: File Search** → `http://127.0.0.1:8001/files/search`
+* 🌐 **HTTP Request: CSV Summary** → `http://127.0.0.1:8001/csv/summary`
+* 📚 **Retriever → Ollama** → fallback
 
-### Router Logic:
+---
 
-* Condition 1 → if query contains: *find, where, which file, search* → File Search
-* Condition 2 → if query contains: *csv, columns, nulls, summary* → CSV Summary
-* Else → fallback to Retriever → Ollama
+### 🔎 Router Logic
 
-### Prompt Template:
+* If input contains: *find, where, which file, search* → File Search
+* If input contains: *csv, columns, nulls, summary* → CSV Summary
+* Else → fallback → Retriever → LLM
+
+---
+
+### 📝 Prompt Template (System)
+
+Paste into Flowise Prompt Template node:
 
 ```
-If FILE_SEARCH_JSON exists:
-  - Summarize matches (filename + snippet, max 10).
-If CSV_SUMMARY_JSON exists:
-  - Report rows, cols, top null %, plus a schema table.
-Otherwise:
-  - Use RAG context.
-Always end with an Action List.
-Cite filenames when present.
+You are a Strategic AI Coach with three skills:
+
+1. If FILE_SEARCH_JSON exists:
+   - Summarize matches → show filename + snippet (max 10).
+2. If CSV_SUMMARY_JSON exists:
+   - Report rows, columns, null %, and a schema table.
+3. Otherwise:
+   - Use retrieved repo context (RAG fallback).
+
+RULES
+- Always include an Action List (2–4 items).
+- Cite filenames when present.
+- If no context found, ask ONE clarifying question.
 ```
 
 ---
 
-## 🎮 Test It
+## 🎮 Test Scenarios
 
-* 🔍 `Find where we configure the daily digest script.`
-* 📊 `Summarize W3D16_clean.csv — rows, columns, nulls.`
-* 🤖 `What are Week 2 deliverables and validations?`
+1. 🔍 File Search
+
+   ```
+   Find where we configure the daily digest script.
+   ```
+2. 📊 CSV Summary
+
+   ```
+   Summarize W3D16_clean.csv — rows, columns, nulls.
+   ```
+3. 🤖 RAG Fallback
+
+   ```
+   What are Week 2 deliverables and validations?
+   ```
 
 ---
 
-## 📂 Deliverables
+## 📦 Deliverables
 
-* `scripts/local_tools_server.py` → committed
-* `W4D23_flowise_chatflow.json` → exported chatflow
-* `W4D23_notes.md` → brief: model, router rules, tool URLs, example Q\&A
-* *(Optional)* screenshots of your Flowise dashboard
+* `scripts/local_tools_server.py`
+* `W4D23_flowise_chatflow.json` (exported Flowise config)
+* `W4D23_notes.md` (explain model, router, endpoints, sample Q\&A)
+* *(Optional)* `W4D23_screenshot.png`
 
 ---
 
-## 🧠 Upgrade Path
+## ✅ Verification Checklist
+
+* [ ] API reachable → `http://127.0.0.1:8001/health`
+* [ ] Router correctly routes *find/search* → File Search
+* [ ] Router correctly routes *csv/columns/nulls* → CSV Summary
+* [ ] Fallback queries → use RAG + Ollama (with citations)
+* [ ] Outputs include **Action List** + citations (if available)
+
+---
+
+## 🔮 Upgrade Path
 
 * **Level 1 (today):** File Search + CSV Summary
-* **Level 2:** Add 🔗 external API tool (weather, stock prices, etc.)
-* **Level 3:** Add smarter router (regex, few-shot classifier)
+* **Level 2:** Add 🔗 external API (e.g., weather, budget, gov open data)
+* **Level 3:** Replace keyword router with a **classifier** (few-shot or embedding-based)
 
 ---
 
-🔥 And that’s Day 23 — you now have a **multi-tool local agent** that can search, summarize, and think — all without leaving your repo.
+✨ Day 23 vibe: You now run a **multi-tool governance-ready agent** that can **search, summarize, and cite** — all offline, all local.
 
----
+```
 
-Would you like me to also **draft the `W4D23_notes.md`** (in the same style as Day 22 notes) so you’ve got the full folder ready?
 
 
