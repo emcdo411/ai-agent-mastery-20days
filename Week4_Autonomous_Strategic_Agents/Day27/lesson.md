@@ -1,21 +1,25 @@
-⚙️ Day 27 — Agent-Triggered Simulation (Run Scenario → Summarize → Act)
+# ⚙️ Day 27 — Agent-Triggered Simulation (Run Scenario → Summarize → Act)
 
-Goal: Let your Flowise agent call a local simulation on command and return a short, executive brief with probabilities and next actions. Think: “AI strategist in the loop.”
+**Goal:** Let your Flowise agent call a local simulation on command and return a short, executive brief with probabilities and next actions.  
+Think: “AI strategist in the loop.”
 
-⏱ Target time: ≤ 30 minutes
+⏱ **Target time:** ≤ 30 minutes
 
-🇪🇹 Public-Sector Use (Examples)
+---
 
-Permits SLA: “Simulate permit backlog clearance; chance of meeting a 10-day SLA?”
+## 🇪🇹 Public-Sector Use (Examples)
 
-Maternal Health: “Simulate patients served and cost per patient; hit probability for ≤ $15?”
+- **Permits SLA**: “Simulate permit backlog clearance; chance of meeting a 10-day SLA?”  
+- **Maternal Health**: “Simulate patients served and cost per patient; hit probability for ≤ \$15?”  
+- **Project Delivery**: “Simulate completion days for a 3-stream rollout.”  
 
-Project Delivery: “Simulate completion days for a 3-stream rollout.”
+---
 
-🛠 A) Extend the Local Tools Server
+## 🛠 A) Extend the Local Tools Server
 
-Open scripts/local_tools_server.py and append this block (keep existing endpoints):
+Open `scripts/local_tools_server.py` and append this block (keep existing endpoints):
 
+```python
 # === Day 27: Scenario Runner (Monte Carlo-lite) ===
 from pydantic import BaseModel
 import numpy as np, pandas as pd
@@ -104,36 +108,37 @@ def run_scenario(req: ScenarioReq):
         "targets": targets,
         "hit_probs": hit_probs
     }
+````
 
+### Restart server
 
-Restart server:
-
+```powershell
 cd scripts
 .\.venv\Scripts\Activate
 uvicorn local_tools_server:app --reload --port 8001
+```
 
+Health check: [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health)
+→ `{"status":"ok"}`
 
-Health check: http://127.0.0.1:8001/health
- → {"status":"ok"}
+---
 
-🛠 B) Flowise Wiring
+## 🛠 B) Flowise Wiring
 
-Duplicate your Day 25 flow → rename Day27_Sim
+1. Duplicate your **Day 25 flow** → rename to `Day27_Sim`.
 
-Add If/Else Router right after Chat Input:
+2. Add **If/Else Router** right after Chat Input:
 
-If message contains any of: simulate, simulation, scenario, run model → Scenario HTTP Tool
+   * If message contains any of: *simulate, simulation, scenario, run model* → Scenario HTTP Tool
+   * Else → RAG path
 
-Else → RAG path
+3. **HTTP Request (Scenario Tool)**
 
-HTTP Request (Scenario Tool)
+   * Method: POST
+   * URL: `http://127.0.0.1:8001/scenario/run`
+   * Body (example):
 
-Method: POST
-
-URL: http://127.0.0.1:8001/scenario/run
-
-Body (example):
-
+```json
 {
   "scenario": "project_delivery",
   "trials": 10000,
@@ -141,12 +146,13 @@ Body (example):
     "targets": { "completion_days": 20 }
   }
 }
+```
 
+* Store response as variable: `scenario_json`
 
-Store response as var: scenario_json
+4. **Post-Processor Prompt (Markdown brief)**
 
-Post-Processor Prompt (Markdown brief)
-
+```
 You receive JSON from a scenario simulation.
 
 MANDATES
@@ -157,37 +163,42 @@ MANDATES
 
 JSON:
 {{scenario_json}}
+```
 
+5. Connect: `Router → HTTP Request → Post-Processor → LLM → Output`
 
-Connect: Router → HTTP Request → Post-Processor → LLM → Output
+---
 
-🧪 Test Prompts
+## 🧪 Test Prompts
 
-“Simulate project delivery; target completion_days ≤ 20; 10k trials.”
+* “Simulate project delivery; target completion\_days ≤ 20; 10k trials.”
+* “Simulate unit economics with fixed=30k and COGS wider uncertainty.”
+* “Run simulation: sales\_funnel; targets revenue 250k, margin 50k.”
 
-“Simulate unit economics with fixed=30k and COGS wider uncertainty.”
+**Expect:** p05/p50/p95 bands, hit probabilities, 3 next actions, Confidence line.
 
-“Run simulation: sales_funnel; targets revenue 250k, margin 50k.”
+---
 
-Expect: p05/p50/p95 bands, hit probabilities, 3 next actions, Confidence line.
+## ✅ Deliverables (Day 27)
 
-✅ Deliverables (Day 27)
+* `Week4_Autonomous_Strategic_Agents/Day27/W4D27_flowise_chatflow.json`
+* `Week4_Autonomous_Strategic_Agents/Day27/W4D27_examples.md` (2 request→response pairs)
 
-Week4_Autonomous_Strategic_Agents/Day27/W4D27_flowise_chatflow.json
+---
 
-Week4_Autonomous_Strategic_Agents/Day27/W4D27_examples.md (2 request→response pairs)
+## 🧭 Why It Matters
 
-🧭 Why It Matters
+You’ve turned your stack into a **decision-support agent** that can:
 
-You’ve turned your stack into a decision-support agent that can:
+* 🔄 Run simulations on demand
+* 📊 Report risk bands + hit chances
+* 📝 Suggest next experiments — not promises
 
-🔄 Run simulations on demand
+---
 
-📊 Report risk bands + hit chances
+## 🔗 Flow Diagram
 
-📝 Suggest next experiments—not promises
-
-🔗 Flow Diagram
+```mermaid
 flowchart LR
   A[Chat Input] --> B{Router}
   B -->|simulate / scenario| C[HTTP: /scenario/run]
@@ -195,3 +206,5 @@ flowchart LR
   D --> E[LLM]
   E --> F[Chat Output]
   B -->|else| G[RAG Path (Retriever→Prompt→LLM→Output)]
+```
+
