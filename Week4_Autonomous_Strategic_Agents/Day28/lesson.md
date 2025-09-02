@@ -1,142 +1,139 @@
-# 🚀 Day 28 — Investor Demo, Repo Polish & One-Click Runbook
+🚀 Day 28 — Boardroom Demo, One-Click Runbook & Evidence Pack
 
-## 📌 Objective
+Goal: Deliver a stakeholder/investor-ready demo with a single run script, clean citations, and a crisp narrative. Make it easy to replay your success.
 
-Deliver an **investor/stakeholder-ready demo** with:
+⏱ Target time: ≤ 30 minutes
 
-* ✨ A polished, citation-clean repo
-* ⚡ A **one-click runbook** to launch server + Flowise + demo
-* 📦 An evidence pack + Q\&A crib sheet for pitch confidence
+🧩 Outcomes
 
-⏳ **Target time:** ≤ 30 minutes
+7–10 min live demo (sources + confidence + simulation)
 
----
+One-click runbook to start API + Flowise + open tabs
 
-## 🎯 Outcomes
+Evidence pack: screenshots, sample JSON/MD, charts
 
-* Investor demo flow (**7–10 minutes**)
-* One-click script: `W4D28_Demo_Runbook.ps1`
-* Evidence pack (`/assets`) with screenshots & JSON
-* Investor Q\&A crib sheet
+Q&A crib sheet for privacy, reliability, and scaling
 
----
+🧪 Demo Storyline (7–10 min)
 
-## 🛠 Demo Storyline (7–10 min)
+Trust first: Ask “Week 2 deliverables + validation steps” → show Sources + Confidence.
 
-1. **Open Flowise** → show **Sources + Confidence** outputs
-2. **Ask**: “Week 2 deliverables + validation steps” → highlight file citations
-3. **Trigger Tool**: “Find where the daily digest is configured” → File Search → snippet + path
-4. **Run Scenario**: “Simulate sales funnel; target revenue 250k, margin 50k” → Day 27 endpoint → p05/p50/p95 + hit %
-5. **Show Report**: Day 21 visual brief (trend/histogram)
-6. **Prove Trust**: Edit a file → run `refresh memory` → re-ask → show updated answer
+Findability: “Find where the daily digest is configured” → File Search → filename + snippet.
 
----
+Run a model: “Simulate project delivery; target 20 days” → p05/p50/p95 + hit %.
 
-## ✅ Repo Polish Checklist
+Refresh: Edit a file → type refresh memory → re-ask → show updated citations.
 
-* [ ] README: badges, ToC, Mermaid diagram, **Quickstart**, local-data disclaimer
-* [ ] `scripts/local_tools_server.py` present; `.venv` auto-creates on run
-* [ ] Week folders organized (`WeekX/…`) with JSON, PNG, MD exports
-* [ ] Screenshots stored in `/assets` (Flowise, dashboard, Sheet)
-* [ ] LICENSE file included (**DACR**)
-* [ ] No secrets committed
+Visuals: Open Day 21 report (ranking + trend/hist) “board-ready in minutes.”
 
----
+🧰 One-Click Runbook (Windows PowerShell)
 
-## 📦 Evidence Pack (`/assets`)
+Create: Week4_Autonomous_Strategic_Agents/Day28/W4D28_Demo_Runbook.ps1
 
-* `flowise_chat.png` — RAG answer with Sources/Confidence
-* `scenario_reply.png` — JSON → brief summary
-* `dashboard_rank.png`, `dashboard_trend.png` — Day 21 visuals
-* `sheet_inbox.png` — Week 2 demo
-* `make_scenario.png`, `ifttt_applet.png` — automation proof
+# One-click launcher for local tools server + Flowise + health tabs
 
----
+$repo = Split-Path -Parent $MyInvocation.MyCommand.Path | Split-Path -Parent | Split-Path -Parent
+$scriptDir = Join-Path $repo "scripts"
+$flowiseDocker = "flowiseai/flowise"
 
-## 🧪 Dry-Run Prompts
+# 1) Start local tools server
+Start-Process powershell -ArgumentList "-NoExit", "-Command", @"
+cd '$scriptDir'
+if (-not (Test-Path .venv)) { python -m venv .venv }
+.\.venv\Scripts\Activate
+pip install --quiet fastapi uvicorn pandas
+uvicorn local_tools_server:app --port 8001 --reload
+"@
 
-Copy/paste for consistency:
+Start-Sleep -Seconds 2
 
-```
-What are the **Week 2** deliverables and how do I validate each?
-Find references to **SendDailyDigest** and **CleanInbox**.
-**Simulate** sales funnel; revenue target 250k; margin 50k; 10k trials. Give p05/p50/p95 + hit probabilities.
-Summarize **Day 21** outputs for an MBA student with action items.
+# 2) Start Flowise (Docker; Node fallback)
+try {
+  docker info | Out-Null
+  docker run -d -p 3000:3000 -v flowise_data:/root/.flowise $flowiseDocker | Out-Null
+} catch {
+  Start-Process powershell -ArgumentList "-NoExit", "-Command", "npx flowise start"
+}
+
+Start-Sleep -Seconds 3
+
+# 3) Open health + UI + repo
+Start-Process "http://127.0.0.1:8001/health"
+Start-Process "http://localhost:3000"
+Start-Process "https://github.com/USERNAME/ai-agent-mastery-28days"
+
+
+macOS/Linux: create a bash equivalent (W4D28_demo_run.sh) with the same steps (python venv → uvicorn → docker flowise → open tabs).
+
+📦 Evidence Pack (/assets)
+
+flowise_chat.png — answer with Sources + Confidence
+
+scenario_reply.png — JSON → brief with bands + hit %
+
+dashboard_rank.png, dashboard_trend.png — Day 21 exports
+
+refresh_success.png — reply after refresh memory
+
+(Optional) permit_sla_hist.png, maternal_cost_hist.png from Day 26
+
+✅ Repo Polish Checklist
+
+ README: badges, ToC, Quickstart, Mermaid architecture
+
+ scripts/local_tools_server.py present; creates .venv automatically
+
+ Week folders clean (Week1…Week4/DayXX) with MD/PNG/JSON/CSV artifacts
+
+ No secrets; .gitignore covers .venv, node_modules, *.env
+
+ LICENSE (DACR) included
+
+🧪 Dry-Run Prompts (Copy/Paste)
+What are the Week 2 deliverables and how do I validate each? (cite files)
+Find references to SendDailyDigest and CleanInbox (show path + snippet).
+Simulate project delivery; target completion_days ≤ 20; 10k trials. Give p05/p50/p95 + hit %.
+Summarize Day 21 outputs for an MBA with action items (cite files).
 refresh memory
-```
 
----
+🛡 Say This Out Loud (Risk & Limits)
 
-## 🛡 Risk, Privacy & Limits (Say Aloud)
+Local-first: All processing on localhost; no customer data leaves the machine.
 
-* **Local-first** → all tools + models run on localhost, no customer data leaves
-* **Citations** → every answer lists file paths; gaps flagged “unknown”
-* **Limits** → RAG scope = repo only; web disabled for demo
-* **Next** → add API auth, CI rebuild on merge, scaling path to hosted models
+Citations: Every answer lists file paths; unknowns are marked and confidence lowered.
 
----
+Scope: RAG is repo-bounded; web disabled for demo reproducibility.
 
-## 📂 Deliverables (Today)
+Next: Add API auth, CI-triggered re-index on merge, and optional hosted models.
 
-* `W4D28_Demo_Runbook.ps1` — one-click launcher
-* `W4D28_Investor_Checklist.md` — pre-call/during call list
-* `W4D28_Pitch_Outline.md` — slides/notes
-* *(Optional)* `W4D28_Demo_Script.md` — word-for-word walkthrough
+📂 Deliverables (Day 28)
 
----
+Week4_Autonomous_Strategic_Agents/Day28/W4D28_Demo_Runbook.ps1
 
-## 💻 One-Click Runbook
+Week4_Autonomous_Strategic_Agents/Day28/W4D28_Investor_Checklist.md
 
-```powershell
-notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day28\W4D28_Demo_Runbook.ps1"
-```
+Week4_Autonomous_Strategic_Agents/Day28/W4D28_Pitch_Outline.md
 
-Paste the provided script → Save → Run.
-It launches:
+(Optional) Week4_Autonomous_Strategic_Agents/Day28/W4D28_Demo_Script.md
 
-* Local Tools Server (`uvicorn`)
-* Flowise (Docker or Node fallback)
-* Health checks + browser tabs (Flowise, server health, GitHub repo)
+🧭 Architecture Overview
+flowchart TD
+  A[Repo: Week1–4] --> B[Local Tools API (FastAPI)]
+  B -->|/files/search| C[File Search]
+  B -->|/csv/summary| D[CSV Summary]
+  B -->|/scenario/run| E[Monte Carlo-lite]
+  A --> F[Chroma Vector Store]
+  F --> G[Retriever]
+  H[Flowise UI] --> G
+  H --> B
+  G --> I[Prompt (Guardrails + Citations)]
+  I --> J[Ollama LLM]
+  J --> K[Chat Output (Sources + Confidence)]
 
----
+🎯 Ethiopia Angle: How Stakeholders Use This Today
 
-## 📋 Investor / Stakeholder Checklist
+City Permit Office: Run Day 26/27 permit simulations weekly; publish p50/p95 days + SLA hit % on a transparency page.
 
-```powershell
-notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day28\W4D28_Investor_Checklist.md"
-```
+Regional Health Bureau: Simulate patients served / cost per patient before grant proposals; store W4D26_report.md as evidence.
 
-**Before the Call**
-
-* [ ] Run `W4D28_Demo_Runbook.ps1` (server + Flowise live)
-* [ ] `/assets` evidence pack ready
-* [ ] Exported chatflow JSONs (Day 22–27)
-* [ ] README Quickstart tested from clean clone
-
-**During the Call**
-
-* [ ] RAG demo with Sources + Confidence
-* [ ] File Search demo
-* [ ] Scenario simulation with JSON → brief → action items
-* [ ] `refresh memory` update
-
-**Q\&A crib** → Privacy, Defensibility, Scaling path, Ops cost
-
----
-
-## 🎤 Optional Pitch Outline
-
-1. Problem → users need deployable AI agents fast
-2. Product → 28-day path, Flowise agent, local RAG, citations + confidence
-3. Proof → Week 2 automation, Week 3 data agents, Week 4 strategic agent
-4. Demo → RAG, File Search, Scenario sim, refresh memory live
-5. Moat → playbooks, repo-grounded RAG, DACR license
-6. Ask → pilot cohort, intros, budget
-
----
-
-⚡ This Day 28 plan makes your repo **investor-credible**: one-click run, repeatable storyline, proof artifacts, and risk guardrails.
-Perfect closer for your 28-day course.
-
----
-
+Digital Gov PMO: Use Day 21 briefs for steering meetings; Day 23/24 agents to locate files and regenerate source-linked summaries.
