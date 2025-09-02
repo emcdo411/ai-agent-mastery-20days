@@ -112,39 +112,66 @@ Highlight high-risk points. Add narrative bullets for a donor pitch.
 
 ```mermaid
 flowchart TD
-  %% --- Nodes ---
+  %% ===== Nodes =====
   C([Community Patient]):::start
-  D1{Transport<br/>Available?}:::decision
-  CH[Clinic Visit]:::process
-  D2{Supplies<br/>In Stock?}:::decision
-  HH[Referral Hospital]:::process
-  OUT[Positive Health Outcome]:::good
-  RISK1([Delay<br/>(High Risk)]):::risk
-  RISK2([Stockout<br/>(High Risk)]):::risk
-  NEG[Adverse Outcome]:::bad
-  FEEDBACK([Community Feedback<br/>Loop]):::feedback
+  D1{Transport<br/>available?}:::decision
+  CHW[Community Health Worker<br/>triage & advice]:::process
+  CH[Primary Clinic<br/>nurse assessment]:::process
+  D2{Essential supplies<br/>in stock?}:::decision
+  TRIAGE{Meets referral<br/>criteria?}:::decision
+  HH[Referral Hospital<br/>OB/GYN or surgery]:::process
+  OUT[Positive health outcome]:::good
+  RISK_DELAY([Delay — high risk]):::risk
+  RISK_STOCK([Stockout — high risk]):::risk
+  NEG[Adverse outcome]:::bad
+  MIT_TRAN[Mitigation:<br/>transport voucher / ambulance]:::mitigation
+  MIT_STOCK[Mitigation:<br/>borrow kit / alternate clinic]:::mitigation
+  RESTOCK[Restock request<br/>LMIS ticket raised]:::process
+  QA[Quality review<br/>M&M / case audit]:::review
+  FEED[Community feedback<br/>and health ed]:::feedback
 
-  %% --- Flows ---
+  %% ===== Main Flow =====
   C --> D1
   D1 -->|Yes| CH
-  D1 -->|No| RISK1 --> NEG
+  D1 -->|No| CHW
+  CHW --> MIT_TRAN
+  MIT_TRAN --> CH
   CH --> D2
-  D2 -->|Yes| HH
-  D2 -->|No| RISK2 --> NEG
+
+  %% Supplies decision
+  D2 -->|Yes| TRIAGE
+  D2 -->|No| RISK_STOCK --> MIT_STOCK --> RESTOCK --> CH
+  RISK_STOCK --> NEG
+
+  %% Referral decision
+  TRIAGE -->|Yes| HH
+  TRIAGE -->|No| CHW
+
+  %% Outcomes
   HH --> OUT
+  CHW --> OUT
+  RISK_DELAY --> NEG
+  CHW -. if unresolved .-> RISK_DELAY
 
-  %% --- Feedback Loops ---
-  OUT -.-> FEEDBACK -.-> C
-  NEG -. monitor & adapt .-> FEEDBACK
+  %% Feedback & Learning Loops
+  OUT -. success factors .-> QA
+  NEG -. root cause .-> QA
+  QA -. actions & SOP updates .-> CH
+  QA -. transport policy updates .-> CHW
+  OUT -. community trust .-> FEED -.-> C
+  NEG -. risk communication .-> FEED -.-> C
 
-  %% --- Styles ---
-  classDef start fill:#cce5ff,stroke:#004085,stroke-width:2px;
-  classDef decision fill:#fff3cd,stroke:#856404,stroke-width:2px;
-  classDef process fill:#e2e3e5,stroke:#383d41,stroke-width:1.5px;
-  classDef risk fill:#f8d7da,stroke:#721c24,stroke-width:2px;
-  classDef good fill:#d4edda,stroke:#155724,stroke-width:2px;
-  classDef bad fill:#f5c6cb,stroke:#721c24,stroke-width:2px;
-  classDef feedback fill:#d1ecf1,stroke:#0c5460,stroke-width:2px,stroke-dasharray: 5 5;
+  %% ===== Styles =====
+  classDef start fill:#cfe8ff,stroke:#0062cc,stroke-width:2px,color:#002a5a;
+  classDef decision fill:#fff3cd,stroke:#8c6d1f,stroke-width:2px,color:#3d2f00;
+  classDef process fill:#e9ecef,stroke:#495057,stroke-width:1.5px,color:#212529;
+  classDef mitigation fill:#e8f7ff,stroke:#0aa2c0,stroke-width:2px,color:#044e54,stroke-dasharray: 4 3;
+  classDef review fill:#ede7f6,stroke:#5e35b1,stroke-width:2px,color:#311b92;
+  classDef feedback fill:#e3f2fd,stroke:#1976d2,stroke-width:2px,color:#0d47a1,stroke-dasharray: 5 4;
+  classDef risk fill:#fdecea,stroke:#b71c1c,stroke-width:2px,color:#5d0000;
+  classDef good fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:#0b3d0b;
+  classDef bad fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#6a1b1b;
+
 
 ```
 
