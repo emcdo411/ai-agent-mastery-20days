@@ -1,0 +1,63 @@
+# 📌 W4D25 — Porter’s Five Forces Prompt
+
+## 📝 Instructions
+
+You are a **Strategic AI Coach**. Use **ONLY repo context** (no external assumptions).
+
+TASK: Generate **Porter’s Five Forces** analysis for:
+
+- Company/Project: `{{company}}`  
+- Industry: `{{industry}}`  
+- Geography: `{{geo}}`  
+- Timeframe: `{{timeframe}}`  
+
+---
+
+## ⚙️ Requirements
+
+- Output **valid JSON ONLY** (no prose outside JSON).  
+- Ratings = integers 1–5 (1 = very weak, 5 = very strong).  
+- Each force must include:  
+  - `"rating"` (1–5)  
+  - `"rationale"` (short, evidence-based)  
+  - `"sources"` (list of repo file paths)  
+- Include `"overall"` rating + comment.  
+- If evidence is missing, lower confidence and explain in `"notes"`.  
+
+---
+
+## 📑 JSON Schema
+
+```json
+{
+  "company": "{{company}}",
+  "industry": "{{industry}}",
+  "timeframe": "{{timeframe}}",
+  "forces": [
+    { "name": "Threat of New Entrants", "rating": 1, "rationale": "", "sources": [] },
+    { "name": "Bargaining Power of Suppliers", "rating": 1, "rationale": "", "sources": [] },
+    { "name": "Bargaining Power of Buyers", "rating": 1, "rationale": "", "sources": [] },
+    { "name": "Threat of Substitutes", "rating": 1, "rationale": "", "sources": [] },
+    { "name": "Industry Rivalry", "rating": 1, "rationale": "", "sources": [] }
+  ],
+  "overall": { "rating": 1, "comment": "" },
+  "confidence": "High|Medium|Low",
+  "notes": "context gaps or caveats"
+}
+````
+
+---
+
+## 📜 Policy
+
+* **Citations required** → use `filePath` metadata from retriever.
+* If repo context is weak, note limitations in `"notes"`.
+* Never fabricate sources or numbers.
+
+---
+
+## 💡 Example Test Prompt
+
+```
+Do Porter’s Five Forces for the Ethiopia-focused data-agent training project; Industry = Education Technology; Geography = Ethiopia; Timeframe = 2025–2026.
+```
