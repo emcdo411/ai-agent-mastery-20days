@@ -1,157 +1,134 @@
-### ✅ Updated File Instructions
+# 🌍 W4D25 — Example Outputs (Ethiopia-Focused Modules)
 
-### 1️⃣ Open the file in Notepad
-
-```powershell
-notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day25\W4D25_examples.md"
-```
+This file shows **example JSON outputs + converted briefs** for Day 25.
+Replace dummy values with **real repo evidence** when running tests.
 
 ---
 
-### 2️⃣ Paste this **exact template**, then Save & Close
+## 1️⃣ SWOT Example — Oromia Healthcare (2023–2024)
 
-````markdown
-# W4D25 — Strategy Modules: Example Outputs
+### JSON Output
 
-👉 Paste **one example per module**.  
-For each:  
-1. Show the **raw JSON** exactly as returned (no edits).  
-2. Write a **short executive brief** in plain bullets, built directly from the JSON.  
-
----
-
-## 1) SWOT — Example
-
-**Prompt used:**  
-SWOT for {{company}} in {{industry}} ({{geo}}, {{timeframe}}). Use repo context only; cite files.
-
-**Raw JSON (from SWOT)**
 ```json
 {
-  "company": "ACME",
-  "industry": "AI training",
-  "geo": "US",
-  "timeframe": "Q4 2025",
-  "strengths": [],
-  "weaknesses": [],
-  "opportunities": [],
-  "threats": [],
-  "confidence": "Medium",
-  "notes": ""
-}
-```
-
-**Executive Brief**  
-- Key strengths: …  
-- Weaknesses: …  
-- Opportunities: …  
-- Threats: …  
-**Action Items**  
-- …  
-**Confidence:** Medium — repo coverage partial  
-**Sources:** `Week2_Automation_Workflows/Day9/lesson.md`, `...`
-
----
-
-## 2) Porter’s Five Forces — Example
-
-**Prompt used:**  
-Porter’s for {{company}} / {{industry}} ({{geo}}, {{timeframe}}). Repo citations only.
-
-**Raw JSON (from Porter’s)**
-```json
-{
-  "company": "ACME",
-  "industry": "AI training",
-  "geo": "US",
-  "timeframe": "Q4 2025",
-  "forces": [
-    { "name": "Threat of New Entrants", "rating": 3, "rationale": "", "sources": [] },
-    { "name": "Bargaining Power of Suppliers", "rating": 2, "rationale": "", "sources": [] },
-    { "name": "Bargaining Power of Buyers", "rating": 4, "rationale": "", "sources": [] },
-    { "name": "Threat of Substitutes", "rating": 3, "rationale": "", "sources": [] },
-    { "name": "Industry Rivalry", "rating": 4, "rationale": "", "sources": [] }
+  "sector": "healthcare",
+  "region": "Oromia",
+  "timeframe": "2023-2024",
+  "strengths": [
+    { "point": "Expanded rural clinic coverage", "evidence": "Coverage increased by 12% in Oromia clinics", "sources": ["oromia_health_budget_2023.csv"] }
   ],
-  "overall": { "rating": 3, "comment": "" },
+  "weaknesses": [
+    { "point": "Shortage of trained nurses", "evidence": "Nurse-to-patient ratio 1:800 vs national 1:500", "sources": ["oromia_staffing_survey.md"] }
+  ],
+  "opportunities": [
+    { "point": "Donor-funded maternal health programs", "evidence": "World Bank maternal health grant approved", "sources": ["healthcare_donor_notes.md"] }
+  ],
+  "threats": [
+    { "point": "Regional instability affecting logistics", "evidence": "Supply disruptions reported in Q3 2023", "sources": ["logistics_report_oromia.txt"] }
+  ],
   "confidence": "Medium",
-  "notes": ""
+  "notes": "Some gaps in latest staffing data after July 2023"
 }
 ```
 
-**Executive Brief**  
-- New entrants risk: …  
-- Supplier power: …  
-- Buyer power: …  
-- Substitutes threat: …  
-- Rivalry intensity: …  
-**Action Items**  
-- …  
-**Confidence:** Medium — repo cites partial  
-**Sources:** `...`
+### Executive Brief
+
+* Oromia healthcare shows **strength in rural clinic expansion** but suffers from **critical nurse shortages**.
+* **Donor-backed maternal health funding** is a major opportunity.
+* **Instability and logistics issues** remain a key threat to service delivery.
+* Confidence: **Medium** (missing updated July staffing figures).
+* Sources: `oromia_health_budget_2023.csv`, `oromia_staffing_survey.md`, `healthcare_donor_notes.md`
+
+**Action Items:**
+
+1. Prioritize nurse training pipeline.
+2. Allocate logistics contingency budget.
+3. Leverage donor maternal health grants for scaling.
 
 ---
 
-## 3) OKRs — Example
+## 2️⃣ Porter’s Five Forces Example — Addis Ababa Education (2024)
 
-**Prompt used:**  
-Draft OKRs for {{team}} ({{timeframe}}), focus = {{focus}}. Tie KRs to repo metrics.
+### JSON Output
 
-**Raw JSON (from OKRs)**
 ```json
 {
-  "team": "Cohort Ops",
-  "timeframe": "H1 2026",
+  "sector": "education",
+  "region": "Addis Ababa",
+  "timeframe": "2024",
+  "forces": [
+    { "name": "Threat of New Entrants (NGOs/private)", "rating": 3, "rationale": "Private academies increasing enrollment share", "sources": ["education_market_aa.csv"] },
+    { "name": "Bargaining Power of Suppliers (teachers)", "rating": 4, "rationale": "High turnover due to low salaries", "sources": ["teacher_attrition_survey.md"] },
+    { "name": "Bargaining Power of Citizens", "rating": 2, "rationale": "Limited parent advocacy channels", "sources": ["parent_feedback_notes.md"] },
+    { "name": "Threat of Substitutes (alternative providers)", "rating": 2, "rationale": "Few substitutes beyond tutoring", "sources": ["education_trends.txt"] },
+    { "name": "Inter-Regional Rivalry", "rating": 3, "rationale": "Competition with Oromia schools for teacher talent", "sources": ["regional_comparison.csv"] }
+  ],
+  "overall": { "rating": 3, "comment": "Moderately competitive, supplier power (teachers) most critical." },
+  "confidence": "High",
+  "notes": "Strong survey coverage in 2023–24 dataset."
+}
+```
+
+### Executive Brief
+
+* Addis Ababa education faces **high teacher bargaining power** and **moderate competition** with neighboring Oromia.
+* Parents have **limited advocacy channels**, reducing citizen pressure.
+* Overall competitive pressure = **moderate (3/5)**.
+* Confidence: **High** (surveys cover 2023–24).
+* Sources: `education_market_aa.csv`, `teacher_attrition_survey.md`, `regional_comparison.csv`
+
+**Action Items:**
+
+1. Address teacher salary + retention incentives.
+2. Strengthen parent engagement programs.
+3. Monitor private academy growth for equity gaps.
+
+---
+
+## 3️⃣ OKR Example — Ethiopia Healthcare (Maternal Health, H1 2025)
+
+### JSON Output
+
+```json
+{
+  "sector": "healthcare",
+  "region": "national",
+  "timeframe": "H1 2025",
   "objectives": [
     {
-      "objective": "Increase completion & placements",
+      "objective": "Reduce maternal mortality rate by 20%",
       "key_results": [
-        { "kr": "", "metric": "", "baseline": "unknown", "target": "", "source_files": [] },
-        { "kr": "", "metric": "", "baseline": "unknown", "target": "", "source_files": [] }
+        { "kr": "Increase skilled birth attendance", "metric": "% of births attended by skilled staff", "baseline": "64%", "target": "75%", "source_files": ["maternal_health_baseline.csv"] },
+        { "kr": "Expand rural maternal clinics", "metric": "Number of functioning rural maternal clinics", "baseline": "145", "target": "200", "source_files": ["clinic_counts_2024.csv"] }
       ],
-      "owners": ["Ops Lead"],
-      "risks": ["", ""],
-      "assumptions": [""]
+      "owners": ["Ministry of Health", "Regional Health Bureaus"],
+      "risks": ["Staff turnover", "Supply chain delays"],
+      "assumptions": ["Donor funding remains stable", "Security allows clinic operations"]
     }
   ],
   "confidence": "Medium",
-  "notes": ""
+  "notes": "Targets ambitious; dependent on donor funding."
 }
 ```
 
-**Executive Brief**  
-- Objective focus: …  
-- Key Results: …  
-- Risks & Assumptions: …  
-**Action Items**  
-- …  
-**Confidence:** Medium — repo data limited  
-**Sources:** `...`
+### Executive Brief
+
+* Ethiopia’s **H1 2025 maternal health OKRs** target a **20% mortality reduction**.
+* **Skilled birth attendance** should increase from 64% → 75%.
+* **Rural maternal clinics** must scale from 145 → 200.
+* Risks: staff turnover + supply chain delays.
+* Confidence: **Medium** (donor dependency).
+* Sources: `maternal_health_baseline.csv`, `clinic_counts_2024.csv`
+
+**Action Items:**
+
+1. Secure stable donor funding contracts.
+2. Fast-track rural clinic expansion.
+3. Develop retention incentives for skilled birth staff.
 
 ---
 
-## Notes
-- Keep JSON **exactly as returned** (no edits inside code block).  
-- Executive briefs = **5–7 bullets** + 3 action items.  
-- Always include **Confidence** and **Sources**.  
-- Keep the vibe: JSON first, human summary second.  
-
-````
+✅ With these examples, learners can see how repo files (`.csv`, `.md`, `.txt`) flow into **structured JSON → concise briefs → action items** for Ethiopian development priorities.
 
 ---
-
-### 3️⃣ Commit & Push
-
-```powershell
-cd "C:\Users\Veteran\ai-agent-mastery-28days"
-
-git add "Week4_Autonomous_Strategic_Agents/Day25/W4D25_examples.md"
-git commit -m "W4D25: add vibe coding examples template (SWOT, Porter, OKRs JSON + briefs)"
-git push
-```
-
----
-
-
-
-
 
