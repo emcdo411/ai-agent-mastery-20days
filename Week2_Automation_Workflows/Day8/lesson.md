@@ -1,46 +1,39 @@
-<!-- Licensed under DACR-1.1 — see LICENSE.md -->
+⚖️ Day 8 — Political Strategy Flow
+📌 Objective
 
-# ⚡ Day 8 — PRD That Engineers Actually Read
+Map how political strategy decisions flow from idea → message → outcome.
 
-## 📌 Objective
-- Draft a **2-page PRD** that is buildable this week.
-- Capture **users, scope, acceptance criteria, and risks**.
-- Commit it to your repo.
+Learn to insert AI agents into these checkpoints (speech drafts, policy scans, public sentiment checks).
 
----
+🛠 Steps
 
-## 🛠 Steps (≤30–45 min)
+Create file: Week2_Vibe_Coding/Day8/political_flow.md
 
-1. **Create the file**
-   - `Week2_Vibe_Coding/Day08/PRD.md`
+Draw flowchart:
 
-2. **Paste this template & fill**
-   ```md
-   # Product Requirements Doc (PRD)
+flowchart TD
+  A[Issue Identified] --> B[Policy Draft]
+  B --> C[Stakeholder Input]
+  C --> D[Public Messaging]
+  D --> E[Implementation]
+  E --> F[Public Feedback]
 
-   ## 1) Problem
-   Who hurts? What’s broken? Evidence (1–2 bullets).
 
-   ## 2) Users & Jobs To Be Done
-   Primary user, goals, key JTBD statements.
+Add AI touchpoints (e.g., ChatGPT = draft, Perplexity = fact-check, bot = citizen Q&A).
 
-   ## 3) Outcomes & Metrics
-   Target metric(s), baseline, success by when.
+📂 Deliverables
 
-   ## 4) Scope (V1)
-   Must-have / Nice-to-have / Out-of-scope.
+political_flow.md (diagram + notes)
 
-   ## 5) User Stories (V1)
-   - As a <user>, I want <capability> so that <outcome>. [Acceptance Criteria]
-   - …
+/logs/day8.md
 
-   ## 6) Constraints & Risks
-   Tech, data, timeline, compliance.
+Commit: docs(day8): political strategy workflow
 
-   ## 7) Rollout
-   Milestones, owners, sign-offs.
+✅ Rubric
 
-   ## 8) Links
-   Issues/backlog, designs, repo.
+ Flowchart completed
 
+ At least 2 AI touchpoints added
+
+ Reflection log
 
