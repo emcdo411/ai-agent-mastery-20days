@@ -1,1 +1,82 @@
-test test test 
+# 🌍 Week 2 — Governance & Leadership with Vibe Coding
+
+*Political Strategy • AI Governance • Municipal Readiness • Boardroom Tools*
+
+---
+
+## 📑 Table of Contents
+- [⚖️ Day 8 — Political Strategy Flow](#️-day-8--political-strategy-flow)
+- [📜 Day 9 — Context Engineering](#-day-9--context-engineering)
+- [⚡ Day 10 — How Software Gets Built](#-day-10--how-software-gets-built)
+- [🔧 Day 11 — Git Without Fear](#-day-11--git-without-fear)
+- [🌐 Day 12 — Ship Your Site/App](#-day-12--ship-your-siteapp)
+- [📊 Day 13 — Civic Data Micro-Tools](#-day-13--civic-data-micro-tools)
+- [🧰 Day 14 — Mini-Project 2](#-day-14--mini-project-2)
+
+---
+
+## ⚖️ Day 8 — Political Strategy Flow
+- Map how **issues become policy** (idea → draft → messaging → implementation → citizen feedback).  
+- Add AI touchpoints: drafting (ChatGPT-5), fact-checking (Perplexity), translation, public sentiment analysis.  
+- Deliverable: `political_flow.md`
+
+---
+
+## 📜 Day 9 — Context Engineering
+- Build **context packs** that enforce consistency and guardrails.  
+- Files: `constraints.md`, `apis.md`, `glossary.md`, `system_prompt_coding.md`, `system_prompt_governance.md`  
+- Deliverable: Governance-aware prompts + context repo.
+
+---
+
+## ⚡ Day 10 — How Software Gets Built
+- Learn the **SDLC** (idea → backlog → build → test → review → merge → deploy → monitor).  
+- Insert **oversight checkpoints** for governance.  
+- Deliverable: `build_flow.md` + mini backlog.
+
+---
+
+## 🔧 Day 11 — Git Without Fear
+- Practice **branching, PRs, and .gitignore**.  
+- Git = your **audit trail + accountability system**.  
+- Deliverable: `.gitignore` + first PR merged.
+
+---
+
+## 🌐 Day 12 — Ship Your Site/App
+- Two paths:  
+  - **Replit** → lightweight HTML site.  
+  - **Lovable** → AI-first builder for mobile/desktop-ready landing pages & apps.  
+- Deliverable: `deploy_notes.md` + live link.
+
+---
+
+## 📊 Day 13 — Civic Data Micro-Tools
+- Build **Databutton calculators** for real-world governance:  
+  - Permit backlog estimator  
+  - Disaster relief budgeter  
+  - Campaign turnout predictor  
+- Deliverable: `databutton_app.md` + public link.
+
+---
+
+## 🧰 Day 14 — Mini-Project 2
+- Refine your **PRD** with what was actually shipped.  
+- Add **advanced Mermaid process maps + visuals**.  
+- Prepare a **3–5 min demo script** (boardroom-ready).  
+- Deliverables: `PRD_v2.md`, `process_map.md`, `visuals.md`, `demo_script.md`.
+
+---
+
+## ✅ By End of Week 2
+You should be able to:
+- Map political workflows with AI checkpoints.  
+- Author **context packs** for coding + governance.  
+- Understand how software gets built + where oversight fits.  
+- Use **Git** as an accountability log.  
+- Ship a **site/app** in under an hour.  
+- Publish a **civic micro-tool** with Databutton.  
+- Deliver a **boardroom-ready demo** combining all assets.  
+
+---
+
