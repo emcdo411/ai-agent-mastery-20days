@@ -112,11 +112,40 @@ Highlight high-risk points. Add narrative bullets for a donor pitch.
 
 ```mermaid
 flowchart TD
-  C[Community] -->|If transport available| CH[Clinic Visit]
-  C -->|No transport| Delay[Delay (High Risk)]
-  CH -->|Supplies in stock| HH[Referral Hospital]
-  CH -->|Supplies missing| Stockout[Stockout (High Risk)]
-  HH --> Outcome[Health Outcome]
+  %% --- Nodes ---
+  C([Community Patient]):::start
+  D1{Transport<br/>Available?}:::decision
+  CH[Clinic Visit]:::process
+  D2{Supplies<br/>In Stock?}:::decision
+  HH[Referral Hospital]:::process
+  OUT[Positive Health Outcome]:::good
+  RISK1([Delay<br/>(High Risk)]):::risk
+  RISK2([Stockout<br/>(High Risk)]):::risk
+  NEG[Adverse Outcome]:::bad
+  FEEDBACK([Community Feedback<br/>Loop]):::feedback
+
+  %% --- Flows ---
+  C --> D1
+  D1 -->|Yes| CH
+  D1 -->|No| RISK1 --> NEG
+  CH --> D2
+  D2 -->|Yes| HH
+  D2 -->|No| RISK2 --> NEG
+  HH --> OUT
+
+  %% --- Feedback Loops ---
+  OUT -.-> FEEDBACK -.-> C
+  NEG -. monitor & adapt .-> FEEDBACK
+
+  %% --- Styles ---
+  classDef start fill:#cce5ff,stroke:#004085,stroke-width:2px;
+  classDef decision fill:#fff3cd,stroke:#856404,stroke-width:2px;
+  classDef process fill:#e2e3e5,stroke:#383d41,stroke-width:1.5px;
+  classDef risk fill:#f8d7da,stroke:#721c24,stroke-width:2px;
+  classDef good fill:#d4edda,stroke:#155724,stroke-width:2px;
+  classDef bad fill:#f5c6cb,stroke:#721c24,stroke-width:2px;
+  classDef feedback fill:#d1ecf1,stroke:#0c5460,stroke-width:2px,stroke-dasharray: 5 5;
+
 ```
 
 **Narrative:**
