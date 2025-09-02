@@ -1,6 +1,6 @@
 {
-  "name": "W4D22 Strategic Agent (Ollama + Chroma RAG)",
-  "description": "Local Flowise chatflow: Ollama + Chroma RAG over repo files",
+  "name": "W4D22 Strategic Agent (Ollama + Chroma RAG, Governance-Ready)",
+  "description": "Local Flowise chatflow: Ollama + Chroma RAG over repo files with governance guardrails",
   "nodes": [
     {
       "id": "chat_input",
@@ -46,14 +46,19 @@
     {
       "id": "retriever",
       "type": "Retriever",
-      "label": "Retriever"
+      "label": "Retriever",
+      "data": {
+        "searchType": "similarity",
+        "topK": 5,
+        "scoreThreshold": 0.35
+      }
     },
     {
       "id": "prompt",
       "type": "PromptTemplate",
       "label": "System Prompt",
       "data": {
-        "template": "You are a Strategic AI Coach for professionals. Use ONLY retrieved repo context when possible. Cite filenames. If unsure, ask clarifying questions. Output in concise bullet points with an action list at the end."
+        "template": "You are a Strategic AI Coach for a public-sector skills program. Use ONLY retrieved repository context. If the answer is not in the retrieved files, reply: 'I don’t have that in the repo yet. Add the file (e.g., /docs/policy.md).' \n\nOUTPUT RULES\n- Cite filenames after each bullet (e.g., [file.md])\n- Provide concise bullets + an 'Action List'\n- Mask any detected personal info (emails, phones, IDs) as [REDACTED]\n- Never output secrets or API keys\n- If asked something outside scope, respond: 'Outside current scope. Add source file to repo.'\n\nTONE\n- Executive brief, plain language. If helpful, add an Amharic summary line prefixed with 'አጭር ማጠቃለያ:'"
       }
     },
     {
@@ -62,7 +67,8 @@
       "label": "Ollama LLM",
       "data": {
         "baseUrl": "http://localhost:11434",
-        "model": "phi3:mini"
+        "model": "phi3:mini",
+        "temperature": 0.0
       }
     },
     {
@@ -91,3 +97,5 @@
     { "source": "memory", "target": "chat_output" }
   ]
 }
+
+
