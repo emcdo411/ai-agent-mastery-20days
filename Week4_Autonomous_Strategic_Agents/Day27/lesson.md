@@ -199,12 +199,48 @@ You’ve turned your stack into a **decision-support agent** that can:
 ## 🔗 Flow Diagram
 
 ```mermaid
-flowchart LR
-  A[Chat Input] --> B{Router}
-  B -->|simulate / scenario| C[HTTP: /scenario/run]
-  C --> D[Post-Processor Prompt]
-  D --> E[LLM]
-  E --> F[Chat Output]
-  B -->|else| G[RAG Path (Retriever→Prompt→LLM→Output)]
+%%{ init: { "theme": "dark" } }%%
+flowchart TD
+  %% Entry
+  A[Chat Input] --> B{Router: intent?}
+
+  %% --- Simulation path ---
+  B -->|simulate / scenario| S1[Build request JSON]
+  S1 --> S2[HTTP POST /scenario/run]
+  S2 --> S3[Post-processor: JSON -> brief]
+  S3 --> OUT1[Chat Output]
+
+  %% --- File search path ---
+  B -->|find / where / which file| F1[HTTP GET /files/search]
+  F1 --> F2[Summarize matches (filename + snippet, max 10)]
+  F2 --> OUT2[Chat Output]
+
+  %% --- CSV summary path ---
+  B -->|csv / columns / nulls / summary| C1[HTTP POST /csv/summary]
+  C1 --> C2[Describe rows, cols, null%, top stats]
+  C2 --> OUT3[Chat Output]
+
+  %% --- Refresh memory path ---
+  B -->|refresh memory| R0[Document Loader (md, csv, txt)]
+  R0 --> R1[Text Splitter 1000/150]
+  R1 --> R2[Embeddings (nomic-embed-text)]
+  R2 --> R3[Chroma upsert]
+  R3 --> R4[Confirm: Memory refresh complete]
+  R4 --> OUT4[Chat Output]
+
+  %% --- RAG Q&A fallback ---
+  B -->|else| Q0[Retriever (Chroma, topK=4, threshold ~0.35-0.45)]
+  Q0 --> Q1{Similarity >= threshold?}
+  Q1 -->|yes| Q2[Prompt: Guardrails + Citations]
+  Q2 --> LLM[Ollama LLM]
+  LLM --> OUT5[Chat Output]
+
+  Q1 -->|no| QX[Ask one clarifying question]
+  QX --> OUT6[Chat Output]
+
+  %% --- Memory buffer (optional) ---
+  LLM -. history window 5-10 .- M[(Chat Memory)]
+  M -. provides context .- Q2
+
 ```
 
