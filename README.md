@@ -147,27 +147,59 @@ ai-agent-mastery-28days/
 ```mermaid
 %%{ init: { "theme": "forest" } }%%
 flowchart TD
+  %% Entry
   A[Chat Input] --> R{Router: intent?}
 
-  %% Simulation path
-  R -->|simulate / scenario| S1[HTTP POST /scenario/run] --> S2[Exec Brief Generator] --> OUT1[Chat Output]
+  %% ---- Simulation path ----
+  R -->|simulate / scenario| S_PREP[Build scenario JSON]
+  S_PREP --> S_HTTP[HTTP POST /scenario/run]
+  S_HTTP --> S_POST[Post-process: JSON -> brief]
+  S_POST --> OUT_SIM[Chat Output (simulation)]
 
-  %% File search path
-  R -->|find / where / file| F1[HTTP GET /files/search] --> F2[Summarize matches] --> OUT2[Chat Output]
+  %% ---- File search path ----
+  R -->|find / where / file| F_HTTP[HTTP GET /files/search]
+  F_HTTP --> F_SUM[Summarize matches (filename + snippet, max 10)]
+  F_SUM --> OUT_FIND[Chat Output (file search)]
 
-  %% CSV summary path
-  R -->|csv / summary| C1[HTTP POST /csv/summary] --> C2[Profile dataset] --> OUT3[Chat Output]
+  %% ---- CSV summary path ----
+  R -->|csv / columns / summary| C_HTTP[HTTP POST /csv/summary]
+  C_HTTP --> C_SUM[Profile rows, cols, null%, top stats]
+  C_SUM --> OUT_CSV[Chat Output (csv summary)]
 
-  %% Refresh memory path
-  R -->|refresh memory| M1[Loader + Splitter] --> M2[Ollama Embeddings] --> M3[Chroma Upsert] --> M4[Confirm refresh] --> OUT4[Chat Output]
+  %% ---- Refresh memory path ----
+  R -->|refresh memory| M_LOAD[Document Loader (md,csv,txt)]
+  M_LOAD --> M_SPLIT[Text Splitter 1000/150]
+  M_SPLIT --> M_EMB[Ollama Embeddings (nomic-embed-text)]
+  M_EMB --> M_UPSERT[Chroma Upsert]
+  M_UPSERT --> OUT_REFRESH[Chat Output (memory refreshed)]
 
-  %% RAG fallback
-  R -->|else| Q1[Retriever (Chroma)] --> Q2{Similarity ≥ threshold?}
-  Q2 -->|yes| Q3[Prompt: Guardrails + Citations] --> LLM[Ollama LLM] --> OUT5[Chat Output]
-  Q2 -->|no| CQ[Clarifying question] --> OUT6[Chat Output]
+  %% ---- RAG fallback path ----
+  R -->|else| RETR[Retriever (Chroma, topK=4, thr~0.35-0.45)]
+  RETR --> SIMCHK{Similarity >= threshold?}
+  SIMCHK -->|yes| P_GUARD[Prompt: Guardrails + Citations]
+  SIMCHK -->|no| ASK[Ask 1 clarifying question] --> OUT_CLAR[Chat Output (clarify)]
 
-  %% Memory buffer
-  LLM -. context history .- MEM[(Chat Memory)]
+  P_GUARD --> LLM[Ollama LLM]
+  LLM --> POST_FMT[Post-format: bullets + actions + confidence]
+  POST_FMT --> OUT_RAG[Chat Output (rag)]
+
+  %% ---- Guardrails & telemetry (side channels) ----
+  OUT_SIM --> LOG[(Telemetry)]
+  OUT_FIND --> LOG
+  OUT_CSV --> LOG
+  OUT_REFRESH --> LOG
+  OUT_RAG --> LOG
+
+  LOG --> METRICS[[Metrics: latency, hit rates, confidence]]
+  LOG --> CITATIONS[[Citations: file paths in answers]]
+
+  %% ---- Optional resilience ----
+  LLM -. rate-limit / timeout .- CB{Circuit Breaker}
+  CB -. fallback -> low-temp retry .- LLM
+
+  %% ---- Memory buffer (optional) ----
+  LLM -. short history window (5-10) .- MEM[(Chat Memory)]
+
 ```
 
 ---
