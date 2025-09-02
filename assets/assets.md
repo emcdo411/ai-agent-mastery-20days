@@ -42,11 +42,9 @@ This folder holds **Day 28 mastery program assets** — the boardroom-ready kit 
 ## 🗺 Workflow
 
 ```mermaid
-%%{ init: { 'theme': 'dark' } }%%
 ## 🗺 Workflow
 
 ```mermaid
-%%{ init: { 'theme': 'dark' } }%%
 flowchart LR
     A["🗂 Assets (Day28)"]
     B["⚖️ AI Governance vs Leadership"]
