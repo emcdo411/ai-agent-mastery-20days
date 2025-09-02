@@ -1,218 +1,196 @@
-# 📊 Day 15 — Vibe Coding: *Colab Data Agent (Civic & Boardroom Ready)*
+# 📄 Day 16 (Updated)
+```markdown
+# 📊 Day 16 — Vibe Coding: *Kaggle Ingest + Robust Cleaning (Governance Lens)*
 
-Spin up a **Colab notebook** that behaves like a *data agent*: ingest → clean → visualize → export → brief — all in ≤30 minutes, with **light governance guardrails**.
+Create a **Colab cleaning pipeline** that’s repeatable and governance-aware:
+ingest → audit → clean → profile → export → issues log.
 
 ⏱ **Target Time:** ≤ 30 minutes
 
 ---
 
+## ✅ Prereqs
+
+- Free **Kaggle** account → https://www.kaggle.com  
+- One small CSV (≤ 50 MB)
+
+---
+
 ## 🌟 Objective
 
-Build a **Google Colab** notebook that:
+Produce:
 
-- Loads a CSV (URL or upload)
-- Cleans & standardizes (with **PII scan + optional anonymize**)
-- Creates one quick chart (auto-fallback if columns don’t match)
-- Exports a cleaned CSV, a PNG chart, and a **1-page executive brief (MD)**
-- Drops artifacts into your repo for Week 3
+- `W3D16_clean.csv` — Cleaned data  
+- `W3D16_profile.md` — Profile summary (nulls, uniques, types)  
+- `W3D16_issues.md` — **Governance + data-quality issues log**  
+- `W3D16_Kaggle_Cleaning.ipynb` — Notebook
 
 ---
 
 ## 🛠 Steps
 
-### 1️⃣ Create the Notebook
-
-1. Open [Google Colab](https://colab.research.google.com)
-2. **New Notebook** → rename: `W3D15_Data_Agent_Starter.ipynb`
-
----
-
-### 2️⃣ Cell 1 — Load Data (URL or Upload)
+### 1️⃣ Load Data
 
 ```python
-# ==== Day 15: Data Agent (Civic Edition) ====
-import pandas as pd, numpy as np, io, re, os
-import matplotlib.pyplot as plt
+# ==== Day 16: Kaggle Cleaning (Governance Lens) ====
+import pandas as pd, numpy as np, io, os, re
+from google.colab import files, data_table
 
-# ---- Option A: Public dataset (example) ----
-# Replace with a local ministry/open data CSV if available.
-DATA_URL = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv"
-
-# ---- Option B: Upload your own ----
-USE_UPLOAD = False  # flip to True to upload
-
-if not USE_UPLOAD and DATA_URL:
-    df = pd.read_csv(DATA_URL)
-    source = f"URL: {DATA_URL}"
-else:
-    from google.colab import files
-    print("Upload a CSV…")
-    uploaded = files.upload()
-    fname = next(iter(uploaded))
-    df = pd.read_csv(io.BytesIO(uploaded[fname]))
-    source = f"Upload: {fname}"
-
-print("Rows, Columns:", df.shape)
-display(df.head(3))
-3️⃣ Cell 2 — Clean, Standardize, PII Scan
+print("Upload your Kaggle CSV:")
+uploaded = files.upload()
+fname = next(iter(uploaded))
+df = pd.read_csv(io.BytesIO(uploaded[fname]))
+print("Loaded:", fname, "| Shape:", df.shape)
+data_table.enable_dataframe_formatter()
+df.head()
+2️⃣ Audit & Standardize
 python
 Copy code
-# ---- Normalize column names ----
 df.columns = (pd.Index(df.columns)
               .str.strip()
-              .str.replace(r"[^0-9A-Za-z]+", "_", regex=True)
+              .str.replace(r"[^0-9A-Za-z]+","_", regex=True)
               .str.lower()
               .str.strip("_"))
 
-# ---- Drop duplicates ----
-before = len(df)
-df = df.drop_duplicates()
-print("Dropped duplicates:", before - len(df))
+def audit_dataframe(df):
+    info = []
+    for col in df.columns:
+        s = df[col]
+        info.append({
+            "column": col,
+            "dtype": str(s.dtype),
+            "non_null": int(s.notna().sum()),
+            "nulls": int(s.isna().sum()),
+            "null_%": round(100 * s.isna().mean(), 2),
+            "unique": int(s.nunique(dropna=True))
+        })
+    return pd.DataFrame(info).sort_values(["null_%","unique"], ascending=[False, True])
 
-# ---- Heuristic PII scan (emails, phones, id-like) ----
-pii_cols = []
+profile = audit_dataframe(df)
+profile.head(10)
+3️⃣ Robust Cleaning + PII/ID Handling
+python
+Copy code
+# --- PII/ID heuristics ---
+import re
 email_pat = re.compile(r".*@.*\..*")
 phone_pat = re.compile(r"^\+?\d[\d\-\s()]{6,}$")
-id_like = ["national_id","ssn","nin","passport","tax_id","nhif","patient_id"]
+id_like = {"national_id","ssn","nin","passport","tax_id","nhif","patient_id","id"}
 
+pii_cols = []
 for c in df.columns:
-    snip = df[c].astype(str).head(50)
-    if c in id_like or snip.str.contains(email_pat).any() or snip.str.contains(phone_pat).any():
+    s = df[c].astype(str).head(50)
+    if c in id_like or s.str.contains(email_pat).any() or s.str.contains(phone_pat).any():
         pii_cols.append(c)
 
-if pii_cols:
-    print("⚠️ Potential PII columns detected:", pii_cols)
+# --- Normalize strings ---
+obj_cols = df.select_dtypes(include="object").columns
+for c in obj_cols:
+    df[c] = df[c].astype(str).str.strip().replace({"": np.nan})
 
-# ---- Optional anonymize (hash) PII columns ----
-ANONYMIZE = True
-if ANONYMIZE and pii_cols:
-    for c in pii_cols:
-        df[c] = df[c].astype(str).apply(lambda s: pd.util.hash_pandas_object(pd.Series([s])).iloc[0])
-    print("🔐 Anonymized PII columns (hashed).")
+# --- Try numeric coercion ---
+for c in obj_cols:
+    coerced = pd.to_numeric(df[c], errors="coerce")
+    if coerced.notna().mean() > 0.6:
+        df[c] = coerced
 
-# ---- Numeric null handling ----
+# --- Dates ---
+for c in df.columns:
+    if any(k in c for k in ["date","time","_dt","_at"]):
+        try: df[c] = pd.to_datetime(df[c], errors="coerce")
+        except: pass
+
+# --- Nulls ---
 num_cols = df.select_dtypes(include=[np.number]).columns
 if len(num_cols):
     df[num_cols] = df[num_cols].fillna(df[num_cols].median(numeric_only=True))
+cat_cols = df.select_dtypes(exclude=[np.number, "datetime64[ns]"]).columns
+for c in cat_cols:
+    if df[c].isna().any():
+        mode = df[c].mode(dropna=True)
+        if not mode.empty: df[c] = df[c].fillna(mode[0])
 
-print("Nulls remaining:")
-display(df.isna().sum())
-4️⃣ Cell 3 — Metric & Visual (Auto-Fallback)
+# --- Duplicates ---
+before = len(df); df = df.drop_duplicates(); after = len(df)
+dups = before - after
+
+# --- IQR clip (defensive) ---
+def clip_iqr(s, k=1.5):
+    q1, q3 = s.quantile([0.25,0.75]); iqr = q3 - q1
+    return s.clip(lower=q1-k*iqr, upper=q3+k*iqr)
+for c in num_cols: df[c] = clip_iqr(df[c])
+
+issues = []
+if pii_cols: issues.append(f"PII/ID-like columns detected: {pii_cols}")
+if dups: issues.append(f"Duplicate rows removed: {dups}")
+hi_null = profile[profile["null_%"]>=10.0]["column"].tolist()
+if hi_null: issues.append(f"Columns with ≥10% nulls: {hi_null}")
+4️⃣ Profile, Issues Log & Exports
 python
 Copy code
-# ---- Metric + Chart with fallback ----
-png_name = None
-
-if {"total_bill","tip"}.issubset(df.columns):
-    df["tip_percent"] = (df["tip"] / df["total_bill"]).replace([np.inf,-np.inf], np.nan) * 100
-    summary = (df.groupby("day", dropna=False)["tip_percent"]
-                 .mean().reset_index()
-                 .sort_values("tip_percent", ascending=False))
-    print("Average tip % by day:")
-    display(summary)
-
-    plt.figure()
-    plt.bar(summary["day"].astype(str), summary["tip_percent"])
-    plt.title("Average Tip % by Day")
-    plt.xlabel("Day")
-    plt.ylabel("Tip %")
-    plt.tight_layout()
-    png_name = "W3D15_tip_by_day.png"
-    plt.savefig(png_name, dpi=150)
-    plt.show()
-else:
-    cat_cols = df.select_dtypes(include="object").columns.tolist()
-    if cat_cols:
-        col = cat_cols[0]
-        counts = df[col].value_counts(dropna=False).head(12)
-        print(f"Counts for '{col}':")
-        display(counts)
-
-        plt.figure()
-        counts.plot(kind="bar", title=f"Counts by {col}")
-        plt.tight_layout()
-        png_name = "W3D15_counts.png"
-        plt.savefig(png_name, dpi=150)
-        plt.show()
-    else:
-        print("No suitable columns found for a quick chart.")
-5️⃣ Cell 4 — Export Cleaned CSV + Brief (MD)
-python
-Copy code
-# ---- Exports: cleaned CSV + brief + chart ----
-out_csv = "W3D15_clean.csv"
-df.to_csv(out_csv, index=False)
-
-brief_lines = [
-    "# W3D15 Executive Brief",
-    f"- **Source:** {source}",
-    f"- **Shape (rows x cols):** {df.shape[0]} x {df.shape[1]}",
+# ---- Profile MD ----
+lines = [
+    "# W3D16 Profile Report",
+    f"**Rows x Cols:** {df.shape[0]} x {df.shape[1]}",
+    "## Column Summary",
+    audit_dataframe(df).to_markdown(index=False),
 ]
-if pii_cols:
-    brief_lines.append(f"- **Governance:** PII columns detected & hashed → {pii_cols}")
-else:
-    brief_lines.append("- **Governance:** No PII columns detected by heuristics.")
+with open("W3D16_profile.md","w",encoding="utf-8") as f: f.write("\n\n".join(lines))
 
-brief_lines += [
-    "- **Chart:** " + (png_name if png_name else "N/A"),
-    "",
-    "## Insights (fill these quickly)",
-    "- Top 1:",
-    "- Top 2:",
-    "- Top 3:",
-    "",
-    "## Next Actions (Policy / Ops)",
-    "- [ ] Share with stakeholders",
-    "- [ ] Confirm KPI definitions",
-    "- [ ] Schedule weekly refresh",
-    "",
-    "## ጭምር / ማጠቃለያ (Amharic placeholder)",
-    "- አጭር ማጠቃለያ እዚህ ይጻፉ።",
-]
-with open("W3D15_brief.md","w",encoding="utf-8") as f:
-    f.write("\n".join(brief_lines))
+# ---- Issues Log (governance) ----
+g = ["# W3D16 Issues Log (Governance + Data Quality)"]
+g.append("- **PII Handling:** " + ("Has PII/ID-like → review + minimize" if pii_cols else "None detected by heuristics"))
+g.append("- **Duplicates Removed:** " + str(dups))
+if hi_null: g.append(f"- **High Null Columns (≥10%):** {hi_null}")
+g.append("- **Notes:** Verify lawful basis and data-sharing agreements before external publication.")
+with open("W3D16_issues.md","w",encoding="utf-8") as f: f.write("\n".join(g))
 
-print("Saved:", out_csv, "and W3D15_brief.md")
+# ---- Save CSV ----
+df.to_csv("W3D16_clean.csv", index=False)
+
+print("Saved: W3D16_clean.csv, W3D16_profile.md, W3D16_issues.md")
+
+# ---- Offer downloads ----
 try:
-    from google.colab import files
-    files.download(out_csv)
-    files.download("W3D15_brief.md")
-    if png_name and os.path.exists(png_name):
-        files.download(png_name)
-except Exception as e:
-    print("Download hint:", e)
+    files.download("W3D16_clean.csv")
+    files.download("W3D16_profile.md")
+    files.download("W3D16_issues.md")
+except: print("If downloads blocked → File > Download or mount Drive.")
 🔗 Pipeline Diagram
 mermaid
 Copy code
 %%{ init: { "theme": "dark" } }%%
 flowchart LR
-  CSV["CSV (URL/Upload)"] --> CLEAN["🔧 Clean + PII Guard"]
-  CLEAN --> VIZ["📊 Chart"]
-  VIZ --> PNG["🖼 PNG Export"]
-  CLEAN --> OUT["📂 Cleaned CSV"]
-  CLEAN --> BRIEF["📝 Exec Brief (MD)"]
+  KAGGLE["📦 Kaggle Dataset"] --> LOAD["⬆️ Upload to Colab"]
+  LOAD --> AUDIT["🔍 Audit & Standardize"]
+  AUDIT --> CLEAN["🧼 Robust Cleaning + PII Check"]
+  CLEAN --> PROFILE["📝 Profile (MD)"]
+  CLEAN --> ISSUES["⚠️ Issues Log (MD)"]
+  CLEAN --> OUT["📂 W3D16_clean.csv"]
 📂 Deliverables
-W3D15_Data_Agent_Starter.ipynb
+W3D16_Kaggle_Cleaning.ipynb
 
-W3D15_clean.csv
+W3D16_clean.csv
 
-W3D15_brief.md
+W3D16_profile.md
 
-W3D15_tip_by_day.png (or fallback W3D15_counts.png)
+W3D16_issues.md
 
-✅ Rubric (Self-Check)
- CSV loaded and cleaned
+Day16_notes.md (dataset link, why it matters, top issues)
 
- PII scan run (+ anonymized if found)
+✅ Rubric
+ Columns normalized; dups removed
 
- One chart exported (or fallback)
+ PII/ID checked and documented
 
- Executive brief created (with Amharic stub)
+ Profile & Issues Log exported
+
+ Clean CSV saved
 
 🎯 Role Relevance
-Policy/PMO: weekly KPI briefs with light privacy guardrails
+Municipal/Ministry teams: cleaner inputs → fewer dashboard disputes
 
-Municipal Leads: quick evidence for stand-ups/council updates
+Analysts/PMO: auditable data hygiene (profile + issues log)
 
-Analysts/Entrepreneurs: repeatable EDA scaffold you can ship fast
+Leadership: documentation that supports trust & transparency
 
