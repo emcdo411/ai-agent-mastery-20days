@@ -1,32 +1,27 @@
-# ⚙️ Day 27 — Agent-Triggered Simulation (Run Scenario + Summarize Results)
+⚙️ Day 27 — Agent-Triggered Simulation (Run Scenario → Summarize → Act)
 
-## 📌 Objective
+Goal: Let your Flowise agent call a local simulation on command and return a short, executive brief with probabilities and next actions. Think: “AI strategist in the loop.”
 
-Let your agent **call a simulation on command** and return an **executive-style summary**.
-Think: “AI strategist in the loop” — run → summarize → suggest next actions.
+⏱ Target time: ≤ 30 minutes
 
-You will:
+🇪🇹 Public-Sector Use (Examples)
 
-1. 🖥 Extend the local FastAPI server with `/scenario/run`
-2. 🌐 Wire an **HTTP Request tool** in Flowise
-3. 🔀 Route “simulate / scenario / run model” prompts into it
-4. 📝 Post-process JSON → **short brief with guardrails**
+Permits SLA: “Simulate permit backlog clearance; chance of meeting a 10-day SLA?”
 
-⏳ **Target time:** ≤ 30 minutes
+Maternal Health: “Simulate patients served and cost per patient; hit probability for ≤ $15?”
 
----
+Project Delivery: “Simulate completion days for a 3-stream rollout.”
 
-## 🛠 Step A — Extend Local Tools Server
+🛠 A) Extend the Local Tools Server
 
-Open `scripts/local_tools_server.py` and **append** this at the end (keep existing endpoints):
+Open scripts/local_tools_server.py and append this block (keep existing endpoints):
 
-```python
 # === Day 27: Scenario Runner (Monte Carlo-lite) ===
 from pydantic import BaseModel
 import numpy as np, pandas as pd
 
 class ScenarioReq(BaseModel):
-    scenario: str = "sales_funnel"
+    scenario: str = "sales_funnel"   # also: "project_delivery", "unit_economics"
     trials: int = 10000
     params: dict = {}
 
@@ -39,8 +34,7 @@ def _clip_norm(n, mean, sd, low=None, high=None, rng=None):
     if high is not None: x = np.minimum(x, high)
     return x
 
-def _pct(x, p):
-    return float(np.percentile(x, p))
+def _pct(x, p): return float(np.percentile(x, p))
 
 @app.post("/scenario/run")
 def run_scenario(req: ScenarioReq):
@@ -110,98 +104,94 @@ def run_scenario(req: ScenarioReq):
         "targets": targets,
         "hit_probs": hit_probs
     }
-```
 
-**Restart server:**
 
-```powershell
-cd "C:\Users\Veteran\ai-agent-mastery-28days\scripts"
+Restart server:
+
+cd scripts
 .\.venv\Scripts\Activate
 uvicorn local_tools_server:app --reload --port 8001
-```
 
-Check: [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health) → `{"status":"ok"}`
 
----
+Health check: http://127.0.0.1:8001/health
+ → {"status":"ok"}
 
-## 🛠 Step B — Flowise Setup
+🛠 B) Flowise Wiring
 
-1. Duplicate your **Day25 flow** → rename to **Day27\_Sim**
-2. Add **If/Else Router** after Chat Input:
+Duplicate your Day 25 flow → rename Day27_Sim
 
-   * If text contains `simulate`, `scenario`, `run model` → send to Scenario Tool
-   * Else → normal RAG
-3. Add **HTTP Request** node (**Scenario Tool**):
+Add If/Else Router right after Chat Input:
 
-   * Method: POST
-   * URL: `http://127.0.0.1:8001/scenario/run`
-   * Body:
+If message contains any of: simulate, simulation, scenario, run model → Scenario HTTP Tool
 
-```json
+Else → RAG path
+
+HTTP Request (Scenario Tool)
+
+Method: POST
+
+URL: http://127.0.0.1:8001/scenario/run
+
+Body (example):
+
 {
-  "scenario": "sales_funnel",
+  "scenario": "project_delivery",
   "trials": 10000,
   "params": {
-    "targets": { "revenue": 250000, "margin": 50000 }
+    "targets": { "completion_days": 20 }
   }
 }
-```
 
-* Save as variable: `scenario_json`
 
-4. Add **Prompt Template** (post-processor):
+Store response as var: scenario_json
 
-```
-You receive JSON from a simulation.
+Post-Processor Prompt (Markdown brief)
 
-RULES:
-- Output ≤ 5 bullets + 3 Action Items + Confidence.
-- If hit_probs exist, list them with %.
-- Explain p05 / p50 / p95 in plain English.
-- Suggest next experiments, not guarantees.
+You receive JSON from a scenario simulation.
+
+MANDATES
+- Output ≤ 5 bullets with p05 / p50 / p95 explained in plain English.
+- If hit_probs exist, list % for each target.
+- End with **Action Items (3)** and **Confidence** (High/Med/Low + 1 reason).
+- Make no guarantees; suggest experiments.
 
 JSON:
 {{scenario_json}}
-```
 
-5. Connect: `Router → HTTP Request → Post-Processor → LLM → Output`
 
----
+Connect: Router → HTTP Request → Post-Processor → LLM → Output
 
-## 🧪 Step C — Test Prompts
+🧪 Test Prompts
 
-* `"Simulate sales funnel with 10k trials. Target revenue 250k, margin 50k."`
-* `"Scenario: project delivery. What’s p50 timeline and chance we beat 20 days?"`
-* `"Run unit economics with higher COGS uncertainty."`
+“Simulate project delivery; target completion_days ≤ 20; 10k trials.”
 
-✅ Check responses include:
+“Simulate unit economics with fixed=30k and COGS wider uncertainty.”
 
-* p05 / p50 / p95 bands
-* Hit probability (%)
-* 2–3 clear next actions
-* Confidence note
+“Run simulation: sales_funnel; targets revenue 250k, margin 50k.”
 
----
+Expect: p05/p50/p95 bands, hit probabilities, 3 next actions, Confidence line.
 
-## 📂 Deliverables
+✅ Deliverables (Day 27)
 
-Save to `Week4_Autonomous_Strategic_Agents/Day27/`:
+Week4_Autonomous_Strategic_Agents/Day27/W4D27_flowise_chatflow.json
 
-* `W4D27_flowise_chatflow.json` → exported flow
-* `W4D27_examples.md` → 2 sample Q → A pairs
-* *(No new Python file — server already updated)*
+Week4_Autonomous_Strategic_Agents/Day27/W4D27_examples.md (2 request→response pairs)
 
----
+🧭 Why It Matters
 
-## 🎯 Why This Matters
+You’ve turned your stack into a decision-support agent that can:
 
-This turns your stack into a **decision-support agent**:
+🔄 Run simulations on demand
 
-* 🔄 Runs simulations on demand
-* 📊 Reports risk bands & hit chances
-* 📝 Suggests next actions grounded in JSON
+📊 Report risk bands + hit chances
 
-⚡ It’s the bridge from “sandbox notebook” (Day 26) → “always-on agent” (Day 27).
+📝 Suggest next experiments—not promises
 
----
-
+🔗 Flow Diagram
+flowchart LR
+  A[Chat Input] --> B{Router}
+  B -->|simulate / scenario| C[HTTP: /scenario/run]
+  C --> D[Post-Processor Prompt]
+  D --> E[LLM]
+  E --> F[Chat Output]
+  B -->|else| G[RAG Path (Retriever→Prompt→LLM→Output)]
