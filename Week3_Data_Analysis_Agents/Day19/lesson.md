@@ -1,6 +1,3 @@
-## 📄 Day 19 (replace your file with this)
-
-```markdown
 # 📊 Day 19 — Observable Mini Dashboard (2 Charts + Filter)
 
 Turn your cleaned CSV into a **tiny dashboard**:
