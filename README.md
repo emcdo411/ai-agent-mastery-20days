@@ -145,60 +145,53 @@ ai-agent-mastery-28days/
 ## Mermaid Workflow Diagram
 
 ```mermaid
-%%{ init: { "theme": "forest" } }%%
 flowchart TD
-  %% Entry
-  A[Chat Input] --> R{Router: intent?}
+  %% entry
+  IN[Chat Input] --> ROUTE{Route intent}
 
-  %% ---- Simulation path ----
-  R -->|simulate / scenario| S_PREP[Build scenario JSON]
-  S_PREP --> S_HTTP[HTTP POST /scenario/run]
-  S_HTTP --> S_POST[Post-process: JSON -> brief]
-  S_POST --> OUT_SIM[Chat Output (simulation)]
+  %% simulation path
+  ROUTE -->|simulate or scenario| SIM_BUILD[Build scenario JSON]
+  SIM_BUILD --> SIM_HTTP[HTTP POST scenario run]
+  SIM_HTTP --> SIM_SUM[Post process to brief]
+  SIM_SUM --> OUT_SIM[Output simulation]
 
-  %% ---- File search path ----
-  R -->|find / where / file| F_HTTP[HTTP GET /files/search]
-  F_HTTP --> F_SUM[Summarize matches (filename + snippet, max 10)]
-  F_SUM --> OUT_FIND[Chat Output (file search)]
+  %% file search path
+  ROUTE -->|find or where or file| FS_HTTP[HTTP GET files search]
+  FS_HTTP --> FS_SUM[Summarize matches max ten]
+  FS_SUM --> OUT_FIND[Output file search]
 
-  %% ---- CSV summary path ----
-  R -->|csv / columns / summary| C_HTTP[HTTP POST /csv/summary]
-  C_HTTP --> C_SUM[Profile rows, cols, null%, top stats]
-  C_SUM --> OUT_CSV[Chat Output (csv summary)]
+  %% csv summary path
+  ROUTE -->|csv or columns or summary| CSV_HTTP[HTTP POST csv summary]
+  CSV_HTTP --> CSV_SUM[Profile rows cols nulls]
+  CSV_SUM --> OUT_CSV[Output csv summary]
 
-  %% ---- Refresh memory path ----
-  R -->|refresh memory| M_LOAD[Document Loader (md,csv,txt)]
-  M_LOAD --> M_SPLIT[Text Splitter 1000/150]
-  M_SPLIT --> M_EMB[Ollama Embeddings (nomic-embed-text)]
-  M_EMB --> M_UPSERT[Chroma Upsert]
-  M_UPSERT --> OUT_REFRESH[Chat Output (memory refreshed)]
+  %% refresh memory path
+  ROUTE -->|refresh memory| LOAD[Load local docs]
+  LOAD --> SPLIT[Split text 1000 150]
+  SPLIT --> EMB[Embeddings nomic embed text]
+  EMB --> UP[SAVE to Chroma upsert]
+  UP --> OUT_REFRESH[Output memory refreshed]
 
-  %% ---- RAG fallback path ----
-  R -->|else| RETR[Retriever (Chroma, topK=4, thr~0.35-0.45)]
-  RETR --> SIMCHK{Similarity >= threshold?}
-  SIMCHK -->|yes| P_GUARD[Prompt: Guardrails + Citations]
-  SIMCHK -->|no| ASK[Ask 1 clarifying question] --> OUT_CLAR[Chat Output (clarify)]
+  %% rag fallback
+  ROUTE -->|else| RETR[Retriever Chroma topK 4 thr 0_35 0_45]
+  RETR --> SIMCHK{Similarity ok}
+  SIMCHK -->|yes| P_GUARD[Prompt guardrails citations]
+  SIMCHK -->|no| ASK[Ask one clarifying question]
+  ASK --> OUT_CLAR[Output clarify]
 
   P_GUARD --> LLM[Ollama LLM]
-  LLM --> POST_FMT[Post-format: bullets + actions + confidence]
-  POST_FMT --> OUT_RAG[Chat Output (rag)]
+  LLM --> FORMAT[Format bullets actions confidence]
+  FORMAT --> OUT_RAG[Output rag]
 
-  %% ---- Guardrails & telemetry (side channels) ----
+  %% telemetry
   OUT_SIM --> LOG[(Telemetry)]
   OUT_FIND --> LOG
   OUT_CSV --> LOG
   OUT_REFRESH --> LOG
   OUT_RAG --> LOG
+  LOG --> METRICS[Metrics latency hits conf]
+  LOG --> SOURCES[Citations file paths]
 
-  LOG --> METRICS[[Metrics: latency, hit rates, confidence]]
-  LOG --> CITATIONS[[Citations: file paths in answers]]
-
-  %% ---- Optional resilience ----
-  LLM -. rate-limit / timeout .- CB{Circuit Breaker}
-  CB -. fallback -> low-temp retry .- LLM
-
-  %% ---- Memory buffer (optional) ----
-  LLM -. short history window (5-10) .- MEM[(Chat Memory)]
 
 ```
 
