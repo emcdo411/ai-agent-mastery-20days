@@ -1,22 +1,4 @@
-# 🌐 Week 2 — Advanced Governance & Leadership with Vibe Coding
-
-## Theme
-
-Shift from *tools practice* (Week 1) to **applied governance and leadership workflows**. Each day uses the same Vibe Coding rhythm (short builds, logs, reflections), but anchored in **policy, strategy, and AI leadership use cases**:
-
-* **Day 8** → Political Strategy Flowcharts (how governments or parties make and message decisions).
-* **Day 9** → AI Governance Checklists (ethics, privacy, risk).
-* **Day 10** → SDLC + AI Governance Overlay (how software actually gets built, plus where oversight & accountability come in).
-* **Day 11** → AI Leadership Dashboard (track goals, risks, and stakeholders).
-* **Day 12** → Public Service Workflows (permits, disaster response, healthcare triage).
-* **Day 13** → Transparency & Accountability Report Generator.
-* **Day 14** → Week 2 Toolkit Deployment (portfolio artifact).
-
-The key is to show them: *“Here’s how governance leaders can plug AI workflows into existing political/municipal systems without needing to be technical experts.”*
-
----
-
-# ⚡ Enhanced Day 10 — How Software Gets Built (End-to-End + Governance Lens)
+# ⚡ Enhanced Day 8 — How Software Gets Built (End-to-End + Governance Lens)
 
 ````markdown
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
