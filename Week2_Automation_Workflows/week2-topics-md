@@ -5,78 +5,98 @@
 ---
 
 ## 📑 Table of Contents
-- [⚖️ Day 8 — Political Strategy Flow](#️-day-8--political-strategy-flow)
-- [📜 Day 9 — Context Engineering](#-day-9--context-engineering)
-- [⚡ Day 10 — How Software Gets Built](#-day-10--how-software-gets-built)
-- [🔧 Day 11 — Git Without Fear](#-day-11--git-without-fear)
-- [🌐 Day 12 — Ship Your Site/App](#-day-12--ship-your-siteapp)
-- [📊 Day 13 — Civic Data Micro-Tools](#-day-13--civic-data-micro-tools)
-- [🧰 Day 14 — Mini-Project 2](#-day-14--mini-project-2)
+- [⚖️ Day 6 — Political Strategy Flow](#day-6--political-strategy-flow)
+- [📜 Day 7 — Context Engineering](#day-7--context-engineering)
+- [⚡ Day 8 — How Software Gets Built](#day-8--how-software-gets-built)
+- [🔧 Day 9 — Git Without Fear](#day-9--git-without-fear)
+- [🌐 Day 10 — Ship Your Site/App](#day-10--ship-your-siteapp)
+- [✅ By End of Week 2](#-by-end-of-week-2)
+
+> Note: Items previously listed as Days 11–14 are **moved to Week 3** (Civic Micro-Tools, Mini-Project 2).
 
 ---
 
-## ⚖️ Day 8 — Political Strategy Flow
-- Map how **issues become policy** (idea → draft → messaging → implementation → citizen feedback).  
-- Add AI touchpoints: drafting (ChatGPT-5), fact-checking (Perplexity), translation, public sentiment analysis.  
-- Deliverable: `political_flow.md`
+## ⚖️ Day 6 — Political Strategy Flow
+**Plain English:** Learn how an issue becomes a policy, then a program citizens actually feel.
+
+- Map the lifecycle: **idea → draft → review → messaging → implementation → citizen feedback**  
+- Add AI touchpoints:
+  - **Drafting:** ChatGPT-5 for first versions of memos/talking points  
+  - **Fact-checking & citations:** Perplexity  
+  - **Translation:** bilingual outreach (English + local language)  
+  - **Sentiment:** simple analysis of public comments/social inputs
+- *Technical notes (optional):* Represent the flow with a Mermaid diagram in your repo.
+- **Deliverable:** `political_flow.md` (flow diagram + where AI augments each step)
 
 ---
 
-## 📜 Day 9 — Context Engineering
-- Build **context packs** that enforce consistency and guardrails.  
-- Files: `constraints.md`, `apis.md`, `glossary.md`, `system_prompt_coding.md`, `system_prompt_governance.md`  
-- Deliverable: Governance-aware prompts + context repo.
+## 📜 Day 7 — Context Engineering
+**Plain English:** Give your AI the context it needs so it stays on-message and inside the guardrails.
+
+- Build **context packs** (reusable files) that include:
+  - **constraints.md** — what not to do (privacy, tone, red lines)
+  - **apis.md** — any public data endpoints or feeds you might cite
+  - **glossary.md** — key terms, acronyms, and definitions
+  - **system_prompt_coding.md** — rules for technical outputs (if any)
+  - **system_prompt_governance.md** — rules for policy/governance outputs
+- *Technical notes (optional):* Add simple lint rules or checklists to keep these files updated.
+- **Deliverable:** Context pack folder + short README: `context/` + `context/README.md`
 
 ---
 
-## ⚡ Day 10 — How Software Gets Built
-- Learn the **SDLC** (idea → backlog → build → test → review → merge → deploy → monitor).  
-- Insert **oversight checkpoints** for governance.  
-- Deliverable: `build_flow.md` + mini backlog.
+## ⚡ Day 8 — How Software Gets Built
+**Plain English:** Understand how ideas turn into shipped software—and where governance fits.
+
+- Learn the **SDLC**: idea → backlog → build → test → review → merge → deploy → monitor
+- Insert **oversight checkpoints**:
+  - Privacy & security checks (pre-merge)
+  - Accessibility & localization checks (pre-deploy)
+  - Audit logs & error budgets (post-deploy)
+- *Technical notes (optional):* Draft a minimal backlog in Markdown and a simple CI/CD gate checklist.
+- **Deliverables:**  
+  - `build_flow.md` (diagram + short narrative)  
+  - `backlog.md` (3–5 items with acceptance criteria)
 
 ---
 
-## 🔧 Day 11 — Git Without Fear
-- Practice **branching, PRs, and .gitignore**.  
-- Git = your **audit trail + accountability system**.  
-- Deliverable: `.gitignore` + first PR merged.
+## 🔧 Day 9 — Git Without Fear
+**Plain English:** Git is your audit trail and collaboration tool; you don’t need to be a developer to use it.
+
+- Practice:
+  - Create a branch, commit changes, open a Pull Request (PR)
+  - Write clear commit messages and PR descriptions
+  - Use `.gitignore` to keep private files out of the repo
+- *Technical notes (optional):* Enable required reviews for the `main` branch.
+- **Deliverables:**  
+  - `.gitignore` tailored to your repo  
+  - First PR merged (link in `/logs/day9.md`)
 
 ---
 
-## 🌐 Day 12 — Ship Your Site/App
-- Two paths:  
-  - **Replit** → lightweight HTML site.  
-  - **Lovable** → AI-first builder for mobile/desktop-ready landing pages & apps.  
-- Deliverable: `deploy_notes.md` + live link.
+## 🌐 Day 10 — Ship Your Site/App
+**Plain English:** Put your work in front of people—fast.
 
----
-
-## 📊 Day 13 — Civic Data Micro-Tools
-- Build **Databutton calculators** for real-world governance:  
-  - Permit backlog estimator  
-  - Disaster relief budgeter  
-  - Campaign turnout predictor  
-- Deliverable: `databutton_app.md` + public link.
-
----
-
-## 🧰 Day 14 — Mini-Project 2
-- Refine your **PRD** with what was actually shipped.  
-- Add **advanced Mermaid process maps + visuals**.  
-- Prepare a **3–5 min demo script** (boardroom-ready).  
-- Deliverables: `PRD_v2.md`, `process_map.md`, `visuals.md`, `demo_script.md`.
+- Two beginner-friendly paths:
+  - **Replit** — quick HTML page or docs site
+  - **Lovable** — AI-assisted landing pages/apps with form capture
+- What to publish:
+  - A simple **site/app** that explains your Week 2 work and links to artifacts
+  - Optional: a **contact form** for community feedback
+- *Technical notes (optional):* Set up a custom subdomain or use the platform’s default URL.
+- **Deliverables:**  
+  - `deploy_notes.md` (where it’s hosted + how to update)  
+  - **Live link** to your site/app
 
 ---
 
 ## ✅ By End of Week 2
 You should be able to:
-- Map political workflows with AI checkpoints.  
-- Author **context packs** for coding + governance.  
-- Understand how software gets built + where oversight fits.  
-- Use **Git** as an accountability log.  
-- Ship a **site/app** in under an hour.  
-- Publish a **civic micro-tool** with Databutton.  
-- Deliver a **boardroom-ready demo** combining all assets.  
+- Map **political workflows** and identify where AI helps (drafting, citations, translation, sentiment).
+- Author **context packs** that keep AI outputs consistent, safe, and on-message.
+- Explain how **software ships** and where **oversight** belongs (privacy, security, accessibility).
+- Use **Git** for version control and approvals—your **accountability log**.
+- **Ship a site/app** in under an hour and link your Week 2 assets publicly.
 
----
+> Stretch goals for Week 3: **Civic Data Micro-Tools** (Databutton calculators) and **Mini-Project 2** (boardroom demo).
+
 
