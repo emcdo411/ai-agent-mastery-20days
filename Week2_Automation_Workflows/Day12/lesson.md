@@ -1,6 +1,6 @@
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
-# ⚡ Day 12 — Ship Your Personalized Site (Replit or Lovable)
+# ⚡ Day 10 — Ship Your Personalized Site (Replit or Lovable)
 
 ## 📌 Objective
 - Publish a **one-pager** with your value prop.  
@@ -97,7 +97,7 @@ git commit -m "feat(day12): live personal site + notes"
 
 ---
 
-## 📝 Reflection Prompts (Day 12)
+## 📝 Reflection Prompts (Day 10)
 
 1. Does your headline match the **problem in your PRD**?
 2. What’s the simplest next “proof” (testimonial, citizen quote, metric)?
@@ -116,7 +116,7 @@ git commit -m "feat(day12): live personal site + notes"
 
 ---
 
-✨ **Day 12 Vibe:** You don’t need to be a developer. Replit gives you raw control. Lovable gives you raw speed. Both let you **ship ideas live today** — and spark tomorrow’s brainstorms.
+✨ **Day 10 Vibe:** You don’t need to be a developer. Replit gives you raw control. Lovable gives you raw speed. Both let you **ship ideas live today** — and spark tomorrow’s brainstorms.
 
 ```
 
