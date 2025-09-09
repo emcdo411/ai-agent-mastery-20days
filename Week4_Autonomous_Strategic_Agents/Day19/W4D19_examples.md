@@ -1,7 +1,7 @@
-# 🌍 W4D25 — Example Outputs (Ethiopia-Focused Modules)
+# 🌍 W4D19 — Example Outputs (Ethiopia-Focused Modules)
 
-This file shows **example JSON outputs + converted briefs** for Day 25.
-Replace dummy values with **real repo evidence** when running tests.
+**Save as:** `Week4_Autonomous_Strategic_Agents/Day19/W4D19_examples.md`
+**Use:** Reference examples for Day 19 strategy modules (SWOT • Porter’s • OKRs). Replace dummies with **real repo evidence** when testing.
 
 ---
 
@@ -33,17 +33,17 @@ Replace dummy values with **real repo evidence** when running tests.
 
 ### Executive Brief
 
-* Oromia healthcare shows **strength in rural clinic expansion** but suffers from **critical nurse shortages**.
-* **Donor-backed maternal health funding** is a major opportunity.
-* **Instability and logistics issues** remain a key threat to service delivery.
-* Confidence: **Medium** (missing updated July staffing figures).
-* Sources: `oromia_health_budget_2023.csv`, `oromia_staffing_survey.md`, `healthcare_donor_notes.md`
+* Oromia healthcare shows **strength in rural clinic expansion** but faces **critical nurse shortages**.
+* **Donor-backed maternal health funding** is a near-term opportunity.
+* **Instability and logistics issues** remain key threats to service delivery.
+* **Confidence:** Medium (missing updated July staffing figures).
+* **Sources:** `oromia_health_budget_2023.csv`, `oromia_staffing_survey.md`, `healthcare_donor_notes.md`
 
-**Action Items:**
+**Action Items**
 
 1. Prioritize nurse training pipeline.
 2. Allocate logistics contingency budget.
-3. Leverage donor maternal health grants for scaling.
+3. Leverage maternal health grants for scaling.
 
 ---
 
@@ -73,11 +73,11 @@ Replace dummy values with **real repo evidence** when running tests.
 
 * Addis Ababa education faces **high teacher bargaining power** and **moderate competition** with neighboring Oromia.
 * Parents have **limited advocacy channels**, reducing citizen pressure.
-* Overall competitive pressure = **moderate (3/5)**.
-* Confidence: **High** (surveys cover 2023–24).
-* Sources: `education_market_aa.csv`, `teacher_attrition_survey.md`, `regional_comparison.csv`
+* **Overall pressure:** moderate (3/5).
+* **Confidence:** High (surveys cover 2023–24).
+* **Sources:** `education_market_aa.csv`, `teacher_attrition_survey.md`, `regional_comparison.csv`
 
-**Action Items:**
+**Action Items**
 
 1. Address teacher salary + retention incentives.
 2. Strengthen parent engagement programs.
@@ -116,11 +116,11 @@ Replace dummy values with **real repo evidence** when running tests.
 * Ethiopia’s **H1 2025 maternal health OKRs** target a **20% mortality reduction**.
 * **Skilled birth attendance** should increase from 64% → 75%.
 * **Rural maternal clinics** must scale from 145 → 200.
-* Risks: staff turnover + supply chain delays.
-* Confidence: **Medium** (donor dependency).
-* Sources: `maternal_health_baseline.csv`, `clinic_counts_2024.csv`
+* **Risks:** staff turnover and supply chain delays.
+* **Confidence:** Medium (donor dependency).
+* **Sources:** `maternal_health_baseline.csv`, `clinic_counts_2024.csv`
 
-**Action Items:**
+**Action Items**
 
 1. Secure stable donor funding contracts.
 2. Fast-track rural clinic expansion.
@@ -128,7 +128,5 @@ Replace dummy values with **real repo evidence** when running tests.
 
 ---
 
-✅ With these examples, learners can see how repo files (`.csv`, `.md`, `.txt`) flow into **structured JSON → concise briefs → action items** for Ethiopian development priorities.
-
----
+✅ With these examples, learners can see how repo files (`.csv`, `.md`, `.txt`) flow into **structured JSON → concise briefs → action items** for Ethiopian development priorities, aligned to **Day 19**.
 
