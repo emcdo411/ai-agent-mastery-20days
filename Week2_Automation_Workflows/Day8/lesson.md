@@ -1,101 +1,87 @@
+# ⚡ Enhanced Day 8 — How Software Gets Built (End-to-End + Governance Lens)
+
+````markdown
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
-# ⚖️ Day 6 — Political Strategy Flow (AI-Augmented)
+# ⚡ Day 10 — How Software Gets Built (End-to-End + Governance Lens)
 
 ## 📌 Objective
-- Map how **political strategy decisions** flow from **idea → message → outcome**.  
-- Learn how to insert **AI agents** into checkpoints (speech drafting, policy scans, public sentiment checks).  
-- Show how non-experts (municipal leaders, advisors, NGOs) can **use lightweight AI workflows** without needing deep technical skills.  
+- Document a **lightweight SDLC** (software development life cycle).  
+- Add an **AI governance overlay** showing where leaders, regulators, or boards should review or approve.  
+- Publish a **visual flow** + mini backlog.  
 
 ---
 
-## 🛠 Steps (30–45 min)
+## 🛠 Steps (≤30 min)
 
-### 1. Create File
-- Create `Week2_Vibe_Coding/Day8/political_flow.md`
+1. **Create**
+   - `Week2_Vibe_Coding/Day10/build_flow.md`
 
-### 2. Draw Flowchart
-Add the following base flow to your file:  
+2. **Paste diagram**
+   ```mermaid
+   flowchart LR
+     A[Idea<br/>PRD] --> B[Plan<br/>issues]
+     B --> C[Build<br/>feature branch]
+     C --> D[Test<br/>unit + manual]
+     D --> E[Review<br/>PR + approvals]
+     E --> F[Merge<br/>main]
+     F --> G[Deploy<br/>preview/prod]
+     G --> H[Monitor<br/>metrics/logs]
+     H --> I[Iterate<br/>next issues]
 
-```mermaid
-flowchart TD
-  A[Issue Identified] --> B[Policy Draft]
-  B --> C[Stakeholder Input]
-  C --> D[Public Messaging]
-  D --> E[Implementation]
-  E --> F[Public Feedback]
+     %% Governance overlay
+     A --> A1[Policy Alignment<br/>Stakeholder Review]
+     D --> D1[Ethics Check<br/>Bias Scan]
+     G --> G1[Risk + Compliance Signoff]
 ````
 
-### 3. Insert AI Touchpoints
+3. **Draft mini backlog**
 
-Overlay where AI can assist at each step:
+   * List 3–4 backlog items tied to a “governance-aware PRD”
+     Example:
 
-* **A → Issue Identified**
-
-  * Use *Perplexity* to scan real-time news & local government reports.
-  * Use *ChatGPT-5* to cluster issues into themes (e.g., economy, healthcare, climate).
-
-* **B → Policy Draft**
-
-  * *ChatGPT-5* as a co-drafter for **policy briefs** or legislative memos.
-  * *Claude/LLM* to check **policy consistency with past documents**.
-
-* **C → Stakeholder Input**
-
-  * AI summarization agent (Day 5) to condense **stakeholder interviews or surveys**.
-  * Translation assistant for multilingual input (e.g., Amharic + English).
-
-* **D → Public Messaging**
-
-  * AI tone analyzer to ensure speech drafts align with desired sentiment.
-  * Generative drafting for **FAQs, social media posts, or town hall briefs**.
-
-* **E → Implementation**
-
-  * Workflow bots to track progress and flag risks (delays, compliance issues).
-
-* **F → Public Feedback**
-
-  * Sentiment analysis bot to scan citizen responses (social, surveys, hotlines).
-  * Dashboard (Day 11) to display citizen trust metrics.
+     * [ ] Draft privacy checklist for new chatbot.
+     * [ ] Add audit log feature.
+     * [ ] Create fallback plan for outage.
 
 ---
 
 ## 📂 Deliverables
 
-* `political_flow.md` (diagram + notes on AI touchpoints)
-* `/logs/day8.md` — reflection log
-* Commit:
+* `Week2_Vibe_Coding/Day10/build_flow.md`
+* Mini backlog list
+* `/logs/day10.md`
 
-  ```bash
-  git commit -m "docs(day8): political strategy workflow + AI touchpoints"
-  ```
+Commit: `docs(day10): build flow + mini backlog with governance overlay`
 
 ---
 
 ## ✅ Rubric (Self-Check)
 
-* [ ] Flowchart completed and saved in repo.
-* [ ] At least 2 AI touchpoints documented (aim for 4–5).
-* [ ] Reflection log written with insights.
+* [ ] Flow includes **review, deploy, monitor**.
+* [ ] Backlog ties to **policy or governance user stories**.
+* [ ] Governance checkpoints visible (policy, ethics, compliance).
 
 ---
 
-## 📝 Reflection Prompts
+## 📝 Reflection Prompts (Day 10)
 
-1. Which AI touchpoint added the most value (drafting, scanning, or sentiment)?
-2. Where could over-reliance on AI create risks in political decision-making?
-3. How would you explain this flow to a **municipal leader in Ethiopia** who has no technical background?
-4. What governance checks should exist before deploying AI into this workflow?
+1. Where will **quality** most likely break?
+2. Where should **leadership/governance reviews** happen?
+3. What’s your **rollback plan** if deployment introduces risk?
+4. How do you balance **speed vs. oversight**?
 
 ---
 
 ## 🎯 Role Relevance
 
-* **Political Leaders:** Visualize how **ideas turn into policy outcomes**.
-* **Municipal Leaders (Ethiopia/Caribbean):** Understand how AI can support **citizen engagement**.
-* **Analysts/Advisors:** Standardize workflows for **briefings, messaging, and strategy**.
-* **AI Governance Teams:** Identify where to insert **ethics, bias, or compliance checks**.
-* **Military Transition / Leadership:** Practice **mission-style flows** applied to civil governance.
+* **Political Leaders:** See where **policy review fits inside tech projects**.
+* **Municipal Managers:** Learn how to demand checkpoints without coding.
+* **AI Governance Teams:** Insert **bias scans, ethics reviews, compliance gates**.
+* **Non-Experts:** Understand the “black box” of software in plain workflows.
 
 ```
+
+Do you want me to go ahead and **draft the entire Week 2 plan (Days 8–14)** in this same advanced Vibe Coding style so you can see the arc before we refine each day?
+```
+

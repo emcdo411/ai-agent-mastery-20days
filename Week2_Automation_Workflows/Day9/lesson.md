@@ -1,100 +1,114 @@
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
-# ⚡ Day 7 — Context Engineering for Your AI Pair-Programmer (Governance + Leadership Lens)
+# ⚡ Day 9 — Git Without Fear (Collaboration + Governance Discipline)
 
 ## 📌 Objective
-- Build a **context pack** so AI tools (ChatGPT, Claude, Perplexity) operate with your standards.  
-- Define **constraints, rules, APIs, and system prompts** that reduce risk and enforce consistency.  
-- Extend the practice beyond coding: use context packs for **governance, leadership, and municipal workflows**.  
+- Create/merge a **feature branch** via PR (pull request).  
+- Set up a **.gitignore** to protect secrets and reduce noise.  
+- Practice **commit hygiene** so your repo reads like an **audit trail**.  
+- Build confidence that Git is not scary — it’s your **collaboration + governance backbone**.  
 
 ---
 
 ## 🛠 Steps (≤30–45 min)
 
-### 1. **Create folder**
-- `Week2_Vibe_Coding/Day09/context/`
+### 1. **Create File**
+- Create `Week2_Vibe_Coding/Day11/git_quickstart.md`
 
-### 2. **Add files & paste**
-- `README_context.md` — how to use this pack (coding + governance).  
-- `constraints.md` — stack, style, **security + governance rules** (e.g., *“no PII in logs,”* *“always cite local sources,”* *“flag bias risk if detected”*).  
-- `apis.md` — endpoints with **placeholders** (tech APIs or government datasets).  
-- `glossary.md` — product, policy, or municipal terms (e.g., *PRD = project requirements doc*, *MoH = Ministry of Health*).  
-- `system_prompt_coding.md`:  
-  ```md
-  Role: Senior IDE Copilot + Governance Advisor. Follow repo + governance constraints. Ask before inventing APIs.
+### 2. **Paste Quickstart**
+```md
+# Git Quickstart (5 commands)
 
-  You have:
-  - PRD: ../Day08/PRD.md
-  - Constraints: ./constraints.md
-  - APIs: ./apis.md
-  - Glossary: ./glossary.md
-
-  Rules:
-  1) Prefer simple, shippable, auditable patterns
-  2) Generate complete files + minimal tests
-  3) If unknown, propose 2 options + tradeoffs
-  4) Output diffs or full files, no partials
-  5) Apply governance lens: check ethics, compliance, and citizen impact before suggesting
+git checkout -b feat/home-hero
+# edit files…
+git add .
+git commit -m "feat: hero section + CTA"
+git push -u origin feat/home-hero
+# open PR → request review → merge to main
 ````
 
-### 3. **Link the pack**
+### 3. **Add .gitignore**
 
-* Update `PRD.md > Links` with `../Day09/context/`.
+* Create a `.gitignore` file with entries like:
 
-### 4. **Governance Extension**
-
-* Create `system_prompt_governance.md` to guide AI in municipal/leadership scenarios:
-
-  ```md
-  Role: Policy Analyst Copilot.  
-  Context: Ethiopian municipal office preparing AI-driven citizen services.  
-  Rules:  
-  - Answer only within policy/governance scope  
-  - Always cite government or university sources if available  
-  - Flag ethical or bias concerns explicitly  
-  - Provide bilingual outputs (English + Amharic placeholder)  
-  - Keep tone: professional, government-report ready  
   ```
+  node_modules/
+  .env
+  dist/
+  .DS_Store
+  logs/
+  secrets/
+  ```
+* This ensures your repo stays clean and **no sensitive files leak**.
+
+### 4. **Make a Change + Open PR**
+
+* Change one line of copy in your site/app.
+* Commit with a **specific message**:
+
+  * ✅ Good: `feat: add Amharic translation to About page`
+  * ❌ Bad: `update stuff`
+* Push → open PR → request review → merge into `main`.
+
+### 5. **Governance Overlay**
+
+* Treat **Git logs as a public record**:
+
+  * Every commit = a decision documented.
+  * Every PR = a checkpoint for peer review.
+  * `.gitignore` = your **information governance shield**.
+* Add PR sections:
+
+  * **Purpose:** Why this change exists.
+  * **Impact:** Who/what it affects (citizens, users, stakeholders).
+  * **Governance Note:** Does this raise privacy/ethics concerns?
 
 ---
 
 ## 📂 Deliverables
 
-* Context files (`README_context.md`, `constraints.md`, `apis.md`, `glossary.md`, `system_prompt_coding.md`, `system_prompt_governance.md`)
-* `/logs/day9.md` — 3 bullets on decisions made
-* Commit: `feat(day9): context pack for AI coding + governance`
+* `git_quickstart.md` (your notes).
+* `.gitignore` file created and committed.
+* One merged PR visible in repo history.
+* `/logs/day11.md` reflection log.
+
+Commit:
+
+```bash
+git commit -m "chore(day11): .gitignore + first PR merged"
+```
 
 ---
 
 ## ✅ Rubric (Self-Check)
 
-* [ ] Constraints explicit (style, deps, security, governance)
-* [ ] APIs documented with placeholders (tech + civic)
-* [ ] System prompt references PRD/constraints
-* [ ] Governance prompt included
-* [ ] No secret values committed
+* [ ] Branch created & merged via PR.
+* [ ] Commit message is **specific and professional**.
+* [ ] Secrets and noise excluded via `.gitignore`.
+* [ ] Governance overlay added to PR description.
 
 ---
 
 ## 📝 Reflection Prompts (Day 9)
 
-1. What does your AI often “hallucinate” without context?
-2. Which constraint (tech or governance) will prevent the most future rework?
-3. What’s your “single source of truth” file — PRD, glossary, or checklist?
-4. How could a **governance context pack** keep municipal projects aligned with law + ethics?
+1. What slowed you down during the PR process?
+2. How will you **name branches** going forward (feat/, fix/, chore/)?
+3. What belongs in every PR description (purpose, impact, governance note)?
+4. How does Git double as a **governance + accountability system** in civic/AI projects?
 
 ---
 
 ## 🎯 Role Relevance
 
-* **All Disciplines:** Faster, safer AI-assisted coding + governance workflows.
-* **Leads/PMs:** Shared context = consistent outputs across teams.
-* **Policy/Government:** Context packs ensure AI agents respect **local laws, ethics, and citizen trust**.
-* **Municipal Leaders (Ethiopia/Caribbean):** Use governance packs as “guardrails” for citizen-facing AI services.
-
-```
+* **Developers:** Git = your professional hygiene & collaboration foundation.
+* **PMs / Policy Leads:** PRs = checkpoints for oversight (transparency in action).
+* **Governance Teams:** `.gitignore` = information security baseline.
+* **Municipal Leaders (Ethiopia/Caribbean):** See Git as a way to **track every change**, enforce accountability, and build trust.
+* **Military Transition:** Git logs mirror **mission logs** — clear, timestamped, auditable.
 
 ---
 
-✨ This way, **Day 9 bridges coding → governance**, showing learners how the same **context engineering discipline** works for both software *and* political/municipal workflows.  
+✨ **Day 9 Vibe**: Git isn’t just code control. It’s **civic discipline disguised as tech**. Each commit is a policy note. Each PR is a peer review. Each `.gitignore` is a governance shield.
+
+```
 
