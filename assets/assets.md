@@ -1,147 +1,170 @@
-# 🎨 W4D28 — Mastery Program Assets (Governance & Political Toolkit Edition)
+# 🎨 W4D20 — Mastery Program Assets (Governance & Political Toolkit Edition)
 
-![Status](https://img.shields.io/badge/Day-28-blueviolet?style=for-the-badge)
+![Status](https://img.shields.io/badge/Day-20-blueviolet?style=for-the-badge)
 ![Lovable](https://img.shields.io/badge/Lovable-App_Builder-green?style=for-the-badge)
 ![Databutton](https://img.shields.io/badge/Databutton-Micro_Tools-orange?style=for-the-badge)
 ![Mermaid](https://img.shields.io/badge/Mermaid-Workflows-blue?style=for-the-badge)
 ![Boardroom Ready](https://img.shields.io/badge/Output-Boardroom_Ready-purple?style=for-the-badge)
 
+> **Scope note:** This is the Week 4 capstone (Day 20) for the 20-day program.
+
 ---
 
 ## 📑 Table of Contents
-- [🎯 Purpose](#-purpose)
-- [📂 Core Assets](#-core-assets)
-- [📦 Deliverables](#-deliverables)
-- [🗺 Workflow](#-workflow)
-- [✅ By Now, You Can](#-by-now-you-can)
-- [🛠 Troubleshooting Mermaid](#-troubleshooting-mermaid)
+
+* [🎯 Purpose](#-purpose)
+* [📂 Core Assets](#-core-assets)
+* [📦 Deliverables](#-deliverables)
+* [🗺 Workflow](#-workflow)
+* [✅ By Now, You Can](#-by-now-you-can)
+* [🛠 Troubleshooting Mermaid](#-troubleshooting-mermaid)
+* [📝 Week 2 Summary Prompt (Days 6–10)](#-week-2-summary-prompt-days-610)
 
 ---
 
 ## 🎯 Purpose
-This folder holds **Day 28 mastery program assets** — the boardroom-ready kit for:
-- Demonstrating **AI Governance vs AI Leadership**  
-- Translating **Vibe Coding projects into political/municipal workflows**  
-- Equipping leaders with **visuals, calculators, and dashboards** they can deploy quickly  
+
+This folder holds the **Day 20 mastery assets** — a boardroom-ready kit to:
+
+* Distinguish **AI Governance** vs **AI Leadership**
+* Translate Vibe Coding agents and workflows into **political/municipal use cases**
+* Equip leaders with **visuals, calculators, and dashboards** they can deploy quickly
+
+> Aligned with the updated program map: **W1 (1–5), W2 (6–10), W3 (11–15), W4 (16–20).**
 
 ---
 
 ## 📂 Core Assets
-- `W4D28_ai_governance_vs_leadership.md` → Differences & overlap in roles  
-- `W4D28_public_service_rag.md` → How RAG applies to **citizen data + transparency**  
-- `W4D28_assets.md` → This asset index file  
 
-> Optional add-ons you may include in this folder:
-> - `templates/mermaid_snippets.md` (flowchart, pie, gantt quick-copy)
-> - `templates/badge_snippets.md` (Shields.io presets)
-> - `templates/board_slide_outline.md` (Executive 1-pager skeleton)
+* `W4D20_ai_governance_vs_leadership.md` — roles, responsibilities, and overlap
+* `W4D20_public_service_rag.md` — RAG for **citizen data + transparency** (local, private)
+* `W4D20_assets.md` — this index file
+
+**Optional add-ons**
+
+* `templates/mermaid_snippets.md` (flowchart, gantt, pie quick-copy)
+* `templates/badge_snippets.md` (Shields.io presets)
+* `templates/board_slide_outline.md` (executive 1-pager)
 
 ---
 
 ## 📦 Deliverables
-- Shields.io badges for repo branding  
-- Clickable ToC for quick navigation  
-- Advanced **Mermaid diagrams** (flowcharts, pie, Gantt) for **policy + project tracking**  
-- Civic-oriented Databutton + Lovable starter packs  
+
+* Shields.io badges for repo branding
+* Clickable ToC for quick navigation
+* Advanced **Mermaid diagrams** for **policy & project tracking**
+* Civic-oriented **Databutton** and **Lovable** starter notes/links
 
 ---
 
 ## 🗺 Workflow
 
 ```mermaid
-%%{ init: { "theme": "default" } }%%
 flowchart LR
-    A["🗂 Assets (Day 28)"]
+    A["🗂 Mastery Assets (Day 20)"]
     B["⚖️ AI Governance vs Leadership"]
     C["📚 Public Service RAG (citizen data)"]
-    D["🎨 Badges + Boardroom Visuals"]
+    D["🎨 Badges & Boardroom Visuals"]
     E["⚡ Micro-Tools & Apps (Lovable, Databutton)"]
 
     A --> B
     A --> C
     A --> D
     A --> E
-````
+```
 
 ---
 
 ## ✅ By Now, You Can
 
-* Distinguish **AI governance roles vs AI leadership actions**
-* Use **RAG workflows** to ground AI in **public records**
-* Ship **Lovable/Databutton micro-tools** for policy, budget, or citizen services
-* Present **strategy → workflow → metrics** in a boardroom-ready narrative
+* Explain **governance roles vs leadership actions** to stakeholders
+* Use **repo-grounded RAG** to cite **file-based sources** in public-facing answers
+* Ship **Lovable/Databutton micro-tools** (budget, permits, health) in hours
+* Present **strategy → workflow → metrics** with clean visuals and evidence
 
 ---
 
 ## 🛠 Troubleshooting Mermaid
 
-* Put **only Mermaid syntax** inside the \`\`\`mermaid block.
-* Close the block with **three backticks on a new line**.
-* If you use an init line (theme), place it as the **first line inside** the block:
-  `%%{ init: { "theme": "dark" } }%%`
-
-````
+* Put **only Mermaid syntax** inside the \`\`\`mermaid code fence
+* Close the fence with **three backticks** on their own line
+* If you use an init/theme line, it must be the **first line** inside the block (e.g. `%%{ init: { "theme": "default" } }%%`)
+* Avoid stray HTML (e.g., `<br/>`, `<code>`) inside Mermaid blocks
 
 ---
 
-## 2) `Week2_summary_prompt.md` (separate file)
+## 📝 Week 2 Summary Prompt (Days 6–10)
+
+> Save as: `Week2_summary_prompt.md`
 
 ```markdown
-# 📝 Week 2 Advanced Summary Prompt (Governance + Leadership Case Study)
+# 📝 Week 2 Governance & Leadership Toolkit — Summary Prompt (Days 6–10)
 
 You are an AI strategy consultant preparing a **Week 2 Governance & Leadership Report**.  
-Your task is to generate a **boardroom-ready case study** summarizing the outcomes of Week 2 of the Vibe Coding Mastery Program.
+Generate a **boardroom-ready case study** summarizing outcomes from **Days 6–10**.
 
 ---
 
 ## Instructions
 
-### 1) Cover Each Day (8 → 14)
-Summarize each day as applied to **government/municipal workflows**:
-- **Day 8** – Political strategy flows: how issues become policy; where AI fits.  
-- **Day 9** – Context packs: enforce standards, rules, and ethics.  
-- **Day 10** – SDLC with governance gates: oversight & accountability.  
-- **Day 11** – Git without fear: audit trails & transparent collaboration.  
-- **Day 12** – Lovable/Replit: ship live sites/apps in minutes.  
-- **Day 13** – Databutton micro-tools: calculators for budgeting, permits, healthcare.  
-- **Day 14** – Mini-project: PRD v2, advanced process maps, visuals, and a demo script.
+### 1) Cover Each Day (6 → 10)
+Summarize each day for **government/municipal workflows**:
+- **Day 6** — Political strategy flows: how issues become policy; where AI fits.
+- **Day 7** — Context packs: enforce standards, rules, and ethics.
+- **Day 8** — SDLC with governance gates: oversight & accountability.
+- **Day 9** — Git without fear: audit trails & transparent collaboration.
+- **Day 10** — Ship your site/app (Lovable/Replit) & micro-tools (Databutton).
 
 ### 2) Skills Checklist (What they can now do)
-List actionable capabilities, such as:
-- Build political strategy **flowcharts** with AI touchpoints.  
-- Author **context packs** that apply governance, privacy, and bias rules.  
-- Map **SDLC** and insert **governance checkpoints**.  
-- Use **Git** as an accountability system (clean commits, PRs, `.gitignore`).  
-- Ship a **Lovable** (or Replit) site and a **Databutton** civic data app.  
-- Deliver a **boardroom-ready demo** with PRD + visuals (Mermaid charts/Gantt).
+List actionable capabilities:
+- Build political strategy **flowcharts** with AI touchpoints.
+- Author **context packs** (governance, privacy, bias, terminology).
+- Map **SDLC** with **governance checkpoints**.
+- Use **Git** as an accountability system (clean commits, PRs, `.gitignore`).
+- Ship a **Lovable/Replit** site and a **Databutton** civic data app.
+- Deliver a **boardroom-ready demo** with PRD + Mermaid visuals.
 
 ### 3) Practice Routines (for mastery)
 Propose a **repeatable 3-day cadence**:
-- **Day A**: Redraw one municipal workflow (e.g., disaster response, permits).  
-- **Day B**: Ship one micro-tool (e.g., budget/turnout calculator) & publish link.  
-- **Day C**: Record a 3-minute demo (site + tool + oversight note) and collect feedback.
+- **Day A:** Redraw a municipal workflow (permits, disasters, inspections).
+- **Day B:** Ship one micro-tool & publish link.
+- **Day C:** Record a 3-minute demo (site + tool + governance note) and collect feedback.
 
 ### 4) Structure the Report
 Use this outline:
-- **Executive Summary** (1–2 paragraphs)  
-- **Toolkit Overview** (bullet list of agents, tools, and deliverables)  
-- **Applications for Municipalities** (Ethiopia/Caribbean examples)  
-- **Strengths & Limitations**  
-- **Next Steps** (Week 3 preview: APIs, dashboards, automation)
+- **Executive Summary** (1–2 paragraphs)
+- **Toolkit Overview** (agents, tools, deliverables)
+- **Applications for Municipalities** (Ethiopia/Caribbean examples)
+- **Strengths & Limitations**
+- **Next Steps** (Week 3 preview: data analysis agents; Week 4: strategic agents)
 
 ---
 
 ## Output
-Produce a polished **Markdown report** titled:  
+Produce a polished Markdown report titled:
 **"Week 2 Governance & Leadership Toolkit — Vibe Coding Mastery Case Study"**
-````
+```
 
 ---
 
 ### How to use
 
-* Replace your broken file with **`W4D28_assets.md`** above.
-* Save the prompt content as a **separate file**: `Week2_summary_prompt.md`.
-* Commit both. If you still hit Mermaid errors, it means some prose slipped **inside** a \`\`\`mermaid block or a fence is unclosed. Copy the blocks above verbatim.
+* Replace your old Day-28 file with this **`W4D20_assets.md`**.
+* Save the prompt above as **`Week2_summary_prompt.md`** next to it.
+* Commit both. If Mermaid still fails to render, check that:
+
+  * The mermaid block contains *only* Mermaid syntax
+  * All code fences are properly closed
+  * No HTML or stray backticks leaked into the block
+
+---
+
+**Mappings Recap (updated program):**
+
+* **Week 1:** Days **1–5**
+* **Week 2:** Days **6–10**
+* **Week 3:** Days **11–15**
+* **Week 4:** Days **16–20**
+
+This doc, filenames, and prompts now align with the 20-day structure and your renamed Week folders.
 
