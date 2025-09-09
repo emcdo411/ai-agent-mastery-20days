@@ -1,5 +1,5 @@
 {
-  "name": "W4D23 Multi-Tool Agent (Local: Search + CSV + RAG)",
+  "name": "W4D17 Multi-Tool Agent (Local: Search + CSV + RAG)",
   "description": "Flowise agent with If/Else router for local File Search + CSV Summary tools, plus RAG fallback (Ollama + Chroma).",
   "version": 1,
   "nodes": [
@@ -48,7 +48,7 @@
       "position": { "x": 800, "y": -200 },
       "data": {
         "label": "Chroma Vector Store",
-        "collectionName": "aimastery_w4",
+        "collectionName": "aimastery_w4_day17",
         "persistDirectory": "./vectorstore",
         "metadata": { "source": "repo" }
       }
@@ -125,7 +125,7 @@
         "url": "http://127.0.0.1:8001/csv/summary",
         "bodyType": "json",
         "body": {
-          "path": "C:/Users/Veteran/ai-agent-mastery-28days/Week3_Data_Analysis_Agents/Day16/W3D16_clean.csv"
+          "path": "C:/Users/Veteran/ai-agent-mastery-28days/Week3_Data_Analysis_Agents/Day17/W3D17_clean.csv"
         },
         "headers": { "Content-Type": "application/json" },
         "saveResponseToVariable": "csv_summary_json",
@@ -178,7 +178,8 @@
   ],
   "metadata": {
     "exportedAt": "2025-08-30T00:00:00Z",
-    "notes": "Update Local Files.directory, File Search.root, and CSV path to match your environment."
+    "notes": "Updated for Day 17. Adjust Local Files.directory, File Search.root, and CSV path to your environment."
   }
 }
+
 
