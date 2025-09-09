@@ -1,60 +1,60 @@
-# 🚀 AI Agent Mastery: 28-Day Professional Track
+# 🚀 AI Agent Mastery: 20-Day Professional Track
 
 [![License: DACR](https://img.shields.io/badge/license-DACR-blue?style=for-the-badge)](LICENSE)
-[![AI Tools](https://img.shields.io/badge/AI-Tools-green?style=for-the-badge&logo=openai)]()
+[![AI Tools](https://img.shields.io/badge/AI-Tools-green?style=for-the-badge\&logo=openai)]()
 [![Professional Track](https://img.shields.io/badge/Professional%20Track-Yes-orange?style=for-the-badge)]()
-[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-agent-mastery-28days?style=for-the-badge&color=purple)]()
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-agent-mastery-28days?style=for-the-badge\&color=purple)]()
 
 ---
 
 ## 📑 Table of Contents
 
-* [Overview](#overview)  
-* [Who This Is For](#who-this-is-for)  
-* [Learning Outcomes](#learning-outcomes)  
-* [Professional Deliverables](#professional-deliverables)  
-* [Course Structure](#course-structure)  
-* [Folder Structure](#folder-structure)  
-* [Week 1: Foundations](#week-1-foundations)  
-* [Week 2: Governance & Workflows](#week-2-governance--workflows)  
-* [Week 3: Data Agents & Scenario Planning](#week-3-data-agents--scenario-planning)  
-* [Week 4: Autonomous Strategic Agents](#week-4-autonomous-strategic-agents)  
-* [Mermaid Workflow Diagram](#mermaid-workflow-diagram)  
+* [Overview](#overview)
+* [Who This Is For](#who-this-is-for)
+* [Learning Outcomes](#learning-outcomes)
+* [Professional Deliverables](#professional-deliverables)
+* [Course Structure](#course-structure)
+* [Folder Structure](#folder-structure)
+* [Week 1: Foundations (Days 1–5)](#week-1-foundations-days-1–5)
+* [Week 2: Governance & Workflows (Days 6–10)](#week-2-governance--workflows-days-6–10)
+* [Week 3: Data Agents (Days 11–15)](#week-3-data-agents-days-11–15)
+* [Week 4: Strategic Agents (Days 16–20)](#week-4-strategic-agents-days-16–20)
+* [Mermaid Workflow Diagram](#mermaid-workflow-diagram)
 * [License](#license)
 
 ---
 
 ## Overview
 
-The **AI Agent Mastery: 28-Day Professional Track** is a *career-focused builder program* for professionals, analysts, and leaders who want to design **deployable, boardroom-ready AI agents** in under an hour.  
+The **AI Agent Mastery: 20-Day Professional Track** is a *career-focused builder program* for professionals, analysts, and leaders who want to design **deployable, boardroom-ready AI agents** in under an hour.
 
-It’s been upgraded to include **local-first tools (Ollama, Chroma, Flowise, FastAPI)** with **Ethiopia-relevant use cases**: healthcare, permits, budgeting, and policy simulations.
+It’s optimized for **local-first tools (Ollama, Chroma, Flowise, FastAPI)** with **Ethiopia-relevant use cases** (healthcare, permits, budgeting, policy simulations).
 
-No fluff.  
-No “someday” theory.  
+No fluff.
+No “someday” theory.
 Every day ends with an artifact you can commit, demo, or present.
 
 ---
 
 ## Who This Is For
 
-* **Data & Policy Professionals:** Build auditable AI workflows with citations.  
-* **Entrepreneurs & Nonprofits:** Prototype civic and financial micro-tools.  
-* **Analysts & MBAs:** Apply frameworks (SWOT, Porter’s, OKRs) with repo evidence.  
-* **Military Transitioners:** Convert mission planning skills into AI simulations.  
-* **Public-Sector Leaders:** Use local-first AI to stress-test policies before rollout.  
+* **Data & Policy Professionals:** Build auditable AI workflows with citations.
+* **Entrepreneurs & Nonprofits:** Prototype civic and financial micro-tools.
+* **Analysts & MBAs:** Apply frameworks (SWOT, Porter’s, OKRs) with repo evidence.
+* **Military Transitioners:** Convert mission planning into AI simulations.
+* **Public-Sector Leaders:** Use local-first AI to stress-test policies before rollout.
 
 ---
 
 ## Learning Outcomes
 
-By the end of this track, you will be able to:
+By the end, you can:
 
-* Deploy **repo-grounded RAG agents** with Flowise + Ollama.  
-* Use **retrievers, routers, and guardrails** for safe outputs.  
-* Build **scenario planners** with Monte Carlo-lite simulations.  
-* Apply **strategic frameworks** (SWOT, Porter, OKRs) with JSON + briefs.  
-* Run **boardroom demos** with citations, probabilities, and one-click scripts.  
+* Deploy **repo-grounded RAG agents** with Flowise + Ollama.
+* Use **retrievers, routers, and guardrails** for safe outputs.
+* Build **scenario planners** (Monte Carlo-lite) and brief clearly.
+* Apply **strategic frameworks** (SWOT, Porter, OKRs) with JSON → briefs.
+* Run **boardroom demos** with citations, probabilities, and one-click scripts.
 
 ---
 
@@ -62,22 +62,22 @@ By the end of this track, you will be able to:
 
 You’ll graduate with:
 
-* 📄 **Strategic Prompt Files** (SWOT, Porter’s, OKRs, Exec Brief)  
-* 📊 **Flowise Chatflows** (search, CSV summary, scenario runner)  
-* 🤖 **Autonomous agent** with memory + refreshable RAG  
-* 🎥 **Investor/stakeholder demo pack** (screenshots, scripts, reports)  
-* 📑 A final **Ethiopia-focused case study** mapping problem → solution → KPIs  
+* 📄 **Strategic Prompt Files** (SWOT, Porter’s, OKRs, Exec Brief)
+* 📊 **Flowise Chatflows** (file search, CSV summary, RAG, scenario runner)
+* 🤖 **Autonomous agent** with memory + refreshable RAG
+* 🎥 **Stakeholder demo pack** (screenshots, scripts, reports)
+* 📑 **Ethiopia-focused case study** mapping problem → solution → KPIs
 
 ---
 
 ## Course Structure
 
-* **Week 1 (Foundations):** Prompt discipline, repo grounding, first agent.  
-* **Week 2 (Governance & Workflows):** File search, CSV summaries, context packs, board-ready workflows.  
-* **Week 3 (Data Agents & Scenario Planning):** Visualization, Colab-based scenario planner, FastAPI tools.  
-* **Week 4 (Autonomous Strategic Agents):** Refreshable memory, SWOT/Porter/OKR modules, simulation-triggered agents, investor demo.  
+* **Week 1 (Days 1–5):** Prompt discipline, repo grounding, research → first Q\&A bot.
+* **Week 2 (Days 6–10):** Governance flows, context packs, SDLC gates, Git, deploy.
+* **Week 3 (Days 11–15):** Data agents, visualization briefs, ranking/trend outputs.
+* **Week 4 (Days 16–20):** Local RAG (Day16), multi-tool agent (Day17), refreshable memory (Day18), strategy modules (Day19), scenario planner + final assets/demo (Day20).
 
-Every week ends with a **rubric check**: ✅ Runs | ✅ Documented | ✅ Deployed | ✅ Cited | ✅ KPI-ready.
+Each week ends with a **rubric check**: ✅ Runs | ✅ Documented | ✅ Deployed | ✅ Cited | ✅ KPI-ready.
 
 ---
 
@@ -87,58 +87,62 @@ Every week ends with a **rubric check**: ✅ Runs | ✅ Documented | ✅ Deploye
 ai-agent-mastery-28days/
 │
 ├── Week1_Foundations/
-│   ├── Day1/...
-│   ├── ...
+│   ├── Day1/ ...
+│   ├── Day5/ ...
+│
 ├── Week2_Governance_Workflows/
-│   ├── Day8/...
-│   ├── ...
+│   ├── Day6/  ...
+│   ├── Day10/ ...
+│
 ├── Week3_Data_Agents/
-│   ├── Day15/...
-│   ├── ...
+│   ├── Day11/ ...
+│   ├── Day15/ ...
+│
 ├── Week4_Autonomous_Strategic_Agents/
-│   ├── Day22/...
-│   ├── Day28/...
+│   ├── Day16/  # Local RAG (Flowise + Ollama + Chroma)
+│   ├── Day17/  # Multi-Tool agent (File Search + CSV + RAG)
+│   ├── Day18/  # Refreshable RAG (memory refresh, citations, guardrails)
+│   ├── Day19/  # Strategy modules (SWOT, Porter’s, OKRs + exec brief)
+│   ├── Day20/  # Scenario planner + final assets/investor demo
+│
 ├── scripts/        # FastAPI server (local_tools_server.py)
 ├── assets/         # Evidence pack (screenshots, charts, exports)
-├── templates/      # Strategic prompt files (SWOT, Porter, OKRs, Exec Brief)
+├── templates/      # Strategic prompts (SWOT, Porter, OKRs, Exec Brief)
 ├── docs/           # Diagrams, case studies, rubrics
 └── README.md
-````
+```
 
 ---
 
-## Week 1: Foundations
+## Week 1: Foundations (Days 1–5)
 
-* **Day 1–7:** Prompting, repo context, research, synthesis, first Q\&A bot.
-* Deliverable: **Foundations agent** (citations + memory buffer).
-
----
-
-## Week 2: Governance & Workflows
-
-* **Day 8–14:** Governance-aware prompts, civic workflows, Databutton micro-tools.
-* **Day 14:** Mini-project → PRD v2, visuals, demo script.
-* Deliverables: **Governance prompts, PRD v2, demo script.**
+* Prompting, repo-grounded research, synthesis, first domain-limited Q\&A bot.
+* **Deliverable:** Foundations agent (clean Markdown, citations, optional bilingual line).
 
 ---
 
-## Week 3: Data Agents & Scenario Planning
+## Week 2: Governance & Workflows (Days 6–10)
 
-* **Day 15–21:** Colab analysis, visualization briefs, ranking/trend charts.
-* **Day 22:** Local Flowise RAG (Ollama + Chroma).
-* **Day 23:** Multi-tool agent (file search, CSV summary, RAG fallback).
-* **Day 26:** Monte Carlo-lite planner (Colab notebook + report).
-* Deliverables: **Scenario planner, CSV summaries, charts.**
+* Political strategy flows, context packs, SDLC with governance gates, Git PRs, deploy a simple site/app.
+* **Deliverables:** Governance prompts, PRD v2, demo script, basic live link.
 
 ---
 
-## Week 4: Autonomous Strategic Agents
+## Week 3: Data Agents (Days 11–15)
 
-* **Day 24:** Refreshable RAG (memory refresh command).
-* **Day 25:** Strategic frameworks (SWOT, Porter’s, OKRs with JSON + briefs).
-* **Day 27:** Scenario-triggered agent (simulate → summarize → action items).
-* **Day 28:** Investor demo (one-click runbook, crib sheet, evidence pack).
-* Deliverables: **Autonomous agent, investor-ready demo pack.**
+* Analysis + visualization briefs, ranking/trend charts, tidy CSVs, dataset summaries.
+* **Deliverables:** Charts, “insights.md”, and a small data-agent brief.
+
+---
+
+## Week 4: Strategic Agents (Days 16–20)
+
+* **Day 16:** Local RAG agent (Flowise + Ollama + Chroma) with filename citations.
+* **Day 17:** Multi-tool agent (File Search + CSV Summary + RAG fallback via router).
+* **Day 18:** Refreshable RAG (type “refresh memory”), guardrails, confidence & sources.
+* **Day 19:** Strategy modules — **SWOT, Porter’s, OKRs** (JSON-only prompts + exec brief).
+* **Day 20:** Scenario planner (Monte Carlo-lite) **+ final assets & investor demo pack**.
+* **Deliverables:** Agent chatflows, strategy prompts, scenario report, final “assets” package.
 
 ---
 
@@ -146,53 +150,32 @@ ai-agent-mastery-28days/
 
 ```mermaid
 flowchart TD
-  %% entry
   IN[Chat Input] --> ROUTE{Route intent}
 
-  %% simulation path
-  ROUTE -->|simulate or scenario| SIM_BUILD[Build scenario JSON]
+  ROUTE -->|simulate| SIM_BUILD[Build scenario JSON]
   SIM_BUILD --> SIM_HTTP[HTTP POST scenario run]
-  SIM_HTTP --> SIM_SUM[Post process to brief]
-  SIM_SUM --> OUT_SIM[Output simulation]
+  SIM_HTTP --> SIM_SUM[Summarize to brief]
+  SIM_SUM --> OUT_SIM[Output (simulation)]
 
-  %% file search path
-  ROUTE -->|find or where or file| FS_HTTP[HTTP GET files search]
-  FS_HTTP --> FS_SUM[Summarize matches max ten]
-  FS_SUM --> OUT_FIND[Output file search]
+  ROUTE -->|find / where / file| FS_HTTP[HTTP GET file search]
+  FS_HTTP --> FS_SUM[Summarize matches (≤10)]
+  FS_SUM --> OUT_FIND[Output (file search)]
 
-  %% csv summary path
-  ROUTE -->|csv or columns or summary| CSV_HTTP[HTTP POST csv summary]
-  CSV_HTTP --> CSV_SUM[Profile rows cols nulls]
-  CSV_SUM --> OUT_CSV[Output csv summary]
+  ROUTE -->|csv / columns / summary| CSV_HTTP[HTTP POST CSV summary]
+  CSV_HTTP --> CSV_SUM[Profile rows/cols/nulls]
+  CSV_SUM --> OUT_CSV[Output (CSV summary)]
 
-  %% refresh memory path
   ROUTE -->|refresh memory| LOAD[Load local docs]
-  LOAD --> SPLIT[Split text 1000 150]
-  SPLIT --> EMB[Embeddings nomic embed text]
-  EMB --> UP[SAVE to Chroma upsert]
-  UP --> OUT_REFRESH[Output memory refreshed]
+  LOAD --> SPLIT[Split 1000/150]
+  SPLIT --> EMB[Embeddings (Ollama)]
+  EMB --> UP[Chroma Upsert]
+  UP --> OUT_REFRESH[Output (memory refreshed)]
 
-  %% rag fallback
-  ROUTE -->|else| RETR[Retriever Chroma topK 4 thr 0_35 0_45]
-  RETR --> SIMCHK{Similarity ok}
-  SIMCHK -->|yes| P_GUARD[Prompt guardrails citations]
-  SIMCHK -->|no| ASK[Ask one clarifying question]
-  ASK --> OUT_CLAR[Output clarify]
-
+  ROUTE -->|else| RETR[Retriever (Chroma)]
+  RETR --> P_GUARD[Prompt (guardrails + citations)]
   P_GUARD --> LLM[Ollama LLM]
-  LLM --> FORMAT[Format bullets actions confidence]
-  FORMAT --> OUT_RAG[Output rag]
-
-  %% telemetry
-  OUT_SIM --> LOG[(Telemetry)]
-  OUT_FIND --> LOG
-  OUT_CSV --> LOG
-  OUT_REFRESH --> LOG
-  OUT_RAG --> LOG
-  LOG --> METRICS[Metrics latency hits conf]
-  LOG --> SOURCES[Citations file paths]
-
-
+  LLM --> FORMAT[Bullets + Actions + Confidence + Sources]
+  FORMAT --> OUT_RAG[Output (RAG)]
 ```
 
 ---
@@ -200,8 +183,6 @@ flowchart TD
 ## License
 
 This project is licensed under the **DACR License** — see the [LICENSE](LICENSE) file for details.
-
-```
 
 
 
