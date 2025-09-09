@@ -11,12 +11,13 @@
 
 ## 📖 Table of Contents
 
-1. [What is Vibe Coding?](#what-is-vibe-coding)
-2. [Toolbox Setup](#toolbox-setup)
-3. [Visualizations That Vibe](#visualizations-that-vibe)
-4. [Mini AI + Governance Glossary](#mini-ai--governance-glossary)
-5. [Troubleshooting & FAQ](#troubleshooting--faq)
-6. [Day Zero Map](#day-zero-map)
+1. [What is Vibe Coding?](#-what-is-vibe-coding)
+2. [Toolbox Setup](#-toolbox-setup)
+3. [Visualizations That Vibe](#-visualizations-that-vibe)
+4. [Mini AI + Governance Glossary](#-mini-ai--governance-glossary)
+5. [Troubleshooting & FAQ](#-troubleshooting--faq)
+6. [Day Zero Map](#-day-zero-map)
+7. [Your First Mission](#-your-first-mission)
 
 ---
 
@@ -97,17 +98,17 @@ flowchart LR
 
 ## ❓ Troubleshooting & FAQ
 
-**Q: I’m not technical — where do I start?**
-A: Use **Lovable** (sites/apps) or **Databutton** (calculators). Both are no-/low-code.
+**I’m not technical — where do I start?**
+Use **Lovable** (sites/apps) or **Databutton** (calculators). Both are no-/low-code.
 
-**Q: My Mermaid diagram won’t render.**
-A: Ensure the code fence is exactly `mermaid … ` (three backticks) and contains **only** Mermaid syntax. Close the fence with three backticks on a new line.
+**My Mermaid diagram won’t render.**
+Ensure the code fence is exactly three backticks + `mermaid`, and contains **only** Mermaid syntax. Close with three backticks on a new line.
 
-**Q: How do I make this “boardroom ready”?**
-A: Lead with **one diagram + 3 bullets**. Gantt/pie visuals communicate status faster than text walls.
+**How do I make this “boardroom ready”?**
+Lead with **one diagram + 3 bullets**. Gantt/pie visuals communicate status faster than text walls.
 
-**Q: What if I don’t have data?**
-A: Hardcode small examples (e.g., 100 permits, 10 staff). The point is *proof of concept*, not perfection.
+**What if I don’t have data?**
+Hardcode small examples (e.g., 100 permits, 10 staff). The point is *proof of concept*, not perfection.
 
 ---
 
@@ -135,3 +136,4 @@ graph LR
 
 ⚡ With this guide, both beginners and policy leaders can onboard smoothly.
 By **Day 20**, you won’t just *learn AI tools* — you’ll **drive strategy with working prototypes, agents, and visuals**.
+
