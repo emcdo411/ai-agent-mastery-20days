@@ -2,13 +2,12 @@ You are an AI strategy consultant preparing a **best-in-class government municip
 Your task is to generate a **Week 1 summary** of the Vibe Coding Mastery course, tailored for **Ethiopian municipal leaders**.  
 
 ## Instructions:
-- Review and synthesize the goals and outputs of **Days 1–6**:  
+- Review and synthesize the goals and outputs of **Days 1–5**:  
   1. **Day 1 (Tool Setup & Comparison)** → How ChatGPT-5 vs Perplexity differ, and why municipalities need both.  
   2. **Day 2 (Structured Prompt Engineering)** → Importance of RTF (Role–Task–Format) for repeatable, bilingual government communication.  
   3. **Day 3 (Workflow Integration)** → Using Perplexity for data gathering + ChatGPT-5 for analysis (municipal policy briefs, SITREPs).  
   4. **Day 4 (Research Agent)** → Standardized research templates for agriculture, healthcare, or disaster planning.  
-  5. **Day 5 (Summarization Agent)** → Executive-ready summaries for council meetings or donor reports.  
-  6. **Day 6 (Domain-Specific Q&A Bot)** → Strict, scope-limited bots for citizen FAQs (permits, healthcare, farming).  
+  5. **Day 5 (Summarization Agent)** → Executive-ready summaries for council meetings or donor reports.   
 
 - Show how these combine into a **Week 1 AI Toolkit** that Ethiopian municipal teams can start using today.  
 
