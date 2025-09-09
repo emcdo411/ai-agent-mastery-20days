@@ -1,4 +1,4 @@
-# 📝 Day 16 — Notes (Kaggle Cleaning Pipeline)
+# 📝 Day 12 — Notes (Kaggle Cleaning Pipeline)
 
 This folder contains **example outputs** generated from a mock Kaggle-style dataset.
 Use these as a guide for what your deliverables should look like after following the Day 16 lesson.
@@ -7,9 +7,9 @@ Use these as a guide for what your deliverables should look like after following
 
 ## 📂 Files
 
-* `W3D16_clean.csv` — cleaned + standardized dataset (deduplicated, nulls handled, outliers clipped).
-* `W3D16_profile.md` — profile report (shape, column stats, sample rows).
-* `Day16_notes.md` — this guide, explaining dataset choice, cleaning assumptions, and relevance.
+* `W3D12_clean.csv` — cleaned + standardized dataset (deduplicated, nulls handled, outliers clipped).
+* `W3D12_profile.md` — profile report (shape, column stats, sample rows).
+* `Day12_notes.md` — this guide, explaining dataset choice, cleaning assumptions, and relevance.
 
 ---
 
@@ -42,9 +42,9 @@ Use these as a guide for what your deliverables should look like after following
 2. Re-run the audit → clean → profile pipeline.
 3. Export:
 
-   * `W3D16_clean.csv`
-   * `W3D16_profile.md`
-   * (Keep `Day16_notes.md` updated with your dataset context).
+   * `W3D12_clean.csv`
+   * `W3D12_profile.md`
+   * (Keep `Day12_notes.md` updated with your dataset context).
 
 ---
 
@@ -59,4 +59,5 @@ Use these as a guide for what your deliverables should look like after following
 ⚡ *Pro Tip:* Commit both the CSV and profile MD file to your repo. The MD is **human-readable evidence** of your cleaning pipeline — perfect for recruiters, portfolio showcases, or internal playbooks.
 
 ---
+
 
