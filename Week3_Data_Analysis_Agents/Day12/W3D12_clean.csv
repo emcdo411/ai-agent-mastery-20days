@@ -1,10 +1,10 @@
-# 📊 Day 16 — Segment Sales Overview
+# 📊 Day 12 — Segment Sales Overview
 
 Here’s the **actual cleaned dataset** you can use alongside your chart 👇
 
 ✅ Duplicate row removed (`order_id=1003`)
 ✅ Missing `discount` filled with `0`
-✅ CSV saved as **`WD316_clean.csv`**
+✅ CSV saved as **`WD312_clean.csv`**
 
 📂 [Download WD316\_clean.csv](sandbox:/mnt/data/WD316_clean.csv)
 
@@ -24,7 +24,7 @@ Here’s the **actual cleaned dataset** you can use alongside your chart 👇
 
 ![Segment Sales Chart](sandbox:/mnt/data/day16_segment_sales.png)
 
-*Bar chart of total sales by customer segment — built directly from `WD316_clean.csv`.*
+*Bar chart of total sales by customer segment — built directly from `WD312_clean.csv`.*
 
 ---
 
@@ -50,6 +50,7 @@ Here’s the **actual cleaned dataset** you can use alongside your chart 👇
 ---
 
 👉 Do you want me to also add a **second chart (sales by country or by product)** so your Day16 folder has multiple visual perspectives?
+
 
 
 
