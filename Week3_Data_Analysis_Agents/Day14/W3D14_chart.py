@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 
 # ---- 0) Load cleaned CSV (supports both names from Day 16) ----
-candidates = ["WD316_clean.csv", "W3D16_clean.csv"]
+candidates = ["WD314_clean.csv", "W3D14_clean.csv"]
 csv_path = next((p for p in candidates if Path(p).exists()), None)
 if not csv_path:
     raise FileNotFoundError("Upload or place WD316_clean.csv (or W3D16_clean.csv) next to this script.")
