@@ -195,11 +195,42 @@ Pick the **highest index** with clear ownership and clean data access.
 
 ```mermaid
 flowchart LR
-  A[Top of Funnel\nExecutive AI Workshop] --> B{Qualified Use Case}
-  B -->|Yes| C[Phase 1 Paid Discovery]
-  B -->|No| D[Content Nurture\nCase Studies / Webinars]
-  C --> E[Phase 2 SOW\nDelivery]
-  C --> F[Stakeholder Alignment\n(IT/Legal/Ops)]
+  A([Start]) --> B[Clone repo & create branch<br/>`day1-setup`]
+  B --> C{Create accounts}
+  C --> C1[Sign up: ChatGPT-5<br/>bookmark desktop & mobile]
+  C --> C2[Sign up: Perplexity AI<br/>explore Focus options]
+  C1 --> D[Read <code>data_safety_checklist.md</code>]
+  C2 --> D
+  D --> E{Country-specific prompt?}
+  E -- Yes --> F[Run SAME prompt in both tools]
+  E -- No --> E1[Revise prompt to include country/region] --> E
+  F --> G[Capture both outputs]
+  G --> H[Compare: sources, clarity, format,<br/>where GPT-5 improved]
+  H --> I{Any sensitive data pasted?}
+  I -- Yes --> I1[Sanitize & rerun] --> F
+  I -- No --> J[Write <code>Day1_comparison.md</code><br/>(prompt + both responses)]
+  J --> K[Write <code>/logs/day1.md</code> from template]
+  K --> L[Commit & push<br/>`feat: Day 1 tool setup + comparison`]
+  L --> M([Done])
+
+  %% Group deliverables visually
+  subgraph Deliverables
+    direction TB
+    J
+    K
+  end
+
+  %% Styling
+  classDef start_end fill:#222,stroke:#9aa1a8,color:#fff,font-weight:bold;
+  classDef decision fill:#0b0f1a,stroke:#93c5fd,stroke-width:2px,color:#fff;
+  classDef file fill:#131722,stroke:#93c5fd,color:#fff;
+  classDef action fill:#0f172a,stroke:#475569,color:#fff;
+
+  class A,M start_end;
+  class C,E,I decision;
+  class J,K file;
+  class B,C1,C2,D,F,G,H,L action;
+
 ```
 
 ---
