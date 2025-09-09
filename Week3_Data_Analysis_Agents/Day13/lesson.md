@@ -1,4 +1,4 @@
-# 📊 Day 17 — Vibe Coding: *Data Dictionary + Analyst Brief + Heatmap*
+# 📊 Day 13 — Vibe Coding: *Data Dictionary + Analyst Brief + Heatmap*
 
 Turn your cleaned CSV into a **data dictionary**, a **crisp analyst brief** (policy-ready), and a **correlation heatmap**—in one Colab run.
 
@@ -18,7 +18,7 @@ Create:
 
 ## ✅ Prereqs
 
-- `W3D16_clean.csv` from Day 16
+- `W3D16_clean.csv` from Day 13
 
 ---
 
@@ -27,7 +27,7 @@ Create:
 ### 1️⃣ Load Cleaned CSV
 
 ```python
-# ==== Day 17: Dictionary + Brief + Heatmap ====
+# ==== Day 13: Dictionary + Brief + Heatmap ====
 import pandas as pd, numpy as np, io, os
 from google.colab import files
 
@@ -69,10 +69,10 @@ def data_dictionary(df: pd.DataFrame, max_examples:int=3) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 dd = data_dictionary(df)
-with open("W3D17_Data_Dictionary.md","w",encoding="utf-8") as f:
+with open("W3D13_Data_Dictionary.md","w",encoding="utf-8") as f:
     f.write("# W3D17 Data Dictionary\n\n" + dd.to_markdown(index=False))
 
-print("Saved: W3D17_Data_Dictionary.md")
+print("Saved: W3D13_Data_Dictionary.md")
 dd.head(10)
 3️⃣ Correlation Heatmap (Matplotlib, Labeled)
 python
@@ -143,34 +143,33 @@ lines.append("- አስፈላጊ ነጥቦች እዚህ ይጻፉ።")
 with open("W3D17_Analyst_Brief.md","w",encoding="utf-8") as f:
     f.write("\n".join(lines))
 
-print("Saved: W3D17_Analyst_Brief.md")
+print("Saved: W3D13_Analyst_Brief.md")
 5️⃣ Download Artifacts
 python
 Copy code
-from google.colab import files
-for f in ["W3D17_Data_Dictionary.md","W3D17_Analyst_Brief.md","W3D17_correlations.png"]:
+from google.colab im3ort files
+for f in ["W3D13_Data_Dictionary.md","W3D17_Analyst_Brief.md","W3D17_correlations.png"]:
     if os.path.exists(f):
         try: files.download(f)
         except Exception as e: print("Manual download hint:", f, e)
-🔗 Workflow Map (Day 17)
+🔗 Workflow Map (Day 13)
 mermaid
 Copy code
 %%{ init: { "theme": "dark" } }%%
 flowchart LR
-  CLEAN["🧽 Clean CSV (Day 16)"] --> DICT["📚 Data Dictionary (MD)"]
+  CLEAN["🧽 Clean CSV (Day 13)"] --> DICT["📚 Data Dictionary (MD)"]
   CLEAN --> BRIEF["📝 Analyst Brief (MD)"]
   CLEAN --> HEAT["🔥 Correlation Heatmap (PNG)"]
   DICT --> DELIV["📦 Deliverables"]
   BRIEF --> DELIV
   HEAT --> DELIV
 📂 Deliverables
-W3D17_Data_Dictionary.md
+W3D13_Data_Dictionary.md
+W3D13_Analyst_Brief.md
 
-W3D17_Analyst_Brief.md
+W3D13_correlations.png (if ≥2 numeric cols)
 
-W3D17_correlations.png (if ≥2 numeric cols)
-
-W3D17_Data_Dictionary_and_Brief.ipynb
+W3D13_Data_Dictionary_and_Brief.ipynb
 
 ✅ Rubric
  Dictionary covers all columns
@@ -189,7 +188,7 @@ PMO/Execs: slide-ready bullets with risks & next steps
 yaml
 Copy code
 
----
+--
 
-If you want, I can also add a tiny **`Week3_README.md`** scaffold to tie Days 15–17 into a coherent “Data Hygiene → Insight → Brief” storyline for boardrooms and councils.
+If you want, I can also add a tiny **`Week3_README.md`** scaffold to tie Days 11–15 into a coherent “Data Hygiene → Insight → Brief” storyline for boardrooms and councils.
 ::contentReference[oaicite:0]{index=0}
