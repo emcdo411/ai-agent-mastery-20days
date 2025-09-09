@@ -1,127 +1,212 @@
-# ⚡ Day 1 — Tool Setup, Trust & First Comparison (with ChatGPT-5)
+# Week 1 — Day 1: Executive AI Opportunity Workshop (Top‑of‑Funnel Lead Generation)
 
-## 📌 Objective
+**Save as:** `wk01/day01_executive_ai_opportunity_workshop.md`
 
-* Create free accounts for **ChatGPT-5** and **Perplexity AI**.
-* Understand **responsible AI use** (what’s safe to paste, what’s not).
-* Compare their strengths and weaknesses on the *same local query*.
-* Learn the **advantages of ChatGPT-5 vs. ChatGPT-3.5**.
-* Produce and document your **first AI research output**, with a **country-specific focus**.
-* Log, reflect, and commit results following vibe coding discipline.
+**CXO Lens:** This is not training; it’s pipeline creation. A 90‑minute, non‑technical, board‑credible workshop that surfaces one high‑ROI automation opportunity and sets up **Phase 1: Paid Discovery**. Integration, privacy, and value capture are positioned from minute one.
 
 ---
 
-## 🛠 Steps (30–45 min)
+## Positioning
 
-### 1. Environment Setup
+* **What it is:** A sharp, 90‑minute session for partners/executives at ICP firms. No code, no tooling tours—**business outcomes only**.
+* **Goal:** Teach leaders *how to identify* high‑ROI automation opportunities using our framework; leave with a prioritized, qualified use case.
+* **Business model:** Free or nominal fee (\$500) as a **marketing expense / lead magnet**.
+* **Primary outcome:** A concrete, scoped use case + executive sponsor buy‑in → direct handoff to **Phase 1: Paid Discovery**.
 
-* Clone this repo (or fork if preferred).
-* Create a new branch: `day1-setup`.
-* Ensure you have a `/logs` folder for reflections.
-
-### 2. Sign Up for ChatGPT-5
-
-* Visit [chat.openai.com](https://chat.openai.com).
-* Create an account (Google/Microsoft/email).
-* Confirm you are using **ChatGPT-5 (free or Plus, depending on access)**.
-* Bookmark the site on both **desktop and mobile**.
-
-### 3. Sign Up for Perplexity AI
-
-* Visit [perplexity.ai](https://www.perplexity.ai).
-* Create a free account.
-* Explore the **“Focus” options** (e.g., Academic, Web).
-
-### 4. Responsible Use Primer
-
-* Read `data_safety_checklist.md` in this repo.
-* Quick rule: Only paste **public** or **non-sensitive** information into these tools.
-
-  * ✅ Safe: news articles, public gov reports, local weather alerts.
-  * ❌ Not safe: citizen ID numbers, patient info, private financials.
-
-### 5. What’s New in ChatGPT-5
-
-Compared to ChatGPT-3.5, version 5 brings:
-
-* **Improved reasoning** — handles multi-step logic more reliably.
-* **Longer memory** — can process and recall more context in one session.
-* **Better local awareness** — more adaptive to specific country or regional prompts (but still cross-check).
-* **Cleaner formatting** — Markdown tables, lists, and structured outputs need fewer corrections.
-* **Iterative adaptability** — refines results faster when prompts are adjusted.
-
-### 6. Run the Same Query in Both
-
-* Choose a **local prompt**, e.g.:
-
-  * *“Summarize the top challenges facing {{Country}} agriculture in 2025 using government and university sources.”*
-* Capture both outputs from **ChatGPT-5** and **Perplexity**.
-
-### 7. Compare Outputs
-
-* Which tool cited **local sources** (if any)?
-* Which tool was clearer for a **non-technical reader**?
-* Which produced a **cleaner, ready-to-use format**?
-* Where did ChatGPT-5’s improvements stand out?
+> **Non‑goals:** Building solutions live; debating MLOps stacks; internal IT replacement. We enable **Private AI** within their constraints.
 
 ---
 
-## 📂 Deliverables
+## Audience & ICP
 
-* Save outputs in `Day1_comparison.md` (include query + both responses).
-* Add a **reflection log** in `/logs/day1.md` (use the template below).
-* Commit with message: `feat: Day 1 tool setup + ChatGPT5 vs Perplexity comparison`.
-
----
-
-## ✅ Rubric (Self-Check)
-
-* [ ] Accounts created successfully
-* [ ] Comparison file saved in correct folder
-* [ ] Reflection log added (1–2 sentences minimum per section)
-* [ ] Query used was **country-specific**
-* [ ] Git commit pushed with clear message
-* [ ] Notes included on **ChatGPT-5 vs 3.5 improvements**
+* **Primary:** Managing Partners, BU/Function Heads, Operations, Strategy.
+* **Secondary:** IT, Data/Analytics, Risk/Legal (invited for credibility and acceleration).
 
 ---
 
-## 📝 Reflection Template (`/logs/reflection_template.md`)
+## Core Messages (talk track)
 
-### Day X Reflection Prompts
-
-1. **Tool Differences**
-
-   * How did ChatGPT-5 vs. Perplexity handle your query?
-   * Which would you trust more for **local accuracy**?
-
-2. **ChatGPT-5 Improvements**
-
-   * Did you notice differences in reasoning, formatting, or contextual awareness compared to earlier versions (3.5)?
-
-3. **Workflow Fit**
-
-   * How might you use each tool in a real project (policy briefings, disaster readiness, agriculture reports)?
-
-4. **Surprises & Insights**
-
-   * Did either tool surface a local source (gov portal, university, newspaper)?
-   * Did the results confirm or challenge your assumptions?
-
-5. **Next Iteration**
-
-   * If you re-ran the test tomorrow, what would you change in your prompt (different sector, local language)?
-   * How would you log that change in your repo?
+1. **AI adoption ≠ value capture.** We close the activation‑to‑impact gap with governance + change control.
+2. **Private AI first.** Your data stays your data (contracts, scopes/claims, auditability).
+3. **Start with a single, boring, high‑ROI workflow.** Prove lift in weeks, not months.
 
 ---
 
-## Example for Day 1 (`/logs/day1.md`)
+## Agenda (90 Minutes)
 
-**Tool Differences:** Perplexity cited one gov source, ChatGPT-5 gave a smoother, structured summary.
-**ChatGPT-5 Improvements:** Output was more coherent and required fewer edits than I’d expect from 3.5.
-**Workflow Fit:** I’d use Perplexity for stats, ChatGPT-5 for writing policy briefs.
-**Surprises & Insights:** Perplexity missed ministry data, but ChatGPT-5 provided a clearer bilingual outline.
-**Next Iteration:** Tomorrow I’ll re-run with a hurricane-preparedness query and test local news integration.
+**00–05 | Executive framing**
+
+* Outcomes, ground rules (no tech rabbit holes), today’s deliverables.
+
+**05–15 | The 3 lenses**
+
+* **Value lens:** Revenue, cost, risk.
+* **Feasibility lens:** Data availability/quality, access, system touchpoints.
+* **Readiness lens:** Process ownership, change appetite, control gates.
+
+**15–35 | Opportunity Storm (guided)**
+
+* Collect 6–10 candidate workflows (billing, onboarding, case intake, account review).
+* Classify: **Manual → Structured → Repetitive → Governable**.
+
+**35–55 | Scoring & Prioritization**
+
+* Use the **Automation Opportunity Canvas** (below).
+* Scorecard: Value (0–5), Feasibility (0–5), Risk (0–5, inverted), Time‑to‑Impact (0–5).
+* Compute **Opportunity Index** = (Value + Feasibility + TTI) – Risk.
+
+**55–70 | Private AI guardrails**
+
+* Data boundaries, scopes/claims, audit facts, human‑in‑the‑loop checkpoints.
+* Clarify SoR/SoT and required integrations (ERP/CRM/ITSM, email, file stores).
+* Identify change gates (CAB‑as‑code preview for Phase 2).
+
+**70–85 | Executive decision & CTA**
+
+* Select the **one** use case (name the owner, data sources, policy constraints).
+* Draft the **Phase 1: Paid Discovery** brief (below).
+* Tentative calendar hold for Discovery kick‑off.
+
+**85–90 | Close & next steps**
+
+* Confirm decision log, follow‑ups, and artifact delivery within 24–48h.
 
 ---
 
-Would you like me to also **add a “ChatGPT-5 vs. Perplexity performance tracker” table** (e.g., accuracy, local sources, structure, readability) that learners can update daily through Week 1? That way they build a visible record of strengths/weaknesses across tools.
+## Automation Opportunity Canvas (worksheet)
+
+| Section                         | Prompts                                                         |
+| ------------------------------- | --------------------------------------------------------------- |
+| **Workflow name**               | What is the job‑to‑be‑done? Who owns it?                        |
+| **Business value**              | Cost saved, revenue protected/created, risk reduced (quantify). |
+| **Users & volume**              | Who touches this? Vol/day or cases/week.                        |
+| **Inputs**                      | Systems, documents, forms, emails, tickets.                     |
+| **Outputs**                     | Decisions, updates, messages, records.                          |
+| **Policy constraints**          | PII/PHI/PCI? Retention? Legal hold? Region?                     |
+| **Integration touchpoints**     | ERP/CRM/ITSM, SSO, file storage, email, messaging.              |
+| **Observability**               | What gets logged, traced, and measured?                         |
+| **Change control**              | Who approves changes? What’s the rollback?                      |
+| **Success metric (North Star)** | e.g., cycle time ↓, accuracy ↑, leakage ↓, backlog ↓.           |
+
+### Scorecard (prioritize 1–3)
+
+| Dimension          | 0       | 1      | 2      | 3               | 4       | 5                |
+| ------------------ | ------- | ------ | ------ | --------------- | ------- | ---------------- |
+| **Value**          | None    | Minor  | Useful | Material        | High    | Transformational |
+| **Feasibility**    | Blocked | Risky  | Doable | Straightforward | Easy    | Trivial          |
+| **Risk (invert)**  | Severe  | High   | Medium | Manageable      | Low     | Minimal          |
+| **Time‑to‑Impact** | 6+ mo   | 3–6 mo | 2–3 mo | 4–8 wks         | 2–4 wks | ≤2 wks           |
+
+**Opportunity Index** = (Value + Feasibility + Time‑to‑Impact) – Risk
+Pick the **highest index** with clear ownership and clean data access.
+
+---
+
+## Phase 1: Paid Discovery (handoff package)
+
+**Purpose:** Validate feasibility, quantify ROI, and produce a run‑plan + SOW for Phase 2.
+**Duration:** 2–3 weeks. **Commercials:** Fixed fee (e.g., \$10–\$25k).
+**Artifacts:**
+
+* Discovery brief (problem, scope, stakeholders, constraints).
+* Data map (SoR/SoT, fields, access pattern), risks & mitigations.
+* POC experiment plan + acceptance criteria.
+* Executive report‑out with ROI model and Phase 2 backlog.
+
+**Template — Discovery Brief (1‑pager)**
+
+* **Use case:** *e.g., Claims intake triage*.
+* **Owner:** *VP Operations*.
+* **Systems:** *CRM, ITSM, file store, email*.
+* **Data:** *PDF forms, tickets, customer profiles*.
+* **Guardrails:** *PII, region lock, 90‑day retention*.
+* **Success:** *Reduce triage time 60%; cut rework 30%*.
+
+---
+
+## Private AI One‑Pager (leave‑behind)
+
+* **Data boundary:** Your tenant; encrypted at rest & in transit; zero training on your data.
+* **Access model:** OAuth2/OIDC; scopes/claims; admin‑visible audit facts.
+* **Change control:** CAB‑as‑code; version pinning; rollback plan.
+* **Observability:** Trace IDs per request; PII redaction; cost per 1k calls tracked.
+
+---
+
+## Sales Enablement (how this feeds pipeline)
+
+* **CRM fields to capture:** Exec sponsor, use case title, owner, index score, expected ROI, risk notes, system list, next meeting date.
+* **Follow‑up sequence:**
+
+  1. **T+4h:** Thank‑you + decision log + Discovery proposal (calendar link).
+  2. **T+48h:** Case study relevant to use case + Private AI one‑pager.
+  3. **T+7d:** Objection‑handling note to IT/Legal (see below) + deadline for hold.
+
+**Email snippet — proposal handoff**
+
+> Subject: Next steps on \[Use Case] — Discovery brief & calendar
+> Thanks for today’s session. As discussed, we recommend a 2–3 week Discovery to confirm feasibility and ROI. Draft brief attached; here’s a direct calendar link for kick‑off. We’ll align IT/Legal early to de‑risk data access and controls.
+
+---
+
+## Objection Handling (for IT/Legal/Operations)
+
+* **Security:** mTLS, least privilege, just‑in‑time credentials; no shared secrets.
+* **Privacy:** No cross‑tenant training; field‑level redaction; data residency respected.
+* **Compliance:** Evidence to audit lake; policy‑as‑code mapping to ISO/SOC2/NIST.
+* **Run risk with a leash:** Canary, rate limits, idempotency, DLQ, rapid rollback.
+
+---
+
+## Metrics for Week 1
+
+* Workshop → **Discovery conversion rate** (%).
+* Avg **Opportunity Index** of chosen use cases.
+* **Time‑to‑kick‑off** (days).
+* Stakeholder **alignment score** (simple post‑session poll).
+* **Forecasted ROI vs Discovery cost** (ratio).
+
+---
+
+## Preview — Day 2 & Day 3 (Mid‑/Bottom‑of‑Funnel tie‑in)
+
+* **Day 2: PICO Prompting (Persona · Instructions · Context · Output).**
+
+  * Translate the chosen executive use case into **PICO artifacts**: decision rubric, input schema, output contract, guardrails.
+  * Deliver **prompt pack** + evaluation checklist (precision/recall, hallucination traps, escalation rules).
+* **Day 3: Stakeholder Alignment Session (Sales Acceleration).**
+
+  * Bespoke briefing for IT, Legal, Operations on the selected use case.
+  * **Goal:** secure approvals to proceed with data access + Discovery timeline.
+  * Includes slide kit, RACI, risk register, and FAQ.
+
+---
+
+## Materials (ready‑to‑ship today)
+
+* Slides: 10–12 slides covering value→feasibility→readiness, Private AI, and Opportunity Index.
+* Worksheets: Opportunity Canvas + Scorecard (print or digital).
+* Templates: Discovery Brief (1‑pager), follow‑up emails, objection pack.
+* Facilitator script: Opening (2m), framing (5m), storming (20m), scoring (20m), guardrails (15m), CTA (15m).
+
+---
+
+## Funnel Map (Mermaid)
+
+```mermaid
+flowchart LR
+  A[Top of Funnel\nExecutive AI Workshop] --> B{Qualified Use Case}
+  B -->|Yes| C[Phase 1 Paid Discovery]
+  B -->|No| D[Content Nurture\nCase Studies / Webinars]
+  C --> E[Phase 2 SOW\nDelivery]
+  C --> F[Stakeholder Alignment\n(IT/Legal/Ops)]
+```
+
+---
+
+## Acceptance & QA (for the facilitator)
+
+* **One** named use case with owner, systems, policy constraints, and **Opportunity Index**.
+* Discovery brief drafted; kick‑off hold proposed; CRM updated with fields above.
+* Private AI one‑pager left behind; objection pack emailed to IT/Legal.
+* Post‑session poll completed (alignment score captured).
