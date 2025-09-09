@@ -1,6 +1,6 @@
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
-# ⚡ Day 9 — Context Engineering for Your AI Pair-Programmer (Governance + Leadership Lens)
+# ⚡ Day 7 — Context Engineering for Your AI Pair-Programmer (Governance + Leadership Lens)
 
 ## 📌 Objective
 - Build a **context pack** so AI tools (ChatGPT, Claude, Perplexity) operate with your standards.  
