@@ -1,6 +1,6 @@
 # 🚀 Vibe Coding Starter Guide (Governance + Leadership Edition)
 
-*Your Day Zero Playbook for the 28-Day Mastery Program*
+*Your Day Zero Playbook for the 20-Day Mastery Program*
 
 [![Lovable](https://img.shields.io/badge/Lovable-App_Builder-green)](https://lovable.dev)
 [![Databutton](https://img.shields.io/badge/Databutton-Micro_Tools-orange)](https://databutton.com)
@@ -22,95 +22,104 @@
 
 ## 🎶 What is Vibe Coding?
 
-Vibe Coding = **creative flow + structured exploration + civic outcomes.**  
-It’s not just learning to code — it’s **designing workflows, apps, and visual reports that leaders can act on immediately.**
+Vibe Coding = **creative flow + structured exploration + civic outcomes.**
+It’s not just learning to code — it’s **designing workflows, agents, and visual reports leaders can act on immediately.**
 
-Over 28 days, you’ll:
+Over **20 days**, you’ll:
 
-* Automate workflows 💻  
-* Build civic data agents with guardrails 📊  
-* Deploy AI tools that respect governance + oversight 🛡  
-* Visualize insights in *boardroom-ready style* 🎨  
-* End with a **portfolio-ready mastery toolkit** 🚀  
+* Automate workflows 💻
+* Build civic/data agents with guardrails 📊
+* Deploy AI tools that respect governance + oversight 🛡
+* Visualize insights in *boardroom-ready style* 🎨
+* Finish with a **portfolio-ready mastery toolkit** 🚀
+
+**Program map**
+
+* **Week 1 (Days 1–5):** AI fundamentals, structured prompting, comparison & analysis flows
+* **Week 2 (Days 6–10):** Governance & leadership (political flows, context packs, SDLC gates, Git, deploy)
+* **Week 3 (Days 11–15):** Data analysis agents + RAG workflows
+* **Week 4 (Days 16–20):** Strategic agents (local RAG, multi-tool, refreshable memory, scenario planning)
 
 ---
 
 ## 🧰 Toolbox Setup
 
-**Core Tools:**
+**Core tools**
 
-* **Lovable** → instantly ship landing pages & simple apps  
-* **Databutton** → build tiny data calculators for civic use cases  
-* **Mermaid** → draw workflows, Gantt charts, and pie charts in Markdown  
-* **GitHub** → track decisions & share transparent audit trails  
+* **Lovable** → instantly ship landing pages & simple apps
+* **Databutton** → tiny data calculators for civic use cases
+* **Mermaid** → workflows, Gantt, and pie charts in Markdown
+* **GitHub** → track decisions & create transparent audit trails
 
-**Optional (technical learners):**
-* **Colab** → Python notebook in the browser  
-* **Ollama** → run local AI models (`llama3.1:8b`, `phi3:mini`)  
-* **Flowise** → drag-drop orchestration of agents  
-* **Chroma** → store & search documents for Retrieval-Augmented Generation (RAG)  
+**Optional (technical learners)**
 
-✅ **Pro Tip:** Pick one builder (Lovable *or* Replit, Databutton *or* Colab) — the goal is *momentum*, not tech overwhelm.
+* **Colab** → Python notebook in the browser
+* **Ollama** → run local AI models (`llama3.1:8b`, `phi3:mini`)
+* **Flowise** → drag-drop agent orchestration (local RAG, routers, tools)
+* **Chroma** → local vector store for Retrieval-Augmented Generation (RAG)
+
+✅ **Pro tip:** Pick one builder to start (**Lovable** *or* **Replit**, **Databutton** *or* **Colab**). The goal is *momentum*, not tech overwhelm.
 
 ---
 
 ## 📊 Visualizations That Vibe
 
-Leaders make decisions based on **what they can see clearly**. Your job = show the right picture fast.
+Leaders decide faster when the picture is clear. Your job: **show the right view, fast.**
 
-* **Flowcharts** → “How does policy flow from idea → outcome?”  
-* **Pie Charts** → “Where are resources going?”  
-* **Gantt Charts** → “What’s the rollout timeline?”  
+* **Flowcharts** → “How does policy flow from idea → outcome?”
+* **Pie Charts** → “Where are resources going?”
+* **Gantt Charts** → “What’s the rollout timeline?”
 
-**Example Mermaid Diagram (Permit Backlog Flow):**
+**Example Mermaid (Permit Backlog Flow)**
 
 ```mermaid
 flowchart LR
   A[Citizen Applies] --> B[Municipal Portal]
   B --> C[Permit Officer Review]
-  C --> D[Approval or Rejection]
-  D --> E[Public Record Updated]
-````
+  C --> D{Decision}
+  D -->|Approve| E[Update Public Record]
+  D -->|Reject| F[Notify Applicant]
+```
 
 ---
 
 ## 🧠 Mini AI + Governance Glossary
 
-| Term                                     | Beginner Friendly                             | Advanced Angle                                    |
-| ---------------------------------------- | --------------------------------------------- | ------------------------------------------------- |
-| **Generative AI**                        | Makes text/images (ChatGPT, Stable Diffusion) | Pretrained LLMs fine-tuned on large corpora       |
-| **Agentic AI**                           | AI that “acts” (tools, memory, decisions)     | Orchestration across APIs, retrievers, governance |
-| **RAG** (Retrieval-Augmented Generation) | AI + your docs (retrieves context → answers)  | Hybrid search + embeddings + vector stores        |
-| **Context Pack**                         | Rulebook for AI (tone, scope, limits)         | Repo-linked prompts that enforce governance       |
-| **Audit Trail**                          | Record of all changes                         | Git + PRs as transparent oversight logs           |
+| Term                                     | Beginner Friendly                            | Advanced Angle                                       |
+| ---------------------------------------- | -------------------------------------------- | ---------------------------------------------------- |
+| **Generative AI**                        | Makes text/images (e.g., ChatGPT)            | Pretrained LLMs, instruction-tuned pipelines         |
+| **Agentic AI**                           | AI that “acts” (tools, memory, decisions)    | Orchestration across APIs/retrievers with guardrails |
+| **RAG** (Retrieval-Augmented Generation) | AI + your docs (retrieves context → answers) | Hybrid search + embeddings + local vector stores     |
+| **Context Pack**                         | Rulebook for AI (tone, scope, limits)        | Repo-linked prompts enforcing governance & ethics    |
+| **Audit Trail**                          | Record of changes & decisions                | Git + PRs as transparent oversight logs              |
 
 ---
 
 ## ❓ Troubleshooting & FAQ
 
 **Q: I’m not technical — where do I start?**
-A: Use **Lovable** (for sites/apps) or **Databutton** (for calculators). Both are no-code.
+A: Use **Lovable** (sites/apps) or **Databutton** (calculators). Both are no-/low-code.
 
-**Q: My Mermaid diagram won’t render?**
-A: Check that you closed the \`\`\` block. Only Mermaid syntax goes inside.
+**Q: My Mermaid diagram won’t render.**
+A: Ensure the code fence is exactly `mermaid … ` (three backticks) and contains **only** Mermaid syntax. Close the fence with three backticks on a new line.
 
-**Q: I want to make this “boardroom ready.”**
-A: Use **Gantt or pie charts** → they communicate status faster than text.
+**Q: How do I make this “boardroom ready”?**
+A: Lead with **one diagram + 3 bullets**. Gantt/pie visuals communicate status faster than text walls.
 
 **Q: What if I don’t have data?**
-A: Hardcode examples (like 100 permits, 10 staff). The point is to show **proof of concept**, not perfection.
+A: Hardcode small examples (e.g., 100 permits, 10 staff). The point is *proof of concept*, not perfection.
 
 ---
 
 ## 🗺 Day Zero Map
 
 ```mermaid
-%%{ init: { 'theme': 'forest' } }%%
-graph TD
-  D0["Day 0: Starter Guide"] --> D1["Week 1: AI Fundamentals"]
-  D1 --> D7["Week 2: Governance & Leadership Tools"]
-  D7 --> D14["Week 3: Agents + RAG Workflows"]
-  D14 --> D21["Week 4: Mastery Projects & Case Studies"]
+%%{ init: { "theme": "forest" } }%%
+graph LR
+  D0["Day 0: Starter Guide"] --> W1["Week 1: AI Fundamentals (Days 1–5)"]
+  W1 --> W2["Week 2: Governance & Leadership (Days 6–10)"]
+  W2 --> W3["Week 3: Data Agents + RAG (Days 11–15)"]
+  W3 --> W4["Week 4: Strategic Agents (Days 16–20)"]
 ```
 
 ---
@@ -118,17 +127,11 @@ graph TD
 ## ✅ Your First Mission
 
 1. Pick a **domain you care about** (permits, healthcare, disaster relief, campaigns).
-2. Redraw its workflow in **Mermaid** (just 4–5 boxes + arrows).
+2. Redraw its workflow in **Mermaid** (4–5 boxes + arrows).
 3. Save as `day0_workflow.md`.
-4. 🎉 Celebrate — you’ve already built your first **boardroom-ready artifact.**
+4. 🎉 Celebrate — you’ve built your first **boardroom-ready artifact**.
 
 ---
 
 ⚡ With this guide, both beginners and policy leaders can onboard smoothly.
-By Day 14, you won’t just *learn AI tools* — you’ll **drive strategy with working prototypes and visuals.**
-
-```
-
----
-
-👉 This now matches your Weeks 1–2: political flows, governance context packs, Lovable/Databutton apps, boardroom-ready diagrams.  
+By **Day 20**, you won’t just *learn AI tools* — you’ll **drive strategy with working prototypes, agents, and visuals**.
