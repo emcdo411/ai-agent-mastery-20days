@@ -1,13 +1,13 @@
-# 📊 Day 18 — Observable Tiny Interactive Chart (from Cleaned CSV)
+# 📊 Day 14 — Observable Tiny Interactive Chart (from Cleaned CSV)
 
-Spin your Day 16 cleaned CSV into a **shareable interactive chart** on Observable. Publish, export PNG/SVG, and link it in your repo. Built for **boardroom speed** (group → measure → insight).
+Spin your Day 14 cleaned CSV into a **shareable interactive chart** on Observable. Publish, export PNG/SVG, and link it in your repo. Built for **boardroom speed** (group → measure → insight).
 
 ⏱ Timebox: ≤ 30 minutes
 
 ---
 
 ## 🌟 Objective
-- Load your cleaned CSV (`WD316_clean.csv` or `W3D16_clean.csv`)
+- Load your cleaned CSV (`W3D14_clean.csv` or `W3D14_clean.csv`)
 - Build a tiny **interactive bar chart** (category + metric + aggregation)
 - **Publish** notebook + **export PNG/SVG** for your repo
 
@@ -17,7 +17,7 @@ Spin your Day 16 cleaned CSV into a **shareable interactive chart** on Observabl
 
 ### 1) Create an Observable Notebook
 1. Go to **observablehq.com** → Sign in (free).
-2. **New → Notebook** → name: `W3D18_Interactive_Chart`.
+2. **New → Notebook** → name: `W3D14_Interactive_Chart`.
 
 ### 2) Load Your Data (choose ONE)
 
@@ -26,7 +26,7 @@ Spin your Day 16 cleaned CSV into a **shareable interactive chart** on Observabl
 import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 
-const fileNames = ["WD316_clean.csv", "W3D16_clean.csv"];
+const fileNames = ["WD314_clean.csv", "W3D14_clean.csv"];
 let data;
 for (const f of fileNames) {
   try { data = await FileAttachment(f).csv({ typed: true }); break; }
