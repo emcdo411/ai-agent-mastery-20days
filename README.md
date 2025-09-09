@@ -152,30 +152,36 @@ ai-agent-mastery-28days/
 flowchart TD
   IN[Chat Input] --> ROUTE{Route intent}
 
+  %% Simulation path
   ROUTE -->|simulate| SIM_BUILD[Build scenario JSON]
   SIM_BUILD --> SIM_HTTP[HTTP POST scenario run]
   SIM_HTTP --> SIM_SUM[Summarize to brief]
   SIM_SUM --> OUT_SIM[Output (simulation)]
 
+  %% File search path
   ROUTE -->|find / where / file| FS_HTTP[HTTP GET file search]
-  FS_HTTP --> FS_SUM[Summarize matches (≤10)]
+  FS_HTTP --> FS_SUM[Summarize matches (<=10)]
   FS_SUM --> OUT_FIND[Output (file search)]
 
+  %% CSV summary path
   ROUTE -->|csv / columns / summary| CSV_HTTP[HTTP POST CSV summary]
   CSV_HTTP --> CSV_SUM[Profile rows/cols/nulls]
   CSV_SUM --> OUT_CSV[Output (CSV summary)]
 
+  %% Refresh memory path
   ROUTE -->|refresh memory| LOAD[Load local docs]
   LOAD --> SPLIT[Split 1000/150]
   SPLIT --> EMB[Embeddings (Ollama)]
   EMB --> UP[Chroma Upsert]
   UP --> OUT_REFRESH[Output (memory refreshed)]
 
+  %% RAG fallback
   ROUTE -->|else| RETR[Retriever (Chroma)]
   RETR --> P_GUARD[Prompt (guardrails + citations)]
   P_GUARD --> LLM[Ollama LLM]
   LLM --> FORMAT[Bullets + Actions + Confidence + Sources]
   FORMAT --> OUT_RAG[Output (RAG)]
+
 ```
 
 ---
