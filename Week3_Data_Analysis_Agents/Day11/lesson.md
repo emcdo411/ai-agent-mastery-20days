@@ -1,4 +1,4 @@
-# 📊 Day 15 — Vibe Coding: *Colab Data Agent (Civic & Boardroom Ready)*
+# 📊 Day 11 — Vibe Coding: *Colab Data Agent (Civic & Boardroom Ready)*
 
 Spin up a **Colab notebook** that behaves like a *data agent*: ingest → clean → visualize → export → brief — all in ≤30 minutes, with **light governance guardrails**.
 
@@ -30,7 +30,7 @@ Build a **Google Colab** notebook that:
 ### 2️⃣ Cell 1 — Load Data (URL or Upload)
 
 ```python
-# ==== Day 15: Data Agent (Civic Edition) ====
+# ==== Day 11: Data Agent (Civic Edition) ====
 import pandas as pd, numpy as np, io, re, os
 import matplotlib.pyplot as plt
 
