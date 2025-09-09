@@ -195,30 +195,30 @@ Pick the **highest index** with clear ownership and clean data access.
 
 ```mermaid
 flowchart TD
-  A([Start]) --> B[Clone repo & create branch\n"day1-setup"]
-  B --> C{Create accounts}
-  C --> C1[Sign up: ChatGPT-5\nBookmark desktop & mobile]
-  C --> C2[Sign up: Perplexity AI\nExplore Focus options]
-  C1 --> D[Read data_safety_checklist.md]
-  C2 --> D
-  D --> E{Country-specific prompt?}
-  E -- Yes --> F[Run same prompt in both tools]
-  E -- No --> E1[Revise prompt to include country/region] --> E
-  F --> G[Capture both outputs]
-  G --> H[Compare: sources, clarity, format,\nwhere GPT-5 improved]
-  H --> I{Any sensitive data pasted?}
-  I -- Yes --> I1[Sanitize and rerun] --> F
-  I -- No --> J[Write Day1_comparison.md\n(prompt + both responses)]
-  J --> K[Write /logs/day1.md from template]
-  K --> L[Commit & push\n"feat: Day 1 setup + comparison"]
-  L --> M([Done])
+    A[Start] --> B[Clone repo and create branch: day1-setup]
+    B --> C{Create accounts}
+    C --> C1[Sign up: ChatGPT-5; bookmark desktop and mobile]
+    C --> C2[Sign up: Perplexity AI; explore Focus options]
+    C1 --> D[Read data_safety_checklist.md]
+    C2 --> D
+    D --> E{Country-specific prompt?}
+    E -- Yes --> F[Run same prompt in both tools]
+    E -- No --> E1[Revise prompt to include country or region]
+    E1 --> E
+    F --> G[Capture both outputs]
+    G --> H[Compare sources, clarity, format; note GPT-5 improvements]
+    H --> I{Any sensitive data pasted?}
+    I -- Yes --> I1[Sanitize and rerun]
+    I1 --> F
+    I -- No --> J[Write Day1_comparison.md: prompt and responses]
+    J --> K[Write logs/day1.md from template]
+    K --> L[Commit and push: feat Day 1 setup and comparison]
+    L --> M[Done]
 
-  subgraph Deliverables
-    direction TB
-    J
-    K
-  end
-
+    subgraph Deliverables
+        J
+        K
+    end
 
 ```
 
