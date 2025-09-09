@@ -1,15 +1,15 @@
-# make_day19_charts.py
+# make_day15_charts.py
 # Generates:
-#   W3D19_ranking.png       (Top-N by average of `metric`)
-#   W3D19_distribution.png  (Histogram of `metric`)
-#   W3D19_trend.png         (Daily average trend of `metric`, if a date column exists)
+#   W3D15_ranking.png       (Top-N by average of `metric`)
+#   W3D15_distribution.png  (Histogram of `metric`)
+#   W3D15_trend.png         (Daily average trend of `metric`, if a date column exists)
 
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
 
 # ===================== CONFIG =====================
-CSV_PATH = "W3D16_clean.csv"   # path to your cleaned CSV
+CSV_PATH = "W3D15_clean.csv"   # path to your cleaned CSV
 group_by = "product"           # categorical column to group by
 metric   = "total"             # numeric column to average
 top_n    = 10                  # Top-N for ranking chart
@@ -85,4 +85,4 @@ else:
     # If no date column, you simply won't get a trend.png (by design)
     pass
 
-print("Done: W3D19_ranking.png, W3D19_distribution.png, and (if date exists) W3D19_trend.png")
+print("Done: W3D15_ranking.png, W3D15_distribution.png, and (if date exists) W3D15_trend.png")
