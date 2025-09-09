@@ -1,4 +1,4 @@
-# 📊 Day 19 — Observable Mini Dashboard (2 Charts + Filter)
+# 📊 Day 15 — Observable Mini Dashboard (2 Charts + Filter)
 
 Turn your cleaned CSV into a **tiny dashboard**:
 - **Ranking** (Avg metric by group)
@@ -13,7 +13,7 @@ Turn your cleaned CSV into a **tiny dashboard**:
 ## 🛠 Steps
 
 ### 1) Create Notebook
-- observablehq.com → New → `W3D19_Mini_Dashboard`
+- observablehq.com → New → `W3D15_Mini_Dashboard`
 
 ### 2) Load Data (upload or GitHub URL)
 ```js
@@ -21,8 +21,8 @@ import * as Plot from "@observablehq/plot";
 import * as d3 from "d3";
 
 let data;
-try { data = await FileAttachment("WD316_clean.csv").csv({ typed: true }); }
-catch { data = await FileAttachment("W3D16_clean.csv").csv({ typed: true }); }
+try { data = await FileAttachment("WD315_clean.csv").csv({ typed: true }); }
+catch { data = await FileAttachment("W3D15_clean.csv").csv({ typed: true }); }
 (Or replace with d3.csv("RAW_URL", d3.autoType))
 
 3) Auto-Detect + Controls
