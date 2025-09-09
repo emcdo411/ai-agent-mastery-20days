@@ -1,4 +1,4 @@
-# **W4D23 — Multi-Tool Agent**
+# **W4D17 — Multi-Tool Agent**
 
 *🔍 Local File Search + 📊 CSV Summary (No Cloud)*
 
@@ -6,7 +6,7 @@
 
 ## 🎯 Goal
 
-Supercharge your Day 22 Flowise agent with **two local-only tools** + a smart router:
+Supercharge your Day 17 Flowise agent with **two local-only tools** + a smart router:
 
 1. **File Search** → Find filenames & snippets in your repo.
 2. **CSV Summary** → Quick schema/profile of any CSV file.
