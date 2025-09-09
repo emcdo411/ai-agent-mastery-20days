@@ -151,36 +151,26 @@ ai-agent-mastery-28days/
 ```mermaid
 flowchart TD
   IN[Chat Input] --> ROUTE{Route intent}
-
-  %% Simulation path
   ROUTE -->|simulate| SIM_BUILD[Build scenario JSON]
   SIM_BUILD --> SIM_HTTP[HTTP POST scenario run]
   SIM_HTTP --> SIM_SUM[Summarize to brief]
-  SIM_SUM --> OUT_SIM[Output (simulation)]
-
-  %% File search path
-  ROUTE -->|find / where / file| FS_HTTP[HTTP GET file search]
-  FS_HTTP --> FS_SUM[Summarize matches (<=10)]
-  FS_SUM --> OUT_FIND[Output (file search)]
-
-  %% CSV summary path
-  ROUTE -->|csv / columns / summary| CSV_HTTP[HTTP POST CSV summary]
-  CSV_HTTP --> CSV_SUM[Profile rows/cols/nulls]
-  CSV_SUM --> OUT_CSV[Output (CSV summary)]
-
-  %% Refresh memory path
+  SIM_SUM --> OUT_SIM[Output simulation]
+  ROUTE -->|find or where or file| FS_HTTP[HTTP GET file search]
+  FS_HTTP --> FS_SUM[Summarize matches max ten]
+  FS_SUM --> OUT_FIND[Output file search]
+  ROUTE -->|csv or columns or summary| CSV_HTTP[HTTP POST csv summary]
+  CSV_HTTP --> CSV_SUM[Profile rows cols nulls]
+  CSV_SUM --> OUT_CSV[Output csv summary]
   ROUTE -->|refresh memory| LOAD[Load local docs]
-  LOAD --> SPLIT[Split 1000/150]
-  SPLIT --> EMB[Embeddings (Ollama)]
-  EMB --> UP[Chroma Upsert]
-  UP --> OUT_REFRESH[Output (memory refreshed)]
-
-  %% RAG fallback
-  ROUTE -->|else| RETR[Retriever (Chroma)]
-  RETR --> P_GUARD[Prompt (guardrails + citations)]
+  LOAD --> SPLIT[Split 1000 150]
+  SPLIT --> EMB[Embeddings Ollama]
+  EMB --> UP[Chroma upsert]
+  UP --> OUT_REFRESH[Output memory refreshed]
+  ROUTE -->|else| RETR[Retriever Chroma]
+  RETR --> P_GUARD[Prompt guardrails and citations]
   P_GUARD --> LLM[Ollama LLM]
-  LLM --> FORMAT[Bullets + Actions + Confidence + Sources]
-  FORMAT --> OUT_RAG[Output (RAG)]
+  LLM --> FORMAT[Bullets Actions Confidence Sources]
+  FORMAT --> OUT_RAG[Output RAG]
 
 ```
 
