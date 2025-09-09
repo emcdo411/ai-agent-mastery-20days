@@ -1,20 +1,25 @@
-📂 Day 25 — Strategic Prompt Files (SWOT, Porter’s, OKRs)
+# 📂 Day 19 — Strategic Prompt Files (SWOT, Porter’s, OKRs)
 
-These prompts expand your Flowise agent into boardroom-ready strategy modules.
-They enforce JSON-only outputs, repo-linked citations, and confidence scoring.
-Context focus: supporting Ethiopia-facing projects (governance, public services, local business ecosystems).
+**Folder:** `Week4_Autonomous_Strategic_Agents\Day19\`
+These prompts expand your Flowise agent into **boardroom-ready strategy modules**.
+They enforce **JSON-only outputs**, **repo-linked citations**, and **confidence scoring**.
+Context focus: supporting **Ethiopia-facing projects** (governance, public services, local business ecosystems).
 
-1️⃣ SWOT Prompt File
+---
 
-📄 Create file:
+## 1️⃣ SWOT Prompt File
 
-notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day25\W4D25_swot_prompt.txt"
+**Create the file (CMD):**
 
+```cmd
+notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day19\W4D19_swot_prompt.txt"
+```
 
-Paste this:
+**Paste this into the file:**
 
-You are a Strategic AI Coach. Use ONLY retrieved repo context (RAG).  
-If evidence is weak or missing, lower confidence and explain the gap.  
+```
+You are a Strategic AI Coach. Use ONLY retrieved repo context (RAG).
+If evidence is weak or missing, lower confidence and explain the gap.
 When possible, align insights to Ethiopia’s governance, infrastructure, or business context.
 
 INPUTS
@@ -50,18 +55,23 @@ JSON SCHEMA
   "confidence": "High|Medium|Low",
   "notes": "constraints, gaps, assumptions"
 }
+```
 
-2️⃣ Porter’s Five Forces Prompt File
+---
 
-📄 Create file:
+## 2️⃣ Porter’s Five Forces Prompt File
 
-notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day25\W4D25_porter_prompt.txt"
+**Create the file (CMD):**
 
+```cmd
+notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day19\W4D19_porter_prompt.txt"
+```
 
-Paste this:
+**Paste this into the file:**
 
-You are a Strategic AI Coach. Use ONLY repo context (RAG).  
-Do not invent industry facts. If repo coverage is thin, reduce confidence and document gaps.  
+```
+You are a Strategic AI Coach. Use ONLY repo context (RAG).
+Do not invent industry facts. If repo coverage is thin, reduce confidence and document gaps.
 Where relevant, highlight Ethiopia’s market dynamics (suppliers, buyers, infrastructure, regulation).
 
 INPUTS
@@ -95,18 +105,23 @@ JSON SCHEMA
   "confidence": "High|Medium|Low",
   "notes": "evidence gaps, assumptions"
 }
+```
 
-3️⃣ OKRs Prompt File
+---
 
-📄 Create file:
+## 3️⃣ OKRs Prompt File
 
-notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day25\W4D25_okrs_prompt.txt"
+**Create the file (CMD):**
 
+```cmd
+notepad "C:\Users\Veteran\ai-agent-mastery-28days\Week4_Autonomous_Strategic_Agents\Day19\W4D19_okrs_prompt.txt"
+```
 
-Paste this:
+**Paste this into the file:**
 
-You are a Strategic OKR Coach. Use ONLY repo context (briefs, dashboards, deliverables).  
-If metrics or baselines are missing, mark "unknown" and explain.  
+```
+You are a Strategic OKR Coach. Use ONLY repo context (briefs, dashboards, deliverables).
+If metrics or baselines are missing, mark "unknown" and explain.
 When drafting, frame OKRs in a way that could guide Ethiopia-focused programs (e.g., digital literacy, health access, infrastructure).
 
 INPUTS
@@ -139,14 +154,26 @@ JSON SCHEMA
   "confidence": "High|Medium|Low",
   "notes": "constraints, dependencies, data gaps"
 }
+```
 
-4️⃣ Git Workflow (Commit + Push)
+---
+
+## 4️⃣ Git Workflow (Commit + Push)
+
+**Run these in CMD from your repo root:**
+
+```cmd
 cd "C:\Users\Veteran\ai-agent-mastery-28days"
-git add "Week4_Autonomous_Strategic_Agents/Day25/W4D25_swot_prompt.txt" `
-        "Week4_Autonomous_Strategic_Agents/Day25/W4D25_porter_prompt.txt" `
-        "Week4_Autonomous_Strategic_Agents/Day25/W4D25_okrs_prompt.txt"
-git commit -m "W4D25: Ethiopia-focused strategy prompts (SWOT, Porter’s, OKRs) — JSON-only, repo-cited"
+
+git add "Week4_Autonomous_Strategic_Agents/Day19/W4D19_swot_prompt.txt"
+git add "Week4_Autonomous_Strategic_Agents/Day19/W4D19_porter_prompt.txt"
+git add "Week4_Autonomous_Strategic_Agents/Day19/W4D19_okrs_prompt.txt"
+
+git commit -m "W4D19: Ethiopia-focused strategy prompts (SWOT, Porter’s, OKRs) — JSON-only, repo-cited"
 git push
+```
 
+---
 
-✅ With these prompt files committed, your Day25 agent can now switch modes (SWOT, Porter’s, OKRs) and produce evidence-backed strategic outputs with repo citations, while staying relevant to Ethiopia’s governance and development context.
+✅ With these **Day 19** prompt files committed, your agent can switch modes (**SWOT, Porter’s, OKRs**) and produce **evidence-backed strategic outputs with repo citations**, tailored to Ethiopia’s governance and development context.
+
