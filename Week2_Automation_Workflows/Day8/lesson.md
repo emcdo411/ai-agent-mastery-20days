@@ -1,6 +1,6 @@
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
-# ⚖️ Day 8 — Political Strategy Flow (AI-Augmented)
+# ⚖️ Day 6 — Political Strategy Flow (AI-Augmented)
 
 ## 📌 Objective
 - Map how **political strategy decisions** flow from **idea → message → outcome**.  
