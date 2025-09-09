@@ -70,7 +70,7 @@ def data_dictionary(df: pd.DataFrame, max_examples:int=3) -> pd.DataFrame:
 
 dd = data_dictionary(df)
 with open("W3D13_Data_Dictionary.md","w",encoding="utf-8") as f:
-    f.write("# W3D17 Data Dictionary\n\n" + dd.to_markdown(index=False))
+    f.write("# W3D13 Data Dictionary\n\n" + dd.to_markdown(index=False))
 
 print("Saved: W3D13_Data_Dictionary.md")
 dd.head(10)
@@ -96,16 +96,16 @@ if num.shape[1] >= 2:
             plt.text(j, i, f"{corr.values[i, j]:.2f}", ha="center", va="center", fontsize=8)
 
     plt.tight_layout()
-    plt.savefig("W3D17_correlations.png", dpi=150)
+    plt.savefig("W3D13_correlations.png", dpi=150)
     plt.show()
-    print("Saved: W3D17_correlations.png")
+    print("Saved: W3D13_correlations.png")
 else:
     print("Not enough numeric columns for a heatmap.")
 4️⃣ Auto-Draft Analyst Brief (Policy-Ready)
 python
 Copy code
 lines = []
-lines.append("# W3D17 Analyst Brief\n")
+lines.append("# W3D13 Analyst Brief\n")
 lines.append(f"**Rows × Cols:** {df.shape[0]} × {df.shape[1]}\n")
 
 # Highlights
