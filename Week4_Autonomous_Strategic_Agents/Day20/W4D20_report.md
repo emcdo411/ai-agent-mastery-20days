@@ -1,6 +1,6 @@
-# 📄 W4D26 — Scenario Planner Output Guide (Vibe Edition)
+# 📄 W4D20 — Scenario Planner Output Guide (Vibe Edition)
 
-When you run the **Day 26: Scenario Planner (Monte Carlo-Lite)** notebook, your output package should feel like a **mini-playbook**: numbers + visuals + narrative → actions.
+When you run the **Day 20: Scenario Planner (Monte Carlo-Lite)** notebook, your output package should feel like a **mini-playbook**: numbers + visuals + narrative → actions.
 
 ---
 
@@ -28,8 +28,8 @@ When you run the **Day 26: Scenario Planner (Monte Carlo-Lite)** notebook, your 
 
 Two histograms auto-export:
 
-* `W4D26_<metric1>_hist.png`
-* `W4D26_<metric2>_hist.png`
+* `W4D20_<metric1>_hist.png`
+* `W4D20_<metric2>_hist.png`
 
 Each chart should:
 
@@ -53,21 +53,20 @@ Add **2–3 takeaways** tailored to the scenario:
 
 ## 5️⃣ CSV Exports
 
-* `W4D26_summary.csv` → full stats (mean, std, p05, p25, p50, p75, p95)
-* `W4D26_samples.csv` → 500-row random draw for sandboxing in other tools
+* `W4D20_summary.csv` → full stats (mean, std, p05, p25, p50, p75, p95)
+* `W4D20_samples.csv` → 500-row random draw for sandboxing in other tools
 
 ---
 
 ## ✅ Final Deliverables to Commit
 
-* `W4D26_report.md` → one-page narrative (metrics + probabilities + actions)
-* `W4D26_summary.csv` → statistical overview
-* `W4D26_samples.csv` → sample dataset
-* `W4D26_*_hist.png` → distribution visuals
-* `Day26_notes.md` → quick human notes (scenario, targets, hit rates, insights)
+* `W4D20_report.md` → one-page narrative (metrics + probabilities + actions)
+* `W4D20_summary.csv` → statistical overview
+* `W4D20_samples.csv` → sample dataset
+* `W4D20_*_hist.png` → distribution visuals
+* `Day20_notes.md` → quick human notes (scenario, targets, hit rates, insights)
 
 ---
 
 ⚡ **Remember:** The output is more than data — it’s a **story under uncertainty**. Let the JSON + charts do the heavy lifting, then let your brief turn it into a decision.
 
----
