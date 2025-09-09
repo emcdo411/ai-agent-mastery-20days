@@ -1,5 +1,5 @@
 {
-  "name": "W4D22 Strategic Agent (Ollama + Chroma RAG, Governance-Ready)",
+  "name": "W4D16 Strategic Agent (Ollama + Chroma RAG, Governance-Ready)",
   "description": "Local Flowise chatflow: Ollama + Chroma RAG over repo files with governance guardrails",
   "nodes": [
     {
@@ -39,8 +39,8 @@
       "type": "VectorStore",
       "label": "Chroma",
       "data": {
-        "collection": "aimastery_w4",
-        "persistDirectory": "./vectorstore"
+        "collection": "aimastery_w4_day16",
+        "persistDirectory": "./vectorstore_day16"
       }
     },
     {
@@ -97,5 +97,6 @@
     { "source": "memory", "target": "chat_output" }
   ]
 }
+
 
 
