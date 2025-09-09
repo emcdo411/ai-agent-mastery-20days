@@ -1,4 +1,4 @@
-# 🎲 Day 26 — Scenario Planner (Monte Carlo-Lite) + Agent Narrative
+# 🎲 W4D20 — Scenario Planner (Monte Carlo-Lite) + Agent Narrative
 
 **Goal:** Build a **Google Colab** scenario planner that runs quick simulations and auto-writes a **one-page narrative** you can paste into briefs/dashboards.
 
@@ -8,7 +8,7 @@
 
 ## 🌍 Government & Ethiopia Context
 
-In addition to private-sector scenarios (sales funnel, unit economics), this planner includes **public-sector presets** aligned to Ethiopia-focused work:
+Alongside private-sector scenarios (sales funnel, unit economics), this planner includes **public-sector presets** aligned to Ethiopia-focused work:
 
 * **`permit_service`** — estimate permit processing time bands & on-time probability.
 * **`maternal_health`** — project patients served, cost per patient, and stock-out risk.
@@ -18,14 +18,14 @@ In addition to private-sector scenarios (sales funnel, unit economics), this pla
 ## 🛠 Setup (Colab)
 
 1. Open [Google Colab](https://colab.research.google.com) → **New Notebook**
-2. Rename: `W4D26_Scenario_Planner.ipynb`
+2. Rename: `W4D20_Scenario_Planner.ipynb`
 
 ---
 
 ## 🧩 Cell 1 — Imports & Helpers
 
 ```python
-# ==== Day 26: Scenario Planner (Monte Carlo-Lite) ====
+# ==== Day 20: Scenario Planner (Monte Carlo-Lite) ====
 import numpy as np, pandas as pd
 import matplotlib.pyplot as plt
 
@@ -192,7 +192,7 @@ for col in outcome.columns[: min(3, outcome.shape[1])]:
         ymax = plt.ylim()[1]
         plt.text(v, ymax*0.9, f"{label}", rotation=90)
     plt.tight_layout()
-    plt.savefig(f"W4D26_{col}_hist.png", dpi=150)
+    plt.savefig(f"W4D20_{col}_hist.png", dpi=150)
     plt.show()
 ```
 
@@ -201,7 +201,7 @@ for col in outcome.columns[: min(3, outcome.shape[1])]:
 ## 🧾 Cell 6 — Narrative Generator + Exports
 
 ```python
-lines = [f"# W4D26 Scenario Results", f"**Scenario:** {SCENARIO}", ""]
+lines = [f"# W4D20 Scenario Results", f"**Scenario:** {SCENARIO}", ""]
 
 # Summaries (first 3 measures)
 for col in outcome.columns[: min(3, outcome.shape[1])]:
@@ -251,13 +251,13 @@ else:  # maternal_health
     ]
 
 report = "\n".join(lines)
-with open("W4D26_report.md","w",encoding="utf-8") as f:
+with open("W4D20_report.md","w",encoding="utf-8") as f:
     f.write(report)
 
 # Exports
-outcome.sample(min(500, len(outcome)), random_state=42).to_csv("W4D26_samples.csv", index=False)
-summary.to_csv("W4D26_summary.csv")
-print("Saved: W4D26_report.md, W4D26_summary.csv, W4D26_samples.csv, W4D26_*_hist.png (if generated)")
+outcome.sample(min(500, len(outcome)), random_state=42).to_csv("W4D20_samples.csv", index=False)
+summary.to_csv("W4D20_summary.csv")
+print("Saved: W4D20_report.md, W4D20_summary.csv, W4D20_samples.csv, W4D20_*_hist.png (if generated)")
 ```
 
 ---
@@ -278,22 +278,22 @@ flowchart LR
 
 ## 📂 Deliverables
 
-Commit to `Week4_Autonomous_Strategic_Agents/Day26/`:
+Commit to `Week4_Autonomous_Strategic_Agents/Day20/`:
 
-* `W4D26_Scenario_Planner.ipynb`
-* `W4D26_report.md`
-* `W4D26_summary.csv`
-* `W4D26_samples.csv`
-* Charts: `W4D26_*_hist.png`
-* `Day26_notes.md` — note scenario, targets, 2–3 hit probs, 2 recommended actions
+* `W4D20_Scenario_Planner.ipynb`
+* `W4D20_report.md`
+* `W4D20_summary.csv`
+* `W4D20_samples.csv`
+* Charts: `W4D20_*_hist.png`
+* `Day20_notes.md` — note scenario, targets, 2–3 hit probs, 2 recommended actions
 
 ---
 
 ## 🧪 Quick Test Prompts (for your Flowise agent)
 
-After committing `W4D26_report.md`, ask your local agent:
+After committing `W4D20_report.md`, ask your local agent:
 
-* “Summarize **Day 26 report** with 3 actions (cite filename).”
+* “Summarize **Day 20 report** with 3 actions (cite filename).”
 * “What is the **p50 completion\_days** for permit service?”
 * “Is **cost\_per\_patient ≤ \$15** likely? Provide probability & caveat.”
 
@@ -314,5 +314,4 @@ After committing `W4D26_report.md`, ask your local agent:
 # SCENARIO = "permit_service"; TARGETS["completion_days"] = 15
 # SCENARIO = "maternal_health"; TARGETS["patients_served"] = 12000; TARGETS["cost_per_patient"] = 12.0
 ```
-
 
