@@ -1,10 +1,9 @@
-# 🧩 Day 25 — Ethiopia Strategic Framework Modules: SWOT, Porter’s, and OKRs (Agent-Callable)
+# 🧩 Day 19 — Ethiopia Strategic Framework Modules: SWOT, Porter’s, and OKRs (Agent-Callable)
 
-## 📌 Objective
+**Folder:** `Week4_Autonomous_Strategic_Agents/Day19/`
+Expand your Flowise agent with **three reusable governance modules** that turn repo data on Ethiopia (budgets, population surveys, notes) into **boardroom-ready insights**.
 
-Expand your Flowise agent with **three reusable governance modules** that turn repo data on Ethiopia (budgets, population surveys, notes) into **boardroom-ready insights**:
-
-* Accept dynamic inputs (`sector`, `region`, `timeframe`, `goal`)
+* Accept dynamic inputs (`sector`, `region`, `timeframe`, `goal/focus`)
 * Use **only repo RAG context** (budgets + surveys + notes)
 * Output **valid JSON + policy brief** with **citations & confidence**
 
@@ -24,14 +23,12 @@ Expand your Flowise agent with **three reusable governance modules** that turn r
 
 ## 🛠 Step A — Create Prompt Templates
 
-Each module gets its own **Prompt Template node**.
-Save as `.txt` files in `Week4_Autonomous_Strategic_Agents/Day25/`.
-
----
+Each module gets its own **Prompt Template**.
+Save as `.txt` files in `Week4_Autonomous_Strategic_Agents/Day19/`.
 
 ### 1️⃣ SWOT Prompt
 
-📄 Save as: `W4D25_swot_prompt.txt`
+**Save as:** `W4D19_swot_prompt.txt`
 
 ```text
 You are a Strategic AI Coach for Ethiopia’s development ministries.
@@ -39,7 +36,6 @@ Use ONLY retrieved repo context (budgets, population surveys, notes).
 If evidence is weak, say so.
 
 TASK: Produce a SWOT for:
-
 - Sector: {{sector}} (healthcare or education)
 - Region: {{region}}
 - Timeframe: {{timeframe}}
@@ -62,18 +58,15 @@ POLICY:
 - If evidence is missing, note it and reduce confidence.
 ```
 
----
-
 ### 2️⃣ Porter’s Five Forces Prompt
 
-📄 Save as: `W4D25_porter_prompt.txt`
+**Save as:** `W4D19_porter_prompt.txt`
 
 ```text
 You are a Strategic AI Coach analyzing Ethiopia’s service delivery context.
 Use ONLY repo data (budgets, population surveys, notes).
 
 TASK: Porter’s Five Forces for:
-
 - Sector: {{sector}}
 - Region: {{region}}
 - Timeframe: {{timeframe}}
@@ -100,11 +93,9 @@ POLICY:
 - If context weak, lower confidence.
 ```
 
----
-
 ### 3️⃣ OKR Drafting Prompt
 
-📄 Save as: `W4D25_okrs_prompt.txt`
+**Save as:** `W4D19_okrs_prompt.txt`
 
 ```text
 You are a Strategic OKR Coach for Ethiopia’s ministries.
@@ -147,19 +138,19 @@ POLICY:
 
 Add **If/Else Router** after Chat Input:
 
-* Contains `swot` → SWOT Prompt
-* Contains `porter` or `five forces` → Porter Prompt
-* Contains `okr` or `goals` → OKR Prompt
-* Else → Default RAG (Retriever → Prompt → LLM)
+* Contains `swot` → **SWOT Prompt**
+* Contains `porter` or `five forces` → **Porter Prompt**
+* Contains `okr` or `goals` → **OKR Prompt**
+* Else → **Default RAG** (Retriever → Guardrail Prompt → LLM)
 
 💡 Variables: `sector`, `region`, `timeframe`, `focus`
-If not provided → default to **Ethiopia national context**.
+If not provided → default to **Ethiopia national**.
 
 ---
 
 ## 🛠 Step C — Post-Processor (JSON → Policy Brief)
 
-After each module LLM, add a **Post-Processor Prompt**:
+Add a **Post-Processor Prompt** after each module’s LLM:
 
 ```text
 You receive JSON below. Convert into a concise policy brief.
@@ -178,29 +169,29 @@ JSON:
 
 ## 🛠 Step D — Test Prompts
 
-* `"Run a SWOT for Ethiopia healthcare in Oromia; timeframe 2023–2024."`
-* `"Do Porter’s for Ethiopia education sector in Addis Ababa; next 12 months."`
-* `"Draft OKRs for Ethiopia healthcare; focus = maternal health; H1 2025."`
+* “Run a **SWOT** for Ethiopia healthcare in **Oromia**; timeframe **2023–2024**.”
+* “Do **Porter’s** for Ethiopia **education** sector in **Addis Ababa**; **next 12 months**.”
+* “Draft **OKRs** for Ethiopia healthcare; **focus = maternal health**; **H1 2025**.”
 
-✅ Validate JSON → brief → citations → confidence
+✅ Validate **JSON → brief → citations → confidence**.
 
 ---
 
-## 📂 Deliverables
+## 📂 Deliverables (Day 19)
 
-Save to: `Week4_Autonomous_Strategic_Agents/Day25/`
+Save to: `Week4_Autonomous_Strategic_Agents/Day19/`
 
-* `W4D25_swot_prompt.txt`
-* `W4D25_porter_prompt.txt`
-* `W4D25_okrs_prompt.txt`
-* `W4D25_flowise_chatflow.json`
-* `W4D25_examples.md` (example JSON + brief per module)
+* `W4D19_swot_prompt.txt`
+* `W4D19_porter_prompt.txt`
+* `W4D19_okrs_prompt.txt`
+* `W4D19_flowise_chatflow.json` *(exported Flowise config)*
+* `W4D19_examples.md` *(example JSON + brief per module)*
 
 ---
 
 ## 🧠 Troubleshooting
 
-* **Text + JSON mixed?** Add `OUTPUT JSON ONLY`, lower temp, set Top-K=3–4
+* **Text + JSON mixed?** Add `OUTPUT JSON ONLY`, lower temperature, set Top-K=3–4
 * **No sources?** Ensure retriever exposes `filePath` metadata
 * **Router misses intent?** Add synonyms (“framework”, “goals”, “targets”)
 
@@ -215,7 +206,5 @@ These modules level up your agent into an **Ethiopia-focused strategy assistant*
 * 🏢 **Policy-ready** → Concise briefs for ministers, donors, and civic leaders
 
 ---
-
-Would you like me to also **draft example JSON + brief outputs** (e.g., SWOT of Oromia healthcare) so your learners see how repo data flows through Day 25 in practice?
 
 
