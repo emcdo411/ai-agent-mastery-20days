@@ -1,14 +1,14 @@
-# 🚀 Day 23 — Flowise Multi-Tool Agent: Search + Summarize (Local-Only)
+# 🚀 Day 17 — Flowise Multi-Tool Agent: Search + Summarize (Local-Only)
 
 ## 🎯 Objective
 
-Upgrade your Day 22 agent into a **multi-tool local assistant**:
+Upgrade your **Day 16** agent into a **multi-tool local assistant**:
 
-1. 🔍 **File Search Tool** → find filenames + snippets in your repo (smart ctrl+F).  
-2. 📊 **CSV Summary Tool** → auto-profile any dataset (rows, cols, nulls, quick stats).  
+1. 🔍 **File Search Tool** → find filenames + snippets in your repo (smart ctrl+F).
+2. 📊 **CSV Summary Tool** → auto-profile any dataset (rows, cols, nulls, quick stats).
 3. 🧠 **RAG Fallback** → Ollama + Chroma for repo-grounded answers.
 
-⏱ Timebox: ~30 minutes
+⏱ Timebox: \~30 minutes
 
 ---
 
@@ -16,9 +16,9 @@ Upgrade your Day 22 agent into a **multi-tool local assistant**:
 
 This is your **Iron Man suit upgrade** 🦾:
 
-- *“Where is the daily digest configured?”* → File Search finds the file/snippet.  
-- *“Summarize W3D16_clean.csv”* → CSV Summary tool reports schema + null stats.  
-- *“What are Week 2 deliverables?”* → RAG fallback answers from repo.  
+* *“Where is the daily digest configured?”* → File Search finds the file/snippet.
+* *“Summarize W3D17\_clean.csv”* → CSV Summary tool reports schema + null stats.
+* *“What are Week 2 deliverables?”* → RAG fallback answers from repo.
 
 One agent, three skills. **Zero cloud dependencies.**
 
@@ -36,7 +36,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate
 pip install fastapi uvicorn pandas
 uvicorn local_tools_server:app --reload --port 8001
-````
+```
 
 Visit [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health) → should return:
 
@@ -50,46 +50,48 @@ Visit [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health) → should re
 
 Already supports:
 
-* `/files/search` → query + snippet preview
-* `/csv/summary` → dataset profile
+* `GET /files/search` → query + snippet preview
+* `POST /csv/summary` → dataset profile
 
-*(See Day 23 repo code — identical to provided version.)*
+*(See Day 17 repo code — identical to the starter.)*
 
 ---
 
 ## 🛠 Part B — Flowise Integration
 
 Open → [http://localhost:3000](http://localhost:3000)
-Duplicate your **Day 22 chatflow** (keep a backup).
+Duplicate your **Day 16 chatflow** (keep a backup).
 
 ### ➕ Add Nodes
 
 * ⚖️ **If/Else Router** → routes to the right tool
 * 🌐 **HTTP Request: File Search** → `http://127.0.0.1:8001/files/search`
 * 🌐 **HTTP Request: CSV Summary** → `http://127.0.0.1:8001/csv/summary`
-* 📚 **Retriever → Ollama** → fallback
+* 📚 **Retriever → Ollama** → fallback (with Chroma)
 
 ---
 
 ### 🔎 Router Logic
 
-* If input contains: *find, where, which file, search* → File Search
-* If input contains: *csv, columns, nulls, summary* → CSV Summary
-* Else → fallback → Retriever → LLM
+* If input contains: *find, where, which file, search, contains* → **File Search**
+* If input contains: *csv, columns, nulls, schema, summary, describe* → **CSV Summary**
+* Else → fallback → **Retriever → LLM**
 
 ---
 
 ### 📝 Prompt Template (System)
 
-Paste into Flowise Prompt Template node:
+Paste into Flowise **Prompt Template** node:
 
 ```
 You are a Strategic AI Coach with three skills:
 
 1. If FILE_SEARCH_JSON exists:
    - Summarize matches → show filename + snippet (max 10).
+
 2. If CSV_SUMMARY_JSON exists:
-   - Report rows, columns, null %, and a schema table.
+   - Report rows, columns, null %, and a compact schema table.
+
 3. Otherwise:
    - Use retrieved repo context (RAG fallback).
 
@@ -103,17 +105,19 @@ RULES
 
 ## 🎮 Test Scenarios
 
-1. 🔍 File Search
+1. 🔍 **File Search**
 
    ```
    Find where we configure the daily digest script.
    ```
-2. 📊 CSV Summary
+
+2. 📊 **CSV Summary**
 
    ```
-   Summarize W3D16_clean.csv — rows, columns, nulls.
+   Summarize W3D17_clean.csv — rows, columns, nulls.
    ```
-3. 🤖 RAG Fallback
+
+3. 🤖 **RAG Fallback**
 
    ```
    What are Week 2 deliverables and validations?
@@ -124,18 +128,18 @@ RULES
 ## 📦 Deliverables
 
 * `scripts/local_tools_server.py`
-* `W4D23_flowise_chatflow.json` (exported Flowise config)
-* `W4D23_notes.md` (explain model, router, endpoints, sample Q\&A)
-* *(Optional)* `W4D23_screenshot.png`
+* `W4D17_flowise_chatflow.json` (exported Flowise config)
+* `W4D17_notes.md` (explain model, router, endpoints, sample Q\&A)
+* *(Optional)* `W4D17_screenshot.png`
 
 ---
 
 ## ✅ Verification Checklist
 
 * [ ] API reachable → `http://127.0.0.1:8001/health`
-* [ ] Router correctly routes *find/search* → File Search
-* [ ] Router correctly routes *csv/columns/nulls* → CSV Summary
-* [ ] Fallback queries → use RAG + Ollama (with citations)
+* [ ] Router correctly routes *find/search* → **File Search**
+* [ ] Router correctly routes *csv/columns/nulls* → **CSV Summary**
+* [ ] Fallback queries → use **RAG + Ollama** (with citations)
 * [ ] Outputs include **Action List** + citations (if available)
 
 ---
@@ -148,9 +152,8 @@ RULES
 
 ---
 
-✨ Day 23 vibe: You now run a **multi-tool governance-ready agent** that can **search, summarize, and cite** — all offline, all local.
+✨ **Day 17 vibe:** You now run a **multi-tool, governance-ready agent** that can **search, summarize, and cite** — all offline, all local.
 
-```
 
 
 
