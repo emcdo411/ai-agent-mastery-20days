@@ -1,6 +1,6 @@
 <!-- Licensed under DACR-1.1 — see LICENSE.md -->
 
-# ⚡ Day 11 — Git Without Fear (Collaboration + Governance Discipline)
+# ⚡ Day 9 — Git Without Fear (Collaboration + Governance Discipline)
 
 ## 📌 Objective
 - Create/merge a **feature branch** via PR (pull request).  
@@ -89,7 +89,7 @@ git commit -m "chore(day11): .gitignore + first PR merged"
 
 ---
 
-## 📝 Reflection Prompts (Day 11)
+## 📝 Reflection Prompts (Day 9)
 
 1. What slowed you down during the PR process?
 2. How will you **name branches** going forward (feat/, fix/, chore/)?
@@ -108,7 +108,7 @@ git commit -m "chore(day11): .gitignore + first PR merged"
 
 ---
 
-✨ **Day 11 Vibe**: Git isn’t just code control. It’s **civic discipline disguised as tech**. Each commit is a policy note. Each PR is a peer review. Each `.gitignore` is a governance shield.
+✨ **Day 9 Vibe**: Git isn’t just code control. It’s **civic discipline disguised as tech**. Each commit is a policy note. Each PR is a peer review. Each `.gitignore` is a governance shield.
 
 ```
 
