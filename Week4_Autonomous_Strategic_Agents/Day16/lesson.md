@@ -1,33 +1,37 @@
-# 🚀 Day 22 — FlowiseAI Starter: Local Strategic Agent (Ollama + Chroma RAG, Governance-Ready)
+# 🚀 Day 16 — FlowiseAI Starter: Local Strategic Agent (Ollama + Chroma RAG, Governance-Ready)
 
-Spin up a **free, local** strategic Q&A agent in FlowiseAI that:
-- Uses **Ollama** (`llama3.1:8b` or `phi3:mini`) for on-device inference
-- Indexes your repo’s `.md` / `.csv` with **Chroma** vector search
-- Returns **filename-cited** answers (no hallucinated sources)
-- Includes **governance guardrails** (PII scan, scope limits, audit notes)
+Spin up a **free, local** strategic Q\&A agent in FlowiseAI that:
+
+* Uses **Ollama** (`llama3.1:8b` or `phi3:mini`) for on-device inference
+* Indexes your repo’s `.md` / `.csv` with **Chroma** vector search
+* Returns **filename-cited** answers (no hallucinated sources)
+* Includes **governance guardrails** (PII scan, scope limits, audit notes)
 
 ⏱ Target Vibe: **≤ 30 minutes**
 
 ---
 
 ## 🎯 Outcomes (what you’ll have by the end)
-- A running **Flowise** instance at `http://localhost:3000`
-- A working **RAG chatflow** exported as `W4D22_flowise_chatflow.json`
-- A **governance-aware system prompt** (citations, redaction hints)
-- A **notes file** template to prove how the agent was configured
+
+* A running **Flowise** instance at `http://localhost:3000`
+* A working **RAG chatflow** exported as `W4D16_flowise_chatflow.json`
+* A **governance-aware system prompt** (citations, redaction hints)
+* A **notes file** template to prove how the agent was configured
 
 ---
 
 ## ⚡ Quick Setup (ship it first, perfect it later)
 
 ### 1) Install Ollama
+
 **Windows (PowerShell):**
+
 ```powershell
 winget install Ollama.Ollama
 ollama pull phi3:mini
 ollama pull llama3.1:8b
 ollama pull nomic-embed-text
-````
+```
 
 **macOS / Linux:** download from [https://ollama.com/download](https://ollama.com/download) and pull the same models.
 
@@ -51,7 +55,7 @@ docker run -d --name flowise \
 2. **Document Loader → Local Files** (`**/*.md, **/*.csv`)
 3. **Text Splitter** (Chunk size **1000**, Overlap **150**)
 4. **Embeddings → Ollama** (`nomic-embed-text`)
-5. **Vector Store → Chroma** (collection: `aimastery_w4`)
+5. **Vector Store → Chroma** (collection: `aimastery_w4_day16`)
 6. **Retriever** (Top-K **4–6**, Temperature **0** downstream)
 7. **Prompt Template** (system)
 8. **LLM → Ollama** (`phi3:mini` to start, or `llama3.1:8b`)
@@ -86,14 +90,14 @@ TONE
 ### 4) Test Prompts (copy/paste)
 
 * “Summarize all **Week 2** deliverables and **cite filenames**.”
-* “Create a **Day 21 prep checklist** with file references and an Amharic summary.”
+* “Create a **Day 16** prep checklist with file references and an Amharic summary.”
 * “What **PII risks** exist in our data workflows? Cite the files that discuss them.”
 
 ### 5) Export + Commit
 
-* Flowise → **Export** chatflow → `W4D22_flowise_chatflow.json`
-* Screenshot the graph → `W4D22_flowise_screenshot.png`
-* Create `W4D22_flowise_notes.md` (template provided below)
+* Flowise → **Export** chatflow → `W4D16_flowise_chatflow.json`
+* Screenshot the graph → `W4D16_flowise_screenshot.png`
+* Create `W4D16_flowise_notes.md` (template provided below)
 
 Done ✅ — local, private, cited RAG agent online.
 
@@ -121,10 +125,10 @@ Add a **Message Prefix** node:
 
 ### C) Audit Note (for leaders)
 
-In `W4D22_flowise_notes.md`, include:
+In `W4D16_flowise_notes.md`, include:
 
 * **Model & version** (`phi3:mini`, `llama3.1:8b`)
-* **Collection name** (`aimastery_w4`)
+* **Collection name** (`aimastery_w4_day16`)
 * **Files indexed** (paths/globs)
 * **Top-K and threshold**
 * **Redaction rules enabled?** (yes/no)
@@ -162,18 +166,18 @@ In `W4D22_flowise_notes.md`, include:
 
 ## 📦 Deliverables
 
-* `W4D22_flowise_chatflow.json` (exported graph)
-* `W4D22_flowise_screenshot.png` (UI graph)
-* `W4D22_flowise_notes.md` (use template)
+* `W4D16_flowise_chatflow.json` (exported graph)
+* `W4D16_flowise_screenshot.png` (UI graph)
+* `W4D16_flowise_notes.md` (use template)
 
-**Template: `W4D22_flowise_notes.md`**
+**Template: `W4D16_flowise_notes.md`**
 
 ```md
-# W4D22 — Flowise Local Strategic Agent (Notes)
+# W4D16 — Flowise Local Strategic Agent (Notes)
 
 **LLM:** phi3:mini (Ollama) — fallback: llama3.1:8b  
 **Embeddings:** nomic-embed-text (Ollama)  
-**Vector Store:** Chroma — collection: `aimastery_w4`  
+**Vector Store:** Chroma — collection: `aimastery_w4_day16`  
 **Retriever:** Top-K=5, threshold=0.35 (cosine)  
 **Files Indexed:** `**/*.md`, `**/*.csv` (exclude: `/secrets/`, PII-heavy docs)
 
@@ -186,8 +190,8 @@ In `W4D22_flowise_notes.md`, include:
 ## Sample Q&A
 **Q:** Summarize Week 2 deliverables with citations.  
 **A:** 
-- Day 8 political flow in `Week2_Vibe_Coding/Day8/political_flow.md`  
-- Day 9 context pack in `Week2_Vibe_Coding/Day09/README_context.md`  
+- Day 8 political flow in `Week2/Day08/political_flow.md`  
+- Day 9 context pack in `Week2/Day09/README_context.md`  
 - …  
 **Actions:**  
 - [ ] Add Ethiopia case metrics to `process_map.md`  
@@ -219,7 +223,5 @@ Add a final Amharic bullet when summarizing public docs:
 
 ---
 
-✨ *Day 22 vibe:* you now have a **private AI analyst** that reads your repo, **cites filenames**, and respects **governance guardrails**—all offline and free.
-
-```
+✨ *Day 16 vibe:* you now have a **private AI analyst** that reads your repo, **cites filenames**, and respects **governance guardrails**—all offline and free.
 
