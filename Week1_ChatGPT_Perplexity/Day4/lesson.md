@@ -1,179 +1,266 @@
-# Week 1 — Day 4: Building a Research Agent (ChatGPT‑5 Enhanced)
+# Week 1 — Day 4: Data Visualization & Model Insight Dashboards (Plotly Studio)
 
-**Save as:** `wk01/day04_research_agent.md`
-
-**CXO Lens:** Day 4 productizes research. We standardize a topic‑agnostic agent so teams deliver **repeatable, board‑ready briefs** across countries and sectors, with governance and auditability built in.
+**Save as:** `week1/day4_data_viz_insights_plotly.md`
 
 ---
 
-## 📌 Objectives
+## 🎯 Purpose
 
-* Create a **topic‑agnostic research agent prompt** using **ChatGPT‑5**.
-* Standardize research tasks for reuse across industries and local sectors.
-* Note **ChatGPT‑5 vs 3.5** improvements in consistency and structure.
-* Save both the **prompt template** and a **test output**, then log and commit.
-
-> **Data safety reminder:** Use **public, non‑sensitive** sources only.
+Transform your Day 3 synthetic dataset into an **executive-ready analytics dashboard** and a set of **SWE-grade artifacts** (charts, data dictionary, and reusable prompts) that will support model design and stakeholder conversations.
 
 ---
 
-## 🛠 Agenda (30–45 min)
+## 🧩 Learning Objectives
 
-1. Draft agent prompt (RTF + PICO) — 10m
-2. Run a test topic in GPT‑5 — 10m
-3. QA against checklist — 7m
-4. Save artifacts + log + commit — 5–8m
-
----
-
-## RTF + PICO Design
-
-* **Role (Persona):** authoritative analyst for a named country/sector, writing for executives.
-* **Task (Instructions):** collect from public gov/university/multilateral sources; synthesize; flag gaps; produce actions.
-* **Format (Output):** strict Markdown contract (brief + table + gaps + next steps), optional bilingual.
-* **Context:** country, sector, topic, year, policy constraints.
+1. Load and shape `Day3_synthetic_dataset.jsonl` for visualization.
+2. Build a **Plotly Studio** dashboard with KPI tiles, trend lines, distributions, and comparison views.
+3. Add **filters** (country, probiotic, grain) and **rich tooltips** that explain model-relevant context.
+4. Generate a concise **narrative insight** (from metrics → business language).
+5. (Optional) Expose the dataset via **FastAPI** to simulate a product surface.
 
 ---
 
-## Drop‑in: Research Agent — System Prompt
+## ⚙️ Prereqs
 
-```text
-You are a senior research analyst producing board‑ready briefs. You prioritize recent public sources from government, universities, and multilaterals. You write clearly for executives and surface gaps and risks.
+* Completed **Day 3** with `Day3_synthetic_dataset.jsonl`
+* Environment from **Day 1** + structured prompting from **Day 2**
 
-Rules:
-- Cite publisher and year inline; list URLs once in a Sources section.
-- Prefer sources ≤ 24 months old; if older, mark as "legacy" and explain why.
-- Keep claims concise; avoid speculation; show contradictions explicitly.
-- If data is missing, add a "Gaps and Limitations" section.
-- If requested, provide bilingual outputs with the same structure.
+---
+
+## 🛠 Agenda (60–75 min)
+
+|  Time | Segment                                                   |
+| ----: | --------------------------------------------------------- |
+|  0–10 | Convert JSONL → CSV & profile columns                     |
+| 10–40 | Build Plotly Studio dashboard (tiles + visuals + filters) |
+| 40–55 | Add narrative insight + export images                     |
+| 55–75 | (Optional) FastAPI read endpoint + quick smoke test       |
+
+---
+
+## 📦 Step 1 — Convert JSONL → CSV (quick script)
+
+Save as `week1/day4_jsonl_to_csv.py`:
+
+```python
+import json, csv, sys
+from pathlib import Path
+
+src = Path("Day3_synthetic_dataset.jsonl")
+dst = Path("Day4_dataset.csv")
+
+required = ["country","grain_type","probiotic_type",
+            "avg_daily_gain_kg","feed_conversion_ratio",
+            "roi_percent","confidence","source"]
+
+with src.open("r", encoding="utf-8") as f, dst.open("w", newline="", encoding="utf-8") as out:
+    writer = csv.DictWriter(out, fieldnames=required)
+    writer.writeheader()
+    for line in f:
+        rec = json.loads(line)
+        row = {k: rec.get(k, "") for k in required}
+        writer.writerow(row)
+
+print(f"✅ Wrote {dst} with columns: {', '.join(required)}")
 ```
 
-## Drop‑in: Research Agent — Task Template
+Run:
 
-```text
-Context: Country={{country}}; Sector={{sector}}; Topic={{topic}}; Year={{year}}.
-
-Tasks:
-1) Produce an Executive Brief (120–150 words).
-2) Create a Findings Table (Markdown) with columns: Theme, Claim, Source, Date, Confidence (0–100).
-3) Add Gaps and Limitations (bullets).
-4) Add Recommended Next Steps (3 bullets).
-5) Provide a Sources list with Publisher — Title (Year) and URL.
-Optional: Add a mirrored bilingual section in {{language}}.
+```bash
+python week1/day4_jsonl_to_csv.py
 ```
 
 ---
 
-## Why GPT‑5 (vs 3.5) excels here
+## 🧭 Step 2 — Data Dictionary (paste into repo)
 
-* **Longer, steadier structure** for multi‑section outputs.
-* **Cleaner Markdown** tables and headings.
-* **Better multi‑step reasoning** for classification and de‑duplication.
-* **More reliable bilingual rendering** when requested.
+Save as `week1/Day4_data_dictionary.md`:
 
-Capture observed improvements in your reflection.
+* **country** *(str)* — “Brazil” or “United States”
+* **grain_type** *(str)* — e.g., corn, barley, sorghum
+* **probiotic_type** *(str)* — e.g., *L. plantarum*, *B. subtilis*
+* **avg_daily_gain_kg** *(float)* — Avg daily weight gain (kg)
+* **feed_conversion_ratio** *(float)* — Feed kg per kg gain (lower is better)
+* **roi_percent** *(float)* — Estimated ROI (%)
+* **confidence** *(float 0–1)* — Confidence in record plausibility
+* **source** *(str)* — Short publisher/year label (from fact pack)
+
+Include expected ranges (sanity checks):
+
+* `avg_daily_gain_kg`: 0.8–1.8
+* `feed_conversion_ratio`: 5.5–8.5
+* `roi_percent`: 5–25
+* `confidence`: 0.75–0.98
 
 ---
 
-## Steps
+## 📊 Step 3 — Plotly Studio Dashboard (tile + charts)
 
-1. Pick a **country + sector + topic** (e.g., Belize · Agriculture · Food security; Ethiopia · Health · Staffing).
-2. Paste the **System Prompt** and fill the **Task Template** placeholders.
-3. Run in **ChatGPT‑5** and save the output.
-4. Validate against the checklist below; iterate once if needed.
-5. Save artifacts; log and commit.
+### 3.1 Upload
+
+* Upload **Day4_dataset.csv** into **Plotly Studio**.
+
+### 3.2 Global Filters
+
+* **Country**, **Probiotic Type**, **Grain Type** (apply to all visuals).
+
+### 3.3 KPI Tiles (top row)
+
+* **Avg Feed Conversion Ratio** (lower is better)
+* **Avg Daily Gain (kg)**
+* **Avg ROI (%)**
+* **Mean Confidence**
+
+> Secondary values: show delta vs other country (if both present).
+
+### 3.4 Core Visuals
+
+1. **Distribution**: Histogram of `feed_conversion_ratio` (facet by `country`)
+2. **Comparison**: Box plot of `avg_daily_gain_kg` by `probiotic_type` (color by `country`)
+3. **Relationship**: Scatter `feed_conversion_ratio` (x) vs `roi_percent` (y); size = `avg_daily_gain_kg`; color = `probiotic_type`
+4. **Leaderboard**: Bar of `roi_percent` (mean) by `grain_type` (grouped by country)
+
+### 3.5 Tooltips (shared spec)
+
+* Show: `country`, `probiotic_type`, `grain_type`, `avg_daily_gain_kg`, `feed_conversion_ratio`, `roi_percent`, `confidence`, `source`.
+* Include **short interpretation** in tooltip footer:
+  “FCR lower is better; ROI often rises when FCR falls and ADG climbs.”
 
 ---
 
-## QA Checklist (Definition of Done)
+## 🧠 Step 4 — Plotly Studio “AI Assistant” Prompts (copy/paste)
 
-* Executive Brief is **120–150 words**, decision‑ready.
-* Findings Table present with **Theme, Claim, Source, Date, Confidence**.
-* **Citations compact** inline; URLs listed once in **Sources**.
-* **Gaps and Limitations** explicitly list missing or outdated data.
-* **Next Steps** include 3 concrete, scoped actions.
-* (If bilingual) English and local language **mirror the same structure**.
+**Prompt A — Dashboard Scaffold**
+
+> Build a **Feed-to-Yield Insights** dashboard from *Day4_dataset.csv*.
+> Add KPI tiles: Average FCR, Average ADG (kg), Average ROI (%), Mean Confidence.
+> Charts: (1) Histogram of FCR (facet by Country), (2) Box plot of ADG by Probiotic Type colored by Country, (3) Scatter FCR vs ROI with size = ADG and color = Probiotic Type, (4) Bar chart of mean ROI by Grain Type grouped by Country.
+> Add global filters for Country, Probiotic Type, Grain Type; apply to all charts.
+> Configure tooltips to show all fields and the message “FCR ↓ is better; ROI tends to increase as FCR improves and ADG rises.”
+
+**Prompt B — Narrative Insight Card**
+
+> Generate a concise (120–150 words) **executive narrative** from the current filters.
+> Explain how probiotic type and grain choice influence FCR and ROI.
+> Highlight the strongest combo (grain × probiotic × country) and any tradeoffs.
+> End with 3 next-step actions for a breeding program.
+
+---
+
+## 🧪 Step 5 — Optional FastAPI Read Endpoint (SWE polish)
+
+Save as `week1/day4_app.py`:
+
+```python
+from fastapi import FastAPI
+import csv
+
+app = FastAPI(title="Feed-to-Yield API")
+
+@app.get("/records")
+def records(limit: int = 50, country: str | None = None):
+    path = "Day4_dataset.csv"
+    out = []
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            if country and row["country"] != country:
+                continue
+            out.append(row)
+            if len(out) >= limit:
+                break
+    return {"count": len(out), "items": out}
+```
+
+Run locally:
+
+```bash
+uvicorn week1.day4_app:app --reload
+# Test: http://127.0.0.1:8000/records?limit=5&country=Brazil
+```
+
+---
+
+## 📝 Executive Narrative Skeleton (for the repo)
+
+Save as `week1/Day4_exec_narrative.md`:
+
+```markdown
+# Executive Narrative — Feed-to-Yield Dashboard ({{date}})
+
+**Headline:** Probiotics + Grain alignment deliver measurable FCR and ROI gains.
+
+**What the dashboard shows:**  
+- FCR distribution by country and probiotic type  
+- ADG differences across probiotic choices  
+- ROI response as FCR declines and ADG rises  
+- Grain types that consistently lift ROI
+
+**Key callouts (auto-filled from current filters):**  
+- Top combo: {{probiotic}} on {{grain}} in {{country}}  
+- Median FCR vs top quartile gap: {{value}}  
+- ROI spread (p25 → p75): {{value}} %
+
+**Next 3 moves:**  
+1. Validate top combo with a 4-week A/B feed protocol.  
+2. Track methane proxy alongside ADG to avoid unintended tradeoffs.  
+3. Add cost-per-kg-beef tile to the dashboard for decision parity.
+```
 
 ---
 
 ## 📂 Deliverables
 
-* `Day4_research_agent_prompt.txt` — final reusable prompt (system + task).
-* `Day4_research_test_output.md` — AI‑generated research report.
-* `/logs/day4.md` — reflection log.
-* Commit: `feat: Day 4 research agent (GPT5 prompt + test output)`
+* `Day4_dataset.csv` (from Day 3 JSONL)
+* `week1/Day4_data_dictionary.md`
+* `week1/Day4_exec_narrative.md`
+* `week1/day4_data_viz_insights_plotly.md` (this lesson)
+* (Optional) `week1/day4_app.py`
 
----
+**Commit:**
 
-## ✅ Rubric (Self‑Check)
-
-* [ ] Prompt written using **RTF/PICO** and saved as `.txt`.
-* [ ] Test output saved as `.md` and matches the **QA checklist**.
-* [ ] Reflection notes include **GPT‑5 vs 3.5** observations.
-* [ ] Commit pushed with a clear message.
-
----
-
-## 📝 Reflection Prompts
-
-1. **Prompt strength:** Did GPT‑5 adhere to structure without reminders?
-2. **Improvements vs 3.5:** Clearer formatting, bilingual fidelity, better synthesis?
-3. **Workflow fit:** Where would this agent save time (gov briefings, NGO reports, market scans)?
-4. **Surprises:** Any highlighted source gaps or contradictions?
-5. **Next iteration:** Add constraints, formatting rules, or local source requirements.
-
----
-
-## Executive Report Skeleton (Markdown)
-
-```markdown
-# Executive Summary — {{topic}} in {{country}} ({{year}})
-
-## Key Findings
-| Theme | Claim | Source | Date | Confidence |
-|---|---|---|---|---|
-
-## Gaps and Limitations
-- 
-
-## Recommended Next Steps
-- 
-
-## Sources
-- Publisher — Title (Year). URL
+```bash
+git add Day4_dataset.csv week1/*.md week1/day4_app.py
+git commit -m "feat: Day 4 Plotly dashboard + narrative + optional API"
 ```
 
 ---
 
-## Workflow (Mermaid)
+## ✅ Rubric (Self-Check)
+
+* [ ] CSV created from JSONL with required columns
+* [ ] Plotly Studio dashboard built with 4 visuals + 3 filters
+* [ ] KPI tiles configured and tooltips enriched
+* [ ] Executive narrative drafted and saved
+* [ ] (Optional) API endpoint runs locally and returns records
+* [ ] Commit pushed
+
+---
+
+## 🪶 Reflection Prompts (log to `logs/day4.md`)
+
+1. Which visual best exposes the **FCR ↔ ROI** relationship?
+2. Did filters or tooltips change how non-technical stakeholders read the chart?
+3. What metric would you add to reduce **decision ambiguity** (e.g., cost per kg beef)?
+4. How would you validate that insights hold up with **real** (non-synthetic) data?
+
+---
+
+## 🧭 Workflow (Mermaid)
 
 ```mermaid
 flowchart TB
-    A[Start] --> B[Draft system prompt]
-    B --> C[Fill task template with context]
-    C --> D[Run in ChatGPT 5]
-    D --> E[QA against checklist]
-    E --> F{Gaps or missing citations}
-    F -- yes --> G[Refine constraints and rerun]
-    G --> D
-    F -- no --> H[Save Day4_research_agent_prompt.txt]
-    H --> I[Save Day4_research_test_output.md]
-    I --> J[Write logs day4 md]
-    J --> K[Commit and push]
-    K --> L[Done]
-
-    subgraph Deliverables
-        H
-        I
-        J
-    end
+  A[Start] --> B[Convert JSONL→CSV]
+  B --> C[Upload CSV to Plotly Studio]
+  C --> D[Create filters + KPI tiles]
+  D --> E[Add hist/box/scatter/bar]
+  E --> F[Configure tooltips + narrative]
+  F --> G{Optional: FastAPI}
+  G --Yes--> H[Run /records endpoint]
+  G --No--> I[Skip]
+  H --> J[Export PNG/PDF and save narrative]
+  I --> J[Export PNG/PDF and save narrative]
+  J --> K[Commit & push]
 ```
 
 ---
-
-## Tips
-
-* Keep the **output schema fixed**; swap context freely to compare topics and countries.
-* Ask GPT‑5 to **show contradictions**, not smooth them over.
-* If outputs drift, restate the **QA checklist** in the prompt on the next run.
 
