@@ -3,24 +3,24 @@
 [![License: DACR](https://img.shields.io/badge/license-DACR-black?style=for-the-badge)](LICENSE)
 [![AI Stack](https://img.shields.io/badge/AI_Stack-Python_·_Scikit--Learn_·_PyTorch_·_FastAPI_·_Azure_ML-blue?style=for-the-badge)]()
 [![Microsoft SWE Prep](https://img.shields.io/badge/Microsoft%20SWE%20Prep-Yes-orange?style=for-the-badge)]()
-[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-model-mastery?style=for-the-badge\&color=green)]()
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-model-mastery?style=for-the-badge&color=green)]()
 
 ---
 
 ## 📑 Table of Contents
 
-* [Overview](#overview)
-* [Who This Is For](#who-this-is-for)
-* [Learning Outcomes](#learning-outcomes)
-* [Professional Deliverables](#professional-deliverables)
-* [Course Structure](#course-structure)
-* [Folder Structure](#folder-structure)
-* [Week 1: Data & Model Foundations](#week-1-data--model-foundations)
-* [Week 2: Model Building & Evaluation](#week-2-model-building--evaluation)
-* [Week 3: AI Integration & APIs](#week-3-ai-integration--apis)
-* [Week 4: Capstone Project & Deployment](#week-4-capstone-project--deployment)
-* [Mermaid Architecture Diagram](#mermaid-architecture-diagram)
-* [License](#license)
+- [Overview](#-overview)
+- [Who This Is For](#-who-this-is-for)
+- [Learning Outcomes](#-learning-outcomes)
+- [Professional Deliverables](#-professional-deliverables)
+- [Course Structure](#-course-structure)
+- [Folder Structure](#-folder-structure)
+- [Week 1: Data & Model Foundations](#-week-1-data--model-foundations)
+- [Week 2: Model Building & Evaluation](#-week-2-model-building--evaluation)
+- [Week 3: AI Integration & APIs](#-week-3-ai-integration--apis)
+- [Week 4: Capstone Project & Deployment](#-week-4-capstone-project--deployment)
+- [Mermaid Architecture Diagram](#-mermaid-architecture-diagram)
+- [License](#-license)
 
 ---
 
@@ -30,11 +30,11 @@
 
 This version builds directly upon the **AI Agent Mastery** framework — but pivots from *agent orchestration* to *AI model engineering*, helping mentees develop full-stack proficiency in:
 
-* Python-based model building
-* Data preprocessing and optimization
-* API integration (FastAPI, Azure ML)
-* Version control (GitHub)
-* Deployment readiness
+- Python-based model building  
+- Data preprocessing and optimization  
+- API integration (FastAPI, Azure ML)  
+- Version control (GitHub)  
+- Deployment readiness  
 
 Every day concludes with a working artifact that could be shared in an interview or demo — reinforcing the core competencies of modern SWE roles.
 
@@ -42,10 +42,10 @@ Every day concludes with a working artifact that could be shared in an interview
 
 ## 👥 Who This Is For
 
-* 🎓 **Aspiring Software Engineers** preparing for Microsoft, Meta, or Google.
-* 💻 **Bootcamp & CS Grads** seeking *applied* AI/ML projects for their portfolio.
-* ⚙️ **Developers transitioning into AI/ML engineering** who need structure.
-* 🧠 **Mentees or Students** under guided mentorship wanting practical deliverables.
+- 🎓 **Aspiring Software Engineers** preparing for Microsoft, Meta, or Google.  
+- 💻 **Bootcamp & CS Grads** seeking *applied* AI/ML projects for their portfolio.  
+- ⚙️ **Developers transitioning into AI/ML engineering** who need structure.  
+- 🧠 **Mentees or Students** under guided mentorship wanting practical deliverables.
 
 ---
 
@@ -53,11 +53,11 @@ Every day concludes with a working artifact that could be shared in an interview
 
 By completing this track, you’ll be able to:
 
-* Build, train, and evaluate **machine learning models** using Python & scikit-learn.
-* Create and expose **AI APIs** using FastAPI.
-* Integrate models into **Azure ML pipelines** for cloud-scale deployment.
-* Apply **version control discipline** and collaborative GitHub practices.
-* Understand **system design trade-offs** and AI governance fundamentals.
+- Build, train, and evaluate **machine learning models** using Python & scikit-learn.  
+- Create and expose **AI APIs** using FastAPI.  
+- Integrate models into **Azure ML pipelines** for cloud-scale deployment.  
+- Apply **version control discipline** and collaborative GitHub practices.  
+- Understand **system design trade-offs** and AI governance fundamentals.
 
 ---
 
@@ -65,19 +65,19 @@ By completing this track, you’ll be able to:
 
 You’ll graduate with:
 
-* 🧾 **Model Notebooks** (regression, classification, NLP)
-* ⚙️ **FastAPI microservice** exposing your trained model
-* ☁️ **Azure ML pipeline demo** (or local container deployment)
-* 📊 **Plotly/Streamlit dashboard** showing metrics and predictions
-* 📑 **GitHub-ready README + Model Card** documenting model ethics, data lineage, and results
-* 🎥 **Capstone video or demo script** showcasing your final product
+- 🧾 **Model Notebooks** (regression, classification, NLP)  
+- ⚙️ **FastAPI microservice** exposing your trained model  
+- ☁️ **Azure ML pipeline demo** (or local container deployment)  
+- 📊 **Plotly/Streamlit dashboard** showing metrics and predictions  
+- 📑 **GitHub-ready README + Model Card** documenting model ethics, data lineage, and results  
+- 🎥 **Capstone video or demo script** showcasing your final product  
 
 ---
 
 ## 🗓️ Course Structure
 
 | Week       | Focus                                         | Deliverable                                             |
-| ---------- | --------------------------------------------- | ------------------------------------------------------- |
+| ----------- | --------------------------------------------- | ------------------------------------------------------- |
 | **Week 1** | Data loading, cleaning, and model foundations | Baseline regression/classification notebook             |
 | **Week 2** | Model tuning & evaluation                     | Model evaluation notebook + Azure ML setup              |
 | **Week 3** | AI integration with APIs                      | Working FastAPI endpoint + test client                  |
@@ -120,7 +120,7 @@ ai-model-mastery/
     ├── technical_overview.md
     ├── interview_readiness_checklist.md
     └── github_etiquette_for_microsoft.md
-```
+````
 
 ---
 
@@ -195,6 +195,9 @@ flowchart TD
 
 This project is licensed under the **DACR License** — see the [LICENSE](LICENSE) file for details.
 
+```
+
+```
 
 
 
