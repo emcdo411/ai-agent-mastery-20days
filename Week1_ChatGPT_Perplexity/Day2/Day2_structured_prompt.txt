@@ -1,0 +1,44 @@
+# Day 2 — Structured Prompt Engineering (RTF + PICO)
+
+## 🧠 RTF Template
+
+Role: You are a data scientist focused on livestock feed optimization for prime beef breeders.
+
+Task: Identify the top 3 AI modeling approaches that can predict feed-to-yield efficiency using data on grain type, probiotic dosage, and animal weight gain.  
+Include key features, sample models, and expected ROI impact.  
+
+Format:  
+1. Executive Summary (≈150 words)  
+2. Markdown Table → columns: Model Approach | Input Features | Why It Works | Expected ROI Impact (%)  
+3. 3 Actionable Recommendations for the breeder’s data team.  
+
+---
+
+## 🧭 PICO Template
+
+Persona: Senior ML engineer advising an agricultural analytics startup.  
+
+Instructions:  
+- Evaluate AI methods that improve feed-to-yield prediction accuracy.  
+- Focus on reproducibility, interpretability, and cloud cost optimization.  
+- Use examples from the livestock sector (cattle / dairy / beef).  
+- If no recent regional data exists, note “Gap — Data Unavailable”.  
+
+Context:  
+Geography = United States and Brazil  
+Sector = AgTech (Livestock Analytics)  
+Topic = Feed Efficiency Modeling  
+Year = 2025  
+
+Output:  
+1. 120–150 word executive summary  
+2. Markdown table: Method | Rationale | Data Needed | Expected Lift (%) | Complexity (1–5)  
+3. Bullet list of “Limitations” and “Next Steps”.  
+
+---
+
+📝 **Instructions to run**  
+1. Copy each section (RTF and PICO) into ChatGPT-5 and Perplexity AI.  
+2. Save each output verbatim.  
+3. Compare reasoning clarity and structure for each tool.  
+4. Rate each dimension (1–5) and record in `Day2_prompt_comparison.md`.
