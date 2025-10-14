@@ -1,158 +1,108 @@
-# 🚀 Day 17 — Flowise Multi-Tool Agent: Search + Summarize (Local-Only)
+✅ Day 17 — Multi-Tool Local Agent (Search + CSV Summary + RAG)
 
-## 🎯 Objective
+Save as: wk03/day17_multi_tool_agent.md
 
-Upgrade your **Day 16** agent into a **multi-tool local assistant**:
+🎯 Purpose
 
-1. 🔍 **File Search Tool** → find filenames + snippets in your repo (smart ctrl+F).
-2. 📊 **CSV Summary Tool** → auto-profile any dataset (rows, cols, nulls, quick stats).
-3. 🧠 **RAG Fallback** → Ollama + Chroma for repo-grounded answers.
+Give your agent three local skills—file search, CSV profiling, and RAG fallback—so it can find, summarize, and explain without cloud dependencies.
 
-⏱ Timebox: \~30 minutes
+📌 Objectives
 
----
+Launch a tiny FastAPI with /files/search + /csv/summary.
 
-## ✨ Why This Matters
+Route intents using If/Else Router in Flowise.
 
-This is your **Iron Man suit upgrade** 🦾:
+Keep outputs concise, cited, and actionable.
 
-* *“Where is the daily digest configured?”* → File Search finds the file/snippet.
-* *“Summarize W3D17\_clean.csv”* → CSV Summary tool reports schema + null stats.
-* *“What are Week 2 deliverables?”* → RAG fallback answers from repo.
+⏱ Agenda (≈ 45–60 min)
 
-One agent, three skills. **Zero cloud dependencies.**
+API up → 2) Flowise router → 3) Prompts → 4) Tests → 5) Export + commit.
 
----
-
-## 🛠 Part A — Local Tools API
-
-We’ll run a **tiny FastAPI server** for file search + CSV summary.
-
-### ⚡ Quickstart (CLI)
-
-```powershell
-cd scripts
-python -m venv .venv
-.\.venv\Scripts\Activate
+🔧 Local Tools API
+mkdir -p scripts && cd scripts
+python -m venv .venv && source .venv/bin/activate   # Windows: .\.venv\Scripts\Activate
 pip install fastapi uvicorn pandas
+# Add local_tools_server.py (with /health, /files/search, /csv/summary)
 uvicorn local_tools_server:app --reload --port 8001
-```
+# Health: http://127.0.0.1:8001/health -> {"status":"ok"}
 
-Visit [http://127.0.0.1:8001/health](http://127.0.0.1:8001/health) → should return:
 
-```json
-{"status": "ok"}
-```
+/files/search should return file names + small snippets.
+/csv/summary should return rows, columns, null rates, and type hints.
 
----
+🛠 Flowise Routing
 
-### 📂 File: `scripts/local_tools_server.py`
+Router:
 
-Already supports:
+If message contains (find|where|search|contains) → HTTP: /files/search
 
-* `GET /files/search` → query + snippet preview
-* `POST /csv/summary` → dataset profile
+If message contains (csv|columns|nulls|schema|summary) → HTTP: /csv/summary
 
-*(See Day 17 repo code — identical to the starter.)*
+Else → Retriever → LLM (RAG fallback)
 
----
+System Prompt (Flowise Prompt node)
 
-## 🛠 Part B — Flowise Integration
+You have three pathways:
+1) If FILE_SEARCH_JSON exists: summarize matches → filename + snippet (max 10).
+2) If CSV_SUMMARY_JSON exists: report rows, columns, null %, compact schema table.
+3) Else: use RAG (retrieved repo context only).
 
-Open → [http://localhost:3000](http://localhost:3000)
-Duplicate your **Day 16 chatflow** (keep a backup).
-
-### ➕ Add Nodes
-
-* ⚖️ **If/Else Router** → routes to the right tool
-* 🌐 **HTTP Request: File Search** → `http://127.0.0.1:8001/files/search`
-* 🌐 **HTTP Request: CSV Summary** → `http://127.0.0.1:8001/csv/summary`
-* 📚 **Retriever → Ollama** → fallback (with Chroma)
-
----
-
-### 🔎 Router Logic
-
-* If input contains: *find, where, which file, search, contains* → **File Search**
-* If input contains: *csv, columns, nulls, schema, summary, describe* → **CSV Summary**
-* Else → fallback → **Retriever → LLM**
-
----
-
-### 📝 Prompt Template (System)
-
-Paste into Flowise **Prompt Template** node:
-
-```
-You are a Strategic AI Coach with three skills:
-
-1. If FILE_SEARCH_JSON exists:
-   - Summarize matches → show filename + snippet (max 10).
-
-2. If CSV_SUMMARY_JSON exists:
-   - Report rows, columns, null %, and a compact schema table.
-
-3. Otherwise:
-   - Use retrieved repo context (RAG fallback).
-
-RULES
-- Always include an Action List (2–4 items).
+Always:
+- Include an Action List (2–4 bullets).
 - Cite filenames when present.
-- If no context found, ask ONE clarifying question.
-```
+- Ask ONE clarifying question only if context is thin.
 
----
+🧪 Test Scenarios
 
-## 🎮 Test Scenarios
+File Search — “Find where the daily digest is configured.”
 
-1. 🔍 **File Search**
+CSV Summary — “Summarize W3D17_clean.csv — rows, columns, nulls.”
 
-   ```
-   Find where we configure the daily digest script.
-   ```
+RAG Fallback — “What are Week 2 deliverables and validations?”
 
-2. 📊 **CSV Summary**
+📂 Deliverables
 
-   ```
-   Summarize W3D17_clean.csv — rows, columns, nulls.
-   ```
+scripts/local_tools_server.py
 
-3. 🤖 **RAG Fallback**
+wk03/day17/W3D17_flowise_chatflow.json
 
-   ```
-   What are Week 2 deliverables and validations?
-   ```
+wk03/day17/W3D17_notes.md (+ optional screenshot)
 
----
+✅ Rubric
 
-## 📦 Deliverables
+Router → correct pathway 3/3
 
-* `scripts/local_tools_server.py`
-* `W4D17_flowise_chatflow.json` (exported Flowise config)
-* `W4D17_notes.md` (explain model, router, endpoints, sample Q\&A)
-* *(Optional)* `W4D17_screenshot.png`
+CSV output includes nulls + schema
 
----
+RAG fallback cites filenames
 
-## ✅ Verification Checklist
+Outputs include Action List
 
-* [ ] API reachable → `http://127.0.0.1:8001/health`
-* [ ] Router correctly routes *find/search* → **File Search**
-* [ ] Router correctly routes *csv/columns/nulls* → **CSV Summary**
-* [ ] Fallback queries → use **RAG + Ollama** (with citations)
-* [ ] Outputs include **Action List** + citations (if available)
+🧭 Flow (Mermaid)
+flowchart LR
+  IN[Chat Input] --> R{Route}
+  R -- File Search --> FS[HTTP /files/search]
+  R -- CSV Summary --> CS[HTTP /csv/summary]
+  R -- Else --> RET[Retriever -> LLM]
+  FS --> OUT[Chat Output]
+  CS --> OUT
+  RET --> OUT
 
----
+🧰 Troubleshooting
 
-## 🔮 Upgrade Path
+Router misses intent: add synonyms; lower-case input.
 
-* **Level 1 (today):** File Search + CSV Summary
-* **Level 2:** Add 🔗 external API (e.g., weather, budget, gov open data)
-* **Level 3:** Replace keyword router with a **classifier** (few-shot or embedding-based)
+Empty snippets: increase search preview length server-side.
 
----
+CSV failure: confirm file path + permissions.
 
-✨ **Day 17 vibe:** You now run a **multi-tool, governance-ready agent** that can **search, summarize, and cite** — all offline, all local.
+🔮 Upgrades
+
+Swap keyword routing for intent classifier (few-shot).
+
+Add /md/toc endpoint to auto-generate a table of contents for large docs.
+
+Add /csv/profiling with lightweight outlier detection.
 
 
 
