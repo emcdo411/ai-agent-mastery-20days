@@ -1,9 +1,9 @@
-# 🚀 AI Agent Mastery: 20-Day Professional Track
+# 🚀 AI Model Mastery: Microsoft SWE Track
 
-[![License: DACR](https://img.shields.io/badge/license-DACR-blue?style=for-the-badge)](LICENSE)
-[![AI Tools](https://img.shields.io/badge/AI-Tools-green?style=for-the-badge\&logo=openai)]()
-[![Professional Track](https://img.shields.io/badge/Professional%20Track-Yes-orange?style=for-the-badge)]()
-[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-agent-mastery-28days?style=for-the-badge\&color=purple)]()
+[![License: DACR](https://img.shields.io/badge/license-DACR-black?style=for-the-badge)](LICENSE)
+[![AI Stack](https://img.shields.io/badge/AI_Stack-Python_·_Scikit--Learn_·_PyTorch_·_FastAPI_·_Azure_ML-blue?style=for-the-badge)]()
+[![Microsoft SWE Prep](https://img.shields.io/badge/Microsoft%20SWE%20Prep-Yes-orange?style=for-the-badge)]()
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-model-mastery?style=for-the-badge\&color=green)]()
 
 ---
 
@@ -15,170 +15,186 @@
 * [Professional Deliverables](#professional-deliverables)
 * [Course Structure](#course-structure)
 * [Folder Structure](#folder-structure)
-* [Week 1: Foundations (Days 1–5)](#week-1-foundations-days-1–5)
-* [Week 2: Governance & Workflows (Days 6–10)](#week-2-governance--workflows-days-6–10)
-* [Week 3: Data Agents (Days 11–15)](#week-3-data-agents-days-11–15)
-* [Week 4: Strategic Agents (Days 16–20)](#week-4-strategic-agents-days-16–20)
-* [Mermaid Workflow Diagram](#mermaid-workflow-diagram)
+* [Week 1: Data & Model Foundations](#week-1-data--model-foundations)
+* [Week 2: Model Building & Evaluation](#week-2-model-building--evaluation)
+* [Week 3: AI Integration & APIs](#week-3-ai-integration--apis)
+* [Week 4: Capstone Project & Deployment](#week-4-capstone-project--deployment)
+* [Mermaid Architecture Diagram](#mermaid-architecture-diagram)
 * [License](#license)
 
 ---
 
-## Overview
+## 🧭 Overview
 
-The **AI Agent Mastery: 20-Day Professional Track** is a *career-focused builder program* for professionals, analysts, and leaders who want to design **deployable, boardroom-ready AI agents** in under an hour.
+**AI Model Mastery: Microsoft SWE Track** is a *hands-on, 20-day professional accelerator* designed for aspiring Software Engineers preparing for **technical roles at Microsoft and other AI-driven organizations**.
 
-It’s optimized for **local-first tools (Ollama, Chroma, Flowise, FastAPI)** with **Ethiopia-relevant use cases** (healthcare, permits, budgeting, policy simulations).
+This version builds directly upon the **AI Agent Mastery** framework — but pivots from *agent orchestration* to *AI model engineering*, helping mentees develop full-stack proficiency in:
 
-No fluff.
-No “someday” theory.
-Every day ends with an artifact you can commit, demo, or present.
+* Python-based model building
+* Data preprocessing and optimization
+* API integration (FastAPI, Azure ML)
+* Version control (GitHub)
+* Deployment readiness
 
----
-
-## Who This Is For
-
-* **Data & Policy Professionals:** Build auditable AI workflows with citations.
-* **Entrepreneurs & Nonprofits:** Prototype civic and financial micro-tools.
-* **Analysts & MBAs:** Apply frameworks (SWOT, Porter’s, OKRs) with repo evidence.
-* **Military Transitioners:** Convert mission planning into AI simulations.
-* **Public-Sector Leaders:** Use local-first AI to stress-test policies before rollout.
+Every day concludes with a working artifact that could be shared in an interview or demo — reinforcing the core competencies of modern SWE roles.
 
 ---
 
-## Learning Outcomes
+## 👥 Who This Is For
 
-By the end, you can:
-
-* Deploy **repo-grounded RAG agents** with Flowise + Ollama.
-* Use **retrievers, routers, and guardrails** for safe outputs.
-* Build **scenario planners** (Monte Carlo-lite) and brief clearly.
-* Apply **strategic frameworks** (SWOT, Porter, OKRs) with JSON → briefs.
-* Run **boardroom demos** with citations, probabilities, and one-click scripts.
+* 🎓 **Aspiring Software Engineers** preparing for Microsoft, Meta, or Google.
+* 💻 **Bootcamp & CS Grads** seeking *applied* AI/ML projects for their portfolio.
+* ⚙️ **Developers transitioning into AI/ML engineering** who need structure.
+* 🧠 **Mentees or Students** under guided mentorship wanting practical deliverables.
 
 ---
 
-## Professional Deliverables
+## 🎯 Learning Outcomes
+
+By completing this track, you’ll be able to:
+
+* Build, train, and evaluate **machine learning models** using Python & scikit-learn.
+* Create and expose **AI APIs** using FastAPI.
+* Integrate models into **Azure ML pipelines** for cloud-scale deployment.
+* Apply **version control discipline** and collaborative GitHub practices.
+* Understand **system design trade-offs** and AI governance fundamentals.
+
+---
+
+## 📁 Professional Deliverables
 
 You’ll graduate with:
 
-* 📄 **Strategic Prompt Files** (SWOT, Porter’s, OKRs, Exec Brief)
-* 📊 **Flowise Chatflows** (file search, CSV summary, RAG, scenario runner)
-* 🤖 **Autonomous agent** with memory + refreshable RAG
-* 🎥 **Stakeholder demo pack** (screenshots, scripts, reports)
-* 📑 **Ethiopia-focused case study** mapping problem → solution → KPIs
+* 🧾 **Model Notebooks** (regression, classification, NLP)
+* ⚙️ **FastAPI microservice** exposing your trained model
+* ☁️ **Azure ML pipeline demo** (or local container deployment)
+* 📊 **Plotly/Streamlit dashboard** showing metrics and predictions
+* 📑 **GitHub-ready README + Model Card** documenting model ethics, data lineage, and results
+* 🎥 **Capstone video or demo script** showcasing your final product
 
 ---
 
-## Course Structure
+## 🗓️ Course Structure
 
-* **Week 1 (Days 1–5):** Prompt discipline, repo grounding, research → first Q\&A bot.
-* **Week 2 (Days 6–10):** Governance flows, context packs, SDLC gates, Git, deploy.
-* **Week 3 (Days 11–15):** Data agents, visualization briefs, ranking/trend outputs.
-* **Week 4 (Days 16–20):** Local RAG (Day16), multi-tool agent (Day17), refreshable memory (Day18), strategy modules (Day19), scenario planner + final assets/demo (Day20).
-
-Each week ends with a **rubric check**: ✅ Runs | ✅ Documented | ✅ Deployed | ✅ Cited | ✅ KPI-ready.
+| Week       | Focus                                         | Deliverable                                             |
+| ---------- | --------------------------------------------- | ------------------------------------------------------- |
+| **Week 1** | Data loading, cleaning, and model foundations | Baseline regression/classification notebook             |
+| **Week 2** | Model tuning & evaluation                     | Model evaluation notebook + Azure ML setup              |
+| **Week 3** | AI integration with APIs                      | Working FastAPI endpoint + test client                  |
+| **Week 4** | Capstone project                              | Deployed model (containerized) + dashboard presentation |
 
 ---
 
-## Folder Structure
+## 🧱 Folder Structure
 
 ```plaintext
-ai-agent-mastery-28days/
+ai-model-mastery/
 │
-├── Week1_Foundations/
-│   ├── Day1/ ...
-│   ├── Day5/ ...
+├── week1_data_and_basics/
+│   ├── 01_data_loading.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   ├── 03_model_basics_linear_regression.ipynb
+│   └── README.md
 │
-├── Week2_Governance_Workflows/
-│   ├── Day6/  ...
-│   ├── Day10/ ...
+├── week2_build_a_model/
+│   ├── 01_train_model_classification.ipynb
+│   ├── 02_model_evaluation.ipynb
+│   ├── 03_azure_ml_pipeline_setup.md
+│   └── README.md
 │
-├── Week3_Data_Agents/
-│   ├── Day11/ ...
-│   ├── Day15/ ...
+├── week3_ai_integration/
+│   ├── 01_using_openai_api.ipynb
+│   ├── 02_build_chatbot_fastapi.ipynb
+│   ├── 03_frontend_connection.md
+│   └── README.md
 │
-├── Week4_Autonomous_Strategic_Agents/
-│   ├── Day16/  # Local RAG (Flowise + Ollama + Chroma)
-│   ├── Day17/  # Multi-Tool agent (File Search + CSV + RAG)
-│   ├── Day18/  # Refreshable RAG (memory refresh, citations, guardrails)
-│   ├── Day19/  # Strategy modules (SWOT, Porter’s, OKRs + exec brief)
-│   ├── Day20/  # Scenario planner + final assets/investor demo
+├── week4_capstone/
+│   ├── dataset/
+│   ├── model.py
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── dashboard_plotly.ipynb
+│   └── README.md
 │
-├── scripts/        # FastAPI server (local_tools_server.py)
-├── assets/         # Evidence pack (screenshots, charts, exports)
-├── templates/      # Strategic prompts (SWOT, Porter, OKRs, Exec Brief)
-├── docs/           # Diagrams, case studies, rubrics
-└── README.md
+└── docs/
+    ├── technical_overview.md
+    ├── interview_readiness_checklist.md
+    └── github_etiquette_for_microsoft.md
 ```
 
 ---
 
-## Week 1: Foundations (Days 1–5)
+## 🧩 Week 1: Data & Model Foundations
 
-* Prompting, repo-grounded research, synthesis, first domain-limited Q\&A bot.
-* **Deliverable:** Foundations agent (clean Markdown, citations, optional bilingual line).
+Learn the lifecycle of a dataset — from raw CSV to model-ready form.
+You’ll explore:
 
----
+* Exploratory Data Analysis (EDA)
+* Feature scaling, normalization, and encoding
+* Linear regression model training and interpretation
+* Evaluation metrics (MAE, MSE, R²)
 
-## Week 2: Governance & Workflows (Days 6–10)
-
-* Political strategy flows, context packs, SDLC with governance gates, Git PRs, deploy a simple site/app.
-* **Deliverables:** Governance prompts, PRD v2, demo script, basic live link.
-
----
-
-## Week 3: Data Agents (Days 11–15)
-
-* Analysis + visualization briefs, ranking/trend charts, tidy CSVs, dataset summaries.
-* **Deliverables:** Charts, “insights.md”, and a small data-agent brief.
+**Deliverable:** Clean dataset + baseline regression model notebook.
 
 ---
 
-## Week 4: Strategic Agents (Days 16–20)
+## 🔬 Week 2: Model Building & Evaluation
 
-* **Day 16:** Local RAG agent (Flowise + Ollama + Chroma) with filename citations.
-* **Day 17:** Multi-tool agent (File Search + CSV Summary + RAG fallback via router).
-* **Day 18:** Refreshable RAG (type “refresh memory”), guardrails, confidence & sources.
-* **Day 19:** Strategy modules — **SWOT, Porter’s, OKRs** (JSON-only prompts + exec brief).
-* **Day 20:** Scenario planner (Monte Carlo-lite) **+ final assets & investor demo pack**.
-* **Deliverables:** Agent chatflows, strategy prompts, scenario report, final “assets” package.
+Deepen your skills with:
+
+* Decision trees, random forests, and logistic regression
+* Model tuning via GridSearchCV
+* Overfitting and bias-variance tradeoff
+* Azure ML experiment tracking
+
+**Deliverable:** Evaluated model with accuracy + feature importance charts.
 
 ---
 
-## Mermaid Workflow Diagram
+## ⚙️ Week 3: AI Integration & APIs
+
+Turn your model into an intelligent service:
+
+* Expose via **FastAPI endpoint**
+* Test and document with Swagger UI
+* Add authentication and error handling
+* Connect optional **Plotly Studio** or **Streamlit** dashboard
+
+**Deliverable:** API + working test client.
+
+---
+
+## 🌐 Week 4: Capstone Project & Deployment
+
+Package, present, and scale:
+
+* Containerize model with Docker
+* Deploy via Azure ML or local instance
+* Create dashboard of predictions and KPIs
+* Write model card + README summary
+
+**Deliverable:** End-to-end deployable AI system.
+
+---
+
+## 🧭 Mermaid Architecture Diagram
 
 ```mermaid
 flowchart TD
-  IN[Chat Input] --> ROUTE{Route intent}
-  ROUTE -->|simulate| SIM_BUILD[Build scenario JSON]
-  SIM_BUILD --> SIM_HTTP[HTTP POST scenario run]
-  SIM_HTTP --> SIM_SUM[Summarize to brief]
-  SIM_SUM --> OUT_SIM[Output simulation]
-  ROUTE -->|find or where or file| FS_HTTP[HTTP GET file search]
-  FS_HTTP --> FS_SUM[Summarize matches max ten]
-  FS_SUM --> OUT_FIND[Output file search]
-  ROUTE -->|csv or columns or summary| CSV_HTTP[HTTP POST csv summary]
-  CSV_HTTP --> CSV_SUM[Profile rows cols nulls]
-  CSV_SUM --> OUT_CSV[Output csv summary]
-  ROUTE -->|refresh memory| LOAD[Load local docs]
-  LOAD --> SPLIT[Split 1000 150]
-  SPLIT --> EMB[Embeddings Ollama]
-  EMB --> UP[Chroma upsert]
-  UP --> OUT_REFRESH[Output memory refreshed]
-  ROUTE -->|else| RETR[Retriever Chroma]
-  RETR --> P_GUARD[Prompt guardrails and citations]
-  P_GUARD --> LLM[Ollama LLM]
-  LLM --> FORMAT[Bullets Actions Confidence Sources]
-  FORMAT --> OUT_RAG[Output RAG]
-
+    A[Raw Data] --> B[Feature Engineering]
+    B --> C[Model Training & Evaluation]
+    C --> D[FastAPI Integration]
+    D --> E[Azure ML or Local Deployment]
+    E --> F[Plotly/Streamlit Dashboard]
+    F --> G[End User Insights]
 ```
 
 ---
 
-## License
+## ⚖️ License
 
 This project is licensed under the **DACR License** — see the [LICENSE](LICENSE) file for details.
+
 
 
 
