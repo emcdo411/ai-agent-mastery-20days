@@ -1,0 +1,30 @@
+# AI Model Mastery — Day 1 Environment
+# Core scientific stack
+pandas>=2.2
+numpy>=1.26
+scikit-learn>=1.4
+
+# Visualization
+plotly>=5.22
+matplotlib>=3.8
+seaborn>=0.13
+
+# Notebooks
+jupyterlab>=4.2
+ipykernel>=6.29
+
+# API & integration
+fastapi>=0.111
+uvicorn[standard]>=0.30
+pydantic>=2.7
+python-dotenv>=1.0
+requests>=2.32
+PyYAML>=6.0
+
+# Optional: uncomment if you plan to use deep learning locally
+# torch>=2.3
+
+# Dev quality (optional)
+# black>=24.2
+# pytest>=8.2
+# mypy>=1.10
