@@ -167,11 +167,19 @@ git commit -m "feat(day12): predictive governance agent + forecast report"
 
 ```mermaid
 flowchart TB
-  A[Merge Day 9 + 11 data → predictive_dataset.csv] --> B[Run Predictive Governance Prompt]  
-  B --> C[Generate Forecast Report (7d/30d)]  
-  C --> D[Refine Playbook & Confidence Levels]  
-  D --> E[Save & Reflect]  
-  E --> F[Commit and Push]  
+  A[Merge Day9 and Day11 data -> predictive_dataset.csv]
+  B[Run Predictive Governance Prompt]
+  C[Generate Forecast Report 7d and 30d]
+  D[Refine Playbook and Confidence Levels]
+  E[Save and Reflect]
+  F[Commit and Push]
+
+  A --> B
+  B --> C
+  C --> D
+  D --> E
+  E --> F
+
 ```
 
 ---
