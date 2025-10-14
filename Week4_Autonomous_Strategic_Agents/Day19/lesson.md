@@ -1,210 +1,97 @@
-# 🧩 Day 19 — Ethiopia Strategic Framework Modules: SWOT, Porter’s, and OKRs (Agent-Callable)
+✅ Day 19 — Strategy Modules (SWOT · Five Forces · OKRs) with RAG Evidence
 
-**Folder:** `Week4_Autonomous_Strategic_Agents/Day19/`
-Expand your Flowise agent with **three reusable governance modules** that turn repo data on Ethiopia (budgets, population surveys, notes) into **boardroom-ready insights**.
+Save as: wk03/day19_strategy_modules.md
 
-* Accept dynamic inputs (`sector`, `region`, `timeframe`, `goal/focus`)
-* Use **only repo RAG context** (budgets + surveys + notes)
-* Output **valid JSON + policy brief** with **citations & confidence**
+🎯 Purpose
 
-⏳ **Target time:** ≤ 30 minutes
+Attach agent-callable strategy modules that output valid JSON + an exec brief, grounded in repo evidence with citations and confidence.
 
----
+📌 Objectives
 
-## 🛠 What You’ll Build
+Create three JSON-first prompt templates (SWOT, Five Forces, OKRs).
 
-1. **SWOT Module** → Ethiopia’s Healthcare / Education service delivery
-2. **Porter’s Five Forces Module** → Local ecosystem pressures (suppliers, NGOs, citizens)
-3. **OKR Drafting Module** → Development goals tied to repo metrics (budget execution, access %)
-4. **Router** → auto-routes intent (SWOT / Porter / OKR)
-5. **Post-Processor** → JSON → policy brief with action items
+Router routes by intent; missing params default to national level.
 
----
+Post-processor converts JSON → 5–7 bullet brief + 3 actions + sources.
 
-## 🛠 Step A — Create Prompt Templates
+🗂 Files (place in wk03/day19/)
 
-Each module gets its own **Prompt Template**.
-Save as `.txt` files in `Week4_Autonomous_Strategic_Agents/Day19/`.
+W3D19_swot_prompt.txt
 
-### 1️⃣ SWOT Prompt
+W3D19_porter_prompt.txt
 
-**Save as:** `W4D19_swot_prompt.txt`
+W3D19_okrs_prompt.txt
 
-```text
-You are a Strategic AI Coach for Ethiopia’s development ministries.
-Use ONLY retrieved repo context (budgets, population surveys, notes).
-If evidence is weak, say so.
+W3D19_flowise_chatflow.json
 
-TASK: Produce a SWOT for:
-- Sector: {{sector}} (healthcare or education)
-- Region: {{region}}
-- Timeframe: {{timeframe}}
+W3D19_examples.md (one JSON + brief per module)
 
-OUTPUT JSON ONLY:
-{
-  "sector": "{{sector}}",
-  "region": "{{region}}",
-  "timeframe": "{{timeframe}}",
-  "strengths": [{ "point": "", "evidence": "", "sources": ["file.csv"] }],
-  "weaknesses": [{ "point": "", "evidence": "", "sources": [] }],
-  "opportunities": [{ "point": "", "evidence": "", "sources": [] }],
-  "threats": [{ "point": "", "evidence": "", "sources": [] }],
-  "confidence": "High|Medium|Low",
-  "notes": "gaps or caveats"
-}
+Use your earlier JSON-only templates; ensure they cite filenames and include confidence + notes. Keep temperature low; set “JSON only” instruction clearly.
 
-POLICY:
-- Cite filenames/paths from repo metadata.
-- If evidence is missing, note it and reduce confidence.
-```
+🛠 Router (Flowise)
 
-### 2️⃣ Porter’s Five Forces Prompt
+Contains swot → SWOT Prompt → LLM → JSON
 
-**Save as:** `W4D19_porter_prompt.txt`
+Contains porter/five forces → Porter Prompt → LLM → JSON
 
-```text
-You are a Strategic AI Coach analyzing Ethiopia’s service delivery context.
-Use ONLY repo data (budgets, population surveys, notes).
+Contains okr/goals → OKR Prompt → LLM → JSON
 
-TASK: Porter’s Five Forces for:
-- Sector: {{sector}}
-- Region: {{region}}
-- Timeframe: {{timeframe}}
+Else → Default RAG (Retriever → Guardrails → LLM)
 
-OUTPUT JSON ONLY:
-{
-  "sector": "{{sector}}",
-  "region": "{{region}}",
-  "timeframe": "{{timeframe}}",
-  "forces": [
-    { "name": "Threat of New Entrants (NGOs/private)", "rating": 1-5, "rationale": "", "sources": [] },
-    { "name": "Bargaining Power of Suppliers (teachers, clinicians)", "rating": 1-5, "rationale": "", "sources": [] },
-    { "name": "Bargaining Power of Citizens (demand/feedback)", "rating": 1-5, "rationale": "", "sources": [] },
-    { "name": "Threat of Substitutes (alternative providers)", "rating": 1-5, "rationale": "", "sources": [] },
-    { "name": "Inter-Regional Rivalry", "rating": 1-5, "rationale": "", "sources": [] }
-  ],
-  "overall": { "rating": 1-5, "comment": "" },
-  "confidence": "High|Medium|Low",
-  "notes": "context gaps"
-}
+🛠 Post-Processor Prompt (JSON → brief)
+You receive a JSON object for a strategy module. Convert to a concise brief.
 
-POLICY:
-- Justify ratings with citations (budget execution, access %).
-- If context weak, lower confidence.
-```
-
-### 3️⃣ OKR Drafting Prompt
-
-**Save as:** `W4D19_okrs_prompt.txt`
-
-```text
-You are a Strategic OKR Coach for Ethiopia’s ministries.
-Use ONLY repo context (budgets, surveys, notes).
-
-INPUT:
-- Sector: {{sector}}
-- Region: {{region}}
-- Horizon: {{timeframe}}
-- Focus: {{focus}}
-
-OUTPUT JSON ONLY:
-{
-  "sector": "{{sector}}",
-  "region": "{{region}}",
-  "timeframe": "{{timeframe}}",
-  "objectives": [
-    {
-      "objective": "",
-      "key_results": [
-        { "kr": "", "metric": "", "baseline": "", "target": "", "source_files": [] }
-      ],
-      "owners": ["Ministry/Agency role"],
-      "risks": ["risk1"],
-      "assumptions": ["assumption1"]
-    }
-  ],
-  "confidence": "High|Medium|Low",
-  "notes": "constraints or missing data"
-}
-
-POLICY:
-- Tie KRs to repo metrics (budget execution, population % access).
-- If baselines unknown → mark as "unknown" + note it.
-```
-
----
-
-## 🛠 Step B — Wire the Router in Flowise
-
-Add **If/Else Router** after Chat Input:
-
-* Contains `swot` → **SWOT Prompt**
-* Contains `porter` or `five forces` → **Porter Prompt**
-* Contains `okr` or `goals` → **OKR Prompt**
-* Else → **Default RAG** (Retriever → Guardrail Prompt → LLM)
-
-💡 Variables: `sector`, `region`, `timeframe`, `focus`
-If not provided → default to **Ethiopia national**.
-
----
-
-## 🛠 Step C — Post-Processor (JSON → Policy Brief)
-
-Add a **Post-Processor Prompt** after each module’s LLM:
-
-```text
-You receive JSON below. Convert into a concise policy brief.
-
-RULES:
-- 5–7 bullets max
-- Add Action Items (3 bullets)
-- Add Confidence & Sources
-- If fields missing, state clearly
+Rules:
+- 5–7 bullets + 3 Action Items
+- Include Confidence and Sources (from JSON)
+- If any field is missing, say "Unknown" and note the gap.
 
 JSON:
 {{module_json}}
-```
 
----
+🧪 Test Prompts
 
-## 🛠 Step D — Test Prompts
+“Run a SWOT for healthcare in Oromia, 2023–2024.”
 
-* “Run a **SWOT** for Ethiopia healthcare in **Oromia**; timeframe **2023–2024**.”
-* “Do **Porter’s** for Ethiopia **education** sector in **Addis Ababa**; **next 12 months**.”
-* “Draft **OKRs** for Ethiopia healthcare; **focus = maternal health**; **H1 2025**.”
+“Do Porter’s for education in Addis Ababa, next 12 months.”
 
-✅ Validate **JSON → brief → citations → confidence**.
+“Draft OKRs for maternal health, H1 2025, focus = antenatal care.”
 
----
+📂 Deliverables
 
-## 📂 Deliverables (Day 19)
+Module prompts (.txt), flow export (.json), W3D19_examples.md with example JSON + brief.
 
-Save to: `Week4_Autonomous_Strategic_Agents/Day19/`
+✅ Rubric
 
-* `W4D19_swot_prompt.txt`
-* `W4D19_porter_prompt.txt`
-* `W4D19_okrs_prompt.txt`
-* `W4D19_flowise_chatflow.json` *(exported Flowise config)*
-* `W4D19_examples.md` *(example JSON + brief per module)*
+Valid JSON output (parseable)
 
----
+Brief matches JSON; sources + confidence included
 
-## 🧠 Troubleshooting
+Router hits correct module 3/3; sensible defaults applied
 
-* **Text + JSON mixed?** Add `OUTPUT JSON ONLY`, lower temperature, set Top-K=3–4
-* **No sources?** Ensure retriever exposes `filePath` metadata
-* **Router misses intent?** Add synonyms (“framework”, “goals”, “targets”)
+🧭 Flow (Mermaid)
+flowchart LR
+  IN[Chat Input] --> R{Intent?}
+  R -- SWOT --> SW[SWOT Prompt -> LLM -> JSON]
+  R -- PORTER --> PF[Five Forces Prompt -> LLM -> JSON]
+  R -- OKR --> OK[OKR Prompt -> LLM -> JSON]
+  SW --> PP[Post-Process to Brief] --> OUT[Chat Output]
+  PF --> PP
+  OK --> PP
+  R -- Else --> FB[Retriever -> Guardrails -> LLM] --> OUT
 
----
+🧰 Troubleshooting
 
-## 🎯 Why This Matters
+Text mixed with JSON: add “OUTPUT JSON ONLY”; lower temperature; add stop sequences.
 
-These modules level up your agent into an **Ethiopia-focused strategy assistant**:
+No sources: ensure retriever injects metadata; force filenames in module schema.
 
-* 📊 **Structured** → JSON outputs parseable in dashboards
-* 📎 **Evidence-backed** → Sources (budget, survey, notes) ensure trust
-* 🏢 **Policy-ready** → Concise briefs for ministers, donors, and civic leaders
+Ambiguous intent: prompt for missing sector/region/timeframe/focus.
 
----
+🔮 Upgrades
+
+Save JSON to /data/strategy/ and auto-render briefs to /docs/strategy/.
+
+Add validation script to check JSON schema compliance.
 
 
