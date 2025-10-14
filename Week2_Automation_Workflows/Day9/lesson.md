@@ -1,114 +1,175 @@
-<!-- Licensed under DACR-1.1 — see LICENSE.md -->
+# ⚡ Day 9 — Governance-Aware Build Dashboard Agent
 
-# ⚡ Day 9 — Git Without Fear (Collaboration + Governance Discipline)
-
-## 📌 Objective
-- Create/merge a **feature branch** via PR (pull request).  
-- Set up a **.gitignore** to protect secrets and reduce noise.  
-- Practice **commit hygiene** so your repo reads like an **audit trail**.  
-- Build confidence that Git is not scary — it’s your **collaboration + governance backbone**.  
+*(Automation + AI Oversight Lens)*
 
 ---
 
-## 🛠 Steps (≤30–45 min)
+## 🎯 Purpose
 
-### 1. **Create File**
-- Create `Week2_Vibe_Coding/Day11/git_quickstart.md`
+Day 9 transforms your static **build flow (Day 8)** into a **live dashboard agent** that monitors engineering pipelines through a **governance lens**.
 
-### 2. **Paste Quickstart**
-```md
-# Git Quickstart (5 commands)
+You’ll simulate how a single interface can surface:
 
-git checkout -b feat/home-hero
-# edit files…
-git add .
-git commit -m "feat: hero section + CTA"
-git push -u origin feat/home-hero
-# open PR → request review → merge to main
+* Build status, test coverage, and compliance gates.
+* AI-generated insights on risk, bias, or missing reviews.
+* Leadership-ready visuals linking **technical signals → policy accountability.**
+
+---
+
+## 📌 Objectives
+
+* Create a **dashboard agent** that visualizes SDLC stages with live (or simulated) data.
+* Integrate **governance checkpoints**: Policy → Ethics → Compliance.
+* Generate summary insights (pass/fail, risk level, owner).
+* Export a **governance-ready report** to the toolkit.
+
+---
+
+## 🛠 Agenda (≈ 45 min)
+
+|   Time  | Task                                                     |
+| :-----: | :------------------------------------------------------- |
+|  0 – 10 | Set up folder + sample dataset (`build_status.csv`)      |
+| 10 – 25 | Create dashboard spec (JSON + Mermaid + R/Python Plotly) |
+| 25 – 40 | Generate risk summary + governance report                |
+| 40 – 45 | Save + reflect + commit                                  |
+
+---
+
+## 🧩 Create Folders and Files
+
+```bash
+mkdir -p wk02/day09/dashboard
+touch wk02/day09/dashboard_agent.md
+touch wk02/day09/build_status.csv
+```
+
+---
+
+## 🧠 Sample Dataset (`build_status.csv`)
+
+```csv
+Stage,Status,TestsPassed,PolicyGate,EthicsGate,ComplianceGate,Owner,LastUpdated
+Plan,Complete,NA,Approved,NA,NA,Amy Chen,2025-10-14
+Build,In Progress,85%,Pending,Pending,NA,DevOps Bot,2025-10-14
+Test,Running,62%,NA,Reviewing,Pending,Luis Rivera,2025-10-14
+Deploy,Pending,NA,Approved,Approved,Pending,Sarah Lee,2025-10-14
+Monitor,Idle,NA,NA,NA,NA,System,2025-10-14
+```
+
+---
+
+## 📊 Dashboard Spec (`dashboard_agent.md`)
+
+````markdown
+# ⚙️ Governance-Aware Build Dashboard Agent
+
+This dashboard visualizes your SDLC flow with governance gates.
+
+```mermaid
+flowchart LR
+  A[Plan] --> B[Build]
+  B --> C[Test]
+  C --> D[Deploy]
+  D --> E[Monitor]
+  E --> A[Iterate]
+
+  %% Governance overlay
+  A --> A1[Policy Gate]
+  C --> C1[Ethics Review]
+  D --> D1[Compliance Audit]
 ````
 
-### 3. **Add .gitignore**
+### 🧮 Example Logic (Pseudocode)
 
-* Create a `.gitignore` file with entries like:
+```python
+import pandas as pd
+df = pd.read_csv("build_status.csv")
 
-  ```
-  node_modules/
-  .env
-  dist/
-  .DS_Store
-  logs/
-  secrets/
-  ```
-* This ensures your repo stays clean and **no sensitive files leak**.
+def gov_summary(df):
+  summary = []
+  for _, r in df.iterrows():
+    risk = "Low"
+    if "Pending" in [r.PolicyGate, r.EthicsGate, r.ComplianceGate]:
+      risk = "High"
+    summary.append({
+      "Stage": r.Stage,
+      "Status": r.Status,
+      "Risk": risk,
+      "Owner": r.Owner
+    })
+  return pd.DataFrame(summary)
 
-### 4. **Make a Change + Open PR**
+summary = gov_summary(df)
+summary.to_csv("governance_summary.csv", index=False)
+```
 
-* Change one line of copy in your site/app.
-* Commit with a **specific message**:
+### 📊 Visualization Concept
 
-  * ✅ Good: `feat: add Amharic translation to About page`
-  * ❌ Bad: `update stuff`
-* Push → open PR → request review → merge into `main`.
+* Plotly or R Shiny bar chart: Stages (x) vs Risk Level (y).
+* Color code: 🟢 Low  🟠 Medium  🔴 High.
+* Tooltip: Owner + Last Updated.
+* Export as HTML (`build_governance_dashboard.html`).
 
-### 5. **Governance Overlay**
-
-* Treat **Git logs as a public record**:
-
-  * Every commit = a decision documented.
-  * Every PR = a checkpoint for peer review.
-  * `.gitignore` = your **information governance shield**.
-* Add PR sections:
-
-  * **Purpose:** Why this change exists.
-  * **Impact:** Who/what it affects (citizens, users, stakeholders).
-  * **Governance Note:** Does this raise privacy/ethics concerns?
+````
 
 ---
 
 ## 📂 Deliverables
-
-* `git_quickstart.md` (your notes).
-* `.gitignore` file created and committed.
-* One merged PR visible in repo history.
-* `/logs/day11.md` reflection log.
+- `wk02/day09/dashboard_agent.md`  
+- `wk02/day09/build_status.csv`  
+- `governance_summary.csv` (derived)  
+- `/logs/day9.md` — 3 bullets on decisions made  
 
 Commit:
-
 ```bash
-git commit -m "chore(day11): .gitignore + first PR merged"
-```
+git add wk02/day09
+git commit -m "feat(day9): governance-aware build dashboard agent + sample data"
+````
 
 ---
 
 ## ✅ Rubric (Self-Check)
 
-* [ ] Branch created & merged via PR.
-* [ ] Commit message is **specific and professional**.
-* [ ] Secrets and noise excluded via `.gitignore`.
-* [ ] Governance overlay added to PR description.
+| Criterion                                             | Met? |
+| :---------------------------------------------------- | :--: |
+| Dashboard includes build → test → deploy stages       |  ☑️  |
+| Governance gates (Policy, Ethics, Compliance) visible |  ☑️  |
+| Risk summary table produced                           |  ☑️  |
+| Visualization mock or code complete                   |  ☑️  |
+| Reflection log added                                  |  ☑️  |
 
 ---
 
 ## 📝 Reflection Prompts (Day 9)
 
-1. What slowed you down during the PR process?
-2. How will you **name branches** going forward (feat/, fix/, chore/)?
-3. What belongs in every PR description (purpose, impact, governance note)?
-4. How does Git double as a **governance + accountability system** in civic/AI projects?
+1. Which stage produces the highest governance risk today and why?
+2. How can AI assist with automating these checks without reducing oversight?
+3. What data points should leaders see in real-time to trust your pipeline?
+4. Where can context packs from Week 1 be reused to enhance this dashboard?
 
 ---
 
-## 🎯 Role Relevance
+## 🧭 Workflow (Mermaid)
 
-* **Developers:** Git = your professional hygiene & collaboration foundation.
-* **PMs / Policy Leads:** PRs = checkpoints for oversight (transparency in action).
-* **Governance Teams:** `.gitignore` = information security baseline.
-* **Municipal Leaders (Ethiopia/Caribbean):** See Git as a way to **track every change**, enforce accountability, and build trust.
-* **Military Transition:** Git logs mirror **mission logs** — clear, timestamped, auditable.
-
----
-
-✨ **Day 9 Vibe**: Git isn’t just code control. It’s **civic discipline disguised as tech**. Each commit is a policy note. Each PR is a peer review. Each `.gitignore` is a governance shield.
-
+```mermaid
+flowchart TB
+  A[Load build_status.csv] --> B[Parse stages + gates]
+  B --> C[Generate governance summary]
+  C --> D[Visualize risks + owners]
+  D --> E[Export dashboard + report]
+  E --> F[Update logs/day9.md]
+  F --> G[Commit and review]
 ```
+
+---
+
+## 💡 Tips
+
+* Keep Mermaid labels ASCII-only to avoid GitHub render errors.
+* Later, connect this agent to real CI/CD logs (Jenkins, GitHub Actions, Azure Pipelines).
+* Add AI hooks: “Explain risk in plain English for executive brief.”
+* Use outputs to power your **Week 3 Governance Board Dashboard**.
+
+---
 
