@@ -1,220 +1,185 @@
-# 📊 Day 11 — Vibe Coding: *Colab Data Agent (Civic & Boardroom Ready)*
+# ⚡ Day 11 — Decision Memory System
 
-Spin up a **Colab notebook** that behaves like a *data agent*: ingest → clean → visualize → export → brief — all in ≤30 minutes, with **light governance guardrails**.
-
-⏱ **Target Time:** ≤ 30 minutes
+*(From Report → Reflection → Responsible Action)*
 
 ---
 
-## 🌟 Objective
+## 🎯 Purpose
 
-Build a **Google Colab** notebook that:
+Day 11 introduces **decision intelligence and traceability.**
+You’ll design a lightweight **Decision Memory System (DMS)** that links:
 
-- Loads a CSV (URL or upload)
-- Cleans & standardizes (with **PII scan + optional anonymize**)
-- Creates one quick chart (auto-fallback if columns don’t match)
-- Exports a cleaned CSV, a PNG chart, and a **1-page executive brief (MD)**
-- Drops artifacts into your repo for Week 3
+* **Executive reports** (Day 10)
+* **Governance context** (Day 7)
+* **Build data + risks** (Day 9)
+  into one living record of **who decided what, when, and why.**
 
----
-
-## 🛠 Steps
-
-### 1️⃣ Create the Notebook
-
-1. Open [Google Colab](https://colab.research.google.com)
-2. **New Notebook** → rename: `W3D15_Data_Agent_Starter.ipynb`
+This system closes the feedback loop — ensuring that lessons, approvals, and rationale are stored for AI and human review.
 
 ---
 
-### 2️⃣ Cell 1 — Load Data (URL or Upload)
+## 📌 Objectives
 
-```python
-# ==== Day 11: Data Agent (Civic Edition) ====
-import pandas as pd, numpy as np, io, re, os
-import matplotlib.pyplot as plt
+* Create a **decision log schema** for leadership actions.
+* Capture metadata: date, decision owner, rationale, risk rating, outcome.
+* Integrate with governance artifacts (`Exec_AI_Report.md`, `constraints.md`).
+* Generate a **summary prompt** that lets AI recall prior decisions responsibly.
+* Visualize decisions as part of an evolving “governance graph.”
 
-# ---- Option A: Public dataset (example) ----
-# Replace with a local ministry/open data CSV if available.
-DATA_URL = "https://raw.githubusercontent.com/mwaskom/seaborn-data/master/tips.csv"
+---
 
-# ---- Option B: Upload your own ----
-USE_UPLOAD = False  # flip to True to upload
+## 🛠 Agenda (≈ 45 min)
 
-if not USE_UPLOAD and DATA_URL:
-    df = pd.read_csv(DATA_URL)
-    source = f"URL: {DATA_URL}"
-else:
-    from google.colab import files
-    print("Upload a CSV…")
-    uploaded = files.upload()
-    fname = next(iter(uploaded))
-    df = pd.read_csv(io.BytesIO(uploaded[fname]))
-    source = f"Upload: {fname}"
+|   Time  | Task                                                 |
+| :-----: | :--------------------------------------------------- |
+|  0 – 10 | Create `decision_memory/` folder + CSV schema        |
+| 10 – 25 | Log at least 3 real or simulated executive decisions |
+| 25 – 35 | Build a retrieval prompt (AI recall instructions)    |
+| 35 – 45 | Save + reflect + commit                              |
 
-print("Rows, Columns:", df.shape)
-display(df.head(3))
-3️⃣ Cell 2 — Clean, Standardize, PII Scan
-python
-Copy code
-# ---- Normalize column names ----
-df.columns = (pd.Index(df.columns)
-              .str.strip()
-              .str.replace(r"[^0-9A-Za-z]+", "_", regex=True)
-              .str.lower()
-              .str.strip("_"))
+---
 
-# ---- Drop duplicates ----
-before = len(df)
-df = df.drop_duplicates()
-print("Dropped duplicates:", before - len(df))
+## 🧩 Setup
 
-# ---- Heuristic PII scan (emails, phones, id-like) ----
-pii_cols = []
-email_pat = re.compile(r".*@.*\..*")
-phone_pat = re.compile(r"^\+?\d[\d\-\s()]{6,}$")
-id_like = ["national_id","ssn","nin","passport","tax_id","nhif","patient_id"]
+```bash
+mkdir -p wk02/day11/decision_memory
+touch wk02/day11/decision_memory/decision_log.csv
+touch wk02/day11/decision_memory/decision_memory_prompt.md
+```
 
-for c in df.columns:
-    snip = df[c].astype(str).head(50)
-    if c in id_like or snip.str.contains(email_pat).any() or snip.str.contains(phone_pat).any():
-        pii_cols.append(c)
+---
 
-if pii_cols:
-    print("⚠️ Potential PII columns detected:", pii_cols)
+## 📄 Sample `decision_log.csv`
 
-# ---- Optional anonymize (hash) PII columns ----
-ANONYMIZE = True
-if ANONYMIZE and pii_cols:
-    for c in pii_cols:
-        df[c] = df[c].astype(str).apply(lambda s: pd.util.hash_pandas_object(pd.Series([s])).iloc[0])
-    print("🔐 Anonymized PII columns (hashed).")
+```csv
+DecisionID,Date,Owner,DecisionSummary,Rationale,LinkedReport,RiskRating,Outcome,FollowUp
+D-001,2025-10-14,Amy Chen,Postpone Deploy until Compliance Gate clears,Align with EU AI Act audit findings,Exec_AI_Report_v1.md,Medium,Approved,Re-assess on Oct 18
+D-002,2025-10-14,Luis Rivera,Automate Bias Scan in CI/CD,Reduce manual load + improve detection rates,Exec_AI_Report_v1.md,High,In Progress,Add test logs next sprint
+D-003,2025-10-15,Sarah Lee,Launch pilot in controlled environment,Minimize production exposure,Exec_AI_Report_v1.md,Low,Approved,Expand after 14-day monitor
+```
 
-# ---- Numeric null handling ----
-num_cols = df.select_dtypes(include=[np.number]).columns
-if len(num_cols):
-    df[num_cols] = df[num_cols].fillna(df[num_cols].median(numeric_only=True))
+---
 
-print("Nulls remaining:")
-display(df.isna().sum())
-4️⃣ Cell 3 — Metric & Visual (Auto-Fallback)
-python
-Copy code
-# ---- Metric + Chart with fallback ----
-png_name = None
+## 💬 `decision_memory_prompt.md`
 
-if {"total_bill","tip"}.issubset(df.columns):
-    df["tip_percent"] = (df["tip"] / df["total_bill"]).replace([np.inf,-np.inf], np.nan) * 100
-    summary = (df.groupby("day", dropna=False)["tip_percent"]
-                 .mean().reset_index()
-                 .sort_values("tip_percent", ascending=False))
-    print("Average tip % by day:")
-    display(summary)
+```text
+Role: Decision Intelligence Copilot.
 
-    plt.figure()
-    plt.bar(summary["day"].astype(str), summary["tip_percent"])
-    plt.title("Average Tip % by Day")
-    plt.xlabel("Day")
-    plt.ylabel("Tip %")
-    plt.tight_layout()
-    png_name = "W3D15_tip_by_day.png"
-    plt.savefig(png_name, dpi=150)
-    plt.show()
-else:
-    cat_cols = df.select_dtypes(include="object").columns.tolist()
-    if cat_cols:
-        col = cat_cols[0]
-        counts = df[col].value_counts(dropna=False).head(12)
-        print(f"Counts for '{col}':")
-        display(counts)
+Context: You are reviewing leadership decisions from the current governance cycle.
 
-        plt.figure()
-        counts.plot(kind="bar", title=f"Counts by {col}")
-        plt.tight_layout()
-        png_name = "W3D15_counts.png"
-        plt.savefig(png_name, dpi=150)
-        plt.show()
-    else:
-        print("No suitable columns found for a quick chart.")
-5️⃣ Cell 4 — Export Cleaned CSV + Brief (MD)
-python
-Copy code
-# ---- Exports: cleaned CSV + brief + chart ----
-out_csv = "W3D15_clean.csv"
-df.to_csv(out_csv, index=False)
+Tasks:
+1) Load decision_log.csv.
+2) Summarize patterns in decision-making (risk level, delay frequency, rationale themes).
+3) Highlight recurring governance concerns (policy, ethics, compliance).
+4) Produce sections:
+   - Decision Summary Table
+   - Risk Heatmap Description
+   - Reflection Insights (what’s improving / regressing)
+   - Recommendations for next governance cycle
+5) Maintain tone: analytical, concise, leadership-ready.
+6) Never override facts; reference DecisionID and Date for traceability.
+```
 
-brief_lines = [
-    "# W3D15 Executive Brief",
-    f"- **Source:** {source}",
-    f"- **Shape (rows x cols):** {df.shape[0]} x {df.shape[1]}",
-]
-if pii_cols:
-    brief_lines.append(f"- **Governance:** PII columns detected & hashed → {pii_cols}")
-else:
-    brief_lines.append("- **Governance:** No PII columns detected by heuristics.")
+---
 
-brief_lines += [
-    "- **Chart:** " + (png_name if png_name else "N/A"),
-    "",
-    "## Insights (fill these quickly)",
-    "- Top 1:",
-    "- Top 2:",
-    "- Top 3:",
-    "",
-    "## Next Actions (Policy / Ops)",
-    "- [ ] Share with stakeholders",
-    "- [ ] Confirm KPI definitions",
-    "- [ ] Schedule weekly refresh",
-    "",
-    "## ጭምር / ማጠቃለያ (Amharic placeholder)",
-    "- አጭር ማጠቃለያ እዚህ ይጻፉ።",
-]
-with open("W3D15_brief.md","w",encoding="utf-8") as f:
-    f.write("\n".join(brief_lines))
+## 📊 Example Output Skeleton
 
-print("Saved:", out_csv, "and W3D15_brief.md")
-try:
-    from google.colab import files
-    files.download(out_csv)
-    files.download("W3D15_brief.md")
-    if png_name and os.path.exists(png_name):
-        files.download(png_name)
-except Exception as e:
-    print("Download hint:", e)
-🔗 Pipeline Diagram
-mermaid
-Copy code
-%%{ init: { "theme": "dark" } }%%
-flowchart LR
-  CSV["CSV (URL/Upload)"] --> CLEAN["🔧 Clean + PII Guard"]
-  CLEAN --> VIZ["📊 Chart"]
-  VIZ --> PNG["🖼 PNG Export"]
-  CLEAN --> OUT["📂 Cleaned CSV"]
-  CLEAN --> BRIEF["📝 Exec Brief (MD)"]
-📂 Deliverables
-W3D15_Data_Agent_Starter.ipynb
+```markdown
+# 🧠 Decision Memory Report — October 2025
 
-W3D15_clean.csv
+## Overview
+3 logged decisions — 2 approved, 1 in progress.  
+Main theme: compliance-first mindset delaying deployments strategically.
 
-W3D15_brief.md
+## Decision Summary Table
+| DecisionID | Owner | Risk | Status | Key Rationale |
+|:--|:--|:--|:--|:--|
+| D-001 | Amy Chen | Medium | Approved | Aligns with EU audit findings |
+| D-002 | Luis Rivera | High | In Progress | Automate bias mitigation |
+| D-003 | Sarah Lee | Low | Approved | Controlled rollout for safety |
 
-W3D15_tip_by_day.png (or fallback W3D15_counts.png)
+## Risk Heatmap
+- **High Risk (33%)**: Bias scan automation pending verification.  
+- **Medium Risk (33%)**: Compliance gate delay.  
+- **Low Risk (33%)**: Pilot approved and under monitoring.
 
-✅ Rubric (Self-Check)
- CSV loaded and cleaned
+## Reflection Insights
+- Leadership shows consistent ethical restraint.  
+- Decision logs reveal stronger documentation discipline.  
+- AI-supported summaries accelerating follow-up alignment.
 
- PII scan run (+ anonymized if found)
+## Recommendations
+1. Add automated tagging for ethics vs compliance rationale.  
+2. Schedule decision retros every 2 sprints.  
+3. Feed decision data into Week 3 *Governance Board Dashboard.*
+```
 
- One chart exported (or fallback)
+---
 
- Executive brief created (with Amharic stub)
+## 📂 Deliverables
 
-🎯 Role Relevance
-Policy/PMO: weekly KPI briefs with light privacy guardrails
+* `wk02/day11/decision_memory/decision_log.csv`
+* `wk02/day11/decision_memory/decision_memory_prompt.md`
+* `wk02/day11/decision_memory/decision_memory_report.md` (generated output)
+* `/logs/day11.md` (reflection log)
 
-Municipal Leads: quick evidence for stand-ups/council updates
+Commit:
 
-Analysts/Entrepreneurs: repeatable EDA scaffold you can ship fast
+```bash
+git add wk02/day11
+git commit -m "feat(day11): decision memory system + governance intelligence prompt"
+```
+
+---
+
+## ✅ Rubric (Self-Check)
+
+| Criterion                         | Met? |
+| :-------------------------------- | :--: |
+| CSV log created with ≥3 decisions |  ☑️  |
+| Report generated from actual data |  ☑️  |
+| Risk + rationale included         |  ☑️  |
+| AI prompt enforces traceability   |  ☑️  |
+| Reflection log complete           |  ☑️  |
+
+---
+
+## 📝 Reflection Prompts (Day 11)
+
+1. Which decision carried the highest unseen risk?
+2. Did AI capture the *why* behind the *what* accurately?
+3. How might this system prevent blame and improve transparency?
+4. What metadata would strengthen long-term traceability?
+5. How would you visualize decision impact over multiple quarters?
+
+---
+
+## 🧭 Workflow (Mermaid)
+
+```mermaid
+flowchart TB
+  A[Record executive decisions → decision_log.csv] --> B[Run Decision Memory Prompt]
+  B --> C[Generate Decision Memory Report]
+  C --> D[Reflect + Update Logs]
+  D --> E[Commit and Push]
+```
+
+---
+
+## 💡 Tips
+
+* Treat decision memory as your **AI ethics black box recorder.**
+* Consider adding a field for **confidence or evidence rating** in future iterations.
+* Integrate this log with the Day 9 dashboard to show “decision latency” (time from risk to action).
+* Keep reports versioned — DMS becomes your living governance history.
+
+---
+
+✅ **Day 11** transforms your AI system into a *governance historian.*
+You’ve now closed the loop:
+**Data → Report → Decision → Memory.**
+
+Next, **Day 12** will focus on *predictive governance* — teaching the AI to anticipate risk before it happens using the historical patterns you just captured.
 
 
 
