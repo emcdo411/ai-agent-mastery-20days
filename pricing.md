@@ -20,7 +20,7 @@ All tiers include **private repo access** so you can start immediately.
 
 | Tier                  | Includes                               | Standard Price | 10% Off | Veterans Price |
 | --------------------- | -------------------------------------- | -------------: | ------: | -------------: |
-| **Self-Study**        | Repo access, updates, checklists       |       **\$75** |       — |           \$75 |
+| **Self-Study**        | Repo access, updates, checklists       |       **\$149** |  N/A      |    \$149 |
 | **Guided**            | Repo **+ weekly group Q\&A** (4 weeks) |      **\$300** |   \$270 |          \$270 |
 | **1:1 Coaching**      | Repo **+ direct support** (3×45-min)   |      **\$850** |   \$765 |          \$765 |
 | **Corporate License** | Repo for team **+ onboarding session** |    **\$3,500** |       — |              — |
