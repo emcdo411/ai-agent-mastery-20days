@@ -1,134 +1,156 @@
-# 🚀 Vibe Coding Mastery — 28-Day Professional Track
+# 🚀 AI Model Mastery: Microsoft SWE Track
 
-*by **Erwin Maurice McDonald***
-
-[![Local-First](https://img.shields.io/badge/Stack-Local-First-2ea44f?style=for-the-badge)](#)
-[![Flowise](https://img.shields.io/badge/Built%20With-FlowiseAI-6f42c1?style=for-the-badge)](#)
-[![Ollama](https://img.shields.io/badge/LLM-Ollama-000000?style=for-the-badge)](#)
-[![Chroma](https://img.shields.io/badge/Vector-Chroma-0ea5e9?style=for-the-badge)](#)
-[![Colab](https://img.shields.io/badge/Notebook-Google%20Colab-f9ab00?style=for-the-badge)](#)
-[![Lovable](https://img.shields.io/badge/Web-Lovable-10b981?style=for-the-badge)](#)
-[![Databutton](https://img.shields.io/badge/Tools-Databutton-f97316?style=for-the-badge)](#)
-[![Track](https://img.shields.io/badge/Days-20_core_%2b_8_capstone-8b5cf6?style=for-the-badge)](#)
-
-**A 4-week sprint for professionals who want results, not fluff.**
-30 minutes a day → build workflows you can actually reuse.
+[![License: DACR](https://img.shields.io/badge/license-DACR-black?style=for-the-badge)](LICENSE)
+[![AI Stack](https://img.shields.io/badge/AI_Stack-Python_·_Scikit--Learn_·_PyTorch_·_FastAPI_·_Azure_ML-blue?style=for-the-badge)]()
+[![Microsoft SWE Prep](https://img.shields.io/badge/Microsoft%20SWE%20Prep-Yes-orange?style=for-the-badge)]()
+[![Mentorship Mode](https://img.shields.io/badge/Mentorship%20Ready-✅-purple?style=for-the-badge)]()
+[![Interactive Learning](https://img.shields.io/badge/Interactive-Labs%20·%20Dashboards%20·%20APIs-green?style=for-the-badge)]()
+[![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-model-mastery?style=for-the-badge\&color=teal)]()
 
 ---
 
-## 📌 Program Snapshot
+## 🧭 Overview
 
-* ⏱ **30 min/day**
-* 🧩 **4 tracks:** Research • **Governance** • Data • Strategy
-* 🛠 **Local-first tools:** Flowise, **Ollama**, **Chroma**, **FastAPI**, **Colab**
-  *(plus Lovable for landing pages & Databutton for micro-tools)*
-* 📦 **Reusable templates & scripts** across every week
+**AI Model Mastery: Microsoft SWE Track** is a *hands-on, 20-day engineering accelerator* designed for aspiring **Software Engineers preparing for roles at Microsoft, Azure AI, or other cloud-first companies**.
 
----
-
-## 🎯 What You’ll Walk Away With
-
-* 📚 **Research briefs** — clean Markdown, citations, confidence notes
-* ⚖️ **Governance prompts & context packs** — scope limits, refusal patterns, bilingual options
-* 📊 **Data agents & visuals** — CSV profilers, ranking/trend charts, interactive exports
-* 🤖 **Local RAG agents** — Flowise + Ollama + Chroma with filename-level citations
-* 🔄 **Refreshable memory** — “refresh memory” route to re-index your repo
-* 🧭 **Strategy modules** — SWOT / Porter / OKRs (JSON → exec briefs)
-* 🎲 **Scenario planner** — Monte-Carlo-lite with one-page narratives
-* 🧰 **Toolkit** — versioned prompts, chatflows, reports, and demo scripts
+This project bridges *theory* and *execution* — combining Python-based model development, API integration, and cloud deployment.
+It’s built with mentorship in mind, enabling mentees to gain real-world project experience while mentors track progress through structured deliverables.
 
 ---
 
 ## 👥 Who This Is For
 
-Analysts • Data Pros • Entrepreneurs • MBA / PMP candidates • Military Transitioners • Public-Sector Leaders
-All aiming for **audit-ready, source-linked outputs** you can demo in minutes.
-
-> Perfect if you’ve got *30 minutes a day* and want visible results in 4 weeks.
-
----
-
-## 🛠 How It Works (Weekly Flow)
-
-### **Week 1 (Days 1–5): Foundations**
-
-* Research agent (RTF prompts), summarization agent, **domain-specific Q\&A bot**, and a packaged **Week 1 Toolkit**.
-
-### **Week 2 (Days 6–10): Governance & Leadership**
-
-* Political strategy flows, **context/constraint packs**, SDLC with oversight gates, **Git as audit trail**, and a live site/app (Lovable) or civic micro-tool (Databutton).
-
-### **Week 3 (Days 11–15): Data Agents**
-
-* CSV profiling, ranking/trend charts, interactive charting, and exec-style visualization briefs (Colab + Markdown).
-
-### **Week 4 (Days 16–20): Local RAG & Strategy**
-
-* **Day 16:** Flowise local RAG (Ollama + Chroma) with citations
-* **Day 17:** Multi-tool agent (router → file search, CSV summary, RAG)
-* **Day 18:** Refreshable RAG (on-demand re-index + guardrails + sources)
-* **Day 19:** Strategy modules — **SWOT / Porter / OKRs** (JSON + exec brief)
-* **Day 20:** Scenario planner (Monte-Carlo-lite) + one-page narrative & assets
-
-> The original “28-day” window is preserved by adding **optional capstones** (Days 21–28) for extended demos, investor decks, and sector case studies.
+* 🎓 **Aspiring Software Engineers** preparing for Microsoft or Azure ML engineering roles.
+* 🧑🏽‍💻 **Mentored Students** seeking real deliverables to showcase in technical interviews.
+* ⚙️ **Developers Transitioning** from traditional software to AI product development.
+* 🧠 **Instructors & Coaches** guiding students through practical, repository-based learning.
 
 ---
 
-## 📦 What’s Included
+## 🧩 Mentorship Mode
 
-* 🔖 Copy-paste **prompt packs** (research, domain-bot, governance, exec-briefs)
-* 🗂 **Runbooks & guardrail checklists** (scope, refusals, citations, bilingual lines)
-* 🧪 **Flowise chatflows** (RAG, router tools, refresh memory)
-* ⚙️ **FastAPI** mini-server for local tools (file search + CSV summary)
-* 📜 Starter scripts (PowerShell, Python)
-* 🎥 **7-minute demo flow** (structure for boardroom demos)
+**Mentorship Mode** is the defining feature of this repository.
+It transforms the course from an individual learning path into a *guided apprenticeship* experience that mirrors Microsoft’s learning culture.
 
----
+### 💡 Mentor Responsibilities
 
-## 🚫 What This Is *Not*
+* Review pull requests weekly and provide structured feedback using GitHub Issues.
+* Challenge the mentee to defend design and model choices.
+* Conduct one 30-minute mock “Design Review” during Week 3 or 4.
 
-No endless lectures.
-No shiny-tool tutorials.
-No “coaching calls.”
+### 🎯 Mentee Expectations
 
-> It’s a **recipe-based program** — the value lives in the **workflows you build & keep**.
+* Commit code daily with clear commit messages.
+* Submit reflections in `reflections.md` after each week.
+* Document all experiments in the `/deliverables/models/` directory.
 
----
+### 🧱 Mentorship Deliverables
 
-## 🔐 Privacy & Practicality
-
-* **Local-first** execution (Ollama + Chroma) — no API keys required
-* **Exportable artifacts** for portfolios & interviews
-* **Free-stack mindset** (Colab, Flowise, FastAPI; plus Lovable/Databutton)
-* You always **own your work**
+* **Week 1:** Data pipeline walkthrough
+* **Week 2:** Model performance review
+* **Week 3:** API & integration test
+* **Week 4:** Capstone + technical interview simulation
 
 ---
 
-## 🧭 Quick Map (Days 1–20)
+## 📚 Learning Structure
 
-| Week |  Days | Theme                   | Core Outputs                                                                          |
-| ---- | ----: | ----------------------- | ------------------------------------------------------------------------------------- |
-| 1    |   1–5 | Foundations             | Research agent, summarizer, domain-bot, toolkit README                                |
-| 2    |  6–10 | Governance & Leadership | Strategy flows, context packs, SDLC gates, Git audit, site/app or micro-tool          |
-| 3    | 11–15 | Data Agents             | CSV profiler, ranking/trend charts, interactive chart, exec brief                     |
-| 4    | 16–20 | Local RAG & Strategy    | Flowise RAG, multi-tool router, refreshable memory, SWOT/Porter/OKR, scenario planner |
+| Week  | Focus                              | Core Deliverable                    |
+| ----- | ---------------------------------- | ----------------------------------- |
+| **1** | Data Cleaning + EDA                | Baseline regression model           |
+| **2** | Model Building + Azure Integration | Trained model + evaluation notebook |
+| **3** | API Integration + Plotly Dashboard | FastAPI + dashboard demo            |
+| **4** | Capstone + Deployment              | Containerized AI microservice       |
 
-*Optional Capstone (21–28):* extended case studies, investor demo pack, policy brief series.
-
----
-
-## 📬 Interested?
-
-Comment **“overview”** or DM for:
-
-* The **One-Page Syllabus**
-* The **Demo Runbook**
-
-*Pilot seats are limited so each mentee gets real attention.*
+Each week concludes with a checkpoint and reflection that simulates the structure of a real Microsoft sprint review.
 
 ---
 
-© **Erwin Maurice McDonald** — Materials for enrolled participants only; redistribution prohibited.
+## 🧠 Learning Outcomes
+
+By completing this track, learners will:
+
+* Design and train **machine learning models** from scratch.
+* Deploy AI capabilities using **FastAPI** and **Azure ML**.
+* Visualize performance metrics with **Plotly Studio** dashboards.
+* Practice **GitHub workflows** (commits, PRs, branches) like a Microsoft SWE.
+* Document model bias, lineage, and metrics with **Model Cards**.
+
+---
+
+## 📊 Tech & Tool Stack
+
+| Category          | Tools                                        |
+| ----------------- | -------------------------------------------- |
+| **Languages**     | Python 3.11, Markdown                        |
+| **Libraries**     | pandas, NumPy, scikit-learn, PyTorch, Plotly |
+| **Frameworks**    | FastAPI, Streamlit, Dash                     |
+| **Cloud/DevOps**  | Azure ML, Docker, GitHub Actions             |
+| **Visualization** | Plotly Studio, Dash, Matplotlib              |
+| **Mentorship**    | GitHub Projects, Issues, PR Reviews          |
+
+---
+
+## 🧱 Folder Structure
+
+```plaintext
+ai-model-mastery/
+│
+├── week1_data_and_basics/
+│   ├── 01_data_loading.ipynb
+│   ├── 02_feature_engineering.ipynb
+│   └── 03_model_basics_linear_regression.ipynb
+│
+├── week2_build_a_model/
+│   ├── 01_train_model_classification.ipynb
+│   ├── 02_model_evaluation.ipynb
+│   ├── 03_azure_ml_pipeline_setup.md
+│
+├── week3_ai_integration/
+│   ├── 01_using_openai_api.ipynb
+│   ├── 02_build_chatbot_fastapi.ipynb
+│   └── 03_dashboard_plotly.ipynb
+│
+├── week4_capstone/
+│   ├── dataset/
+│   ├── model.py
+│   ├── app.py
+│   ├── Dockerfile
+│   ├── reflections.md
+│   └── README.md
+│
+└── docs/
+    ├── technical_overview.md
+    ├── mentorship_mode.md
+    ├── interview_readiness_checklist.md
+    └── github_etiquette_for_microsoft.md
+```
+
+---
+
+## 🧩 Mermaid Mentorship Workflow
+
+```mermaid
+flowchart TD
+    MENTOR[🧭 Mentor Review] --> PR[Pull Request]
+    PR --> FEEDBACK[GitHub Feedback]
+    FEEDBACK --> MENTEE[Mentee Iteration]
+    MENTEE --> COMMIT[Code Commit + Reflection]
+    COMMIT --> CHECKPOINT[✅ Weekly Checkpoint]
+    CHECKPOINT --> CAPSTONE[🎓 Capstone Completion]
+```
+
+---
+
+## ⚖️ License
+
+This project is licensed under the **DACR License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+### 🌟 *“The best AI engineers don’t just code models — they build trust, systems, and habits that scale.”*
+
+---
 
 
 
