@@ -1,199 +1,134 @@
-# Week 1 — Day 2: Structured Prompt Engineering (RTF + PICO with ChatGPT‑5)
+# Week 1 — Day 2: Structured Prompt Engineering (RTF + PICO with ChatGPT-5)
 
-**Save as:** `wk01/day02_structured_prompt_engineering.md`
-
-**CXO Lens:** Day 2 converts *interest* into *repeatable outputs*. We standardize prompts so executives get consistent, board‑ready deliverables across countries and sectors. This feeds **mid‑funnel sales acceleration** by producing artifacts that de‑risk stakeholder alignment.
+**Save as:** `week1/day2_structured_prompt_engineering.md`
 
 ---
 
-## 📌 Objectives
+## 🎯 Purpose
 
-* Learn and apply **Role → Task → Format (RTF)** and **PICO (Persona · Instructions · Context · Output)**.
-* Build a **reusable template** for country‑ and sector‑specific work.
-* Compare performance in **ChatGPT‑5** vs **Perplexity AI**, noting improvements over 3.5.
-* Log results and commit using vibe coding discipline.
-
-> **Reminder (from Day 1):** Keep data **non‑sensitive**. Use public sources only.
+Introduce reproducible, structured prompt-engineering techniques that map directly to model evaluation and fine-tuning workflows.
+By Day 2, learners will understand how to design **prompt contracts**—inputs and expected outputs that can later feed into LLM evaluation datasets or fine-tuning scripts.
 
 ---
 
-## 🛠 Agenda (30–45 min)
+## 🧩 Learning Objectives
 
-1. **RTF and PICO overview** (5–7m)
-2. **Draft your country‑specific template** (10–12m)
-3. **Run in ChatGPT‑5 and Perplexity** (8–10m)
-4. **Score and refine** (5–8m)
-5. **Save artifacts + log + commit** (3–5m)
-
----
-
-## RTF Formula
-
-* **Role** — define the expert stance.
-* **Task** — scope, constraints, evaluation.
-* **Format** — explicit output contract.
-
-**Examples**
-
-* Role: *Caribbean agriculture policy advisor*
-* Task: *Summarize top 3 risks for cassava exports in 2025 using government and university data*
-* Format: *Return a bilingual Markdown table (English + local language) with citations and a 100‑word executive brief*
+1. Apply the **RTF** (Role → Task → Format) and **PICO** (Persona · Instructions · Context · Output) frameworks.
+2. Build a reusable prompt template that drives consistent, testable results.
+3. Evaluate and log differences in reasoning between **ChatGPT-5** and **Perplexity AI**.
+4. Save outputs in repo-friendly formats (`.txt`, `.md`) for future model-training data.
 
 ---
 
-## PICO Framework
+## ⚙️ Prerequisites (from Day 1)
 
-* **Persona** — who is speaking (authority, tone).
-* **Instructions** — step sequence, do/don’t, evaluation criteria.
-* **Context** — geography, sector, policy, data hints.
-* **Output** — schema, length limits, language, citations.
-
-**PICO vs RTF**
-
-* **RTF** is fast for one‑off asks. **PICO** is better for **repeatability and transfer** across teams and markets.
+* Working Python/VS Code/Jupyter environment
+* `requirements.txt` installed
+* Git repo initialized and synced
 
 ---
 
-## Template — RTF (drop‑in)
+## 🛠 Agenda (45 min)
 
-```text
-Role: You are a {{country}} {{sector}} advisor who writes for executives. You prioritize official statistics and university sources.
+|  Time | Segment                                           |
+| :---: | :------------------------------------------------ |
+|  0–5  | Review RTF + PICO concepts                        |
+|  5–15 | Draft your prompt template                        |
+| 15–25 | Run and capture outputs (ChatGPT-5 vs Perplexity) |
+| 25–35 | Evaluate differences + refine                     |
+| 35–45 | Save, log, commit                                 |
 
-Task: Identify the top 3 opportunities and top 3 risks in {{topic}} for {{year}}. Use recent public sources from {{country}} where available. Provide brief rationale and a numeric confidence for each item.
+---
 
-Format: Return two sections:
-1) Executive Brief (120–150 words)
-2) Markdown Table with columns: Item, Type (Opportunity|Risk), Why it matters, Source (name + year), Confidence (0–100)
-Include a final bullet list of the top 3 actions an executive should take next.
+## 🧠 RTF Formula
+
+**Role → Task → Format**
+
+Example for technical AI prompting:
+
 ```
+Role: You are an ML engineer designing a regression model for livestock feed efficiency.
 
-## Template — PICO (drop‑in)
+Task: Suggest 3 feature-engineering techniques to improve prediction accuracy using real-world agronomic data.  
+Include rationale and potential Python libraries.
 
-```text
-Persona: Senior analyst supporting {{org}} leadership in {{country}} for {{sector}} decisions.
-
-Instructions:
-- Collect facts from government, multilateral, and university pages.
-- Prefer sources from the last 24 months; if none exist, state the gap.
-- Flag missing data explicitly under "Limitations".
-- Write in clear business English suitable for a board packet.
-
-Context: Geography={{country}}; Sector={{sector}}; Topic={{topic}}; Year={{year}}.
-
-Output:
-- Executive Brief (≤150 words)
-- Findings Table (Markdown) with columns: Item, Evidence, Source, Date, Confidence
-- Limitations (bullet list)
-- Next Steps (3 bullets)
+Format: Return a Markdown table with columns: Technique | Why it helps | Library | Example function
 ```
 
 ---
 
-## What’s New in ChatGPT‑5 (for this exercise)
+## 🧭 PICO Framework
 
-* **Better reasoning & structure** on multi‑step tasks.
-* **Longer context** for country reports.
-* **More resilient formatting** (tables, headings, bilingual sections).
-* **Faster iterative refinement** when you add constraints.
+| Element      | Purpose                                                                      |
+| ------------ | ---------------------------------------------------------------------------- |
+| Persona      | Defines authority and tone (e.g., “Senior Data Scientist at a research lab”) |
+| Instructions | Explicit steps, criteria, and limitations                                    |
+| Context      | Domain, dataset, and environment details                                     |
+| Output       | Schema or format to verify against (e.g., JSON, table, markdown)             |
 
-> Record whether these advantages are visible vs your prior 3.5 experience.
+Example:
 
----
-
-## Steps
-
-1. Pick a **country + sector + topic** (e.g., Ethiopia · Health · Clinic triage).
-2. Fill the **RTF or PICO template** (above) with placeholders.
-3. Run in **ChatGPT‑5**; save the output.
-4. Run the same prompt in **Perplexity AI**; save the output.
-5. Compare structure, local references, and readability.
-6. Refine the template (tighten output schema, add word limits, add bilingual outputs if needed).
-
----
-
-## Comparison Criteria (score 1–5)
-
-* **Local sources** cited
-* **Structure** matches contract
-* **Readability** for executives
-* **Actionability** (clear next steps)
-* **Consistency** on rerun
-
-> Keep notes on where **ChatGPT‑5** outperforms 3.5 expectations.
-
----
-
-## 📂 Deliverables
-
-* `Day2_structured_prompt.txt` — your finalized **RTF or PICO** template.
-* `Day2_prompt_comparison.md` — outputs from **ChatGPT‑5 vs Perplexity** with commentary.
-* `/logs/day2.md` — reflection log.
-* Commit: `feat: Day 2 structured prompt engineering (RTF/PICO + GPT5 vs Perplexity)`
-
----
-
-## ✅ Rubric (Self‑Check)
-
-* [ ] Structured, localized template created (RTF or PICO)
-* [ ] Prompt tested in both tools
-* [ ] Comparison saved with notes on GPT‑5 improvements
-* [ ] Reflection log added
-* [ ] Commit pushed
-
----
-
-## 📝 Reflection Prompts
-
-1. Tool Differences — Which tool handled local references better?
-2. GPT‑5 vs Older Versions — Noticeable gains in reasoning, formatting, local accuracy?
-3. Workflow Fit — Where does this template add **real value** in your country/sector?
-4. Surprises — Any unexpected wins (bilingual support, structure, citations)?
-5. Next Iteration — Tighten outputs, add redaction rules, or introduce bilingual variants.
-
----
-
-## Role Relevance (who benefits)
-
-* **Data pros:** cleaner, standardized outputs for local datasets.
-* **Entrepreneurs:** reusable market‑intel briefs.
-* **Analysts:** consistent sections for policy and sector reports.
-* **MBA/PMP:** board‑ready one‑pagers.
-* **Military transition:** mission‑style instructions for public service contexts.
-
----
-
-## Workflow (Mermaid)
-
-```mermaid
-flowchart TB
-    A[Start] --> B[Choose country and sector]
-    B --> C[Fill RTF or PICO template]
-    C --> D[Run in ChatGPT 5]
-    C --> E[Run in Perplexity]
-    D --> F[Capture output]
-    E --> F
-    F --> G[Score structure and local references]
-    G --> H{Sensitive data used}
-    H -- yes --> I[Redact and rerun]
-    I --> C
-    H -- no --> J[Save Day2_structured_prompt.txt]
-    J --> K[Save Day2_prompt_comparison.md]
-    K --> L[Write logs/day2.md]
-    L --> M[Commit and push]
-    M --> N[Done]
-
-    subgraph Deliverables
-        J
-        K
-        L
-    end
+```
+Persona: Senior data scientist working with Microsoft Azure ML.  
+Instructions: Evaluate preprocessing methods for predicting cattle feed conversion ratio using probiotics dataset.  
+Context: You have structured numeric + categorical features; output needs to be interpretable and reproducible.  
+Output: 1) 150-word executive summary; 2) Markdown table (Method | Rationale | Complexity | Expected lift %).
 ```
 
 ---
 
-## Tips
+## 🧮 Prompt Testing Steps
 
-* Keep prompts **short but explicit**; the output schema does the heavy lifting.
-* Add **limits** (words, bullets, table columns) to improve repeatability.
-* When in doubt, **state assumptions** and **flag missing data**.
+1. Choose a topic (e.g., “Feed-to-Yield Efficiency AI Model Design”).
+2. Draft one RTF and one PICO prompt.
+3. Run each prompt in ChatGPT-5 and Perplexity.
+4. Save outputs as:
+
+   * `Day2_RTF_output.md`
+   * `Day2_PICO_output.md`
+5. Score each output (1–5) on:
+
+   * Structure matches contract
+   * Reasoning clarity
+   * Data or reference accuracy
+   * Consistency (re-run same prompt)
+   * Readability for exec audience
+6. Record findings in `logs/day2.md`.
+
+---
+
+## 💾 Deliverables
+
+* `Day2_structured_prompt.txt` → Finalized prompt templates
+* `Day2_prompt_comparison.md` → Side-by-side ChatGPT-5 vs Perplexity outputs + comments
+* `logs/day2.md` → Reflection + scorecard
+* **Commit:** `feat: Day 2 structured prompt engineering (RTF/PICO)`
+
+---
+
+## ✅ Rubric (Self-Check)
+
+| Criterion                             | Pass | Partial | Fail |
+| :------------------------------------ | :--: | :-----: | :--: |
+| RTF and PICO templates defined        |   ✅  |    ⚠️   |   ❌  |
+| Prompt tested in both tools           |   ✅  |    ⚠️   |   ❌  |
+| Outputs saved + comparison documented |   ✅  |    ⚠️   |   ❌  |
+| Reflection log completed              |   ✅  |    ⚠️   |   ❌  |
+
+---
+
+## 🧾 Reflection Prompts
+
+1. Which tool handled structure and schema best?
+2. What did ChatGPT-5 improve over 3.5 (reasoning, formatting, citations)?
+3. How could this prompt be repurposed for data labeling or evaluation datasets?
+4. What’s one assumption you’d change to improve transferability to a different domain?
+
+---
+
+## 📈 For Your Mentee (Project Extension)
+
+On Day 3, this prompt becomes a **synthetic data generator**—you’ll feed the structured prompts into a Python script that writes JSONL training examples for LLM fine-tuning.
+
+---
 
