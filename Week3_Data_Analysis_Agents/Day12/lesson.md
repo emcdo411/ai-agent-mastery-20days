@@ -1,196 +1,187 @@
-# 📄 Day 12 (Updated)
+# ⚡ Day 12 — Predictive Governance Agent
+
+*(Foresight · Accountability · Early Warning System)*
+
+---
+
+## 🎯 Purpose
+
+Day 12 uses decision-memory data and governance summaries to simulate a **risk-forecasting AI agent**.
+This agent learns from historical decisions, detects weak signals, and produces an *“early warning brief”* for upcoming sprints or policy cycles.
+
+By the end, you’ll have:
+
+* A **risk-prediction prompt** template.
+* A lightweight dataset showing trends in compliance, ethics, and bias gates.
+* A generated **Governance Forecast Report** — ready for your next board or sprint review.
+
+---
+
+## 📌 Objectives
+
+* Combine **decision_memory.csv** + **governance_summary.csv** into a single predictive dataset.
+* Identify **risk trends** (frequency, stage, owner, root cause).
+* Build a **forecast agent prompt** that produces 7-day or 30-day risk outlooks.
+* Generate a **Governance Forecast Report** (Markdown or PDF).
+* Compare GPT-5’s foresight reasoning to GPT-3.5 for signal detection and mitigation logic.
+
+---
+
+## 🛠 Agenda (≈ 45 min)
+
+|   Time  | Task                                                        |
+| :-----: | :---------------------------------------------------------- |
+|  0 – 10 | Merge governance + decision data (`predictive_dataset.csv`) |
+| 10 – 25 | Run Predictive Governance Agent prompt                      |
+| 25 – 35 | Refine risk narratives + add probability estimates          |
+| 35 – 45 | Save forecast report + reflection + commit                  |
+
+---
+
+## 🧩 Setup
+
+```bash
+mkdir -p wk02/day12
+touch wk02/day12/predictive_dataset.csv
+touch wk02/day12/predictive_governance_agent.md
+```
+
+---
+
+## 🧮 Sample `predictive_dataset.csv`
+
+```csv
+Date,Stage,Owner,RiskType,RiskLevel,PreviousAction,DaysSinceDecision,Outcome
+2025-10-14,Build,Luis Rivera,Ethics,High,Automate Bias Scan,0,In Progress
+2025-10-15,Deploy,Sarah Lee,Compliance,Medium,Controlled Pilot,1,Approved
+2025-10-18,Test,Amy Chen,Policy,Low,Reassess Compliance,4,Approved
+2025-10-21,Build,Luis Rivera,Ethics,High,Add Bias Monitor,7,Pending
+2025-10-25,Deploy,Sarah Lee,Compliance,Medium,Update Checklist,10,Pending
+```
+
+---
+
+## 🧠 Drop-in Prompt — Predictive Governance Agent
+
+```text
+Role: Predictive Governance Analyst Copilot.
+
+Input: predictive_dataset.csv (history of risk decisions and actions).
+
+Tasks:
+1) Detect patterns in risk types and stages over time.  
+2) Estimate probability of recurrence per risk type (next 30 days).  
+3) Identify which owners or stages are most likely to trigger future delays.  
+4) Produce sections:  
+   - Governance Risk Outlook (7 + 30 days)  
+   - Emerging Themes (ethics, compliance, policy)  
+   - Mitigation Playbook (3 recommended actions)  
+   - Confidence Levels (High/Medium/Low)  
+   - Visualization Hints (e.g., bar or heatmap spec)  
+5) Tone: strategic, evidence-driven, board-ready.  
+6) Never invent data — base forecasts on patterns in the dataset.
+```
+
+---
+
+## 📊 Example Output Skeleton
+
 ```markdown
-# 📊 Day 16 — Vibe Coding: *Kaggle Ingest + Robust Cleaning (Governance Lens)*
+# 🔮 Governance Forecast Report — October 2025
 
-Create a **Colab cleaning pipeline** that’s repeatable and governance-aware:
-ingest → audit → clean → profile → export → issues log.
+## 7-Day Outlook
+| Risk Type | Probability | Key Owner | Action Needed |
+|:--|:--|:--|:--|
+| Ethics | 78% | Luis Rivera | Finalize bias scan automation |
+| Compliance | 52% | Sarah Lee | Validate pilot documentation |
+| Policy | 25% | Amy Chen | Review internal change log |
 
-⏱ **Target Time:** ≤ 30 minutes
+## 30-Day Trends
+- Ethics risks reappear every 6-8 days on average.  
+- Compliance issues cluster near deployments.  
+- Policy gaps decline since new checklist adopted.
+
+## Emerging Themes
+1. Bias mitigation automation delays remain systemic.  
+2. Governance readiness highest in planning stages.  
+3. Cross-functional handoffs create risk spikes mid-sprint.
+
+## Mitigation Playbook
+- Deploy “Governance Early Warning” trigger in CI/CD.  
+- Increase data sampling for ethics tests.  
+- Add auto-alert to decision_memory if risk > 60%.  
+
+## Confidence Levels
+🟢 Low risk trend accuracy: High (>85%)  
+🟠 Medium risk trend accuracy: Moderate (60–80%)  
+🔴 High risk trend accuracy: Caution (40–60%)
+
+## Visualization Hint
+Heatmap: X = Stage | Y = Risk Level | Color = Frequency.  
+
+## Sources
+- predictive_dataset.csv (merged Day 9 + 11 data)  
+- decision_memory_report.md (leadership actions)
+```
 
 ---
 
-## ✅ Prereqs
+## 📂 Deliverables
 
-- Free **Kaggle** account → https://www.kaggle.com  
-- One small CSV (≤ 50 MB)
+* `wk02/day12/predictive_dataset.csv`
+* `wk02/day12/predictive_governance_agent.md`
+* `wk02/day12/governance_forecast_report.md`
+* `/logs/day12.md` — reflection log
 
----
+Commit:
 
-## 🌟 Objective
-
-Produce:
-
-- `W3D16_clean.csv` — Cleaned data  
-- `W3D16_profile.md` — Profile summary (nulls, uniques, types)  
-- `W3D16_issues.md` — **Governance + data-quality issues log**  
-- `W3D16_Kaggle_Cleaning.ipynb` — Notebook
+```bash
+git add wk02/day12
+git commit -m "feat(day12): predictive governance agent + forecast report"
+```
 
 ---
 
-## 🛠 Steps
+## ✅ Rubric (Self-Check)
 
-### 1️⃣ Load Data
+| Criterion                             | Met? |
+| :------------------------------------ | :--: |
+| Dataset merged from Day 9 + 11        |  ☑️  |
+| Forecast covers 7 and 30 days         |  ☑️  |
+| Probabilities and confidence included |  ☑️  |
+| Playbook actions specific             |  ☑️  |
+| Reflection log added                  |  ☑️  |
 
-```python
-# ==== Day 16: Kaggle Cleaning (Governance Lens) ====
-import pandas as pd, numpy as np, io, os, re
-from google.colab import files, data_table
+---
 
-print("Upload your Kaggle CSV:")
-uploaded = files.upload()
-fname = next(iter(uploaded))
-df = pd.read_csv(io.BytesIO(uploaded[fname]))
-print("Loaded:", fname, "| Shape:", df.shape)
-data_table.enable_dataframe_formatter()
-df.head()
-2️⃣ Audit & Standardize
-python
-Copy code
-df.columns = (pd.Index(df.columns)
-              .str.strip()
-              .str.replace(r"[^0-9A-Za-z]+","_", regex=True)
-              .str.lower()
-              .str.strip("_"))
+## 📝 Reflection Prompts (Day 12)
 
-def audit_dataframe(df):
-    info = []
-    for col in df.columns:
-        s = df[col]
-        info.append({
-            "column": col,
-            "dtype": str(s.dtype),
-            "non_null": int(s.notna().sum()),
-            "nulls": int(s.isna().sum()),
-            "null_%": round(100 * s.isna().mean(), 2),
-            "unique": int(s.nunique(dropna=True))
-        })
-    return pd.DataFrame(info).sort_values(["null_%","unique"], ascending=[False, True])
+1. Which risk type shows the strongest recurrence pattern?
+2. What signals would an AI miss without human governance context?
+3. How can you operationalize these forecasts in real CI/CD or policy cycles?
+4. How can this forecast feed Day 13’s **Governance Board Dashboard**?
 
-profile = audit_dataframe(df)
-profile.head(10)
-3️⃣ Robust Cleaning + PII/ID Handling
-python
-Copy code
-# --- PII/ID heuristics ---
-import re
-email_pat = re.compile(r".*@.*\..*")
-phone_pat = re.compile(r"^\+?\d[\d\-\s()]{6,}$")
-id_like = {"national_id","ssn","nin","passport","tax_id","nhif","patient_id","id"}
+---
 
-pii_cols = []
-for c in df.columns:
-    s = df[c].astype(str).head(50)
-    if c in id_like or s.str.contains(email_pat).any() or s.str.contains(phone_pat).any():
-        pii_cols.append(c)
+## 🧭 Workflow (Mermaid)
 
-# --- Normalize strings ---
-obj_cols = df.select_dtypes(include="object").columns
-for c in obj_cols:
-    df[c] = df[c].astype(str).str.strip().replace({"": np.nan})
+```mermaid
+flowchart TB
+  A[Merge Day 9 + 11 data → predictive_dataset.csv] --> B[Run Predictive Governance Prompt]  
+  B --> C[Generate Forecast Report (7d/30d)]  
+  C --> D[Refine Playbook & Confidence Levels]  
+  D --> E[Save & Reflect]  
+  E --> F[Commit and Push]  
+```
 
-# --- Try numeric coercion ---
-for c in obj_cols:
-    coerced = pd.to_numeric(df[c], errors="coerce")
-    if coerced.notna().mean() > 0.6:
-        df[c] = coerced
+---
 
-# --- Dates ---
-for c in df.columns:
-    if any(k in c for k in ["date","time","_dt","_at"]):
-        try: df[c] = pd.to_datetime(df[c], errors="coerce")
-        except: pass
+## 💡 Tips
 
-# --- Nulls ---
-num_cols = df.select_dtypes(include=[np.number]).columns
-if len(num_cols):
-    df[num_cols] = df[num_cols].fillna(df[num_cols].median(numeric_only=True))
-cat_cols = df.select_dtypes(exclude=[np.number, "datetime64[ns]"]).columns
-for c in cat_cols:
-    if df[c].isna().any():
-        mode = df[c].mode(dropna=True)
-        if not mode.empty: df[c] = df[c].fillna(mode[0])
+* Use real dates and owners from prior logs to improve pattern credibility.
+* When confidence is low, flag it explicitly — never “fake certainty.”
+* Try pairing the forecast with an R or Plotly chart to show risk trajectories.
+* Your output becomes input for **Day 13: Governance Board Dashboard** — where leadership finally sees the big picture in one screen.
 
-# --- Duplicates ---
-before = len(df); df = df.drop_duplicates(); after = len(df)
-dups = before - after
-
-# --- IQR clip (defensive) ---
-def clip_iqr(s, k=1.5):
-    q1, q3 = s.quantile([0.25,0.75]); iqr = q3 - q1
-    return s.clip(lower=q1-k*iqr, upper=q3+k*iqr)
-for c in num_cols: df[c] = clip_iqr(df[c])
-
-issues = []
-if pii_cols: issues.append(f"PII/ID-like columns detected: {pii_cols}")
-if dups: issues.append(f"Duplicate rows removed: {dups}")
-hi_null = profile[profile["null_%"]>=10.0]["column"].tolist()
-if hi_null: issues.append(f"Columns with ≥10% nulls: {hi_null}")
-4️⃣ Profile, Issues Log & Exports
-python
-Copy code
-# ---- Profile MD ----
-lines = [
-    "# W3D16 Profile Report",
-    f"**Rows x Cols:** {df.shape[0]} x {df.shape[1]}",
-    "## Column Summary",
-    audit_dataframe(df).to_markdown(index=False),
-]
-with open("W3D16_profile.md","w",encoding="utf-8") as f: f.write("\n\n".join(lines))
-
-# ---- Issues Log (governance) ----
-g = ["# W3D16 Issues Log (Governance + Data Quality)"]
-g.append("- **PII Handling:** " + ("Has PII/ID-like → review + minimize" if pii_cols else "None detected by heuristics"))
-g.append("- **Duplicates Removed:** " + str(dups))
-if hi_null: g.append(f"- **High Null Columns (≥10%):** {hi_null}")
-g.append("- **Notes:** Verify lawful basis and data-sharing agreements before external publication.")
-with open("W3D16_issues.md","w",encoding="utf-8") as f: f.write("\n".join(g))
-
-# ---- Save CSV ----
-df.to_csv("W3D16_clean.csv", index=False)
-
-print("Saved: W3D16_clean.csv, W3D16_profile.md, W3D16_issues.md")
-
-# ---- Offer downloads ----
-try:
-    files.download("W3D16_clean.csv")
-    files.download("W3D16_profile.md")
-    files.download("W3D16_issues.md")
-except: print("If downloads blocked → File > Download or mount Drive.")
-🔗 Pipeline Diagram
-mermaid
-Copy code
-%%{ init: { "theme": "dark" } }%%
-flowchart LR
-  KAGGLE["📦 Kaggle Dataset"] --> LOAD["⬆️ Upload to Colab"]
-  LOAD --> AUDIT["🔍 Audit & Standardize"]
-  AUDIT --> CLEAN["🧼 Robust Cleaning + PII Check"]
-  CLEAN --> PROFILE["📝 Profile (MD)"]
-  CLEAN --> ISSUES["⚠️ Issues Log (MD)"]
-  CLEAN --> OUT["📂 W3D16_clean.csv"]
-📂 Deliverables
-W3D16_Kaggle_Cleaning.ipynb
-
-W3D16_clean.csv
-
-W3D16_profile.md
-
-W3D16_issues.md
-
-Day16_notes.md (dataset link, why it matters, top issues)
-
-✅ Rubric
- Columns normalized; dups removed
-
- PII/ID checked and documented
-
- Profile & Issues Log exported
-
- Clean CSV saved
-
-🎯 Role Relevance
-Municipal/Ministry teams: cleaner inputs → fewer dashboard disputes
-
-Analysts/PMO: auditable data hygiene (profile + issues log)
-
-Leadership: documentation that supports trust & transparency
+---
 
