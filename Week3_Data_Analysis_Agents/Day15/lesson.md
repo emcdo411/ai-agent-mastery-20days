@@ -1,120 +1,170 @@
-# 📊 Day 15 — Observable Mini Dashboard (2 Charts + Filter)
+# ⚙️ Day 15 — Policy-Aware Runbook Agent
 
-Turn your cleaned CSV into a **tiny dashboard**:
-- **Ranking** (Avg metric by group)
-- **Distribution** *or* **Trend** (if date exists)
-- **One interactive filter**
-- Publish + export **two PNGs** for your repo
+*(Auto-response playbooks for Ethics, Compliance, and Policy events)*
 
-⏱ Timebox: ≤ 30 minutes
+## 🎯 Purpose
+
+Transform your static dashboards and stakeholder comms into **living policy runbooks** that trigger the right sequence of actions when governance thresholds are crossed.
+
+You’re not just observing — you’re **orchestrating compliant, ethical recovery** automatically.
 
 ---
 
-## 🛠 Steps
+## 📌 Objectives
 
-### 1) Create Notebook
-- observablehq.com → New → `W3D15_Mini_Dashboard`
+* Detect when a **governance gate** (Ethics / Compliance / Policy) turns 🟥 red.
+* Auto-generate an **incident-specific runbook** with owners, timelines, and evidence.
+* Link the runbook to your **Decision Memory** and **Board Dashboard**.
+* Produce ready-to-send updates for Engineering, Legal/GRC, and the Board.
 
-### 2) Load Data (upload or GitHub URL)
-```js
-import * as Plot from "@observablehq/plot";
-import * as d3 from "d3";
+---
 
-let data;
-try { data = await FileAttachment("WD315_clean.csv").csv({ typed: true }); }
-catch { data = await FileAttachment("W3D15_clean.csv").csv({ typed: true }); }
-(Or replace with d3.csv("RAW_URL", d3.autoType))
+## 🛠 Agenda (≈ 60 min)
 
-3) Auto-Detect + Controls
-js
-Copy code
-const cols = Object.keys(data[0] ?? {});
-const numericCols = cols.filter(c => typeof (data.find(d => d[c] != null)?.[c]) === "number");
-const categoricalCols = cols.filter(c => !numericCols.includes(c));
+|  Time | Task                                                  |
+| :---: | :---------------------------------------------------- |
+|  0–10 | Define trigger conditions (red gates / risk ≥ 70%)    |
+| 10–25 | Write Runbook Agent prompt                            |
+| 25–40 | Generate sample runbooks (Ethics, Compliance, Policy) |
+| 40–55 | Link to Day 13–14 data and Decision Memory            |
+| 55–60 | Save + commit + reflect                               |
 
-viewof groupBy = Inputs.select(categoricalCols, { label: "Group by", value: categoricalCols[0] });
-viewof metric  = Inputs.select(numericCols, { label: "Measure", value: numericCols[0] });
-viewof topN    = Inputs.range([3, 25], { label: "Top N", step: 1, value: 10 });
+---
 
-const searchCol = categoricalCols[0];
-viewof search = Inputs.text({ label: `Filter (${searchCol})`, placeholder: "type to filter…" });
-4) Filter + Aggregate
-js
-Copy code
-const filtered = search
-  ? data.filter(d => String(d[searchCol] ?? "").toLowerCase().includes(search.toLowerCase()))
-  : data;
+## 🧩 Setup
 
-const grouped = d3.rollups(
-  filtered.filter(d => d[groupBy] != null && d[metric] != null),
-  v => d3.mean(v, d => d[metric]),
-  d => String(d[groupBy])
-).sort((a,b) => d3.descending(a[1], b[1])).slice(0, topN);
-5) Chart 1 — Ranking
-js
-Copy code
-Plot.plot({
-  marginLeft: 120,
-  width: 820,
-  height: 420,
-  x: { label: "Avg " + metric },
-  y: { label: groupBy },
-  marks: [ Plot.barX(grouped, { y:d=>d[0], x:d=>d[1] }), Plot.ruleX([0]) ]
-})
-6) Chart 2 — Distribution or Trend
-js
-Copy code
-const dateCol = cols.find(c => /date|time|_at$|_dt$/i.test(c));
-let chart2;
+```bash
+mkdir -p wk02/day15
+cp wk02/day13/board_dashboard_packet.md wk02/day15/
+cp wk02/day11/decision_memory/decision_log.csv wk02/day15/
+cp wk02/day12/predictive_dataset.csv wk02/day15/
+touch wk02/day15/runbook_agent_prompt.md
+touch wk02/day15/ethics_runbook.md
+touch wk02/day15/compliance_runbook.md
+touch wk02/day15/policy_runbook.md
+```
 
-if (dateCol && filtered.some(d => d[dateCol] instanceof Date)) {
-  const byDay = d3.rollups(
-    filtered.filter(d => d[dateCol] && d[metric] != null),
-    v => d3.mean(v, d => d[metric]),
-    d => d3.timeDay(d[dateCol])
-  ).sort((a,b) => d3.ascending(a[0], b[0]));
-  chart2 = Plot.plot({ width: 820, height: 320, marks: [ Plot.line(byDay, { x:d=>d[0], y:d=>d[1] }), Plot.ruleY([0]) ] });
-} else {
-  chart2 = Plot.plot({
-    width: 820, height: 320,
-    marks: [ Plot.rectY(filtered.filter(d => d[metric] != null), Plot.binX({ y:"count" }, { x:d=>d[metric] })), Plot.ruleY([0]) ]
-  });
-}
-chart2
-7) Publish + Export
-Share → Publish (or Draft link)
+---
 
-Download PNG:
+## 🧠 Runbook Agent Prompt — `runbook_agent_prompt.md`
 
-W3D19_ranking.png
+```text
+Role: Policy-Aware Runbook Agent
 
-W3D19_distribution_or_trend.png
+Inputs:
+- predictive_dataset.csv → current risk levels by gate
+- decision_log.csv → owner, follow-up date, decision status
+- board_dashboard_packet.md → context and recommendations
 
-📦 Deliverables
-W3D19_Dashboard.md (notebook URL, controls used, 2–3 insights)
+Rules:
+1. If RiskLevel ≥ 70 for any gate (Ethics, Compliance, Policy), generate a Runbook.  
+2. Each Runbook includes:
+   - Incident Header (ID, Gate, Trigger Date)  
+   - Summary (what happened + data point)  
+   - Immediate Actions (3–5 items with owners + due dates)  
+   - Governance Context (citations to policies / laws)  
+   - Communications Plan (who is notified + how)  
+   - Audit Evidence (files + timestamps)  
+3. Generate three versions (Ethics / Compliance / Policy) if applicable.  
+4. Output in Markdown for insertion into Git or Docs.  
+5. If no red gate, output “System nominal — no runbook required.”  
+```
 
-W3D19_ranking.png
+---
 
-W3D19_distribution_or_trend.png
+## 📋 Example Output — `ethics_runbook.md`
 
-💼 Why This Hits
-Analysts/Policy: two visuals answer 80% of “what’s happening?”
+```markdown
+# 🟥 Ethics Runbook — Incident ER-2025-1014  
+**Trigger:** Bias Detection Failure in Model CI/CD (78 %)   
+**Date:** Oct 14 2025  
 
-Leaders: one filter = faster conversations
+## Summary
+Automated scan flagged potential bias in loan-eligibility model (>5 % variance by region).  
+Gate = Ethics; threshold = 70 %; actual = 78 %.  
 
-Gov/PMO: draft → publish → PNG in under 30 mins
+## Immediate Actions
+| Owner | Action | Due |
+|:--|:--|:--:|
+| Luis Rivera | Pause deployment branch | Oct 15 |
+| Sarah Lee | Re-run bias mitigation pipeline | Oct 16 |
+| Priya Chen | Update Model Card + Ethics Report | Oct 17 |
 
-🔗 Workflow Map
-mermaid
-Copy code
-%%{ init: { "theme": "dark" } }%%
-flowchart TD
-  CLEAN["🧽 Clean CSV (Day 16)"] --> NB["📓 Observable Notebook (Day 19)"]
-  NB --> RANK["📊 Ranking"]
-  NB --> DIST["📈 Distribution/Trend"]
-  NB --> FILTER["🔍 Filter"]
-  RANK --> EXPORT["🖼 Export PNGs"]
-  DIST --> EXPORT
-  FILTER --> EXPORT
-  EXPORT --> DELIV["📦 Deliverables"]
+## Governance Context
+- Policy Ref: AI Ethics Standard 3.2 (Non-Discrimination)  
+- Legal Basis: EU AI Act Article 10(5)  
+- Org Control: DecisionID D-002  
+
+## Communications Plan
+Notify: Engineering, Legal/GRC, Board.  
+Channel: Slack + Email.  
+Escalation to Chief Ethics Officer if >80 % risk or repeat within 7 days.  
+
+## Audit Evidence
+- predictive_dataset.csv (timestamp 2025-10-14)  
+- decision_log.csv (D-002)  
+- board_dashboard_packet.md (section 3.2)  
+```
+
+---
+
+## 🧭 Workflow Diagram (ASCII-safe)
+
+```mermaid
+flowchart LR
+  A[Monitor Predictive Dataset] --> B{Gate ≥ 70% Risk?}  
+  B -- Yes --> C[Generate Runbook]  
+  C --> D[Notify Stakeholders]  
+  D --> E[Update Decision Memory]  
+  E --> F[Commit Runbook to Repo]  
+  B -- No --> G[System Nominal]
+```
+
+---
+
+## 📂 Deliverables
+
+* `wk02/day15/runbook_agent_prompt.md`
+* `wk02/day15/ethics_runbook.md` / `compliance_runbook.md` / `policy_runbook.md`
+* Updated Decision Memory (log link added)
+* `/logs/day15.md` (3-bullet reflection)
+
+Commit:
+
+```bash
+git add wk02/day15  
+git commit -m "feat(day15): policy-aware runbook agent + sample incidents"
+```
+
+---
+
+## ✅ Rubric (Self-Check)
+
+| Criterion                                  | Met? |
+| :----------------------------------------- | :--: |
+| Runbooks generated for ≥ 1 red gate        |  ☑️  |
+| Includes owners, due dates, citations      |  ☑️  |
+| Governance context mapped to Decision IDs  |  ☑️  |
+| Communications plan defined                |  ☑️  |
+| Linked back to Dashboard & Decision Memory |  ☑️  |
+
+---
+
+## 📝 Reflection Prompts (Day 15)
+
+1. Which gate is most likely to fail first, and why?
+2. What threshold should trigger human review vs auto runbook?
+3. Where can you auto-archive these runbooks for auditors (Git, S3, SharePoint)?
+4. How could you expand to sector-specific policies (health, finance, education)?
+
+---
+
+## 💡 Tips
+
+* If you use JSON risk streams, wrap in a Python watcher to trigger Day 15 prompt automatically.
+* Add “Compliance Clock”: auto-remind owners 72 h before deadline.
+* Use metadata tags (e.g., `incident_type=ethics`, `severity=high`) for searchability.
+* Keep all runbooks under DACR-licensed repo for audit consistency.
+
+---
 
