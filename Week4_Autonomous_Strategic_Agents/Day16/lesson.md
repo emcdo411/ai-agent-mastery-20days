@@ -1,227 +1,104 @@
-# 🚀 Day 16 — FlowiseAI Starter: Local Strategic Agent (Ollama + Chroma RAG, Governance-Ready)
+✅ Day 16 — Local Strategic Agent (Flowise + Ollama + Chroma, Governance-Ready)
 
-Spin up a **free, local** strategic Q\&A agent in FlowiseAI that:
+Save as: wk03/day16_local_strategic_agent.md
 
-* Uses **Ollama** (`llama3.1:8b` or `phi3:mini`) for on-device inference
-* Indexes your repo’s `.md` / `.csv` with **Chroma** vector search
-* Returns **filename-cited** answers (no hallucinated sources)
-* Includes **governance guardrails** (PII scan, scope limits, audit notes)
+🎯 Purpose
 
-⏱ Target Vibe: **≤ 30 minutes**
+Stand up a private, offline RAG agent that reads your repo, answers with filename citations, and respects your governance context pack (Day 7).
 
----
+📌 Objectives
 
-## 🎯 Outcomes (what you’ll have by the end)
+Run Flowise locally and wire Ollama + Chroma.
 
-* A running **Flowise** instance at `http://localhost:3000`
-* A working **RAG chatflow** exported as `W4D16_flowise_chatflow.json`
-* A **governance-aware system prompt** (citations, redaction hints)
-* A **notes file** template to prove how the agent was configured
+Enforce citations, scope limits, and PII masking.
 
----
+Export chatflow + notes as auditable assets.
 
-## ⚡ Quick Setup (ship it first, perfect it later)
+🛠 Agenda (≈30 min)
 
-### 1) Install Ollama
+Install/run → Build chatflow → Test prompts → Export + commit.
 
-**Windows (PowerShell):**
+Setup (quick)
+# Ollama
+# pull: phi3:mini, llama3.1:8b, nomic-embed-text
 
-```powershell
-winget install Ollama.Ollama
-ollama pull phi3:mini
-ollama pull llama3.1:8b
-ollama pull nomic-embed-text
-```
-
-**macOS / Linux:** download from [https://ollama.com/download](https://ollama.com/download) and pull the same models.
-
-### 2) Run Flowise (Docker recommended)
-
-```bash
-docker run -d --name flowise \
-  -p 3000:3000 \
+# Flowise (Docker)
+docker run -d --name flowise -p 3000:3000 \
   -e FLOWISE_USERNAME=admin -e FLOWISE_PASSWORD=admin \
-  -v flowise_data:/root/.flowise \
-  flowiseai/flowise
-```
+  -v flowise_data:/root/.flowise flowiseai/flowise
 
-> Optional: `-e LOG_LEVEL=debug` for easier troubleshooting.
+Chatflow (nodes left→right)
 
-### 3) Build Chatflow (in the Flowise UI)
+Chat Input
 
-**Add nodes in this order and wire them left → right:**
+Document Loader (globs: **/*.md, **/*.csv)
 
-1. **Chat Input**
-2. **Document Loader → Local Files** (`**/*.md, **/*.csv`)
-3. **Text Splitter** (Chunk size **1000**, Overlap **150**)
-4. **Embeddings → Ollama** (`nomic-embed-text`)
-5. **Vector Store → Chroma** (collection: `aimastery_w4_day16`)
-6. **Retriever** (Top-K **4–6**, Temperature **0** downstream)
-7. **Prompt Template** (system)
-8. **LLM → Ollama** (`phi3:mini` to start, or `llama3.1:8b`)
-9. **Chat Output**
+Text Splitter (chunk 1000 / overlap 150)
 
-**System Prompt (paste into Prompt Template):**
+Embeddings (Ollama: nomic-embed-text)
 
-```
-You are a Strategic AI Coach for a public-sector skills program.
-Use ONLY retrieved repository context. If the answer is not in the retrieved files,
-say “I don’t have that in the repo yet.” and suggest which file to add.
+Vector Store (Chroma; collection aimastery_wk03_d16)
 
-OUTPUT RULES
-- Cite filenames (and headings if available) after each bullet using [file.md].
-- Prefer concise bullets + a final “Action List”.
-- Never reveal API keys, secrets, or personal data. If detected, mask as [REDACTED].
-- Keep analysis grounded: no speculation beyond retrieved content.
+Retriever (Top-K 5; cosine; threshold 0.35)
 
-TONE
-- Executive brief. Plain language. Region-aware (Ethiopia/Caribbean). If helpful,
-  add an Amharic summary line prefixed with “አጭር ማጠቃለያ:”.
-```
+Prompt Template (system, below)
 
-**Retriever settings (good defaults):**
+LLM (Ollama: phi3:mini → upgrade to llama3.1:8b later)
 
-* Vector similarity: cosine
-* Top-K: **5**
-* Score threshold: **0.35**
-* Rerank: off (local-only)
-* Return metadata: **path / filename**
+Chat Output
 
-### 4) Test Prompts (copy/paste)
+System Prompt (paste):
 
-* “Summarize all **Week 2** deliverables and **cite filenames**.”
-* “Create a **Day 16** prep checklist with file references and an Amharic summary.”
-* “What **PII risks** exist in our data workflows? Cite the files that discuss them.”
+You are a Strategic AI Coach grounded ONLY in retrieved repository context.
+If the answer is not present, say: “I don’t have that in the repo yet.”
+Then suggest which file to add.
 
-### 5) Export + Commit
+Rules:
+- Cite filenames (and heading if present) after each relevant bullet: [file.md].
+- Keep to concise bullets + a final Action List.
+- Mask obvious PII (emails/phones/IDs) as [REDACTED].
+- No speculation. No external links unless in the repo.
 
-* Flowise → **Export** chatflow → `W4D16_flowise_chatflow.json`
-* Screenshot the graph → `W4D16_flowise_screenshot.png`
-* Create `W4D16_flowise_notes.md` (template provided below)
+Tone: executive, plain language, region-aware when relevant.
 
-Done ✅ — local, private, cited RAG agent online.
+Test Prompts
 
----
+“Summarize Week 2 deliverables with file citations.”
 
-## 🧰 Governance Add-Ons (2–5 min, optional but recommended)
+“List PII risks mentioned in the repo; where are they documented?”
 
-### A) Pre-Index Redaction Filter (PII hint)
+“Create a Day 16 prep checklist with references.”
 
-Before “Text Splitter”, insert a **Text Preprocessor** node (or use the Loader’s transform) to mask obvious patterns:
+📂 Deliverables
 
-```
-- Mask emails:    /\b\S+@\S+\.\S+\b/ → [REDACTED_EMAIL]
-- Mask phones:    /\+?\d[\d\-\s()]{6,}\d/ → [REDACTED_PHONE]
-- Mask IDs:       /(NIN|SSN|Passport|Tax|NHIF)\s*[:#]?\s*\w+/i → [REDACTED_ID]
-```
+wk03/day16/W3D16_flowise_chatflow.json
 
-> Keep originals in Git, but **exclude sensitive files** from the collection until reviewed.
+wk03/day16/W3D16_flowise_screenshot.png
 
-### B) Scope Guard (User Message Prefix)
+wk03/day16/W3D16_notes.md (model/version, files indexed, Top-K/threshold, sample Q&A)
 
-Add a **Message Prefix** node:
-“If your question is outside Week 1–3 repo content, respond with:
-‘Outside current scope. Add source file to repo (e.g., /docs/policy.md).’”
+✅ Rubric
 
-### C) Audit Note (for leaders)
+Answers include [file.md] citations
 
-In `W4D16_flowise_notes.md`, include:
+Scope guard returns “don’t have that…” when appropriate
 
-* **Model & version** (`phi3:mini`, `llama3.1:8b`)
-* **Collection name** (`aimastery_w4_day16`)
-* **Files indexed** (paths/globs)
-* **Top-K and threshold**
-* **Redaction rules enabled?** (yes/no)
-* **Example Q\&A** with citations
+PII masks appear when patterns detected
 
----
+Notes file complete
 
-## 🔬 Deep Dive (why these choices)
+📝 Reflection
 
-* **phi3\:mini** is fast on modest machines; upgrade to **llama3.1:8b** when you want fuller answers.
-* **Chunk 1000 / overlap 150** balances recall vs. duplication for `.md` reports.
-* **Chroma** is lightweight and pairs well with Ollama; it keeps vectors local (data residency win).
-* **Citations** are enforced by prompt + metadata; if missing, tune Top-K or chunk size, not temperature.
+Where did citations fail?
 
----
+What Top-K/threshold produced best signal?
 
-## 🧪 Validation Checklist (5 min)
+Any files to exclude or add?
 
-* [ ] Answers consistently include **\[file.md]** citations
-* [ ] “Outside scope” guard triggers for non-repo questions
-* [ ] PII patterns are **masked** in responses
-* [ ] Performance acceptable on `phi3:mini` (upgrade later if needed)
-* [ ] Notes file captures **config + sample Q\&A**
-
----
-
-## 🧱 Troubleshooting (fast)
-
-* **Ollama not found** → open `http://localhost:11434` or restart the Ollama service/app.
-* **Flowise blank** → `docker logs flowise` for stacktrace; verify port 3000 free.
-* **Answers hallucinate files** → lower Top-K to 4 and set score threshold ≥ 0.35; tighten system prompt.
-* **Slow retrieval** → reduce file glob scope or switch to `phi3:mini`.
-
----
-
-## 📦 Deliverables
-
-* `W4D16_flowise_chatflow.json` (exported graph)
-* `W4D16_flowise_screenshot.png` (UI graph)
-* `W4D16_flowise_notes.md` (use template)
-
-**Template: `W4D16_flowise_notes.md`**
-
-```md
-# W4D16 — Flowise Local Strategic Agent (Notes)
-
-**LLM:** phi3:mini (Ollama) — fallback: llama3.1:8b  
-**Embeddings:** nomic-embed-text (Ollama)  
-**Vector Store:** Chroma — collection: `aimastery_w4_day16`  
-**Retriever:** Top-K=5, threshold=0.35 (cosine)  
-**Files Indexed:** `**/*.md`, `**/*.csv` (exclude: `/secrets/`, PII-heavy docs)
-
-## Prompt Highlights
-- Use ONLY retrieved context; if missing → suggest file to add.
-- Cite filenames after bullets: [file.md]
-- Mask PII; never reveal keys/secrets
-- Regional note: add Amharic “አጭር ማጠቃለያ” line when helpful
-
-## Sample Q&A
-**Q:** Summarize Week 2 deliverables with citations.  
-**A:** 
-- Day 8 political flow in `Week2/Day08/political_flow.md`  
-- Day 9 context pack in `Week2/Day09/README_context.md`  
-- …  
-**Actions:**  
-- [ ] Add Ethiopia case metrics to `process_map.md`  
-- [ ] Publish Databutton link in `Day13/databutton_app.md`
-
-## Known Gaps / Next Iteration
-- Add `/policies/data_sharing.md` to clarify RAG scope  
-- Consider rerank node if Top-K > 6
-```
-
----
-
-## 🎯 Role Relevance
-
-* **Analysts / MBA / PMP:** filename-cited briefs; shareable notes for leadership
-* **Entrepreneurs:** private doc Q\&A with zero cloud dependency
-* **Military/Veteran Transition:** SITREP-style summaries + action lists
-* **Municipal Leaders (Ethiopia/Caribbean):** local, low-cost, offline-capable knowledge assistant
-
----
-
-## 🌍 Localization Tip (optional Amharic line)
-
-Add a final Amharic bullet when summarizing public docs:
-
-```
-አጭር ማጠቃለያ: ይህ ሪፖርት በመዝገብ ፋይሎች ላይ ተመርኮዝ የተገኘ መረጃ ብቻን ያጠቃልላል።
-```
-
----
-
-✨ *Day 16 vibe:* you now have a **private AI analyst** that reads your repo, **cites filenames**, and respects **governance guardrails**—all offline and free.
+🧭 Flow (Mermaid)
+flowchart LR
+  A[Chat Input] --> B[Retriever]
+  B --> C[Prompt: Repo-only + Citations]
+  C --> D[LLM (Ollama)]
+  D --> E[Chat Output]
 
