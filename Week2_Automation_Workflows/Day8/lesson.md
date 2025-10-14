@@ -1,87 +1,129 @@
-# ⚡ Enhanced Day 8 — How Software Gets Built (End-to-End + Governance Lens)
+# ⚡ Day 8 — How Software Gets Built (End-to-End + Governance Lens)
 
-````markdown
-<!-- Licensed under DACR-1.1 — see LICENSE.md -->
+## 🎯 Purpose
 
-# ⚡ Day 10 — How Software Gets Built (End-to-End + Governance Lens)
+Day 8 connects **context engineering** to the **real-world build process**.
+You’ll visualize how code moves from idea → deployment and where **AI governance checkpoints** protect quality, ethics, and compliance.
 
-## 📌 Objective
-- Document a **lightweight SDLC** (software development life cycle).  
-- Add an **AI governance overlay** showing where leaders, regulators, or boards should review or approve.  
-- Publish a **visual flow** + mini backlog.  
+By the end, you’ll understand:
+
+* Where each **AI agent** (research, summarization, localization, visualization) plugs into the SDLC.
+* How **governance overlays** (policy, ethics, compliance) intersect with engineering stages.
+* How to express that flow in Markdown + Mermaid + backlog form.
 
 ---
 
-## 🛠 Steps (≤30 min)
+## 📌 Objectives
 
-1. **Create**
-   - `Week2_Vibe_Coding/Day10/build_flow.md`
+* Document a **lightweight SDLC** (Software Development Life Cycle).
+* Add an **AI-Governance overlay** for review/approval points.
+* Draft a **mini backlog** connecting policy and engineering.
+* Prepare to link this flow into your future Week 2 dashboard agent.
 
-2. **Paste diagram**
-   ```mermaid
-   flowchart LR
-     A[Idea<br/>PRD] --> B[Plan<br/>issues]
-     B --> C[Build<br/>feature branch]
-     C --> D[Test<br/>unit + manual]
-     D --> E[Review<br/>PR + approvals]
-     E --> F[Merge<br/>main]
-     F --> G[Deploy<br/>preview/prod]
-     G --> H[Monitor<br/>metrics/logs]
-     H --> I[Iterate<br/>next issues]
+---
 
-     %% Governance overlay
-     A --> A1[Policy Alignment<br/>Stakeholder Review]
-     D --> D1[Ethics Check<br/>Bias Scan]
-     G --> G1[Risk + Compliance Signoff]
+## 🛠 Agenda (30 – 45 min)
+
+|  Time | Task                                                        |
+| :---: | :---------------------------------------------------------- |
+|  0–10 | Create diagram (`build_flow.md`)                            |
+| 10–25 | Add governance overlay nodes (policy + ethics + compliance) |
+| 25–35 | Write 3–4 backlog items tied to governance user stories     |
+| 35–45 | Save + reflect + commit                                     |
+
+---
+
+## 🧩 Create
+
+```bash
+mkdir -p wk02/day08
+touch wk02/day08/build_flow.md
+```
+
+---
+
+## 🧠 Paste into `build_flow.md`
+
+````markdown
+# 🔧 How Software Gets Built (End-to-End + Governance Lens)
+
+```mermaid
+flowchart LR
+  A[Idea / PRD] --> B[Plan / Issues]
+  B --> C[Build / Feature Branch]
+  C --> D[Test / Unit + Manual]
+  D --> E[Review / PR + Approvals]
+  E --> F[Merge / Main]
+  F --> G[Deploy / Preview → Prod]
+  G --> H[Monitor / Metrics + Logs]
+  H --> I[Iterate / Next Issues]
+
+  %% Governance Overlay
+  A --> A1[Policy Alignment / Stakeholder Review]
+  D --> D1[Ethics + Bias Scan]
+  E --> E1[Security + Privacy Approval]
+  G --> G1[Risk + Compliance Sign-Off]
 ````
 
-3. **Draft mini backlog**
+### 🗂 Governance Backlog (Examples)
 
-   * List 3–4 backlog items tied to a “governance-aware PRD”
-     Example:
-
-     * [ ] Draft privacy checklist for new chatbot.
-     * [ ] Add audit log feature.
-     * [ ] Create fallback plan for outage.
+* [ ] Add AI Ethics Checklist to Test Stage (D1)
+* [ ] Require Security Sign-Off for Major Deployments (E1 → G1)
+* [ ] Integrate Bias Scanner into CI/CD Pipeline (D)
+* [ ] Draft Policy Alignment Template for All New PRDs (A1)
+* [ ] Publish “Decision Log” schema for audit trail (G1)
 
 ---
 
 ## 📂 Deliverables
 
-* `Week2_Vibe_Coding/Day10/build_flow.md`
-* Mini backlog list
-* `/logs/day10.md`
+* `wk02/day08/build_flow.md` (with Mermaid diagram + backlog)
+* `/logs/day8.md` — reflection log (3 bullets on insights)
 
-Commit: `docs(day10): build flow + mini backlog with governance overlay`
+Commit:
+
+```bash
+git add wk02/day08
+git commit -m "docs(day8): end-to-end build flow + governance overlay"
+```
 
 ---
 
 ## ✅ Rubric (Self-Check)
 
-* [ ] Flow includes **review, deploy, monitor**.
-* [ ] Backlog ties to **policy or governance user stories**.
-* [ ] Governance checkpoints visible (policy, ethics, compliance).
+| Criterion                                                 | Met? |
+| :-------------------------------------------------------- | :--: |
+| Flow includes Plan → Deploy → Monitor                     |  ☑️  |
+| Governance overlay visible (policy / ethics / compliance) |  ☑️  |
+| Backlog ties to policy or governance stories              |  ☑️  |
+| Mermaid diagram renders cleanly (GitHub safe syntax)      |  ☑️  |
+| Reflection log added                                      |  ☑️  |
 
 ---
 
-## 📝 Reflection Prompts (Day 10)
+## 📝 Reflection Prompts (Day 8)
 
-1. Where will **quality** most likely break?
-2. Where should **leadership/governance reviews** happen?
-3. What’s your **rollback plan** if deployment introduces risk?
-4. How do you balance **speed vs. oversight**?
+1. Where does **quality** usually break in your pipeline?
+2. Which stage needs a **leadership review** most urgently?
+3. If you had to **automate one governance gate**, which would it be and why?
+4. How do you balance **speed vs oversight** in AI-assisted builds?
+5. What would a “citizen impact check” look like in your context?
 
 ---
 
 ## 🎯 Role Relevance
 
-* **Political Leaders:** See where **policy review fits inside tech projects**.
-* **Municipal Managers:** Learn how to demand checkpoints without coding.
-* **AI Governance Teams:** Insert **bias scans, ethics reviews, compliance gates**.
-* **Non-Experts:** Understand the “black box” of software in plain workflows.
+| Audience                  | Value                                                             |
+| :------------------------ | :---------------------------------------------------------------- |
+| **Technical Leads / PMs** | See where AI and governance intersect in SDLC.                    |
+| **Policy / Ethics Teams** | Learn how to embed review points without blocking engineering.    |
+| **Municipal Leaders**     | Understand software accountability in plain language.             |
+| **Executives**            | Gain a bird’s-eye view of how compliance and innovation co-exist. |
 
-```
+---
 
-Do you want me to go ahead and **draft the entire Week 2 plan (Days 8–14)** in this same advanced Vibe Coding style so you can see the arc before we refine each day?
-```
+## 🔄 Next in Week 2
 
+Day 9 will convert this **build flow** into a **live dashboard agent** that visualizes progress, flags governance gates, and tracks policy alignment in real time.
+
+---
