@@ -1,0 +1,51 @@
+# 🧾 Day 3 Fact Pack — Feed-to-Yield Efficiency (Synthetic Data Grounding)
+# Source: Perplexity AI | Purpose: Ground ChatGPT-5 synthetic data generation
+# Date: YYYY-MM-DD
+# Author: Erwin Maurice McDonald
+
+-----------------------------------------------------
+QUERY:
+Recent findings (2023–2025) on cattle feed conversion ratios and probiotic use
+in beef and dairy production within Brazil and the United States.
+
+-----------------------------------------------------
+FACT 1
+Title: "Probiotic Supplementation in Cattle Feed Yields Higher ROI"
+Publisher: Embrapa (Brazilian Agricultural Research Corporation)
+URL: https://www.embrapa.br
+Publication Date: April 2024
+Extract: Studies show that a mix of Lactobacillus and Bacillus subtilis reduced feed
+conversion ratio from 7.3 to 6.8 and increased daily weight gain by 14% in crossbred cattle.
+
+-----------------------------------------------------
+FACT 2
+Title: "Feed Efficiency Trends in the U.S. Beef Industry"
+Publisher: USDA Economic Research Service
+URL: https://www.ers.usda.gov
+Publication Date: June 2023
+Extract: Rising feed costs have pushed producers to adopt feed probiotics and precision
+feeding technologies. Average ROI improved from 11% to 15% among mid-size farms.
+
+-----------------------------------------------------
+FACT 3
+Title: "Economic Impacts of Probiotic Supplements in Livestock Production"
+Publisher: World Organization for Animal Health (OIE)
+URL: https://www.oie.int
+Publication Date: February 2025
+Extract: Probiotic feed additives lead to measurable improvements in efficiency
+and environmental sustainability, reducing methane emissions by 4–6% on average.
+
+-----------------------------------------------------
+FACT 4
+Title: "AI-Assisted Cattle Weight Prediction"
+Publisher: Texas A&M AgriLife Research
+URL: https://agrilife.tamu.edu
+Publication Date: January 2025
+Extract: AI-driven predictive models using feed intake and temperature data achieved
+95% accuracy in predicting daily gain trends for Brahman and Angus breeds.
+
+-----------------------------------------------------
+INSTRUCTIONS TO STUDENT:
+1. Verify citations and extract consistent terminology for use in Day3_synthetic_dataset.jsonl.
+2. Note “Data Gap” if a source lacks ROI or confidence values.
+3. This file should not contain any private or unpublished data.
