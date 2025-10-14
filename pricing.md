@@ -31,7 +31,7 @@ All tiers include **private repo access** so you can start immediately.
 
 ## 🎯 Tier Details
 
-### Self-Study — **\$75**
+### Self-Study — **\$149**
 
 For independent builders who want everything in the repo.
 
