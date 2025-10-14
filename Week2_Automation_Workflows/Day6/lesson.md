@@ -148,15 +148,15 @@ Formatting: Markdown with headings and consistent structure.
 ```mermaid
 flowchart TB
   A[Start]
-  B[Select source summary (Day 5)]
-  C[Paste System Prompt + Task Template]
-  D[Run ChatGPT-5 translation/localization]
+  B[Select source summary Day 5]
+  C[Paste System Prompt and Task Template]
+  D[Run ChatGPT 5 translation and localization]
   E[Review accuracy and tone]
-  F{Needs refinement?}
+  F{Needs refinement}
   G[Tweak localization rules and rerun]
-  H[Save Day6_translation_localization_agent.md]
-  I[Write logs/day6.md]
-  J[Commit & push]
+  H[Save Day6 translation localization agent md]
+  I[Write logs day6 md]
+  J[Commit and push]
   K[Done]
 
   A --> B
@@ -175,7 +175,6 @@ flowchart TB
     H
     I
   end
-
 
 ```
 
