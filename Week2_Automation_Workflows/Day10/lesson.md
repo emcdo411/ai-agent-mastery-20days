@@ -1,124 +1,173 @@
-<!-- Licensed under DACR-1.1 — see LICENSE.md -->
+# ⚡ Day 10 — Executive AI Report Agent
 
-# ⚡ Day 10 — Ship Your Personalized Site (Replit or Lovable)
-
-## 📌 Objective
-- Publish a **one-pager** with your value prop.  
-- Get a **live link** you can share (optional: connect a custom domain).  
-- Understand how tools like **Lovable** make shipping apps (mobile + desktop) accessible **without being a coding expert**.  
-- Spark **brainstorming energy** around “what else could I ship tomorrow?”  
+*(Data → Narrative → Decision Lens)*
 
 ---
 
-## 🛠 Steps (≤45 min)
+## 🎯 Purpose
 
-### 🚀 Option A: Replit (classic web dev)
-1. Create a new Replit (HTML/CSS/JS).  
-2. Paste this minimal starter:  
+Day 10 teaches the system to **summarize and communicate** what your Day 9 dashboard *means* — not just what it shows.
+The result is an **AI-generated, board-ready report** that combines metrics, risk analysis, and policy alignment in one Markdown or PDF artifact.
 
-```html
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>{{your_name}} — Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body { font-family: system-ui; margin: 2rem; max-width: 800px; }
-    .cta { padding: .8rem 1.2rem; border: 1px solid #111; border-radius: 8px; display: inline-block; }
-  </style>
-</head>
-<body>
-  <h1>Hi, I’m {{your_name}}</h1>
-  <p>I build data-savvy products and AI-enabled workflows.</p>
-  <a class="cta" href="mailto:{{email}}">Work with me</a>
-</body>
-</html>
-````
+By the end you’ll have:
 
-3. Run → Deploy → Copy URL.
+* A self-updating **executive summary generator**.
+* A clear link between **data telemetry + governance storytelling**.
+* An automated file ready to drop into your **Week 2 Toolkit**.
 
 ---
 
-### 🌟 Option B: Lovable (AI-first shipping)
+## 📌 Objectives
 
-1. Log in to [Lovable](https://lovable.dev/) (free account).
-2. Enter a short prompt or paste your **PRD copy** (from Day 8). Example:
-
-   > “Landing page for an Ethiopian municipal AI toolkit that helps citizens request permits faster.”
-3. Lovable instantly generates:
-
-   * A working **landing page** (mobile + desktop ready).
-   * Options to export, edit text/images, or tweak design.
-   * A live share link (deploy in one click).
-4. Optional: attach your **custom domain** or export code for advanced editing.
-
-💡 Lovable isn’t just for sites. You can generate:
-
-* **Mobile apps** with basic flows (forms, dashboards, calculators).
-* **Desktop tools** for quick prototypes.
-* **Internal portals** (citizen services, dashboards, FAQs).
-
-⚡ **Vibe Coding insight:** With Lovable, a **municipal leader in Ethiopia** could literally ship a citizen-facing FAQ chatbot or permit request page in the same afternoon — without hiring an engineering team.
+* Parse build and governance data to produce a **plain-language executive report**.
+* Standardize tone, structure, and evidence sections for leadership.
+* Compare **GPT-5 vs 3.5** output quality on precision and tone.
+* Export a versioned report (`Exec_AI_Report_v1.md` / `.pdf`).
 
 ---
 
-### 3. Document It
+## 🛠 Agenda (≈ 45 min)
 
-* Create `Week2_Vibe_Coding/Day12/deploy_notes.md`
-* Include:
+|   Time  | Task                                                     |
+| :-----: | :------------------------------------------------------- |
+|  0 – 10 | Set up folder + copy `governance_summary.csv` from Day 9 |
+| 10 – 25 | Run the Report Agent prompt → generate executive summary |
+| 25 – 35 | Refine for tone + visuals + citations                    |
+| 35 – 45 | Save final report + reflection + commit                  |
 
-  * What you shipped
-  * Live link
-  * Next “1% improvement” you’d make tomorrow
+---
+
+## 📂 Setup
+
+```bash
+mkdir -p wk02/day10
+cp wk02/day09/governance_summary.csv wk02/day10/
+touch wk02/day10/executive_ai_report_agent.md
+```
+
+---
+
+## 🧠 Drop-in Prompt — Executive AI Report Agent
+
+```text
+Role: Executive Intelligence Analyst Copilot.
+
+Input: governance_summary.csv (build stage data + policy/ethics/compliance risk flags).
+
+Tasks:
+1) Summarize the current pipeline status in ≤ 150 words.  
+2) Highlight High risk items in plain English (why they matter to leaders).  
+3) Provide a Governance Summary Table (columns: Stage, Risk, Owner, Action Needed).  
+4) Add sections:  
+  - **Executive Insights (3 bullets)**  
+  - **Risks & Recommendations (3 bullets)**  
+  - **Next Steps & Responsible Parties**  
+  - **Sources & Evidence (citations)**  
+5) Tone: boardroom-ready (MBA style), balanced and fact-based.  
+6) Add optional visual summary (ASCII bar or small chart placeholder).  
+```
+
+---
+
+## 📊 Example Output Skeleton
+
+```markdown
+# 🧭 Executive AI Governance Report — Sprint 42 (Oct 2025)
+
+## Pipeline Summary
+All five stages active; Build and Test gates show pending ethical review.
+
+## Governance Summary
+| Stage | Risk | Owner | Action Needed |
+|:--|:--|:--|:--|
+| Plan | Low | Amy Chen | Maintain policy alignment |
+| Build | High | DevOps Bot | Complete Ethics checklist |
+| Test | High | Luis Rivera | Bias scan re-run |
+| Deploy | Medium | Sarah Lee | Compliance review |
+| Monitor | Low | System | OK |
+
+## Executive Insights
+- Governance coverage ↑ to 86%; two gates await sign-off.  
+- Ethics and bias validation lagging due to new data model.  
+- No security incidents reported this cycle.
+
+## Risks & Recommendations
+- Add automated bias scan in CI/CD.  
+- Increase lead visibility on Build/Test metrics.  
+- Introduce decision log for board traceability.
+
+## Next Steps
+1) Luis → Bias retest by Oct 15.  
+2) Sarah → Compliance sign-off before deploy.  
+3) Amy → Update policy alignment matrix.
+
+## Sources & Evidence
+- governance_summary.csv (2025-10-14)  
+- constraints.md (Day 7 Context Pack)
+```
 
 ---
 
 ## 📂 Deliverables
 
-* Live URL (Replit or Lovable).
-* `deploy_notes.md`.
-* `/logs/day12.md`.
+* `wk02/day10/executive_ai_report_agent.md` (report prompt + output)
+* `wk02/day10/governance_summary.csv` (input)
+* Optional: `Exec_AI_Report_v1.pdf` (export)
+* `/logs/day10.md` (3-bullet reflection)
 
 Commit:
 
 ```bash
-git commit -m "feat(day12): live personal site + notes"
+git add wk02/day10
+git commit -m "feat(day10): executive AI report agent + governance summary"
 ```
 
 ---
 
 ## ✅ Rubric (Self-Check)
 
-* [ ] Page states a clear **who/what value**.
-* [ ] Has a working CTA (email, button, or form).
-* [ ] No lorem ipsum / broken links.
-* [ ] Bonus: includes **AI-generated Lovable site** to demonstrate brainstorming power.
+| Criterion                                                        | Met? |
+| :--------------------------------------------------------------- | :--: |
+| Report references data from Day 9                                |  ☑️  |
+| Sections present (Summary, Insights, Risks, Next Steps, Sources) |  ☑️  |
+| Tone = executive, concise, factual                               |  ☑️  |
+| Governance actions clear and assignable                          |  ☑️  |
+| Reflection log complete                                          |  ☑️  |
 
 ---
 
 ## 📝 Reflection Prompts (Day 10)
 
-1. Does your headline match the **problem in your PRD**?
-2. What’s the simplest next “proof” (testimonial, citizen quote, metric)?
-3. One visual polish you can add tomorrow?
-4. How could this same workflow scale into a **mobile or municipal service app** with Lovable?
+1. Which metric or risk surprised you most?
+2. How can AI distinguish signal from noise in governance data?
+3. Would you trust this report as-is for a board briefing? If not, why?
+4. What visual element would make this report immediately actionable?
 
 ---
 
-## 🎯 Role Relevance
+## 🧭 Workflow (Mermaid)
 
-* **Founders/CXOs:** Credible presence in 1 day.
-* **Municipal Leaders:** Show citizens a working prototype (FAQ bot, service portal) today.
-* **Entrepreneurs:** Land page → demo → investor link → momentum.
-* **Analysts/Advisors:** Publish dashboards or toolkits as simple one-pagers.
-* **Military Transition:** Translate your skills into a live portfolio instantly.
-
----
-
-✨ **Day 10 Vibe:** You don’t need to be a developer. Replit gives you raw control. Lovable gives you raw speed. Both let you **ship ideas live today** — and spark tomorrow’s brainstorms.
-
+```mermaid
+flowchart TB
+  A[Import governance_summary.csv] --> B[Summarize data]
+  B --> C[Generate report sections]
+  C --> D[Add visuals + citations]
+  D --> E[Export Exec_AI_Report.md/pdf]
+  E --> F[Update logs/day10.md]
+  F --> G[Commit and Review]
 ```
+
+---
+
+## 💡 Tips
+
+* Use **governance language in your summaries** (e.g., “Ethics Review pending,” “Compliance Gate green”).
+* If you export to PDF, append Day 9 chart images for visual context.
+* Run GPT-3.5 and GPT-5 side-by-side to compare factual consistency and tone.
+* Embed “Evidence & Risks” boxes to mirror your Day 7 context pack discipline.
+
+---
+
 
 
 
