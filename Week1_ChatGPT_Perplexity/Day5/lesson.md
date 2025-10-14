@@ -1,120 +1,139 @@
-# Week 1 — Day 5: Summarization Agent (ChatGPT‑5 Enhanced)
+# Week 1 — Day 5: Summarization Agent ( ChatGPT-5 Enhanced )
 
 **Save as:** `wk01/day05_summarization_agent.md`
 
-**CXO Lens:** Day 5 turns long reports into **concise, board‑ready briefs**. We standardize length, tone, structure, and bilingual variants so teams can ship consistent executive outputs in minutes.
+---
+
+## 🎯 Purpose
+
+Day 5 teaches you to **condense dashboards, datasets, and research reports into decision-grade executive briefs.**
+After visualizing insights in Plotly Studio and Plotly Express on Day 4, you now standardize how to narrate those visuals for boards, ministers, or investors.
 
 ---
 
 ## 📌 Objectives
 
-* Convert long‑form content into **concise, executive‑ready summaries**.
-* Control **length, structure, tone, citations, and bilingual outputs**.
-* Note **ChatGPT‑5 vs 3.5** improvements in summarization accuracy and formatting.
-* Log results, reflect, and commit.
+* Turn quantitative outputs (Day 4 dashboards or reports) into concise, **executive-ready summaries**.
+* Control **length, tone, structure, and bilingual variants** for consistency across teams.
+* Observe **ChatGPT-5 vs 3.5** improvements in summarization precision and formatting.
+* Log reflections and commit deliverables.
 
-> **Data safety:** Summarize **public, non‑sensitive** materials only.
-
----
-
-## 🛠 Agenda (30–45 min)
-
-1. Select input content (5–7m)
-2. Run the Summarization Agent prompt (10–12m)
-3. Refine for structure, tone, and bilingual needs (8–10m)
-4. Save artifacts + log + commit (5–8m)
+> ⚠️ Data Safety — Summarize only **public or synthetic (non-sensitive)** data.
 
 ---
 
-## Drop‑in: Summarization Agent — System Prompt
+## 🛠 Agenda ( 30–45 min )
+
+|     Time    | Task                                                       |
+| :---------: | :--------------------------------------------------------- |
+|  0 – 7 min  | Select input content (Day 4 narrative or external article) |
+|  7 – 20 min | Run the Summarization Agent prompt                         |
+| 20 – 30 min | Refine for tone and bilingual needs                        |
+| 30 – 45 min | Save summary + reflection + commit                         |
+
+---
+
+## 🧠 Drop-in: Summarization Agent — System Prompt
 
 ```text
-You are an executive brief writer. You produce structured, concise summaries for decision makers. You retain key facts and cite publisher and year compactly, listing URLs only once in a Sources section.
+You are an executive brief writer. You convert analytical or narrative material into structured, concise summaries for decision makers.
+Retain key facts, trends, and contradictions. Cite publisher and year compactly, listing URLs once in a Sources section.
 
 Rules:
-- Obey word limits and section structure exactly.
-- Prefer recent sources (≤ 24 months); mark older items as legacy.
-- Show contradictions or uncertainty rather than smoothing them out.
-- If asked, produce a bilingual abstract with the same meaning in both languages.
+- Follow the requested word limit and Markdown structure exactly.
+- Prefer recent sources (≤ 24 months); mark older ones as legacy.
+- Highlight uncertainty instead of removing it.
+- If asked, include a bilingual abstract preserving identical meaning.
 ```
 
-## Drop‑in: Summarization Agent — Task Template
+---
+
+## 🧩 Drop-in: Summarization Agent — Task Template
 
 ```text
-Context: Audience = government executive; Country = {{country}}; Topic = {{topic}}; Year = {{year}}.
+Context:
+Audience = executive leadership
+Country = {{country}}
+Topic = {{topic}}
+Year = {{year}}
 
-Input: I will paste a 2–3 page article or report after these instructions.
+Input:
+I will paste either (a) an AI-generated dashboard narrative from Day 4 or
+(b) a 2–3-page public report.
 
 Tasks:
-1) Executive Summary of {{word_count}} words with headings and bullet points.
+1) Write an Executive Summary of {{word_count}} words with clear headings and bullet points.
 2) Include exactly 3 key statistics with compact citations (Publisher, Year).
-3) Provide a 2‑sentence bilingual abstract in English and {{language}}.
-4) Add a short section: Limitations and Open Questions.
-5) Add Sources list with Publisher — Title (Year). URL
+3) Provide a 2-sentence bilingual abstract in English and {{language}}.
+4) Add a “Limitations & Open Questions” section.
+5) End with a compact Sources list (Publisher — Title (Year). URL).
 
-Tone: neutral, decision‑oriented. Formatting: clean Markdown.
+Tone:
+Neutral and decision-oriented.
+Formatting:
+Clean Markdown with headings and bullets.
 ```
 
-**Length presets:**
+**Length Presets**
 
-* 100 words = elevator brief
-* 300 words = board one‑pager
-* 600 words = cabinet brief
-
----
-
-## Why GPT‑5 (vs 3.5) excels here
-
-* **Tighter control** of word counts and section boundaries.
-* **Cleaner Markdown** (bullets, tables, headings) with fewer retries.
-* **Longer input handling** without losing flow.
-* **More consistent bilingual abstracts** when requested.
-
-Capture any observed improvement in your reflection log.
+| Type            | Words | Use Case                        |
+| :-------------- | :---: | :------------------------------ |
+| Elevator Brief  |  100  | Investor text or meeting open   |
+| Board One-Pager |  300  | CXO or SVP summary              |
+| Cabinet Brief   |  600  | Government or enterprise packet |
 
 ---
 
-## Steps
+## 🚀 Why GPT-5 Excels
 
-1. Choose a 2–3 page article or report (local or regional preferred).
-2. Paste **System Prompt** and **Task Template**; fill placeholders.
-3. Paste the article below the instructions and run in **ChatGPT‑5**.
-4. Check structure, word count, citations, and bilingual abstract.
-5. Refine once if needed; then save the final output.
+* Maintains precise word counts and section order.
+* Produces clean Markdown without format drift.
+* Handles long (2–4 page) inputs while preserving flow.
+* Creates accurate bilingual sections without meaning loss.
+
+---
+
+## 🔁 Steps
+
+1. Select a source text (choose your Day 4 executive narrative or a 2-3 page public report).
+2. Paste the System Prompt and Task Template into ChatGPT-5, fill placeholders.
+3. Paste the article or dashboard narrative below and run.
+4. Check structure, word count, citations, and bilingual accuracy.
+5. Save final summary and reflection, then commit.
 
 ---
 
 ## 📂 Deliverables
 
-* `Day5_summary_agent.md` — final polished summary.
-* `/logs/day5.md` — reflection log.
+* `Day5_summary_agent.md` — final polished summary
+* `/logs/day5.md` — reflection log
 * Commit: `feat: Day 5 summarization agent (GPT5)`
 
 ---
 
-## ✅ Rubric (Self‑Check)
+## ✅ Rubric (Self-Check)
 
-* [ ] Article/report selected and summarized.
-* [ ] Output **structured** with headings and bullets.
-* [ ] **Word count and tone** followed.
-* [ ] 3 statistics included with compact citations.
-* [ ] Bilingual abstract provided (if requested).
-* [ ] Reflection log added and commit pushed.
-* [ ] Notes on **GPT‑5 vs 3.5** improvements captured.
+* [ ] Input article or dashboard narrative selected
+* [ ] Output structured with headings and bullets
+* [ ] Word count and tone match preset
+* [ ] 3 statistics with compact citations
+* [ ] Bilingual abstract (when requested)
+* [ ] Reflection log added and commit pushed
+* [ ] GPT-5 vs 3.5 improvements captured
 
 ---
 
 ## 📝 Reflection Prompts (Day 5)
 
-1. **Prompt control:** Did GPT‑5 follow word count, tone, and structure more precisely than older versions?
-2. **Improvements:** Did longer input handling, formatting, or bilingual outputs stand out?
-3. **Workflow fit:** Where can this save time (NGO reports, investor decks, board briefings, SITREPs)?
-4. **Surprises:** What did GPT‑5 capture or miss vs expectations?
-5. **Next iteration:** How would you adapt for a minister one‑pager or a board packet cover memo?
+1. Did GPT-5 obey word count and structure better than older models?
+2. Was Markdown cleaner and tone more consistent?
+3. Where could this save time (e.g., investor briefs, SITREPs, board reports)?
+4. What did GPT-5 summarize especially well—or miss?
+5. How might you adapt for a cabinet memo or board packet cover page?
 
 ---
 
-## Executive Summary Skeleton (Markdown)
+## 🧱 Executive Summary Skeleton (Markdown)
 
 ```markdown
 # Executive Summary — {{topic}} in {{country}} ({{year}})
@@ -125,17 +144,17 @@ Capture any observed improvement in your reflection log.
 - 
 
 ## Key Statistics
-- Stat 1 — Publisher, Year
-- Stat 2 — Publisher, Year
-- Stat 3 — Publisher, Year
+- Stat 1 — Publisher, Year  
+- Stat 2 — Publisher, Year  
+- Stat 3 — Publisher, Year  
 
-## Limitations and Open Questions
+## Limitations & Open Questions
 - 
 
 ## Bilingual Abstract
-**English:** 
-
-**{{language}}:** 
+**English:**  
+ 
+**{{language}}:**  
 
 ## Sources
 - Publisher — Title (Year). URL
@@ -143,20 +162,20 @@ Capture any observed improvement in your reflection log.
 
 ---
 
-## Workflow (Mermaid)
+## 🔄 Workflow (Mermaid)
 
 ```mermaid
 flowchart TB
-    A[Start] --> B[Select article or report]
-    B --> C[Paste system prompt and task template]
-    C --> D[Paste article and run in GPT 5]
-    D --> E[Check structure word count citations]
-    E --> F{Needs refinement}
-    F -- yes --> G[Tweak instructions and rerun]
+    A[Start] --> B[Select article or dashboard narrative]
+    B --> C[Paste System Prompt + Task Template]
+    C --> D[Paste content and run in ChatGPT-5]
+    D --> E[Check structure, word count, and citations]
+    E --> F{Needs refinement?}
+    F -- Yes --> G[Tweak instructions and rerun]
     G --> D
-    F -- no --> H[Save Day5_summary_agent md]
-    H --> I[Write logs day5 md]
-    I --> J[Commit and push]
+    F -- No --> H[Save Day5_summary_agent.md]
+    H --> I[Write logs/day5.md]
+    I --> J[Commit & push]
     J --> K[Done]
 
     subgraph Deliverables
@@ -167,9 +186,12 @@ flowchart TB
 
 ---
 
-## Tips
+## 💡 Tips
 
-* Keep the **task template** unchanged; vary only context and length.
-* Ask GPT‑5 to **quote** short phrases when a statistic is critical.
-* If outputs drift, restate the **QA items** in the next run.
+* Re-use this prompt for any long report or dashboard explanation.
+* Tell GPT-5 to quote short phrases when precision matters.
+* If outputs drift, repeat the QA rubric at the end of your prompt.
+* Optional: Add a “Comparison to Previous Quarter” section for continuity reports.
+
+---
 
