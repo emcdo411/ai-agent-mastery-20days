@@ -1,27 +1,34 @@
-✅ Day 18 — Refreshable RAG + Guardrails & Citations
+# ✅ Day 18 — Refreshable RAG + Guardrails & Citations
 
-Save as: wk03/day18_refreshable_rag.md
+**Save as:** `wk03/day18_refreshable_rag.md`
 
-🎯 Purpose
+---
 
-Allow non-technical users to type “refresh memory” to re-index the repo. Every answer includes Sources + Confidence + Action Items, or asks one clarifying question when context is thin.
+## 🎯 Purpose
 
-📌 Objectives
+Allow non-technical users to type **“refresh memory”** to re-index the repo.  
+Every answer includes **Sources + Confidence + Action Items**, or asks **one clarifying question** when context is thin.
 
-Refresh branch (Loader→Splitter→Embeddings→Chroma upsert).
+---
 
-Guardrails prompt to standardize trust + brevity + evidence.
+## 📌 Objectives
 
-Retriever tuned for high signal / low noise.
+- Refresh branch (**Loader → Splitter → Embeddings → Chroma upsert**)  
+- Add a **Guardrails prompt** to standardize trust, brevity, and evidence  
+- Tune the **Retriever** for high signal / low noise  
 
-🛠 Branching Logic
+---
 
-If input contains refresh memory → Refresh branch → “Memory refresh complete…”
+## 🛠 Branching Logic
 
-Else → Normal Retriever → Guardrails Prompt → LLM → Output
+- **If** input contains `refresh memory` → Refresh branch → “Memory refresh complete…”  
+- **Else** → Normal **Retriever → Guardrails Prompt → LLM → Output**
 
-Guardrails Prompt (paste as template)
+---
 
+### 🧩 Guardrails Prompt (paste as template)
+
+```text
 You answer ONLY with information grounded in retrieved context.
 
 Policy:
@@ -37,52 +44,68 @@ Format:
 
 Context:
 {{context}}
+````
 
+---
 
-Retriever defaults: topK=4, threshold=0.35–0.45, chunk=1000, overlap=150.
+### Retriever Defaults
 
-🧪 Test Prompts
+* `topK = 4`
+* `threshold = 0.35–0.45`
+* `chunk = 1000`
+* `overlap = 150`
 
-“What are the Week 2 deliverables and how do I validate them?”
+---
 
-“Summarize Day 17 outputs for a VP (bullets + actions).”
+## 🧪 Test Prompts
 
-refresh memory → add/update a file → “What changed since last refresh?”
+1️⃣ “What are the **Week 2 deliverables** and how do I **validate** them?”
+2️⃣ “Summarize **Day 17 outputs** for a VP (bullets + actions).”
+3️⃣ `refresh memory` → add/update a file → “What changed since last refresh?”
 
-📂 Deliverables
+---
 
-wk03/day18/W3D18_prompt_template.txt
+## 📂 Deliverables
 
-wk03/day18/W3D18_flowise_chatflow.json
+* `wk03/day18/W3D18_prompt_template.txt`
+* `wk03/day18/W3D18_flowise_chatflow.json`
+* `wk03/day18/W3D18_tests.md` *(paste outputs of the 3 tests)*
 
-wk03/day18/W3D18_tests.md (paste outputs of the 3 tests)
+---
 
-✅ Rubric
+## ✅ Rubric
 
-Refresh works; “Memory refresh complete…” displays
+* Refresh works; “Memory refresh complete…” displays
+* All answers include **Sources + Confidence**
+* Clarifying question appears when context is thin
 
-All answers include Sources + Confidence
+---
 
-Clarifying question appears when context is thin
+## 🧭 Flow (Mermaid)
 
-🧭 Flow (Mermaid)
+```mermaid
 flowchart LR
   A[Chat Input] --> R{refresh memory?}
   R -- Yes --> L[Loader] --> S[Splitter] --> E[Embeddings] --> V[Chroma Upsert] --> M[Refresh Notice] --> O[Output]
   R -- No --> T[Retriever] --> P[Guardrails Prompt] --> LLM[LLM] --> O
+```
 
-🧰 Troubleshooting
+---
 
-Refresh does nothing: confirm Chroma upsert ON + globs correct.
+## 🧰 Troubleshooting
 
-No sources: ensure retriever returns filePath metadata.
+* **Refresh does nothing:** confirm Chroma upsert ON + globs correct.
+* **No sources:** ensure retriever returns `filePath` metadata.
+* **Overly long answers:** lower LLM max tokens; keep `topK=3–4`.
 
-Overly long answers: lower LLM max tokens; keep topK=3–4.
+---
 
-🔮 Upgrades
+## 🔮 Upgrades
 
-Auto-refresh on commit via Git hook/GitHub Action.
+* **Auto-refresh** on commit via Git hook or GitHub Action.
+* **Confidence gating:** only answer if similarity ≥ threshold.
+* **Delta-diff:** post-refresh compare chunk hashes; add “What changed” section.
 
-Confidence gating: only answer if similarity ≥ threshold.
+```
+```
 
-Delta-diff: post-refresh compare chunk hashes; add “What changed” section.
