@@ -8,60 +8,68 @@ Stand up a private, offline RAG agent that reads your repo, answers with filenam
 
 📌 Objectives
 
-Run Flowise locally and wire Ollama + Chroma.
+Run Flowise locally with Ollama LLM + Chroma vector store.
 
-Enforce citations, scope limits, and PII masking.
+Enforce repo-only answers, citations, scope limits, and PII masking.
 
 Export chatflow + notes as auditable assets.
 
-🛠 Agenda (≈30 min)
+⏱ Agenda (≈ 30–45 min)
 
-Install/run → Build chatflow → Test prompts → Export + commit.
+Install + run → 2) Build chatflow → 3) Test prompts → 4) Export + commit → 5) Reflection.
 
-Setup (quick)
-# Ollama
-# pull: phi3:mini, llama3.1:8b, nomic-embed-text
+🧩 Prereqs
 
-# Flowise (Docker)
+Ollama installed and running (phi3:mini, llama3.1:8b, nomic-embed-text).
+
+Your governance pack from Day 7 in the repo (constraints, glossary, PRD links).
+
+🔧 Setup
+# Pull models (once)
+ollama pull phi3:mini
+ollama pull llama3.1:8b
+ollama pull nomic-embed-text
+
+# Flowise via Docker
 docker run -d --name flowise -p 3000:3000 \
   -e FLOWISE_USERNAME=admin -e FLOWISE_PASSWORD=admin \
   -v flowise_data:/root/.flowise flowiseai/flowise
 
-Chatflow (nodes left→right)
+🛠 Chatflow (nodes left → right)
 
 Chat Input
 
-Document Loader (globs: **/*.md, **/*.csv)
+Document Loader: Local Files — globs: **/*.md, **/*.csv (exclude secrets)
 
-Text Splitter (chunk 1000 / overlap 150)
+Text Splitter — chunk=1000, overlap=150
 
-Embeddings (Ollama: nomic-embed-text)
+Embeddings (Ollama) — nomic-embed-text
 
-Vector Store (Chroma; collection aimastery_wk03_d16)
+Vector Store (Chroma) — collection aimastery_wk03_d16
 
-Retriever (Top-K 5; cosine; threshold 0.35)
+Retriever — topK=5, cosine, threshold 0.35
 
-Prompt Template (system, below)
+Prompt Template — Repo-only + citations + PII mask
 
-LLM (Ollama: phi3:mini → upgrade to llama3.1:8b later)
+LLM (Ollama) — start phi3:mini, upgrade to llama3.1:8b
 
 Chat Output
 
-System Prompt (paste):
+System Prompt (paste)
 
 You are a Strategic AI Coach grounded ONLY in retrieved repository context.
 If the answer is not present, say: “I don’t have that in the repo yet.”
 Then suggest which file to add.
 
 Rules:
-- Cite filenames (and heading if present) after each relevant bullet: [file.md].
-- Keep to concise bullets + a final Action List.
+- Cite filenames (and heading if present) like [path/file.md].
+- Use concise bullets + a final Action List.
 - Mask obvious PII (emails/phones/IDs) as [REDACTED].
-- No speculation. No external links unless in the repo.
+- No speculation. No external links unless in repo sources.
 
 Tone: executive, plain language, region-aware when relevant.
 
-Test Prompts
+🧪 Test Prompts
 
 “Summarize Week 2 deliverables with file citations.”
 
@@ -75,30 +83,39 @@ wk03/day16/W3D16_flowise_chatflow.json
 
 wk03/day16/W3D16_flowise_screenshot.png
 
-wk03/day16/W3D16_notes.md (model/version, files indexed, Top-K/threshold, sample Q&A)
+wk03/day16/W3D16_notes.md (model/version, files indexed, K/threshold, sample Q&A)
 
 ✅ Rubric
 
-Answers include [file.md] citations
+Answers include [path/file.md] citations
 
-Scope guard returns “don’t have that…” when appropriate
+Scope guard triggers when content absent
 
 PII masks appear when patterns detected
 
-Notes file complete
-
-📝 Reflection
-
-Where did citations fail?
-
-What Top-K/threshold produced best signal?
-
-Any files to exclude or add?
+Notes file complete and reproducible
 
 🧭 Flow (Mermaid)
 flowchart LR
-  A[Chat Input] --> B[Retriever]
-  B --> C[Prompt: Repo-only + Citations]
+  A[Chat Input] --> B[Retriever (Chroma)]
+  B --> C[Prompt: Repo-only + Citations + PII Mask]
   C --> D[LLM (Ollama)]
   D --> E[Chat Output]
 
+🧰 Troubleshooting
+
+No citations: expose metadata.filePath in retriever.
+
+Hallucinated files: lower topK to 4, raise threshold to 0.45.
+
+Slow replies: start with phi3:mini.
+
+Index noise: narrow globs; exclude /secrets/.
+
+🔮 Upgrades
+
+Add a pre-index redaction transform (regex masks).
+
+Add Message Prefix node with scope guard text.
+
+Add governance links (constraints.md, glossary.md) to loader paths.
