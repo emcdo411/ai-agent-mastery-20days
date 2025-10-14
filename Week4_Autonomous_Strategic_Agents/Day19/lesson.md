@@ -1,44 +1,51 @@
-✅ Day 19 — Strategy Modules (SWOT · Five Forces · OKRs) with RAG Evidence
+# ✅ Day 19 — Strategy Modules (SWOT · Five Forces · OKRs) with RAG Evidence
 
-Save as: wk03/day19_strategy_modules.md
+**Save as:** `wk03/day19_strategy_modules.md`
 
-🎯 Purpose
+---
 
-Attach agent-callable strategy modules that output valid JSON + an exec brief, grounded in repo evidence with citations and confidence.
+## 🎯 Purpose
 
-📌 Objectives
+Attach **agent-callable strategy modules** that output **valid JSON + executive briefs**, grounded in **repo evidence** with **citations** and **confidence**.
 
-Create three JSON-first prompt templates (SWOT, Five Forces, OKRs).
+---
 
-Router routes by intent; missing params default to national level.
+## 📌 Objectives
 
-Post-processor converts JSON → 5–7 bullet brief + 3 actions + sources.
+- Create three **JSON-first prompt templates** (SWOT, Five Forces, OKRs).  
+- Configure the **router** to detect intent; missing parameters default to national level.  
+- Build a **post-processor** that converts JSON → 5–7 bullet brief + 3 actions + sources.
 
-🗂 Files (place in wk03/day19/)
+---
 
-W3D19_swot_prompt.txt
+## 🗂 Files (place in `wk03/day19/`)
 
-W3D19_porter_prompt.txt
+- `W3D19_swot_prompt.txt`  
+- `W3D19_porter_prompt.txt`  
+- `W3D19_okrs_prompt.txt`  
+- `W3D19_flowise_chatflow.json`  
+- `W3D19_examples.md` *(one JSON + brief per module)*
 
-W3D19_okrs_prompt.txt
+Use your earlier **JSON-only templates**.  
+Ensure they **cite filenames** and include **confidence** + **notes**.  
+Keep **temperature low** and set **“JSON only”** instructions clearly.
 
-W3D19_flowise_chatflow.json
+---
 
-W3D19_examples.md (one JSON + brief per module)
+## 🛠 Router (Flowise)
 
-Use your earlier JSON-only templates; ensure they cite filenames and include confidence + notes. Keep temperature low; set “JSON only” instruction clearly.
+**Routing Logic:**
 
-🛠 Router (Flowise)
+- Contains `swot` → **SWOT Prompt → LLM → JSON**  
+- Contains `porter` or `five forces` → **Porter Prompt → LLM → JSON**  
+- Contains `okr` or `goals` → **OKR Prompt → LLM → JSON**  
+- Else → **Default RAG (Retriever → Guardrails → LLM)**
 
-Contains swot → SWOT Prompt → LLM → JSON
+---
 
-Contains porter/five forces → Porter Prompt → LLM → JSON
+## 🛠 Post-Processor Prompt (JSON → Brief)
 
-Contains okr/goals → OKR Prompt → LLM → JSON
-
-Else → Default RAG (Retriever → Guardrails → LLM)
-
-🛠 Post-Processor Prompt (JSON → brief)
+```text
 You receive a JSON object for a strategy module. Convert to a concise brief.
 
 Rules:
@@ -48,28 +55,37 @@ Rules:
 
 JSON:
 {{module_json}}
+````
 
-🧪 Test Prompts
+---
 
-“Run a SWOT for healthcare in Oromia, 2023–2024.”
+## 🧪 Test Prompts
 
-“Do Porter’s for education in Addis Ababa, next 12 months.”
+1️⃣ “Run a **SWOT** for healthcare in **Oromia**, 2023–2024.”
+2️⃣ “Do **Porter’s** for education in **Addis Ababa**, next 12 months.”
+3️⃣ “Draft **OKRs** for maternal health, H1 2025, focus = antenatal care.”
 
-“Draft OKRs for maternal health, H1 2025, focus = antenatal care.”
+---
 
-📂 Deliverables
+## 📂 Deliverables
 
-Module prompts (.txt), flow export (.json), W3D19_examples.md with example JSON + brief.
+* Module prompts (`.txt`)
+* Flow export (`.json`)
+* `W3D19_examples.md` with example JSON + brief
 
-✅ Rubric
+---
 
-Valid JSON output (parseable)
+## ✅ Rubric
 
-Brief matches JSON; sources + confidence included
+* Valid **JSON output** (parseable)
+* Brief matches JSON; **sources + confidence** included
+* Router hits correct module **3/3**; sensible defaults applied
 
-Router hits correct module 3/3; sensible defaults applied
+---
 
-🧭 Flow (Mermaid)
+## 🧭 Flow (Mermaid)
+
+```mermaid
 flowchart LR
   IN[Chat Input] --> R{Intent?}
   R -- SWOT --> SW[SWOT Prompt -> LLM -> JSON]
@@ -79,19 +95,25 @@ flowchart LR
   PF --> PP
   OK --> PP
   R -- Else --> FB[Retriever -> Guardrails -> LLM] --> OUT
+```
 
-🧰 Troubleshooting
+---
 
-Text mixed with JSON: add “OUTPUT JSON ONLY”; lower temperature; add stop sequences.
+## 🧰 Troubleshooting
 
-No sources: ensure retriever injects metadata; force filenames in module schema.
+* **Text mixed with JSON:** add “OUTPUT JSON ONLY”; lower temperature; add stop sequences.
+* **No sources:** ensure retriever injects metadata; force filenames in module schema.
+* **Ambiguous intent:** prompt for missing `sector`, `region`, `timeframe`, `focus`.
 
-Ambiguous intent: prompt for missing sector/region/timeframe/focus.
+---
 
-🔮 Upgrades
+## 🔮 Upgrades
 
-Save JSON to /data/strategy/ and auto-render briefs to /docs/strategy/.
+* Save JSON to `/data/strategy/` and auto-render briefs to `/docs/strategy/`.
+* Add **validation script** to check JSON schema compliance.
 
-Add validation script to check JSON schema compliance.
+```
+```
+
 
 
