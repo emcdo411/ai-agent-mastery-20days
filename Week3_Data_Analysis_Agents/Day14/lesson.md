@@ -1,120 +1,235 @@
-# 📊 Day 14 — Observable Tiny Interactive Chart (from Cleaned CSV)
+# 📣 Day 14 — Stakeholder Comms Agent
 
-Spin your Day 14 cleaned CSV into a **shareable interactive chart** on Observable. Publish, export PNG/SVG, and link it in your repo. Built for **boardroom speed** (group → measure → insight).
+*(Engineering · Legal/GRC · Board — tailored from one source of truth)*
 
-⏱ Timebox: ≤ 30 minutes
+## 🎯 Purpose
+
+Convert Week 2’s outputs (Days 9–13) into **audience-specific updates** on a schedule.
+Ship clear, trustworthy messages that:
+
+* Pull from the **same data & governance evidence**,
+* Adapt tone, depth, and next-step clarity by audience,
+* Are **ready to send** (email/Slack/memo) with versioned artifacts.
 
 ---
 
-## 🌟 Objective
-- Load your cleaned CSV (`W3D14_clean.csv` or `W3D14_clean.csv`)
-- Build a tiny **interactive bar chart** (category + metric + aggregation)
-- **Publish** notebook + **export PNG/SVG** for your repo
+## 📌 Objectives
+
+* Define **stakeholder profiles** (channel, tone, must-know fields).
+* Create a **Comms Agent** prompt that emits 3 variants (Engineering, Legal/GRC, Board).
+* Wire inputs from existing files: `build_status.csv`, `decision_log.csv`, `predictive_dataset.csv`, `board_dashboard_packet.md`.
+* Produce **ready-to-send** drafts + a compact **Changelog & Evidence** footer.
 
 ---
 
-## 🛠 Steps
+## 🛠 Agenda (≈ 45–60 min)
 
-### 1) Create an Observable Notebook
-1. Go to **observablehq.com** → Sign in (free).
-2. **New → Notebook** → name: `W3D14_Interactive_Chart`.
+|  Time | Task                                                     |
+| :---: | :------------------------------------------------------- |
+|  0–10 | Create folder + audience map                             |
+| 10–25 | Draft Comms Agent prompt + run with this week’s data     |
+| 25–45 | Review tone, add evidence links, finalize three variants |
+| 45–60 | Save + reflect + commit                                  |
 
-### 2) Load Your Data (choose ONE)
+---
 
-**Option A — Upload as File Attachment (easiest)**
-```js
-import * as Plot from "@observablehq/plot";
-import * as d3 from "d3";
+## 🧩 Setup
 
-const fileNames = ["WD314_clean.csv", "W3D14_clean.csv"];
-let data;
-for (const f of fileNames) {
-  try { data = await FileAttachment(f).csv({ typed: true }); break; }
-  catch (e) {}
-}
-if (!data) throw new Error("Upload WD316_clean.csv or W3D16_clean.csv (Files panel, paperclip).");
-Option B — Load from GitHub Raw URL
+```bash
+mkdir -p wk02/day14
+cp wk02/day09/build_status.csv wk02/day14/
+cp wk02/day11/decision_memory/decision_log.csv wk02/day14/
+cp wk02/day12/predictive_dataset.csv wk02/day14/
+cp wk02/day13/board_dashboard_packet.md wk02/day14/
+touch wk02/day14/audience_map.csv
+touch wk02/day14/comms_agent_prompt.md
+touch wk02/day14/engineering_update.md
+touch wk02/day14/legal_grc_update.md
+touch wk02/day14/board_update.md
+```
 
-js
-Copy code
-import * as Plot from "@observablehq/plot";
-import * as d3 from "d3";
+---
 
-const data = await d3.csv(
-  "https://raw.githubusercontent.com/USER/REPO/BRANCH/path/to/W3D16_clean.csv",
-  d3.autoType
-);
-3) Detect Columns + Controls
-js
-Copy code
-const cols = Object.keys(data[0] ?? {});
-const numericCols = cols.filter(c => typeof (data.find(d => d[c] != null)?.[c]) === "number");
-const categoricalCols = cols.filter(c => !numericCols.includes(c));
+## 👥 Audience Map (drop-in) — `audience_map.csv`
 
-viewof category = Inputs.select(categoricalCols, {label: "Group by", value: categoricalCols[0]});
-viewof metric   = Inputs.select(numericCols, {label: "Measure", value: numericCols[0]});
-viewof agg      = Inputs.select(["sum","mean","count"], {label: "Aggregation", value: "sum"});
-viewof limitN   = Inputs.range([3, 30], {label: "Top N", step: 1, value: 10});
-viewof sortDir  = Inputs.select(["desc","asc"], {label: "Sort", value: "desc"});
-4) Interactive Bar (modern + tiny)
-js
-Copy code
-const roll = { sum:v=>d3.sum(v,d=>d[metric]), mean:v=>d3.mean(v,d=>d[metric]), count:v=>v.length }[agg];
+```csv
+Audience,Channel,Tone,Length,MustKnow,CTA
+Engineering,Slack,Concise-technical,120-180,"Stage status, blockers, owners, due dates","Confirm fixes and dates"
+Legal-GRC,Email,Formal-compliance,150-220,"Gates status, policy/ethics findings, audit steps","Acknowledge reviews and provide sign-offs"
+Board,PDF-or-Email,Executive-brief,120-180,"Outcomes, risks, forecast, decisions due","Approve plan or request clarifications"
+```
 
-const grouped = d3.rollups(
-  data.filter(d => d[category] != null && (agg === "count" || d[metric] != null)),
-  v => roll(v),
-  d => String(d[category])
-);
+---
 
-grouped.sort((a,b) => sortDir==="desc" ? d3.descending(a[1],b[1]) : d3.ascending(a[1],b[1]));
-const top = grouped.slice(0, limitN);
+## 🧠 Comms Agent Prompt — `comms_agent_prompt.md`
 
-Plot.plot({
-  marginLeft: 80,
-  width: 740,
-  y: { label: `${agg}(${metric})`, grid: true },
-  x: { label: category, tickRotate: -20 },
-  marks: [ Plot.barY(top, { x:d=>d[0], y:d=>d[1] }), Plot.ruleY([0]) ]
-})
-5) Publish & Export
-Share → Publish (or Draft link) → copy URL.
+```text
+Role: Stakeholder Communications Agent.
 
-Chart menu (…) → Download PNG/SVG → save as W3D18_chart.png.
+Inputs:
+- build_status.csv (stage + gates + owners)
+- decision_log.csv (DecisionID, owner, rationale, follow-up)
+- predictive_dataset.csv (risk trends 7d/30d)
+- board_dashboard_packet.md (executive narrative)
+- audience_map.csv (channel, tone, length, must-know, CTA)
 
-Repo snippet (README):
+Tasks:
+1) Produce THREE audience-specific updates: Engineering (Slack), Legal/GRC (Email), Board (Executive Brief).
+2) Keep each update within the audience length range and tone.
+3) Include: Current status, Top 2 risks, Actions due (owner + date), and specific CTA.
+4) Append a compact "Changelog & Evidence" footer with file names + timestamps.
+5) Do not invent data; if unknown, state "Pending" and reference the source file.
+6) Ensure language is respectful, direct, and free of jargon for the Board variant.
 
-md
-Copy code
-> Live interactive: https://observablehq.com/@YOUR_HANDLE/W3D18_Interactive_Chart  
-<img src="./W3D18_chart.png" width="720" alt="W3D18 Chart (Observable export)" />
-🔧 Troubleshooting
-“No such file”: filename must match upload.
+Output:
+- engineering_update.md (Slack-ready)
+- legal_grc_update.md (Email-ready)
+- board_update.md (Executive-ready)
+```
 
-Bars all 0: try agg="sum" and pick a numeric metric.
+---
 
-Typed issues: switch csv({ typed: true }) → false and coerce.
+## ✉️ Output Skeletons
 
-📂 Deliverables
-W3D18_Interactive_Chart.md (link, category/metric/agg, 2 insights)
+### `engineering_update.md` (Slack-ready)
 
-W3D18_chart.png
+```markdown
+# Engineering Update — Week 42
 
-🎯 Role Relevance
-Analysts/Policy: instant EDA slice for briefings
+**Now**
+- Build: In Progress — Ethics gate pending (Owner: Luis, due Oct 18)
+- Test: Running — Compliance review pending (Owner: Sarah)
 
-Leaders: shareable link + export for slides
+**Top Risks**
+1) Bias scanner not integrated into CI/CD (blocks Test)  
+2) Compliance checklist incomplete for Deploy
 
-Gov/PMO: quick “what’s biggest” chart for decisions
+**Actions Due**
+- Luis → Complete bias integration by Oct 18
+- Sarah → Compliance sign-off by Oct 19
 
-🔗 Workflow Map
-mermaid
-Copy code
-%%{ init: { "theme": "dark" } }%%
-flowchart LR
-  CLEAN["🧽 Clean CSV (Day 16)"] --> LOAD["📎 Load in Observable"]
-  LOAD --> CHART["📊 Interactive Bar (Plot)"]
-  CHART --> PUBLISH["🌐 Publish / Draft Link"]
-  CHART --> EXPORT["🖼 PNG/SVG Export"]
-  PUBLISH --> DELIV["📦 Repo Deliverables"]
-  EXPORT --> DELIV
+**CTA**
+Please confirm dates or propose new owners within this thread.
+
+_Changelog & Evidence: build_status.csv (2025-10-14), decision_log.csv (D-001–D-003), predictive_dataset.csv; see board_dashboard_packet.md_
+```
+
+### `legal_grc_update.md` (Email-ready)
+
+```markdown
+Subject: Weekly Governance Update — Gates & Actions (Week 42)
+
+Hello team,
+
+**Gate Status**
+- Ethics: Pending at Build; remediation in progress
+- Compliance: Pending at Test and Deploy
+- Policy: Approved at Plan
+
+**Risks & Mitigations**
+- Ethics risk likely in next 7 days; action: CI bias scan integration
+- Compliance clustering near Deploy; action: preflight checklist
+
+**Actions & Owners**
+- Luis: finalize ethics integration by Oct 18
+- Sarah: compliance sign-off by Oct 19
+
+**Request**
+Please acknowledge gate ownership and confirm the review schedule for this week.
+
+Regards,  
+Comms Agent
+
+Changelog & Evidence — build_status.csv (2025-10-14); decision_log.csv (D-001–D-003); predictive_dataset.csv; board_dashboard_packet.md
+```
+
+### `board_update.md` (Executive-ready)
+
+```markdown
+# Board Brief — Week 42 (Governance + Delivery)
+
+**Status**: Build and Test active; Deploy scheduled.  
+**Gates**: Ethics pending (Build); Compliance pending (Test/Deploy).  
+**Outlook**: 7-day Ethics risk 70–80%; 30-day Compliance risk ~55%.
+
+**Decisions/Actions Due**
+- Approve CI bias check at Build entry (reduces Test delays)
+- Confirm compliance preflight for Deploy
+- Track DecisionIDs D-002, D-003 to close next sprint
+
+**Risks & Recommendations**
+- Time-to-deploy risk if Ethics integration slips → add CI trigger  
+- Compliance documentation standardize before pilot → avoid rollback
+
+**Ask**
+Approve the mitigation plan or request alternatives for next sprint.
+
+_Evidence: build_status.csv; decision_log.csv; predictive_dataset.csv; board_dashboard_packet.md_
+```
+
+---
+
+## 📂 Deliverables
+
+* `wk02/day14/audience_map.csv`
+* `wk02/day14/comms_agent_prompt.md`
+* `wk02/day14/engineering_update.md`
+* `wk02/day14/legal_grc_update.md`
+* `wk02/day14/board_update.md`
+* `/logs/day14.md` — reflection (3 bullets)
+
+Commit:
+
+```bash
+git add wk02/day14
+git commit -m "feat(day14): stakeholder comms agent + audience-specific updates"
+```
+
+---
+
+## ✅ Rubric (Self-Check)
+
+| Criterion                                        | Met? |
+| :----------------------------------------------- | :--: |
+| Three variants generated (Eng, Legal/GRC, Board) |  ☑️  |
+| Tone/length matches audience map                 |  ☑️  |
+| Actions include owner + date + CTA               |  ☑️  |
+| Evidence footer lists exact files                |  ☑️  |
+| No invented data; unknowns labeled Pending       |  ☑️  |
+
+---
+
+## 📝 Reflection Prompts (Day 14)
+
+1. Which variant most reduced back-and-forth for its audience?
+2. What evidence or link would build **more trust** for Legal/GRC or the Board?
+3. Where can you automate distribution (Slack webhook, email digest, PDF export)?
+4. What “red flag” rule should trigger an **instant alert** instead of waiting for weekly updates?
+
+---
+
+## 🧭 Workflow (Mermaid)
+
+```mermaid
+flowchart TB
+  A[Load data files] --> B[Read audience_map.csv]
+  B --> C[Generate Engineering update]
+  B --> D[Generate Legal GRC update]
+  B --> E[Generate Board update]
+  C --> F[Append Changelog and Evidence]
+  D --> F
+  E --> F
+  F --> G[Save files and commit]
+```
+
+---
+
+## 💡 Tips
+
+* Keep **ASCII-only** labels in Mermaid to avoid GitHub parsing errors.
+* If any gate is **red**, open with that for Legal/GRC and Board; engineers can take granular items first.
+* Snap a PNG of your **Day 13 dashboard** and attach to the Board update.
+* Consider scheduling these with a cron or GitHub Action once templates stabilize.
+
+---
+
