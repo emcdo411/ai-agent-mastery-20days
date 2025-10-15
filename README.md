@@ -180,13 +180,96 @@ Package, present, and scale:
 ## 🧭 Mermaid Architecture Diagram
 
 ```mermaid
-flowchart TD
-    A[Raw Data] --> B[Feature Engineering]
-    B --> C[Model Training & Evaluation]
-    C --> D[FastAPI Integration]
-    D --> E[Azure ML or Local Deployment]
-    E --> F[Plotly/Streamlit Dashboard]
-    F --> G[End User Insights]
+flowchart LR
+  %% === Lanes / Stages ===
+  subgraph INGESTION[Ingestion & Validation]
+    A1[Raw data: CSV / Parquet / API]
+    A2[(Object storage)]
+    A3{Schema valid?}
+  end
+
+  subgraph FEATURE[Feature Engineering]
+    B1[Clean & impute]
+    B2[Deduplicate & outlier rules]
+    B3[(Feature store)]
+  end
+
+  subgraph TRAIN[Modeling & Evaluation]
+    C1[(Experiment tracker)]
+    C2[Train candidate models\n(XGBoost / RF / NN)]
+    C3[Cross-validate & compare]
+    C4{Passes metrics & fairness?}
+    C5[Register best model]
+  end
+
+  subgraph SERVE[Service Layer]
+    D1[FastAPI inference service]
+    D2[Batch scoring job\n(Airflow / Prefect)]
+    D3{AuthN/AuthZ check}
+  end
+
+  subgraph DEPLOY[Deployment Targets]
+    E1[Azure ML managed endpoint]
+    E2[Docker image → K8s]
+    E3[(Secrets: KeyVault / .env)]
+  end
+
+  subgraph APP[Analytics & BI]
+    F1[Streamlit app]
+    F2[Plotly dashboards]
+    F3[(Metrics / warehouse)]
+    F4[End-user insights]
+  end
+
+  subgraph MLOPS[Monitoring & Guardrails]
+    G1[Data quality & drift monitor]
+    G2[Model perf & latency monitor]
+    G3[Bias / fairness monitor]
+    G4{Drift or perf degradation?}
+    G5[Trigger CI/CD retrain]
+    G6[(Audit log)]
+  end
+
+  %% === Main Flow ===
+  A1 --> A2 --> A3
+  A3 -- "No" -->|Reject + log| G6
+  A3 -- "Yes" --> B1 --> B2 --> B3 --> C1
+  C1 --> C2 --> C3 --> C4
+  C4 -- "No" -->|Tune / search| C2
+  C4 -- "Yes" --> C5 --> D1
+  C5 --> D2
+  D1 --> D3
+  D3 -- "Deny" -->|401/403| G6
+  D3 -- "Allow" --> E1 & E2
+  E1 --> F1
+  E2 --> F1
+  F1 --> F2 --> F3 --> F4
+
+  %% === Feedback Loops ===
+  A2 -.-> G1
+  F3 -.-> G2
+  C3 -.-> G3
+  G1 --> G4
+  G2 --> G4
+  G3 --> G4
+  G4 -- "Yes" --> G5 --> C2
+  G4 -- "No" --> F2
+  D1 -.-> G2
+  D2 -.-> G2
+  E1 -.-> G6
+  E2 -.-> G6
+
+  %% === Styling ===
+  classDef store fill:#1F2A44,stroke:#6C7AE0,color:#E6E8FF,stroke-width:1.2px;
+  classDef decision fill:#2A2F45,stroke:#FFD166,color:#FFF5CC,stroke-width:1.2px;
+  classDef app fill:#181C2A,stroke:#C6CEFF,color:#E6E8FF,stroke-width:1.2px;
+  classDef svc fill:#1E2230,stroke:#A7B4FF,color:#E6E8FF,stroke-width:1.2px;
+
+  class A2,B3,C1,C5,E3,F3,G6 store
+  class A3,C4,D3,G4 decision
+  class F1,F2,F4 app
+  class D1,D2 svc
+
 ```
 
 ---
