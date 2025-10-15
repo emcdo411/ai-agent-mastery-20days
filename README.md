@@ -182,52 +182,52 @@ Package, present, and scale:
 ```mermaid
 flowchart LR
   %% === Lanes / Stages ===
-  subgraph INGESTION[Ingestion & Validation]
-    A1[Raw data: CSV / Parquet / API]
-    A2[(Object storage)]
-    A3{Schema valid?}
+  subgraph INGESTION["Ingestion & Validation"]
+    A1["Raw data: CSV / Parquet / API"]
+    A2[("Object storage")]
+    A3{"Schema valid?"}
   end
 
-  subgraph FEATURE[Feature Engineering]
-    B1[Clean & impute]
-    B2[Deduplicate & outlier rules]
-    B3[(Feature store)]
+  subgraph FEATURE["Feature Engineering"]
+    B1["Clean & impute"]
+    B2["Deduplicate & outlier rules"]
+    B3[("Feature store")]
   end
 
-  subgraph TRAIN[Modeling & Evaluation]
-    C1[(Experiment tracker)]
+  subgraph TRAIN["Modeling & Evaluation"]
+    C1[("Experiment tracker")]
     C2["Train candidate models (XGBoost, RF, NN)"]
-    C3[Cross-validate & compare]
-    C4{Passes metrics & fairness?}
-    C5[Register best model]
+    C3["Cross-validate & compare"]
+    C4{"Passes metrics & fairness?"}
+    C5["Register best model"]
   end
 
-  subgraph SERVE[Service Layer]
-    D1[FastAPI inference service]
-    D2[Batch scoring job (Airflow / Prefect)]
-    D3{AuthN / AuthZ check}
+  subgraph SERVE["Service Layer"]
+    D1["FastAPI inference service"]
+    D2["Batch scoring job (Airflow / Prefect)"]
+    D3{"AuthN / AuthZ check"}
   end
 
-  subgraph DEPLOY[Deployment Targets]
-    E1[Azure ML managed endpoint]
-    E2[Docker image → K8s]
-    E3[(Secrets: KeyVault / .env)]
+  subgraph DEPLOY["Deployment Targets"]
+    E1["Azure ML managed endpoint"]
+    E2["Docker image → K8s"]
+    E3[("Secrets: KeyVault / .env")]
   end
 
-  subgraph APP[Analytics & BI]
-    F1[Streamlit app]
-    F2[Plotly dashboards]
-    F3[(Metrics / warehouse)]
-    F4[End-user insights]
+  subgraph APP["Analytics & BI"]
+    F1["Streamlit app"]
+    F2["Plotly dashboards"]
+    F3[("Metrics / warehouse")]
+    F4["End-user insights"]
   end
 
-  subgraph MLOPS[Monitoring & Guardrails]
-    G1[Data quality & drift monitor]
-    G2[Model perf & latency monitor]
-    G3[Bias / fairness monitor]
-    G4{Drift or perf degradation?}
-    G5[Trigger CI/CD retrain]
-    G6[(Audit log)]
+  subgraph MLOPS["Monitoring & Guardrails"]
+    G1["Data quality & drift monitor"]
+    G2["Model perf & latency monitor"]
+    G3["Bias / fairness monitor"]
+    G4{"Drift or perf degradation?"}
+    G5["Trigger CI/CD retrain"]
+    G6[("Audit log")]
   end
 
   %% === Main Flow ===
@@ -269,6 +269,7 @@ flowchart LR
   class A3,C4,D3,G4 decision
   class F1,F2,F4 app
   class D1,D2 svc
+
 
 ```
 
