@@ -177,17 +177,95 @@ if __name__ == "__main__":
 
 ```mermaid
 flowchart TB
-  A[Start] --> B[Select Day 2 Prompt]
-  B --> C[Run Query in Perplexity]
-  C --> D[Assemble Fact Pack]
-  D --> E[Feed into ChatGPT-5 Template]
-  E --> F[Generate Synthetic JSONL Data]
-  F --> G[Validate Schema in Python]
-  G --> H{Validation Pass?}
-  H -- Yes --> I[Summarize Insights + ROI Trends]
-  H -- No --> E[Refine Prompt and Regenerate]
-  I --> J[Save and Commit Day 3 Artifacts]
-  J --> K[Done]
+  %% ========================
+  %% PHASE 1 — SELECT PROMPT
+  %% ========================
+  A[Start] --> B[Select Day 2 prompt]
+
+  %% ===========================
+  %% PHASE 2 — RESEARCH PIPELINE
+  %% ===========================
+  subgraph R["Research and Fact Pack"]
+    direction TB
+    B --> R1[Run query in Perplexity]
+    R1 --> R2{Results available?}
+    R2 -->|Yes| R3[Collect top sources]
+    R2 -->|No| R4[Fallback: manual search set]
+    R4 --> R3
+    R3 --> R5[Deduplicate and rank sources]
+    R5 --> R6[Extract key facts and citations]
+    R6 --> R7[Assemble fact pack]
+  end
+
+  %% ====================================
+  %% PHASE 3 — PROMPTING AND DATA SYNTHESIS
+  %% ====================================
+  subgraph P["Prompting and Synthetic Data"]
+    direction TB
+    R7 --> P1[Feed fact pack into ChatGPT-5 template]
+    P1 --> P2[Generate synthetic JSONL]
+    P2 --> P3[Add metadata: provenance and seed]
+    P3 --> P4[Split train and test files]
+  end
+
+  %% ===========================
+  %% PHASE 4 — VALIDATION LAYERS
+  %% ===========================
+  subgraph V["Validation and Quality Gates"]
+    direction TB
+    P4 --> V1[Load schema in Python]
+    V1 --> V2[Validate JSON schema]
+    V2 --> V3[Run data quality checks]
+    V3 --> H{Validation pass?}
+  end
+
+  %% Feedback loop for failed validation
+  H -->|No| P1
+  H -->|Yes| I1[Summarize insights and ROI trends]
+
+  %% =========================
+  %% PHASE 5 — REPORTING LAYER
+  %% =========================
+  subgraph O["Analysis and Reporting"]
+    direction TB
+    I1 --> O2[Generate charts and tables]
+    O2 --> O3[Assemble narrative with citations]
+  end
+
+  %% ==============================
+  %% PHASE 6 — VERSIONING AND CI/CD
+  %% ==============================
+  subgraph C["Artifacts and Version Control"]
+    direction TB
+    O3 --> J1[Save artifacts: JSONL and report]
+    J1 --> J2[Commit and push to repository]
+    J2 --> J3[Run CI checks: lint and tests]
+    J3 --> J4{CI successful?}
+  end
+
+  J4 -->|No| O3
+  J4 -->|Yes| K[Done]
+
+  %% ================
+  %% AUXILIARY EDGES
+  %% ================
+  %% Optional parallel dashboard preview and schema doc export
+  O2 -.-> D1[Optional: preview in dashboard]
+  V1 -.-> S1[Optional: export schema docs]
+
+  %% ==============
+  %% VISUAL STYLES
+  %% ==============
+  classDef startEnd fill:#0f172a,stroke:#94a3b8,color:#e2e8f0,stroke-width:1.2px;
+  classDef phase fill:#111827,stroke:#818cf8,color:#e5e7eb,stroke-width:1.0px;
+  classDef action fill:#1f2937,stroke:#93c5fd,color:#e5e7eb,stroke-width:1.0px;
+  classDef decision fill:#2b2f45,stroke:#f59e0b,color:#fff7ed,stroke-width:1.2px;
+
+  class A,K startEnd
+  class R,P,V,O,C phase
+  class B,R1,R3,R4,R5,R6,R7,P1,P2,P3,P4,V1,V2,V3,I1,O2,O3,J1,J2,J3,D1,S1 action
+  class H,J4 decision
+
 ```
 
 ---
