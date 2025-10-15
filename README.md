@@ -1,6 +1,6 @@
 # 🚀 AI Model Mastery: Microsoft SWE Track
 
-[![License: DACR](https://img.shields.io/badge/license-DACR-black?style=for-the-badge)](LICENSE)
+[![License: DACR](https://img.shields.io/badge/License-DACR_(Defensive_AI_Commercial_Rights)-4C4EFF?style=for-the-badge&logo=shield&logoColor=white)](./LICENSE.md)
 [![AI Stack](https://img.shields.io/badge/AI_Stack-Python_·_Scikit--Learn_·_PyTorch_·_FastAPI_·_Azure_ML-blue?style=for-the-badge)]()
 [![Microsoft SWE Prep](https://img.shields.io/badge/Microsoft%20SWE%20Prep-Yes-orange?style=for-the-badge)]()
 [![GitHub Repo Size](https://img.shields.io/github/repo-size/emcdo411/ai-model-mastery?style=for-the-badge&color=green)]()
