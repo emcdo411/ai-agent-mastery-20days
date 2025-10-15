@@ -196,7 +196,7 @@ flowchart LR
 
   subgraph TRAIN[Modeling & Evaluation]
     C1[(Experiment tracker)]
-    C2[Train candidate models<br/>(XGBoost / RF / NN)]
+    C2["Train candidate models (XGBoost, RF, NN)"]
     C3[Cross-validate & compare]
     C4{Passes metrics & fairness?}
     C5[Register best model]
@@ -204,7 +204,7 @@ flowchart LR
 
   subgraph SERVE[Service Layer]
     D1[FastAPI inference service]
-    D2[Batch scoring job<br/>(Airflow / Prefect)]
+    D2[Batch scoring job (Airflow / Prefect)]
     D3{AuthN / AuthZ check}
   end
 
@@ -269,7 +269,6 @@ flowchart LR
   class A3,C4,D3,G4 decision
   class F1,F2,F4 app
   class D1,D2 svc
-
 
 ```
 
